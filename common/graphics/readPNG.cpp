@@ -75,6 +75,7 @@ GLImageStructure readPNG(const std::string& FileName)
   if (!info_ptr)
   {
     std::cout << "png_create_info_struct() failed with file \""<<FileName<<"\".\n";
+    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
     fclose(file_png);
     return result;
   }
@@ -97,6 +98,8 @@ GLImageStructure readPNG(const std::string& FileName)
          break;
     default:
          std::cout << "Colour type of file \""<<FileName<<"\" is neither RGB nor RGBA.\n";
+         png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+         fclose(file_png);
          return result;
   }//swi
 
@@ -123,6 +126,7 @@ GLImageStructure readPNG(const std::string& FileName)
   if (v_ptr==NULL)
   {
     std::cout << "Could not allocate memory for pixel data!\n";
+    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
     deallocateRowPointers(row_pointers, result.getHeight());
     free(row_pointers);
     return result;
@@ -137,6 +141,7 @@ GLImageStructure readPNG(const std::string& FileName)
     offset += row_size_in_bytes;
   }
   result.setBuffer(v_ptr);
+  png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
   //free row pointers
   deallocateRowPointers(row_pointers, result.getHeight());
   //free row pointer array
