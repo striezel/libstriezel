@@ -153,7 +153,7 @@ GLImageStructure readJPEG(const std::string& FileName)
     /* We can ignore the return value since suspension is not possible
      * with the stdio data source.
      */
-    std::cout << "Error: jpeg:start_decompress failed!\n";
+    std::cout << "Error: jpeg_start_decompress failed!\n";
     return result;
   }
 
