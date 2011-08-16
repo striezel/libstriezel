@@ -134,41 +134,40 @@ GLImageStructure readPNG(const std::string& FileName)
   }//swi
 
   // read file
-  png_bytepp row_pointers = (png_bytepp) malloc(sizeof(png_bytep) * result.getHeight());
   const unsigned int row_size_in_bytes = png_get_rowbytes(png_ptr,info_ptr);
 
-  unsigned int y;
-  for (y=0; y<result.getHeight(); y++)
-  {
-    row_pointers[y] = (png_bytep) malloc(row_size_in_bytes);
-  }//if
-
-  png_read_image(png_ptr, row_pointers);
-  fclose(file_png);
-
-  //all is read, now get it into the void array
+  //prepare the array for the data
   unsigned char* v_ptr = (unsigned char*) malloc(row_size_in_bytes*result.getHeight()*sizeof(png_byte));
   if (v_ptr==NULL)
   {
     std::cout << "Could not allocate memory for pixel data!\n";
     png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-    deallocateRowPointers(row_pointers, result.getHeight());
-    free(row_pointers);
     return result;
   }
-  //copy it
-  unsigned int offset = 0;
-  for (y=0; y<result.getHeight(); ++y)
+
+  //create row pointers
+  png_bytepp row_pointers = (png_bytepp) malloc(sizeof(png_bytep) * result.getHeight());
+  if (row_pointers==NULL)
   {
-    //since OpenGL starts pixel data in lower left corner and libpng in upper
-    // left, we have to copy it the other way round
-    memcpy(&(v_ptr[offset]), row_pointers[result.getHeight()-1-y], row_size_in_bytes);
-    offset += row_size_in_bytes;
+    std::cout << "Could not allocate memory for PNG row pointers!\n";
+    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+    free(v_ptr);
+    v_ptr = NULL;
+    return result;
   }
+  unsigned int y;
+  for (y=0; y<result.getHeight(); y++)
+  {
+    row_pointers[y] = v_ptr + (result.getHeight()-1-y)*row_size_in_bytes;
+  }//if
+
+  png_read_image(png_ptr, row_pointers);
+  fclose(file_png);
+
   result.setBuffer(v_ptr);
   png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
   //free row pointers
-  deallocateRowPointers(row_pointers, result.getHeight());
+  //deallocateRowPointers(row_pointers, result.getHeight());
   //free row pointer array
   free(row_pointers);
   row_pointers = NULL;
