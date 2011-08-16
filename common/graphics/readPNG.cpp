@@ -83,11 +83,41 @@ GLImageStructure readPNG(const std::string& FileName)
   png_init_io(png_ptr, file_png);
   png_set_sig_bytes(png_ptr, 8);
   png_read_info(png_ptr, info_ptr);
+
+  //get colour type and bit depth
+  png_byte colour_type = png_get_color_type(png_ptr, info_ptr);
+  png_byte bit_depth = png_get_bit_depth(png_ptr, info_ptr);
+  //expansions and transformations
+  //expand paletted images to RGB
+  if (colour_type==PNG_COLOR_TYPE_PALETTE)
+  {
+    png_set_expand(png_ptr);
+  }
+  //expand low bit greyscale images to 8 bit
+  if ((colour_type == PNG_COLOR_TYPE_GRAY) && (bit_depth<8))
+  {
+    png_set_expand(png_ptr);
+  }
+  //strip 16 bits per sample to 8 bits per sample
+  if (bit_depth==16)
+  {
+    png_set_strip_16(png_ptr);
+  }
+  //set greyscaled images to RGB(A) images
+  if ((colour_type==PNG_COLOR_TYPE_GRAY) || (colour_type==PNG_COLOR_TYPE_GRAY_ALPHA))
+  {
+    png_set_gray_to_rgb(png_ptr);
+  }
+
+  //int number_of_passes = png_set_interlace_handling(png_ptr);
+  png_read_update_info(png_ptr, info_ptr);
+
   //set width/height values
   result.setWidth(png_get_image_width(png_ptr, info_ptr));
   result.setHeight(png_get_image_height(png_ptr, info_ptr));
-  //get colour type
-  png_byte colour_type = png_get_color_type(png_ptr, info_ptr);
+  //update colour type, it might have changed
+  colour_type = png_get_color_type(png_ptr, info_ptr);
+
   switch (colour_type)
   {
     case PNG_COLOR_TYPE_RGB:
@@ -102,11 +132,6 @@ GLImageStructure readPNG(const std::string& FileName)
          fclose(file_png);
          return result;
   }//swi
-
-  //png_byte bit_depth = png_get_bit_depth(png_ptr, info_ptr);
-
-  int number_of_passes = png_set_interlace_handling(png_ptr);
-  png_read_update_info(png_ptr, info_ptr);
 
   // read file
   png_bytep* row_pointers = (png_bytep*) malloc(sizeof(png_bytep) * result.getHeight());
