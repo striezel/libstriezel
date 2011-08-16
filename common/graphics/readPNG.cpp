@@ -134,20 +134,20 @@ GLImageStructure readPNG(const std::string& FileName)
   }//swi
 
   // read file
-  png_bytep* row_pointers = (png_bytep*) malloc(sizeof(png_bytep) * result.getHeight());
+  png_bytepp row_pointers = (png_bytepp) malloc(sizeof(png_bytep) * result.getHeight());
   const unsigned int row_size_in_bytes = png_get_rowbytes(png_ptr,info_ptr);
 
   unsigned int y;
   for (y=0; y<result.getHeight(); y++)
   {
-    row_pointers[y] = (png_byte*) malloc(png_get_rowbytes(png_ptr,info_ptr));
+    row_pointers[y] = (png_bytep) malloc(row_size_in_bytes);
   }//if
 
   png_read_image(png_ptr, row_pointers);
   fclose(file_png);
 
   //all is read, now get it into the void array
-  char* v_ptr = (char*) malloc(png_get_rowbytes(png_ptr,info_ptr)*result.getHeight()*sizeof(png_bytep));
+  unsigned char* v_ptr = (unsigned char*) malloc(row_size_in_bytes*result.getHeight()*sizeof(png_byte));
   if (v_ptr==NULL)
   {
     std::cout << "Could not allocate memory for pixel data!\n";

@@ -215,9 +215,9 @@ GLImageStructure readPPM(const std::string& FileName)
   const unsigned int line_size_in_bytes = 3*result.getWidth();
 
   //allocate buffer for reading one line
-  char* line_buffer = (char*) malloc(line_size_in_bytes);
+  unsigned char* line_buffer = (unsigned char*) malloc(line_size_in_bytes);
   //allocate overall image buffer
-  char* v_ptr = (char*) malloc(line_size_in_bytes*result.getHeight());
+  unsigned char* v_ptr = (unsigned char*) malloc(line_size_in_bytes*result.getHeight());
   memset(v_ptr, 0, line_size_in_bytes*result.getHeight());
   unsigned int offset = line_size_in_bytes*(result.getHeight()-1);
 

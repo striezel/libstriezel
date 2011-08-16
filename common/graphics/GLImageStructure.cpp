@@ -54,7 +54,7 @@ GLint GLImageStructure::getFormatGL() const
   return format;
 }
 
-const char* GLImageStructure::getBufferPointer() const
+const unsigned char* GLImageStructure::getBufferPointer() const
 {
   return buffer;
 }
@@ -74,7 +74,7 @@ void GLImageStructure::setFormat(const GLint f)
   format = f;
 }
 
-void GLImageStructure::setBuffer(char* b)
+void GLImageStructure::setBuffer(unsigned char* b)
 {
   buffer = b;
 }

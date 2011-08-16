@@ -26,7 +26,7 @@
 struct GLImageStructure
 {
   private:
-    char * buffer;
+    unsigned char * buffer;
     unsigned int width;
     unsigned int height;
     GLint format;
@@ -50,13 +50,13 @@ struct GLImageStructure
     GLint getFormatGL() const;
 
     // returns a constant pointer to the buffer
-    const char* getBufferPointer() const;
+    const unsigned char* getBufferPointer() const;
 
     //setter functions
     void setWidth(const unsigned int w);
     void setHeight(const unsigned int h);
     void setFormat(const GLint f);
-    void setBuffer(char* b);
+    void setBuffer(unsigned char* b);
 
     //frees the buffer - this should usually be called before destruction
     void freeBuffer();

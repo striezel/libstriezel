@@ -175,7 +175,7 @@ GLImageStructure readBMP(const std::string& FileName)
     }
   }
   //allocate space for pixel data
-  char * v_ptr = (char*) malloc(result.getWidth()*result.getHeight()*3);
+  unsigned char * v_ptr = (unsigned char*) malloc(result.getWidth()*result.getHeight()*3);
   //now we can start the reading
   if (fread(v_ptr, 1, bih.biSizeImage, file_bmp)!= bih.biSizeImage)
   {

@@ -198,7 +198,7 @@ GLImageStructure readJPEG(const std::string& FileName)
   buffer = (*cinfo.mem->alloc_sarray)
       ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
 
-  char * v_ptr = (char*) malloc(row_stride*result.getHeight());
+  unsigned char * v_ptr = (unsigned char*) malloc(row_stride*result.getHeight());
   const unsigned int row_size_in_bytes = row_stride;
   unsigned int offset = row_size_in_bytes*(result.getHeight()-1);
 
