@@ -26,6 +26,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
+#include "../IntegerUtils.h"
 
 struct TBitmapFileHeader
 {
@@ -119,6 +120,17 @@ GLImageStructure readBMP(const std::string& FileName)
     return result;
   }//if
   result.setHeight(abs(bih.biHeight));
+
+  const bool hasNPOTsupport = (std::string((const char*)glGetString(GL_EXTENSIONS)).find("GL_ARB_texture_non_power_of_two")!=std::string::npos);
+
+  if (((!isPowerOfTwo(result.getHeight())) or (!isPowerOfTwo(result.getWidth())))
+     and !hasNPOTsupport)
+  {
+    std::cout << "Width or height of \""<<FileName<<"\" is not a power of two "
+              << "and NPOT textures are not supported be your OpenGL version.\n";
+    fclose(file_bmp);
+    return result;
+  }
 
   if (bih.biPlanes!=1)
   {

@@ -26,6 +26,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <setjmp.h>
+#include "../IntegerUtils.h"
 
 /*
  * ERROR HANDLING:
@@ -166,6 +167,18 @@ GLImageStructure readJPEG(const std::string& FileName)
 
   result.setWidth(cinfo.output_width);
   result.setHeight(cinfo.output_height);
+
+  const bool hasNPOTsupport = (std::string((const char*)glGetString(GL_EXTENSIONS)).find("GL_ARB_texture_non_power_of_two")!=std::string::npos);
+
+  if (((!isPowerOfTwo(result.getHeight())) or (!isPowerOfTwo(result.getWidth())))
+     and !hasNPOTsupport)
+  {
+    std::cout << "Width or height of \""<<FileName<<"\" is not a power of two "
+              << "and NPOT textures are not supported be your OpenGL version.\n";
+    jpeg_destroy_decompress(&cinfo);
+    fclose(file_jpeg);
+    return result;
+  }
 
   switch (cinfo.output_components)
   {

@@ -23,6 +23,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <GL/gl.h>
+#include "../IntegerUtils.h"
 
 //aux. function
 void deallocateRowPointers(png_bytep* rp, const unsigned int height)
@@ -115,6 +116,19 @@ GLImageStructure readPNG(const std::string& FileName)
   //set width/height values
   result.setWidth(png_get_image_width(png_ptr, info_ptr));
   result.setHeight(png_get_image_height(png_ptr, info_ptr));
+
+  const bool hasNPOTsupport = (std::string((const char*)glGetString(GL_EXTENSIONS)).find("GL_ARB_texture_non_power_of_two")!=std::string::npos);
+
+  if (((!isPowerOfTwo(result.getHeight())) or (!isPowerOfTwo(result.getWidth())))
+     and !hasNPOTsupport)
+  {
+    std::cout << "Width or height of \""<<FileName<<"\" is not a power of two "
+              << "and NPOT textures are not supported be your OpenGL version.\n";
+    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+    fclose(file_png);
+    return result;
+  }
+
   //update colour type, it might have changed
   colour_type = png_get_color_type(png_ptr, info_ptr);
 

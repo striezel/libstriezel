@@ -24,6 +24,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
+#include "../IntegerUtils.h"
 
 bool isPPM(const std::string& FileName)
 {
@@ -163,6 +164,17 @@ GLImageStructure readPPM(const std::string& FileName)
     return result;
   }
   result.setHeight(width);
+
+  const bool hasNPOTsupport = (std::string((const char*)glGetString(GL_EXTENSIONS)).find("GL_ARB_texture_non_power_of_two")!=std::string::npos);
+
+  if (((!isPowerOfTwo(result.getHeight())) or (!isPowerOfTwo(result.getWidth())))
+     and !hasNPOTsupport)
+  {
+    std::cout << "Width or height of \""<<FileName<<"\" is not a power of two "
+              << "and NPOT textures are not supported be your OpenGL version.\n";
+    fclose(file_ppm);
+    return result;
+  }
 
   //now the maximum
   width = 0;
