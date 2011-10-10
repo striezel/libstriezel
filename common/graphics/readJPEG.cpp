@@ -201,12 +201,6 @@ GLImageStructure readJPEG(const std::string& FileName)
   /* JSAMPLEs per row in output buffer */
   row_stride = cinfo.output_width * cinfo.output_components;
 
-  if (row_stride % 2 != 0)
-  {
-    std::cout << "Hint: Row stride of image \""<<FileName<<"\" is not even, correcting it.\n";
-    ++row_stride;
-  }
-
   /* Make a one-row-high sample array that will go away when done with image */
   buffer = (*cinfo.mem->alloc_sarray)
       ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
