@@ -60,6 +60,10 @@ struct GLImageStructure
 
     //frees the buffer - this should usually be called before destruction
     void freeBuffer();
+
+    /*resizes the image to half width and height (i.e. one quarter of original)
+      and returns true in case of success */
+    bool resizeToHalf();
 };//struct
 
 #endif // GLIMAGESTRUCTURE_H

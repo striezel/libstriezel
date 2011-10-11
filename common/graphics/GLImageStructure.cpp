@@ -87,3 +87,53 @@ void GLImageStructure::freeBuffer()
     buffer = 0;
   }//if
 }
+
+bool GLImageStructure::resizeToHalf()
+{
+  if (!isLoaded()) return false;
+  //calculate new dimensions
+  const unsigned int halfWidth = width / 2;
+  const unsigned int halfHeight = height / 2;
+  //no zero sized images please
+  if ((halfWidth==0) or (halfHeight==0)) return false;
+
+  unsigned int components = 0;
+  if ((getFormatGL()==GL_RGB) or (getFormatGL()==GL_BGR))
+  {
+    components = 3;
+  }
+  else if (getFormatGL()==GL_RGBA)
+  {
+    components = 4;
+  }
+  else
+  {
+    //unknown format, not supported
+    return false;
+  }
+  unsigned char * newBuffer = static_cast<unsigned char*> (malloc(halfWidth*halfHeight*components));
+  if (newBuffer==NULL)
+  {
+    return false;
+  }
+  //Fill new buffer - we just use every second pixel from every second line.
+  // That's not the best quality, but it's faster.
+  unsigned int i, j, k;
+  for (j=0; j<halfHeight; ++j)
+  {
+    for (i=0; i<halfWidth; ++i)
+    {
+      for (k=0; k<components; ++k)
+      {
+        newBuffer[components*(i+halfWidth*j)+k] = buffer[components*(i*2+width*j*2)+k];
+      }//for k
+    }//for (inner)
+  }//for (outer)
+  unsigned char * temp = buffer;
+
+  width = halfWidth;
+  height = halfHeight;
+  buffer = newBuffer;
+  free(temp);
+  return true;
+}
