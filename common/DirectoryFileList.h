@@ -38,13 +38,16 @@ struct FileEntry {
          bool IsDirectory;
 };//struct
 
-/* returns a vector containing the names of all files and directories within the
-   given directory
+/* returns in the result parameter a vector containing the names of all files and directories within the
+   given directory. The return value will be true, if the function succeeded, false otherwise.
 
    parameters:
        Directory - the directory that shall be searched
+       result    - the vector to which the found files will be added
+       Prefix    - prefix that is added before the file names of the files in result
+       recursive - if true, files of subdirectories are returned, too
 */
-std::vector<FileEntry> getDirectoryFileList(const std::string& Directory);
+bool getDirectoryFileList(const std::string& Directory, std::vector<FileEntry>& result, const std::string& Prefix, const bool recursive);
 
 /* Checks for existence of file FileName and returns true, if it exists. */
 //bool FileExists_old(const std::string& FileName);

@@ -31,9 +31,8 @@
 #endif
 #include <unistd.h>
 
-std::vector<FileEntry> getDirectoryFileList(const std::string& Directory)
+bool getDirectoryFileList(const std::string& Directory, std::vector<FileEntry>& result, const std::string& Prefix, const bool recursive)
 {
-  std::vector<FileEntry> result;
   FileEntry one;
   #if defined(_WIN32)
   //Windows part
@@ -45,15 +44,27 @@ std::vector<FileEntry> getDirectoryFileList(const std::string& Directory)
   if (handle == -1)
   {
     std::cout << "getDirectoryFileList: ERROR: unable to open directory \""
-              << Directory <<"\". Returning empty list.\n";
-    return result;
+              << Directory <<"\". Returning incomplete list.\n";
+    return false;
   }
   //search it
-  while( _findnext(handle, &sr)==0)
+  while(_findnext(handle, &sr)==0)
   {
-    one.FileName = std::string(sr.name);
+    one.FileName = Prefix + std::string(sr.name);
     one.IsDirectory = ((sr.attrib & _A_SUBDIR)==_A_SUBDIR);
     result.push_back(one);
+    if (recursive and one.IsDirectory
+        and (std::string(sr.name)!=".") and (std::string(sr.name)!=".."))
+    {
+      //call function recursively
+      if (!getDirectoryFileList(Directory+std::string(sr.name)+DirectorySeparator,
+          result, Prefix+std::string(sr.name)+DirectorySeparator, recursive))
+      {
+        //error occured, close handle and return
+        _findclose(handle);
+        return false;
+      }
+    }//if recursive
   }//while
   _findclose(handle);
   #else
@@ -62,26 +73,38 @@ std::vector<FileEntry> getDirectoryFileList(const std::string& Directory)
   if (direc == NULL)
   {
     std::cout << "getDirectoryFileList: ERROR: unable to open directory \""
-              << Directory <<"\". Returning empty list.\n";
-    return result;
+              << Directory <<"\". Returning incomplete list.\n";
+    return false;
   }//if
 
   struct dirent* entry = readdir(direc);
   while (entry != NULL)
   {
-    one.FileName = std::string(entry->d_name);
+    one.FileName = Prefix + std::string(entry->d_name);
     one.IsDirectory = entry->d_type==DT_DIR;
     //check for socket, pipes, block device and char device, which we don't want
     if (entry->d_type != DT_SOCK && entry->d_type != DT_FIFO && entry->d_type != DT_BLK
         && entry->d_type != DT_CHR)
     {
       result.push_back(one);
-    }
+      if (recursive and one.IsDirectory
+          and (std::string(sr.name)!=".") and (std::string(sr.name)!=".."))
+      {
+        //call function recursively
+        if (!getDirectoryFileList(Directory+std::string(sr.name)+DirectorySeparator,
+            result, Prefix+std::string(sr.name)+DirectorySeparator, recursive))
+        {
+          //error occured, close handle and return
+          closedir(direc);
+          return false;
+        }
+      }//if recursive
+    }//if wanted file type
     entry = readdir(direc);
   }//while
   closedir(direc);
   #endif
-  return result;
+  return true;
 }//function
 
 bool FileExists(const std::string& FileName)
