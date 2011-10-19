@@ -22,6 +22,10 @@
 #define GLIMAGESTRUCTURE_H
 
 #include <GL/gl.h>
+#if defined(__WIN32__) || defined(_WIN32_) || defined(_WIN32)
+  //under windows, some GL constants seem to be defined in another header
+  #include <GL/glext.h>
+#endif
 
 struct GLImageStructure
 {
