@@ -88,11 +88,11 @@ bool getDirectoryFileList(const std::string& Directory, std::vector<FileEntry>& 
     {
       result.push_back(one);
       if (recursive and one.IsDirectory
-          and (std::string(sr.name)!=".") and (std::string(sr.name)!=".."))
+          and (std::string(entry->d_name)!=".") and (std::string(entry->d_name)!=".."))
       {
         //call function recursively
-        if (!getDirectoryFileList(Directory+std::string(sr.name)+DirectorySeparator,
-            result, Prefix+std::string(sr.name)+DirectorySeparator, recursive))
+        if (!getDirectoryFileList(Directory+std::string(entry->d_name)+DirectorySeparator,
+            result, Prefix+std::string(entry->d_name)+DirectorySeparator, recursive))
         {
           //error occured, close handle and return
           closedir(direc);

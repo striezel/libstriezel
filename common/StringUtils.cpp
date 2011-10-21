@@ -111,3 +111,36 @@ std::string intToString(const int value)
   s_str << value;
   return s_str.str();
 }
+
+bool stringToInt(const std::string& str, int& value)
+{
+  if (str.length()==0) return false;
+  value = 0;
+  unsigned int i;
+  bool negative;
+  if (str.at(0)=='-')
+  {
+    i=1;
+    negative = true;
+  }
+  else
+  {
+    i=0;
+    negative = false;
+  }
+  for ( ; i<str.length(); ++i)
+  {
+    if ((str.at(i)>='0') and (str.at(i)<='9'))
+    {
+      value = value * 10;
+      value = value + (str.at(i)-'0');
+    }//if
+    else
+    {
+      //unknown or invalid character detected
+      return false;
+    }
+  }//for
+  if (negative) value = -value;
+  return true;
+}

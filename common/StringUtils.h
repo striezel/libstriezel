@@ -55,5 +55,17 @@ void trimRight(std::string& str1);
 /* Returns string representation of integer 'value' */
 std::string intToString(const int value);
 
+/* tries to convert a the string representation of a integer number into
+   a int and returns true on success, false on failure.
+
+   parameters:
+       str   - the string that contains the number
+       value - the int that will be used to store the result
+
+   remarks:
+       If false is returned, the value of parameter value is undefined.
+*/
+bool stringToInt(const std::string& str, int& value);
+
 #endif // STRINGUTILS_H
 
