@@ -22,6 +22,7 @@
 #include <iostream>
 #include <cstdio>
 #include <cmath>
+#include <cstring>
 
 GLImageStructure readGIF(const std::string& FileName)
 {
@@ -198,6 +199,38 @@ GLImageStructure readGIF(const std::string& FileName)
     fclose(file_gif);
     return result;
   }
+  // split packed fields
+  const bool localColourTableFlag = ((packedFields >> 7)!=0);
+  const bool interlaceFlag = ((packedFields & (1<<6))!=0);
+  const bool second_sortFlag = ((packedFields & (1<<5))!=0);
+  const uint16_t sizeOfLocalColourTable = (packedFields & (1 | (1<<1) | (1<<2)));
+
+  //local colour table may follow
+  if ((!localColourTableFlag) and (!globalColourTableFlag))
+  {
+    std::cout << "Error: File contains neither global nor local colour table!\n";
+    fclose(file_gif);
+    return result;
+  }//if
+
+  unsigned char localColourTable[255*3];
+  memset(localColourTable, 0, 255*3);
+  //check for local colour table
+  if (localColourTable)
+  {
+    //read local colour table
+    const unsigned int actualColourTableSize =3* pow(2, sizeOfLocalColourTable+1);
+    //read it at once
+    if (fread(localColourTable, 1, actualColourTableSize, file_gif)!=actualColourTableSize)
+    {
+      std::cout << "Error: Unable to read local colour table of file \""<<FileName<<"\"!\n";
+      fclose(file_gif);
+      return result;
+    }
+
+
+  }//if local colour table
+
   #warning To be continued.
   #warning Not completely implemented yet!
   std::cout << "Error: Function readGIF() is incomplete. Wait for next commit to SVN. :p\n";
