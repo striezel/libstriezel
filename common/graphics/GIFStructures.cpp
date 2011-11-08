@@ -23,6 +23,14 @@
 #include <cstring>
 #include <cmath>
 
+// constants
+const uint8_t cGIFImageSeparator = 0x2C;
+const uint8_t cGIFExtensionIntroducer = 0x21;
+// ---- graphic control extension
+const uint8_t cGIFGraphicControlLabel = 0xF9;
+// ---- comment extension
+const uint8_t cGIFCommentLabel = 0xFE;
+
 /***** GIFHeader functions *****/
 
 GIFHeader::GIFHeader()
@@ -183,7 +191,39 @@ uint8_t GIFLogicalScreenDescriptor::getSizeOfGlobalColourTable() const
 GIFColourTable::GIFColourTable()
 {
   m_TableEntries = 0;
-  m_TablePointer = 0;
+  m_TablePointer = NULL;
+}
+
+GIFColourTable::GIFColourTable(const GIFColourTable& op)
+{
+  m_TableEntries = op.getNumberOfColourEntries();
+  if (m_TableEntries!=0)
+  {
+    m_TablePointer = new unsigned char [m_TableEntries*3];
+    memcpy(m_TablePointer, op.getColourTablePointer(), m_TableEntries*3);
+  }
+  else
+  {
+    m_TablePointer = NULL;
+  }
+}
+
+GIFColourTable& GIFColourTable::operator=(const GIFColourTable& op)
+{
+  //avoid self-assignment
+  if (this == &op) return *this;
+  delete m_TablePointer;
+  m_TableEntries = op.getNumberOfColourEntries();
+  if (m_TableEntries!=0)
+  {
+    m_TablePointer = new unsigned char [m_TableEntries*3];
+    memcpy(m_TablePointer, op.getColourTablePointer(), m_TableEntries*3);
+  }
+  else
+  {
+    m_TablePointer = NULL;
+  }
+  return *this;
 }
 
 GIFColourTable::~GIFColourTable()
@@ -235,7 +275,7 @@ bool GIFColourTable::readFromStream(std::ifstream& inputStream, const uint8_t si
     return false;
   }
   const uint16_t actualTableEntries = pow(2, sizeOfColourTable+1);
-  const unsigned int actualColourTableSize =3* actualTableEntries;
+  const unsigned int actualColourTableSize = 3 * actualTableEntries;
   //allocate new table
   unsigned char * newTablePointer = new unsigned char[actualColourTableSize];
   inputStream.read((char*) newTablePointer, actualColourTableSize);
@@ -334,9 +374,11 @@ bool GIFImageDescriptor::readFromStream(std::ifstream& inputStream)
     return false;
   }
   //check for proper value
-  if (imageSep!=0x2C)
+  if (imageSep!=cGIFImageSeparator)
   {
-    std::cout << "GIFImageDescriptor::readFromStream: Error: Image separator has incorrect value!\n";
+    std::cout << "GIFImageDescriptor::readFromStream: Error: Image separator has "
+              << "incorrect value! Current value is "<<(int) imageSep
+              <<", but only "<<(int) cGIFImageSeparator<<" is allowed!\n";
     return false;
   }
   //read other values
@@ -537,4 +579,559 @@ bool GIFTableBasedImageData::readFromStream(std::ifstream& inputStream)
     }
   } while (tempBlock.getBlockSize()!=0);
   return inputStream.good();
+}
+
+/***** GIFTableBasedImage functions *****/
+
+GIFTableBasedImage::GIFTableBasedImage()
+{
+  m_LocalColourTable = NULL;
+}
+
+GIFTableBasedImage::GIFTableBasedImage(const GIFTableBasedImage& op)
+{
+  m_ImageDescriptor = op.getImageDescriptor();
+  m_ImageData = op.getImageData();
+  delete m_LocalColourTable;
+  if (op.hasLocalColourTable())
+  {
+    *m_LocalColourTable = op.getLocalColourTable();
+  }
+  else
+  {
+    m_LocalColourTable = NULL;
+  }
+}
+
+GIFTableBasedImage::~GIFTableBasedImage()
+{
+  delete m_LocalColourTable;
+}
+
+const GIFImageDescriptor& GIFTableBasedImage::getImageDescriptor() const
+{
+  return m_ImageDescriptor;
+}
+
+bool GIFTableBasedImage::hasLocalColourTable() const
+{
+  return (m_LocalColourTable!=NULL);
+}
+
+const GIFColourTable& GIFTableBasedImage::getLocalColourTable() const
+{
+  if (m_LocalColourTable!=NULL) return *m_LocalColourTable;
+  //We have no local colour table here, throw up!
+  std::cout << "GIFTableBasedImage::getLocalColourTable: Error: there is no local colour table!\n";
+  std::cout.flush();
+  throw std::string("GIFTableBasedImage::getLocalColourTable: Error: requesting non-existing colour table.");
+}
+
+const GIFTableBasedImageData& GIFTableBasedImage::getImageData() const
+{
+  return m_ImageData;
+}
+
+bool GIFTableBasedImage::readFromStream(std::ifstream& inputStream)
+{
+  if (!inputStream.good())
+  {
+    std::cout << "GIFTableBasedImage::readFromStream: Error: bad input stream!\n";
+    return false;
+  }
+  //read image descriptor
+  if (!m_ImageDescriptor.readFromStream(inputStream))
+  {
+    std::cout << "GIFTableBasedImage::readFromStream: Error while reading image descriptor!\n";
+    return false;
+  }
+  //check for local colour table
+  if (m_ImageDescriptor.getLocalColourTableFlag())
+  {
+    GIFColourTable * newColourTable = new GIFColourTable;
+    //... and read it
+    if (!(newColourTable->readFromStream(inputStream, m_ImageDescriptor.getSizeOfLocalColourTable())))
+    {
+      std::cout << "GIFTableBasedImage::readFromStream: Error while reading local colour table!\n";
+      delete newColourTable;
+      return false;
+    }
+  }//if local colour table
+  else
+  {
+    //no local colour table
+    delete m_LocalColourTable;
+    m_LocalColourTable = NULL;
+  }
+  //image data follows
+  if (!m_ImageData.readFromStream(inputStream))
+  {
+    std::cout << "GIFTableBasedImage::readFromStream: Error while reading table based image data!\n";
+    return false;
+  }
+  return true;
+}
+
+/****************************************
+ ***** GIF extensions (version 89a) *****
+ ****************************************/
+
+/***** GIFExtensionBase *****/
+
+GIFExtensionBase::GIFExtensionBase()
+{
+  m_ExtensionLabel = 0;
+}
+
+GIFExtensionBase::~GIFExtensionBase()
+{
+  //empty
+}
+
+uint8_t GIFExtensionBase::getExtensionLabel() const
+{
+  return m_ExtensionLabel;
+}
+
+/***** GIFGraphicControlExtension *****/
+
+GIFGraphicControlExtension::GIFGraphicControlExtension()
+: GIFExtensionBase()
+{
+  m_PackedFields = 0;
+  m_DelayTime = 0;
+  m_TransparentColourIndex = 0;
+}
+
+GIFGraphicControlExtension::~GIFGraphicControlExtension()
+{
+  //empty
+}
+
+uint16_t GIFGraphicControlExtension::getDelayTime() const
+{
+  return m_DelayTime;
+}
+
+uint8_t GIFGraphicControlExtension::getDisposalMethod() const
+{
+  return ((m_PackedFields >> 2) & (1 | (1<<1) | (1<<2)));
+}
+
+bool GIFGraphicControlExtension::getUserInputFlag() const
+{
+  return ((m_PackedFields & (1<<1)) !=0);
+}
+
+bool GIFGraphicControlExtension::getTransparentColourFlag() const
+{
+  return ((m_PackedFields & 1)!=0);
+}
+
+uint8_t GIFGraphicControlExtension::getTransparentColourIndex() const
+{
+  return m_TransparentColourIndex;
+}
+
+bool GIFGraphicControlExtension::readFromStream(std::ifstream& inputStream)
+{
+  if (!inputStream.good())
+  {
+    std::cout << "GIFGraphicControlExtension::readFromStream: Error: bad input stream!\n";
+    return false;
+  }
+  /*
+      7 6 5 4 3 2 1 0        Field Name                    Type
+     +---------------+
+  0  |               |       Extension Introducer          Byte
+     +---------------+
+  1  |               |       Graphic Control Label         Byte
+     +---------------+
+
+     +---------------+
+  0  |               |       Block Size                    Byte
+     +---------------+
+  1  |     |     | | |       <Packed Fields>               See somewhere else
+     +---------------+
+  2  |               |       Delay Time                    Unsigned
+     +-             -+
+  3  |               |
+     +---------------+
+  4  |               |       Transparent Color Index       Byte
+     +---------------+
+
+     +---------------+
+  0  |               |       Block Terminator              Byte
+     +---------------+
+  */
+
+  uint8_t byte = 0;
+  inputStream.read((char*) &byte, 1);
+  if (!inputStream.good())
+  {
+    std::cout << "GIFGraphicControlExtension::readFromStream: Error: could not "
+              << "read extension introducer!\n";
+    return false;
+  }
+  //check for proper value
+  if (byte!=cGIFExtensionIntroducer)
+  {
+    std::cout << "GIFGraphicControlExtension::readFromStream: Error: extension "
+              << "introducer has value "<<(int) byte <<", but only "
+              << (int)cGIFExtensionIntroducer<<" is allowed here!\n";
+    return false;
+  }
+  //read label
+  inputStream.read((char*) &byte, 1);
+  if (!inputStream.good())
+  {
+    std::cout << "GIFGraphicControlExtension::readFromStream: Error: could not "
+              << "read graphic control label!\n";
+    return false;
+  }
+  //check value
+  if (byte!=cGIFGraphicControlLabel)
+  {
+    std::cout << "GIFGraphicControlExtension::readFromStream: Error: extension "
+              << "label has value "<<(int) byte <<", but only "
+              << (int)cGIFGraphicControlLabel<<" is allowed here!\n";
+    return false;
+  }
+  m_ExtensionLabel = cGIFGraphicControlLabel;
+
+  //read block size
+  inputStream.read((char*) &byte, 1);
+  if (!inputStream.good())
+  {
+    std::cout << "GIFGraphicControlExtension::readFromStream: Error: could not "
+              << "read block size!\n";
+    return false;
+  }
+  if (byte!=4)
+  {
+    std::cout << "GIFGraphicControlExtension::readFromStream: Error: block size"
+              << " has value "<<(int) byte <<", but only 4 is allowed here!\n";
+    return false;
+  }
+  //read packed fields
+  inputStream.read((char*) &byte, sizeof(uint8_t));
+  //read delay time
+  inputStream.read((char*) &m_DelayTime, sizeof(uint16_t));
+  //read transparency index
+  inputStream.read((char*) &m_TransparentColourIndex, sizeof(uint8_t));
+  if (!inputStream.good())
+  {
+    std::cout << "GIFGraphicControlExtension::readFromStream: Error: could not "
+              << "read extension data block!\n";
+    return false;
+  }
+  //read block terminator
+  inputStream.read((char*) &byte, 1);
+  if (!inputStream.good())
+  {
+    std::cout << "GIFGraphicControlExtension::readFromStream: Error: could not "
+              << "read block terminator!\n";
+    return false;
+  }
+  if (byte!=0)
+  {
+    std::cout << "GIFGraphicControlExtension::readFromStream: Error: block "
+              << "terminator has value "<<(int) byte <<", but only zero is allowed here!\n";
+    return false;
+  }
+  return true;
+}
+
+/***** GIFCommentExtension *****/
+
+GIFCommentExtension::GIFCommentExtension()
+: GIFExtensionBase()
+{
+  m_CommentData.clear();
+}
+
+GIFCommentExtension::~GIFCommentExtension()
+{
+  m_CommentData.clear();
+}
+
+const std::vector<GIFDataSubBlock>& GIFCommentExtension::getCommentData() const
+{
+  return m_CommentData;
+}
+
+bool GIFCommentExtension::readFromStream(std::ifstream& inputStream)
+{
+  if (!inputStream.good())
+  {
+    std::cout << "GIFCommentExtension::readFromStream: Error: bad input stream!\n";
+    return false;
+  }
+  /*
+      7 6 5 4 3 2 1 0        Field Name                    Type
+     +---------------+
+  0  |               |       Extension Introducer          Byte
+     +---------------+
+  1  |               |       Comment Label                 Byte
+     +---------------+
+
+     +===============+
+     |               |
+  N  |               |       Comment Data                  Data Sub-blocks
+     |               |
+     +===============+
+
+     +---------------+
+  0  |               |       Block Terminator              Byte
+     +---------------+
+  */
+
+  uint8_t byte = 0;
+  inputStream.read((char*) &byte, 1);
+  if (!inputStream.good())
+  {
+    std::cout << "GIFCommentExtension::readFromStream: Error: could not "
+              << "read extension introducer!\n";
+    return false;
+  }
+  //check for proper value
+  if (byte!=cGIFExtensionIntroducer)
+  {
+    std::cout << "GIFCommentExtension::readFromStream: Error: extension "
+              << "introducer has value "<<(int) byte <<", but only "
+              << (int)cGIFExtensionIntroducer<<" is allowed here!\n";
+    return false;
+  }
+  //read label
+  inputStream.read((char*) &byte, 1);
+  if (!inputStream.good())
+  {
+    std::cout << "GIFCommentExtension::readFromStream: Error: could not "
+              << "read comment label!\n";
+    return false;
+  }
+  //check value
+  if (byte!=cGIFCommentLabel)
+  {
+    std::cout << "GIFCommentExtension::readFromStream: Error: extension "
+              << "label has value "<<(int) byte <<", but only "
+              << (int)cGIFCommentLabel<<" is allowed here!\n";
+    return false;
+  }
+  m_ExtensionLabel = cGIFCommentLabel;
+
+  //read data sub-blocks
+  GIFDataSubBlock tempBlock;
+  m_CommentData.clear();
+  do
+  {
+    if (!tempBlock.readFromStream(inputStream))
+    {
+      std::cout << "GIFCommentExtension::readFromStream: Error: could not "
+                << "read data sub-block for comment data!\n";
+      return false;
+    }
+    if (tempBlock.getBlockSize()!=0)
+    {
+      m_CommentData.push_back(tempBlock);
+    }
+  } while (tempBlock.getBlockSize()!=0);
+  return inputStream.good();
+}
+
+/***** GIF functions *****/
+GIF::GIF()
+{
+  m_GlobalColourTable = NULL;
+  m_Images.clear();
+}
+
+GIF::~GIF()
+{
+  delete m_GlobalColourTable;
+  m_GlobalColourTable = NULL;
+  m_Images.clear();
+}
+
+const GIFHeader& GIF::getHeader() const
+{
+  return m_Header;
+}
+
+const GIFLogicalScreenDescriptor& GIF::getLogicalScreenDescriptor() const
+{
+  return m_LSD;
+}
+
+bool GIF::hasGlobalColourTable() const
+{
+  //return m_LSD.getColourTableFlag();
+  return (m_GlobalColourTable!=NULL);
+}
+
+const GIFColourTable& GIF::getGlobalColourTable() const
+{
+  if (m_GlobalColourTable!=NULL) return *m_GlobalColourTable;
+  //We have no global colour table here, throw up!
+  std::cout << "GIF::getGlobalColourTable: Error: there is no global colour table!\n";
+  std::cout.flush();
+  throw std::string("GIF::getGlobalColourTable: Error: requesting non-existing colour table.");
+}
+
+const std::vector<GIFTableBasedImage*>& GIF::getImages() const
+{
+  return m_Images;
+}
+
+bool GIF::readFromFile(const std::string& FileName)
+{
+  #warning Not implemented yet!
+  std::ifstream input;
+  input.open(FileName.c_str(), std::ifstream::in | std::ifstream::binary);
+  if (!input)
+  {
+    std::cout << "GIF::readFromFile: Error: Could not open file \""<<FileName
+              << "\" for reading.\n";
+    return false;
+  }
+  /* basic GIF structure
+
+     1 x header
+
+     1 x logical screen descriptor
+
+         -> 1 x (global) colour table, if flag in LSD indicates its presence
+
+     n x table based image data (can occur 0+ times)
+
+     1 x trailer
+  */
+
+  //header comes first, always
+  if (!m_Header.readFromStream(input))
+  {
+    std::cout << "GIF::readFromFile: Error while reading GIF header of file \""
+              << FileName << "\" for reading.\n";
+    return false;
+  }
+  if (m_Header.getVersionInt()==89)
+  {
+    std::cout << "GIF::readFromFile: Warning: File \"" << FileName
+              << "\" uses GIF version 89a, which is not completely supported by"
+              << " this implementation (yet). We will try to load it anyway.\n";
+  }
+  //logical screen descriptor is next
+  if (!m_LSD.readFromStream(input))
+  {
+    std::cout << "GIF::readFromFile: Error while reading logical screen "
+              << "descriptor of file \"" << FileName << "\".\n";
+    return false;
+  }
+  //check for presence of global colour table, and if there's one, load it
+  if (m_LSD.getColourTableFlag())
+  {
+    //load global colour table
+    GIFColourTable * newGlobalColourTable = new GIFColourTable;
+    if (!(newGlobalColourTable->readFromStream(input, m_LSD.getSizeOfGlobalColourTable())))
+    {
+      std::cout << "GIF::readFromFile: Error while reading global colour table"
+                << " of file \"" << FileName << "\".\n";
+      delete newGlobalColourTable;
+      return false;
+    }
+    //table was read successfully, replace it with the current one
+    delete m_GlobalColourTable;
+    m_GlobalColourTable = newGlobalColourTable;
+  }//if global colour table present
+  else
+  {
+    //there is no global colour table
+    delete m_GlobalColourTable;
+    m_GlobalColourTable = NULL;
+  }
+
+  //now the image data of the first image
+  m_Images.clear();
+  GIFTableBasedImage * tempImg = NULL;
+  GIFExtensionBase * tempExt = NULL;
+  //potential endless loop
+  while (true)
+  {
+    uint8_t peekByte = 0, secondPeek = 0;
+    input.read((char*) &peekByte, 1);
+    if (!input)
+    {
+      std::cout <<"GIF::readFromFile: Error: Couldn't read next byte of file \""
+                << FileName<< "\".\n";
+      return false;
+    }
+
+    switch (peekByte)
+    {
+      case cGIFImageSeparator:
+           input.seekg(-1, std::ios::cur);
+           tempImg = new GIFTableBasedImage;
+           if (tempImg->readFromStream(input))
+           {
+             m_Images.push_back(tempImg);
+           }
+           else
+           {
+             std::cout << "GIF::readFromFile: Error while reading first table "
+                       << "based image of file \"" << FileName << "\".\n";
+             delete tempImg;
+             return false;
+           }
+           std::cout << "GIF::readFromFile: Warning: only one image read from file \""
+                     << FileName << "\", but there may be more here.\n";
+           return true;
+           break; //just for fun
+      case cGIFExtensionIntroducer:
+           //we've got an extension, but which one?
+           input.read((char*) &secondPeek, 1);
+           if (!input)
+           {
+             std::cout <<"GIF::readFromFile: Error: Couldn't read next byte of file \""
+                       << FileName<< "\".\n";
+             return false;
+           }
+           //switch again
+           switch (secondPeek)
+           {
+             case cGIFGraphicControlLabel:
+                  tempExt = new GIFGraphicControlExtension;
+                  break;
+             case cGIFCommentLabel:
+                  tempExt = new GIFCommentExtension;
+                  break;
+             default:
+                  std::cout << "GIF::readFromFile: Error: unknown extension "
+                            << "found in file \"" << FileName << "\". Label is "
+                            << (int)secondPeek<<".\n";
+                  return false;
+                  break;
+           }//swi (inner; extensions)
+           input.seekg(-2, std::ios::cur);
+           if (!tempExt->readFromStream(input))
+           {
+             std::cout << "GIF::readFromFile: Error while reading extension "
+                       << "data from in file \"" << FileName << "\".\n";
+             delete tempExt;
+             return false;
+           }
+           std::cout << "Debug: Successfully read one extension (label: "
+                     << (int) (tempExt->getExtensionLabel()) << ").\n";
+           delete tempExt;
+           break;
+      default:
+           std::cout << "GIF::readFromFile: Error: unknown introducer found "
+                     << "found in file \"" << FileName << "\". Value is "
+                     << (int)secondPeek<<".\n";
+           return false;
+           break;
+    }//swi
+  }//while (endless)
+  std::cout << "GIF::readFromFile: Warning: you should not be here.\n";
+  return false;
+  #warning Not implemented yet!
 }

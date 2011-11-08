@@ -100,6 +100,12 @@ struct GIFColourTable
     /* constructor */
     GIFColourTable();
 
+    /* copy constructor */
+    GIFColourTable(const GIFColourTable& op);
+
+    /* assignment operator */
+    GIFColourTable& operator=(const GIFColourTable& op);
+
     /* destructor */
     ~GIFColourTable();
 
@@ -226,7 +232,7 @@ struct GIFTableBasedImageData
 
     size_t getNumberOfSubBlocks() const;
 
-    /* tries to read a GIF table based image data from the given input file
+    /* tries to read the GIF table based image data from the given input file
        stream and returns true in case of success, false on failure.
 
        parameters:
@@ -236,8 +242,202 @@ struct GIFTableBasedImageData
     bool readFromStream(std::ifstream& inputStream);
   private:
     uint8_t m_LZW_minCodeSize;
-
     std::vector<GIFDataSubBlock> m_ImageData;
+};//struct
+
+
+struct GIFTableBasedImage
+{
+  public:
+    /* constructor */
+    GIFTableBasedImage();
+
+    /* copy constructor */
+    GIFTableBasedImage(const GIFTableBasedImage& op);
+
+    /* destructor */
+    ~GIFTableBasedImage();
+
+    /* ---- access functions ---- */
+    /* returns the image descriptor */
+    const GIFImageDescriptor& getImageDescriptor() const;
+
+    /* returns true, if there is a local colour table
+
+       remarks:
+           Although the image descriptor has its own flag for this, the actual
+           presence of a local colour table can be different, if there were any
+           errors during the loading process.
+    */
+    bool hasLocalColourTable() const;
+
+    /* returns the local colour table. If no local colour table is present, the
+       function will throw an exception. To avoid that, use the function
+       hasLocalColourTable() first to check for the table's presence.
+    */
+    const GIFColourTable& getLocalColourTable() const;
+
+    /* returns the table based image data */
+    const GIFTableBasedImageData& getImageData() const;
+
+    /* tries to read a GIF table based image from the given input file stream
+       and returns true in case of success, false on failure.
+
+       parameters:
+           inputStream - the input file stream that is used to read the data.
+                         The stream should already be opened.
+    */
+    bool readFromStream(std::ifstream& inputStream);
+  private:
+    GIFImageDescriptor m_ImageDescriptor;
+    GIFColourTable* m_LocalColourTable;
+    GIFTableBasedImageData m_ImageData;
+};//struct
+
+/* GIF extensions (can occur in version 89a) */
+
+struct GIFExtensionBase
+{
+  public:
+    /* constructor */
+    GIFExtensionBase();
+
+    /* destructor */
+    virtual ~GIFExtensionBase();
+
+    /* returns the extension's label */
+    uint8_t getExtensionLabel() const;
+
+    /* tries to read a GIF extension from the given input file stream and
+       returns true in case of success, false on failure.
+
+       parameters:
+           inputStream - the input file stream that is used to read the data.
+                         The stream should already be opened.
+
+       remarks:
+           This function is purely virtual.
+    */
+    virtual bool readFromStream(std::ifstream& inputStream) =0;
+  protected:
+    uint8_t m_ExtensionLabel;
+};//struct
+
+
+struct GIFGraphicControlExtension: public GIFExtensionBase
+{
+  public:
+    /* constructor */
+    GIFGraphicControlExtension();
+
+    /* destructor */
+    virtual ~GIFGraphicControlExtension();
+
+    /* returns the delay time that specifies the number of hundredths (1/100)
+       of a second to wait before continuing with the processing
+    */
+    uint16_t getDelayTime() const;
+
+    // --- packed fields
+    /* returns the disposal method */
+    uint8_t getDisposalMethod() const;
+
+    /* returns true, if the user input flag is set */
+    bool getUserInputFlag() const;
+
+    /* returns true, if the transparency flag is set */
+    bool getTransparentColourFlag() const;
+
+    // --- end of packed fields
+
+    /* returns the index of the transparent colour */
+    uint8_t getTransparentColourIndex() const;
+
+    /* tries to read a GIF extension from the given input file stream and
+       returns true in case of success, false on failure.
+
+       parameters:
+           inputStream - the input file stream that is used to read the data.
+                         The stream should already be opened.
+    */
+    virtual bool readFromStream(std::ifstream& inputStream);
+  private:
+    uint8_t m_PackedFields;
+    uint16_t m_DelayTime;
+    uint8_t m_TransparentColourIndex;
+};//struct
+
+
+struct GIFCommentExtension: public GIFExtensionBase
+{
+  public:
+    /* constructor */
+    GIFCommentExtension();
+
+    /* destructor */
+    virtual ~GIFCommentExtension();
+
+    const std::vector<GIFDataSubBlock>& getCommentData() const;
+
+    /* tries to read the GIF comment extension from the given input file stream
+       and returns true in case of success, false on failure.
+
+       parameters:
+           inputStream - the input file stream that is used to read the data.
+                         The stream should already be opened.
+    */
+    virtual bool readFromStream(std::ifstream& inputStream);
+  private:
+    std::vector<GIFDataSubBlock> m_CommentData;
+};//struct
+
+
+/** the "actual" GIF, i.e. the class that manages all the stuff for one image **/
+struct GIF
+{
+  public:
+    /* constructor */
+    GIF();
+
+    /* destructor */
+    ~GIF();
+
+    /* returns the GIF's header */
+    const GIFHeader& getHeader() const;
+
+    /* returns the logical screen descriptor */
+    const GIFLogicalScreenDescriptor& getLogicalScreenDescriptor() const;
+
+    /* returns true, if there is a global colour table
+
+       remarks:
+           Although the local screen descriptor has its own flag for this, the
+           actual presence of a global colour table can be different, if there
+           were any errors during the loading process.
+    */
+    bool hasGlobalColourTable() const;
+
+    /* returns the global colour table. If no global colour table is present,
+       the function will throw an exception. To avoid that, use the function
+       hasGlobalColourTable() first to check for the table's presence.
+    */
+    const GIFColourTable& getGlobalColourTable() const;
+
+    /* returns a vector of table based images found in the file */
+    const std::vector<GIFTableBasedImage*>& getImages() const;
+
+    /* tries to read a GIF image from the given file and returns true in case
+       of success, false on failure.
+
+       parameters:
+           FileName - the name of the GIF file
+    */
+    bool readFromFile(const std::string& FileName);
+  private:
+    GIFHeader m_Header;
+    GIFLogicalScreenDescriptor m_LSD;
+    GIFColourTable* m_GlobalColourTable;
+    std::vector<GIFTableBasedImage*> m_Images;
 };//struct
 
 #endif // GIFSTRUCTURES_H
