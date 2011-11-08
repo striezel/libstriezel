@@ -246,7 +246,21 @@ struct GIFTableBasedImageData
 };//struct
 
 
-struct GIFTableBasedImage
+struct GIFElementBase
+{
+  public:
+    /* constructor */
+    GIFElementBase();
+
+    /* destructor */
+    virtual ~GIFElementBase();
+
+    virtual bool isExtension() const = 0;
+    virtual bool isTableBasedImage() const = 0;
+};//struct
+
+
+struct GIFTableBasedImage: public GIFElementBase
 {
   public:
     /* constructor */
@@ -257,6 +271,9 @@ struct GIFTableBasedImage
 
     /* destructor */
     ~GIFTableBasedImage();
+
+    virtual bool isExtension() const;
+    virtual bool isTableBasedImage() const;
 
     /* ---- access functions ---- */
     /* returns the image descriptor */
@@ -296,7 +313,7 @@ struct GIFTableBasedImage
 
 /* GIF extensions (can occur in version 89a) */
 
-struct GIFExtensionBase
+struct GIFExtensionBase: public GIFElementBase
 {
   public:
     /* constructor */
@@ -304,6 +321,9 @@ struct GIFExtensionBase
 
     /* destructor */
     virtual ~GIFExtensionBase();
+
+    virtual bool isExtension() const;
+    virtual bool isTableBasedImage() const;
 
     /* returns the extension's label */
     uint8_t getExtensionLabel() const;
@@ -392,6 +412,72 @@ struct GIFCommentExtension: public GIFExtensionBase
 };//struct
 
 
+struct GIFPlainTextExtension: public GIFExtensionBase
+{
+  public:
+    /* constructor */
+    GIFPlainTextExtension();
+
+    /* destructor */
+    virtual ~GIFPlainTextExtension();
+
+    /* access functions */
+    uint16_t getTextGridLeftPosition() const;
+    uint16_t getTextGridTopPosition() const;
+    uint16_t getTextGridWidth() const;
+    uint16_t getTextGridHeight() const;
+    uint8_t getCharacterCellWidth() const;
+    uint8_t getCharacterCellHeight() const;
+    uint8_t getTextForegroundColourIndex() const;
+    uint8_t getTextBackgroundColourIndex() const;
+    const std::vector<GIFDataSubBlock>& getPlainTextData() const;
+
+    /* tries to read the GIF plain text extension from the given input file
+       stream and returns true in case of success, false on failure.
+
+       parameters:
+           inputStream - the input file stream that is used to read the data.
+                         The stream should already be opened.
+    */
+    virtual bool readFromStream(std::ifstream& inputStream);
+  private:
+    uint16_t m_TextGridLeftPosition, m_TextGridTopPosition;
+    uint16_t m_TextGridWidth, m_TextGridHeight;
+    uint8_t m_CharacterCellWidth, m_CharacterCellHeight;
+    uint8_t m_TextForegroundColourIndex, m_TextBackgroundColourIndex;
+    std::vector<GIFDataSubBlock> m_PlainTextData;
+};//struct
+
+
+struct GIFApplicationExtension: public GIFExtensionBase
+{
+  public:
+    /* constructor */
+    GIFApplicationExtension();
+
+    /* destructor */
+    virtual ~GIFApplicationExtension();
+
+    /* access functions */
+    const char* getApplicationIdentifier() const;
+    const char* getApplicationAuthenticationCode() const;
+    const std::vector<GIFDataSubBlock>& getApplicationData() const;
+
+    /* tries to read the GIF application extension from the given input file
+       stream and returns true in case of success, false on failure.
+
+       parameters:
+           inputStream - the input file stream that is used to read the data.
+                         The stream should already be opened.
+    */
+    virtual bool readFromStream(std::ifstream& inputStream);
+  private:
+    char m_ApplicationIdentifier[9];
+    char m_ApplicationAuthenticationCode[4];
+    std::vector<GIFDataSubBlock> m_ApplicationData;
+};//struct
+
+
 /** the "actual" GIF, i.e. the class that manages all the stuff for one image **/
 struct GIF
 {
@@ -423,21 +509,26 @@ struct GIF
     */
     const GIFColourTable& getGlobalColourTable() const;
 
-    /* returns a vector of table based images found in the file */
-    const std::vector<GIFTableBasedImage*>& getImages() const;
+    /* returns a vector of elements (extensions and table based images) found
+       in the file
+    */
+    const std::vector<GIFElementBase*>& getElements() const;
 
     /* tries to read a GIF image from the given file and returns true in case
        of success, false on failure.
 
        parameters:
-           FileName - the name of the GIF file
+           FileName           - the name of the GIF file
+           onlyReadFirstImage - if set to true, the read function will exit
+                                after having read the first table based image
+                                from the GIF stream
     */
-    bool readFromFile(const std::string& FileName);
+    bool readFromFile(const std::string& FileName, const bool onlyReadFirstImage=false);
   private:
     GIFHeader m_Header;
     GIFLogicalScreenDescriptor m_LSD;
     GIFColourTable* m_GlobalColourTable;
-    std::vector<GIFTableBasedImage*> m_Images;
+    std::vector<GIFElementBase*> m_Elements;
 };//struct
 
 #endif // GIFSTRUCTURES_H
