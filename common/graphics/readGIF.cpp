@@ -112,7 +112,7 @@ GLImageStructure readGIF(const std::string& FileName)
   }
   //split packed fields
   const bool globalColourTableFlag = (packedFields & (1<<7) != 0);
-  const uint8_t colourResolution = (packedFields >> 4) & ((1<<6) | (1<<5) | (1<<4));
+  const uint8_t colourResolution = ((packedFields & ((1<<6) | (1<<5) | (1<<4))) >> 4);
   const bool sortFlag = (packedFields & (1<<3) != 0);
   const uint8_t sizeOfGlobalColourTable = (packedFields & (1 | (1<<1) | (1<<2)));
 
