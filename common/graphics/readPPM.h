@@ -36,8 +36,10 @@ GLImageStructure readPPM(const std::string& FileName);
    first bytes
 
    parameters:
-       FileName - name of the suspected PPM file
+       header - pointer to an array that contains at least the first two bytes
+                from the file
+       length - number of elements in the array - has to be at least two
 */
-bool isPPM(const std::string& FileName);
+bool isPPM(const unsigned char* header, const size_t length);
 
 #endif // READPPM_H

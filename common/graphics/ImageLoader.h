@@ -27,24 +27,42 @@
 namespace ImageLoader
 {
 
+
+/* enumeration type to indicate image type */
+enum ImageType {itUnknown, itBitmap, itJPEG, itPNG, itPPM};
+
 /* returns true, if the given file seems to be a supported image file according
    to its first bytes
 
    parameters:
-       FileName - name of the suspected image file
+       it - type the suspected image file, as given by getImageType()
 
    remarks:
        Currently the following formats are supported: Bitmap, PNG, JPEG, PPM
        (binary PPM only).
 */
-bool isSupportedImage(const std::string& FileName);
+bool isSupportedImage(const ImageType it);
+
+/* returns the image type of the given file according to its first bytes
+
+   parameters:
+       FileName - name of the suspected image file
+
+   remarks:
+       Currently the following formats are recognised: Bitmap, PNG, JPEG, PPM
+       (binary PPM only).
+*/
+ImageType getImageType(const std::string& FileName);
 
 /* returns a structure containing the image data of the given image file
 
    parameters:
-       FileName - name of the image file
+       FileName  - name of the image file
+       type_hint - indicator of the images type. If this is wrong, reading the
+                   image will fail. If you don't know the type, set it to
+                   itUnknown  and the function will guess itself.
 */
-GLImageStructure readImage(const std::string& FileName);
+GLImageStructure readImage(const std::string& FileName, ImageType type_hint);
 
 }//namespace
 

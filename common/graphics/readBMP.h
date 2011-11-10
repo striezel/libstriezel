@@ -41,8 +41,10 @@ GLImageStructure readBMP(const std::string& FileName);
    first bytes
 
    parameters:
-       FileName - name of the suspected bitmap
+       header - pointer to an array that contains at least the first two bytes
+                from the file
+       length - number of elements in the array - has to be at least two
 */
-bool isBMP(const std::string& FileName);
+bool isBMP(const unsigned char* header, const size_t length);
 
 #endif //READBMP_H

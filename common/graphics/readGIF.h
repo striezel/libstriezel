@@ -35,8 +35,10 @@ GLImageStructure readGIF(const std::string& FileName);
    first bytes
 
    parameters:
-       FileName - name of the suspected GIF file
+       header - pointer to an array that contains at least the first six bytes
+                from the file
+       length - number of elements in the array - has to be at least six
 */
-bool isGIF(const std::string& FileName);
+bool isGIF(const unsigned char* header, const size_t length);
 
 #endif // READGIF_H

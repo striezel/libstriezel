@@ -23,6 +23,7 @@
 
 #include <string>
 #include "GLImageStructure.h"
+#include <png.h>
 
 /* returns a structure containing the image data of the given PNG file
 
@@ -35,8 +36,10 @@ GLImageStructure readPNG(const std::string& FileName);
    first bytes
 
    parameters:
-       FileName - name of the suspected PNG file
+       header - pointer to an array that contains at least the first eight bytes
+                from the file
+       length - number of elements in the array - has to be at least eight
 */
-bool isPNG(const std::string& FileName);
+bool isPNG(const png_bytep header, const size_t length);
 
 #endif //READPNG_H

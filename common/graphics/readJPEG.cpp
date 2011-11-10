@@ -257,25 +257,9 @@ GLImageStructure readJPEG(const std::string& FileName)
   return result;
 }//function readJPEG
 
-bool isJPEG(const std::string& FileName)
+bool isJPEG(const unsigned char* header, const size_t length)
 {
-  FILE *file_jpeg = fopen(FileName.c_str(), "rb");
-  if (!file_jpeg)
-  {
-    //file could not be opened for reading
-    return false;
-  }
-
-  unsigned char header[2];
-  memset(header, 0, 2);
-  //read first two bytes
-  if (fread(header, 1, 2, file_jpeg)!=2)
-  {
-    //file is not long enough to be a JPEG file
-    fclose(file_jpeg);
-    return false;
-  }
-  fclose(file_jpeg);
+  if (length<2) return false;
   return (//FF D8 FF E0 are the first bytes usually, but since some JPEGs put
           // the Exif before the JFIF header, we just check for the first two
           // bytes in the file. They should always be FF D8.

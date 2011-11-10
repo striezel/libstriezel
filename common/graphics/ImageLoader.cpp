@@ -27,29 +27,68 @@
 namespace ImageLoader
 {
 
-bool isSupportedImage(const std::string& FileName)
+bool isSupportedImage(const ImageType it)
 {
-  return (isJPEG(FileName) or isPNG(FileName) or isPPM(FileName) or isBMP(FileName));
+  return (it!=itUnknown);
 }
 
-GLImageStructure readImage(const std::string& FileName)
+ImageType getImageType(const std::string& FileName)
 {
-  if (isJPEG(FileName))
+  FILE *file_image = fopen(FileName.c_str(), "rb");
+  if (!file_image)
   {
-    return readJPEG(FileName);
+    //file could not be opened for reading
+    return itUnknown;
   }
-  if (isBMP(FileName))
+
+  unsigned char header[8];
+  memset(header, 0, 8);
+  //read first eight bytes
+  if (fread(header, 1, 8, file_image)!=8)
   {
-    return readBMP(FileName);
+    //file is not long enough to be a proper image file
+    fclose(file_image);
+    return itUnknown;
   }
-  if (isPNG(FileName))
+  fclose(file_image);
+
+  if (isJPEG(header, 8))
   {
-    return readPNG(FileName);
+    return itJPEG;
   }
-  if (isPPM(FileName))
+  if (isPNG(header, 8))
   {
-    return readPPM(FileName);
+    return itPNG;
   }
+  if (isPPM(header, 8))
+  {
+    return itPPM;
+  }
+  if (isBMP(header, 8))
+  {
+    return itBitmap;
+  }
+  return itUnknown;
+}
+
+GLImageStructure readImage(const std::string& FileName, ImageType type_hint)
+{
+  if (type_hint==itUnknown)
+  {
+    type_hint = getImageType(FileName);
+  }
+  switch (type_hint)
+  {
+    case itJPEG:
+         return readJPEG(FileName);
+    case itPNG:
+         return readPNG(FileName);
+    case itBitmap:
+         return readBMP(FileName);
+    case itPPM:
+         return readPPM(FileName);
+  }
+
   //no supported image here
   GLImageStructure temp_glis;
   temp_glis.setWidth(0);

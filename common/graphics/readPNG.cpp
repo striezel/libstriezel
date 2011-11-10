@@ -189,24 +189,8 @@ GLImageStructure readPNG(const std::string& FileName)
   return result;
 }//function readPNG
 
-bool isPNG(const std::string& FileName)
+bool isPNG(const png_bytep header, const size_t length)
 {
-  FILE *file_png = fopen(FileName.c_str(), "rb");
-  if (!file_png)
-  {
-    //file could not be opened for reading
-    return false;
-  }
-
-  png_byte header[8];// 8 is the maximum size that can be checked by libpng
-  memset(header, 0, 8);
-  //read first eight bytes
-  if (fread(header, 1, 8, file_png)!=8)
-  {
-    //file is not long enough to be a PNG file
-    fclose(file_png);
-    return false;
-  }
-  fclose(file_png);
+  if (length<8) return false;
   return (png_sig_cmp(header, 0, 8)==0);
 }//function isPNG

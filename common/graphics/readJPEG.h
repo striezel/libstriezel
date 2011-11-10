@@ -36,8 +36,10 @@ GLImageStructure readJPEG(const std::string& FileName);
    first bytes
 
    parameters:
-       FileName - name of the suspected JPEG file
+       header - pointer to an array that contains at least the first two bytes
+                from the file
+       length - number of elements in the array - has to be at least two
 */
-bool isJPEG(const std::string& FileName);
+bool isJPEG(const unsigned char* header, const size_t length);
 
 #endif // READJPEG_H

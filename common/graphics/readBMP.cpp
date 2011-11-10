@@ -202,24 +202,8 @@ GLImageStructure readBMP(const std::string& FileName)
   return result;
 }//function readBMP
 
-bool isBMP(const std::string& FileName)
+bool isBMP(const unsigned char* header, const size_t length)
 {
-  FILE *file_bmp = fopen(FileName.c_str(), "rb");
-  if (!file_bmp)
-  {
-    //file could not be opened for reading
-    return false;
-  }
-  uint16_t bfType = not 19778;
-  //read first two bytes
-  if (fread(&bfType, 1, 2, file_bmp)!=2)
-  {
-    //file is not long enough to be a BMP file
-    fclose(file_bmp);
-    return false;
-  }
-  fclose(file_bmp);
-  return (bfType==19778);
-}//function isBMP
-
-
+  if (length<2) return false;
+  return ((header[0]=='B') and (header[1]=='M'));
+}//function isBMP (second version)

@@ -26,28 +26,12 @@
 #include <cstdlib>
 #include "../IntegerUtils.h"
 
-bool isPPM(const std::string& FileName)
+bool isPPM(const unsigned char* header, const size_t length)
 {
-  FILE *file_ppm = fopen(FileName.c_str(), "rb");
-  if (!file_ppm)
-  {
-    //file could not be opened for reading
-    return false;
-  }
-
-  char header[2];
-  memset(header, 0, 2);
-  //read first two bytes
-  if (fread(header, 1, 2, file_ppm)!=2)
-  {
-    //file is not long enough to be a PPM file
-    fclose(file_ppm);
-    return false;
-  }
-  fclose(file_ppm);
+  if (length<2) return false;
   //P6 are the first bytes usually (we only care for binary format here)
   return ((header[0]=='P') and (header[1]=='6'));
-}//function isPPM
+}
 
 GLImageStructure readPPM(const std::string& FileName)
 {
