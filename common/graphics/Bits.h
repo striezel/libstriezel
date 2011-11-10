@@ -30,11 +30,14 @@ struct SmallBitArray16
     /* constructor */
     SmallBitArray16();
 
+    /* assignment operator */
+    SmallBitArray16& operator=(const SmallBitArray16& other);
+
     /* member constructor */
     SmallBitArray16(const uint16_t theBits, const uint8_t numberOfBits);
 
     /* equality operator */
-    bool operator=(const SmallBitArray16& other);
+    bool operator==(const SmallBitArray16& other);
 
     /* returns the number of bits in the array*/
     uint8_t getNumberOfBits() const;
@@ -78,6 +81,9 @@ struct SmallBitArray16
            other - the array that has to be appended
     */
     bool appendBitsAtBack(const SmallBitArray16& other);
+
+    /* returns the internal representation of the "array" */
+    uint16_t exposeBits() const;
   private:
     uint16_t m_Bits;
     uint8_t m_BitsPresent;
@@ -91,13 +97,13 @@ struct LargeBitArray2048
     LargeBitArray2048();
 
     /* member constructor */
-    LargeBitArray2048(const uint8_t theBits[256], const uint16_t numberOfBits);
+    LargeBitArray2048(const unsigned char* theBits, const uint16_t numberOfBits);
 
     /* equality operator */
-    bool operator=(const LargeBitArray2048& other) const;
+    bool operator==(const LargeBitArray2048& other) const;
 
     /* equality operator for small bits */
-    bool operator=(const SmallBitArray16& right) const;
+    bool operator==(const SmallBitArray16& right) const;
 
     /* returns the number of bits in the array*/
     uint16_t getNumberOfBits() const;
@@ -143,6 +149,8 @@ struct LargeBitArray2048
            length     - length of the sequence (must not be more than 16)
     */
     SmallBitArray16 getSmallBitSequence(const uint16_t startIndex, const uint8_t length) const;
+
+    uint8_t exposeByte(const uint8_t byte_index) const;
   private:
     uint8_t m_Bits[256];
     uint16_t m_BitsPresent;

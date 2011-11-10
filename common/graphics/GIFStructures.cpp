@@ -535,6 +535,11 @@ size_t GIFTableBasedImageData::getNumberOfSubBlocks() const
   return m_ImageData.size();
 }
 
+const std::vector<GIFDataSubBlock>& GIFTableBasedImageData::getBlocks() const
+{
+  return m_ImageData;
+}
+
 bool GIFTableBasedImageData::readFromStream(std::ifstream& inputStream)
 {
   if (!inputStream.good())

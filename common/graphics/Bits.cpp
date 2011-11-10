@@ -27,6 +27,13 @@ SmallBitArray16::SmallBitArray16()
   m_BitsPresent = 0;
 }
 
+SmallBitArray16& SmallBitArray16::operator=(const SmallBitArray16& other)
+{
+  m_Bits = other.exposeBits();
+  m_BitsPresent = other.getNumberOfBits();
+  return *this;
+}
+
 SmallBitArray16::SmallBitArray16(const uint16_t theBits, const uint8_t numberOfBits)
 {
   m_Bits = theBits;
@@ -34,7 +41,7 @@ SmallBitArray16::SmallBitArray16(const uint16_t theBits, const uint8_t numberOfB
   if (m_BitsPresent>16) m_BitsPresent = 16;
 }
 
-bool SmallBitArray16::operator=(const SmallBitArray16& other)
+bool SmallBitArray16::operator==(const SmallBitArray16& other)
 {
   return ((m_BitsPresent==other.m_BitsPresent) and (m_Bits==other.m_Bits));
 }
@@ -92,6 +99,11 @@ bool SmallBitArray16::appendBitsAtBack(const SmallBitArray16& other)
   return true;
 }
 
+uint16_t SmallBitArray16::exposeBits() const
+{
+  return m_Bits;
+}
+
 
 
 /** Large bit array's functions **/
@@ -102,15 +114,15 @@ LargeBitArray2048::LargeBitArray2048()
   memset(m_Bits, 0, 256);
 }
 
-LargeBitArray2048::LargeBitArray2048(const uint8_t theBits[256], const uint16_t numberOfBits)
+LargeBitArray2048::LargeBitArray2048(const unsigned char* theBits, const uint16_t numberOfBits)
 {
   m_BitsPresent = numberOfBits;
-  memcpy(m_Bits, theBits, 256);
+  memcpy(m_Bits, theBits, (numberOfBits+7)/8);
 }
 
-bool LargeBitArray2048::operator=(const LargeBitArray2048& other) const
+bool LargeBitArray2048::operator==(const LargeBitArray2048& other) const
 {
-  return ((m_BitsPresent==other.getNumberOfBits()) and (memcmp(m_Bits, other.m_Bits, 256)==0));
+  return ((m_BitsPresent==other.getNumberOfBits()) and (memcmp(m_Bits, other.m_Bits, (m_BitsPresent+7)/8)==0));
 }
 
 uint16_t LargeBitArray2048::getNumberOfBits() const
@@ -168,7 +180,7 @@ bool LargeBitArray2048::appendBitAtBack(const bool newBit)
   return true;
 }
 
-bool LargeBitArray2048::operator=(const SmallBitArray16& right) const
+bool LargeBitArray2048::operator==(const SmallBitArray16& right) const
 {
   if (getNumberOfBits()!=right.getNumberOfBits()) return false;
   unsigned int i;
@@ -187,8 +199,17 @@ SmallBitArray16 LargeBitArray2048::getSmallBitSequence(const uint16_t startIndex
   uint8_t bits_done = 0;
   while (bits_done<length)
   {
-    data |= getBit(startIndex+bits_done)<<bits_done;
+    if (this->getBit(startIndex+bits_done))
+    {
+      data |= (1<<bits_done);
+    }
     ++bits_done;
   }//while
   return SmallBitArray16(data, length);
+}
+
+uint8_t LargeBitArray2048::exposeByte(const uint8_t byte_index) const
+{
+  if (byte_index>255) return 0;
+  return m_Bits[byte_index];
 }

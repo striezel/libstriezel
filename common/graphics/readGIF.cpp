@@ -21,6 +21,7 @@
 #include "readGIF.h"
 #include <iostream>
 #include "GIFStructures.h"
+#include "Decoder.h"
 
 GLImageStructure readGIF(const std::string& FileName)
 {
@@ -65,8 +66,11 @@ GLImageStructure readGIF(const std::string& FileName)
               << " local colour table, and there is no global table either.\n";
     return result;
   }
+
   const GIFColourTable& colourTable = idesc.getLocalColourTableFlag() ?
           tableBasedImage->getLocalColourTable() : file_gif.getGlobalColourTable();
+
+  decode(colourTable, *tableBasedImage);
 
   #warning To be continued.
   #warning Not completely implemented yet!

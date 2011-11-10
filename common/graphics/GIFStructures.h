@@ -230,7 +230,11 @@ struct GIFTableBasedImageData
     /* returns the LZW minimum code size read from the stream */
     uint8_t getMinCodeSize() const;
 
+    /* returns the number of data sub-blocks */
     size_t getNumberOfSubBlocks() const;
+
+    /* access to the data sub-blocks */
+    const std::vector<GIFDataSubBlock>& getBlocks() const;
 
     /* tries to read the GIF table based image data from the given input file
        stream and returns true in case of success, false on failure.
