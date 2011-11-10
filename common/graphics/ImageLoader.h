@@ -29,7 +29,7 @@ namespace ImageLoader
 
 
 /* enumeration type to indicate image type */
-enum ImageType {itUnknown, itBitmap, itJPEG, itPNG, itPPM};
+enum ImageType {itUnknown, itBitmap, itGIF, itJPEG, itPNG, itPPM};
 
 /* returns true, if the given file seems to be a supported image file according
    to its first bytes

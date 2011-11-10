@@ -20,6 +20,8 @@
 
 #include "GLImageStructure.h"
 #include <cstdlib>
+#include <iostream>
+#include <cstring>
 
 GLImageStructure::GLImageStructure()
 {
@@ -29,9 +31,60 @@ GLImageStructure::GLImageStructure()
   format = 0;
 }
 
+GLImageStructure::GLImageStructure(const GLImageStructure& op)
+{
+  width = op.getWidth();
+  height = op.getHeight();
+  format = op.getFormatGL();
+  if (op.getBufferPointer()==NULL)
+  {
+    buffer = NULL;
+  }
+  else
+  {
+    const unsigned int comps = getNumberOfComponents();
+    buffer = static_cast<unsigned char*> (malloc(width*height*comps));
+    if (buffer==NULL)
+    {
+      //Damn, it failed!
+      std::cout << "Error in GLImageStructure: memory allocation failed!\n";
+      return;
+    }
+    //copy stuff from other image
+    memcpy(buffer, op.getBufferPointer(), width*height*comps);
+  }
+}
+
+GLImageStructure& GLImageStructure::operator=(const GLImageStructure& op)
+{
+  if (this==&op) return *this;
+  freeBuffer();
+  width = op.getWidth();
+  height = op.getHeight();
+  format = op.getFormatGL();
+  if (op.getBufferPointer()==NULL)
+  {
+    buffer = NULL;
+  }
+  else
+  {
+    const unsigned int comps = getNumberOfComponents();
+    buffer = static_cast<unsigned char*> (malloc(width*height*comps));
+    if (buffer==NULL)
+    {
+      //Damn, it failed!
+      std::cout << "Error in GLImageStructure: memory allocation failed!\n";
+      return *this;
+    }
+    //copy stuff from other image
+    memcpy(buffer, op.getBufferPointer(), width*height*comps);
+  }
+  return *this;
+}
+
 GLImageStructure::~GLImageStructure()
 {
-  //empty
+  freeBuffer();
 }
 
 bool GLImageStructure::isLoaded() const
@@ -52,6 +105,24 @@ unsigned int GLImageStructure::getHeight() const
 GLint GLImageStructure::getFormatGL() const
 {
   return format;
+}
+
+unsigned int GLImageStructure::getNumberOfComponents() const
+{
+  switch(format)
+  {
+    case GL_RGB:
+    case GL_BGR:
+         return 3;
+         break;
+    case GL_RGBA:
+         return 4;
+         break;
+    case 0:
+    default:
+         return 0;
+         break;
+  }//swi
 }
 
 const unsigned char* GLImageStructure::getBufferPointer() const
@@ -84,7 +155,7 @@ void GLImageStructure::freeBuffer()
   if (buffer!=NULL)
   {
     free(buffer);
-    buffer = 0;
+    buffer = NULL;
   }//if
 }
 
@@ -97,16 +168,8 @@ bool GLImageStructure::resizeToHalf()
   //no zero sized images please
   if ((halfWidth==0) or (halfHeight==0)) return false;
 
-  unsigned int components = 0;
-  if ((getFormatGL()==GL_RGB) or (getFormatGL()==GL_BGR))
-  {
-    components = 3;
-  }
-  else if (getFormatGL()==GL_RGBA)
-  {
-    components = 4;
-  }
-  else
+  const unsigned int components = getNumberOfComponents();
+  if (components==0)
   {
     //unknown format, not supported
     return false;

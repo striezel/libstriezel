@@ -32,6 +32,41 @@ GLImageStructure readGIF(const std::string& FileName)
     std::cout << "Error: could not read GIF file \""<<FileName<<"\".\n";
     return result;
   }
+  //GIF is read, now check the elements
+  if (file_gif.getElements().empty())
+  {
+    std::cout << "Error: GIF file \""<<FileName<<"\" does not contain any image data!\n";
+    return result;
+  }
+  GIFElementBase * elem = NULL;
+  elem = file_gif.getElements().back();
+  if (!elem->isTableBasedImage())
+  {
+    std::cout << "Error: the last read element in \""<<FileName<<"\" is not a table based image.\n";
+    return result;
+  }
+  GIFTableBasedImage * tableBasedImage = static_cast<GIFTableBasedImage*>(elem);
+  const GIFImageDescriptor& idesc = tableBasedImage->getImageDescriptor();
+  std::cout << "Image descriptor of first image:\n"
+            << "  left:  "<<idesc.getLeftPosition()<<"\n"
+            << "  top:   " << idesc.getTopPosition()<<"\n"
+            << "  width: "<<idesc.getWidth()<<"\n"
+            << "  height: "<<idesc.getHeight()<<"\n"
+            << "  has local table: "<<idesc.getLocalColourTableFlag()<<"\n"
+            << "     size: "<<(int) idesc.getSizeOfLocalColourTable()<<"\n"
+            << "  has glob. table: "<<file_gif.getLogicalScreenDescriptor().getColourTableFlag()<<"\n"
+            << "     size: "<<(int) file_gif.getLogicalScreenDescriptor().getSizeOfGlobalColourTable()<<"\n"
+            << "  interlaced: "<<idesc.getInterlaceFlag()<<"\n"
+            << "  min. code size: "<<(int)tableBasedImage->getImageData().getMinCodeSize()<<"\n"
+            << "  data sub-blocks: "<<tableBasedImage->getImageData().getNumberOfSubBlocks()<<"\n";
+  if (!(idesc.getLocalColourTableFlag() or file_gif.getLogicalScreenDescriptor().getColourTableFlag()))
+  {
+    std::cout << "Error: First image in file \""<<FileName<<"\" does not have a"
+              << " local colour table, and there is no global table either.\n";
+    return result;
+  }
+  const GIFColourTable& colourTable = idesc.getLocalColourTableFlag() ?
+          tableBasedImage->getLocalColourTable() : file_gif.getGlobalColourTable();
 
   #warning To be continued.
   #warning Not completely implemented yet!

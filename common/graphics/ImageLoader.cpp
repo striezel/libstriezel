@@ -20,6 +20,7 @@
 
 #include "ImageLoader.h"
 #include "readBMP.h"
+#include "readGIF.h"
 #include "readJPEG.h"
 #include "readPNG.h"
 #include "readPPM.h"
@@ -60,6 +61,10 @@ ImageType getImageType(const std::string& FileName)
   {
     return itPNG;
   }
+  if (isGIF(header, 8))
+  {
+    return itGIF;
+  }
   if (isPPM(header, 8))
   {
     return itPPM;
@@ -83,6 +88,8 @@ GLImageStructure readImage(const std::string& FileName, ImageType type_hint)
          return readJPEG(FileName);
     case itPNG:
          return readPNG(FileName);
+    case itGIF:
+         return readGIF(FileName);
     case itBitmap:
          return readBMP(FileName);
     case itPPM:

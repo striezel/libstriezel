@@ -38,6 +38,12 @@ struct GLImageStructure
     // constructor
     GLImageStructure();
 
+    // copy constructor
+    GLImageStructure(const GLImageStructure& op);
+
+    // assignment operator
+    GLImageStructure& operator=(const GLImageStructure& op);
+
     // destructor
     ~GLImageStructure();
 
@@ -52,6 +58,12 @@ struct GLImageStructure
 
     // returns the format
     GLint getFormatGL() const;
+
+    /* returns the number of components, judging from the internal GL format.
+       If this function returns zero, the internal format is either zero/not set
+       or an unknown format.
+    */
+    unsigned int getNumberOfComponents() const;
 
     // returns a constant pointer to the buffer
     const unsigned char* getBufferPointer() const;
