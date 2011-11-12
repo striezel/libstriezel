@@ -59,11 +59,12 @@ bool decode(const GIFColourTable& colourTable, const GIFTableBasedImage& image)
   //the stream of indices as we decode it
   std::vector<uint16_t> indexStream;
 
-  LargeBitArray2048 bit_arr = LargeBitArray2048(blocks.at(0).getBlockData(), blocks.at(0).getBlockSize()*8);
+  LargeBitArray64k bit_arr = LargeBitArray64k(blocks.at(0).getBlockData(), blocks.at(0).getBlockSize()*8);
   std::cout << "Size of first block: "<<(int)blocks.at(0).getBlockSize()<<"\n";
+  size_t indexOfLastReadBlock = 0;
   SmallBitArray16 prev_code(0,0);
   SmallBitArray16 small_arr = bit_arr.getSmallBitSequence(0, currentCodeLength);
-  uint16_t bits_read = currentCodeLength;
+  uint32_t bits_read = currentCodeLength;
   std::cout << "First code is "<<small_arr.exposeBits()<<"\n";
 
 
@@ -73,6 +74,32 @@ bool decode(const GIFColourTable& colourTable, const GIFTableBasedImage& image)
   int loop_iterations = 0;
   while (bits_read+currentCodeLength<=bit_arr.getNumberOfBits())
   {
+    //are we out of data?
+    if (bits_read+currentCodeLength<=bit_arr.getNumberOfBits())
+    {
+      std::cout << "Debug: Out of data, trying to append new block!\n";
+      LargeBitArray64k tempBitArr;
+      if (indexOfLastReadBlock+1<blocks.size())
+      {
+        //feed next block
+        ++indexOfLastReadBlock;
+        tempBitArr = LargeBitArray64k(blocks.at(indexOfLastReadBlock).getBlockData(), blocks.at(indexOfLastReadBlock).getBlockSize()*8);
+      }
+      else
+      {
+        std::cout << "Error: there are no more data sub-blocks, but EOI was not"
+                  << " reached yet!\n";
+        return false;
+      }
+      //append it
+      if (!bit_arr.appendBitsAtBack(tempBitArr))
+      {
+        std::cout << "Error: could not append new data block!\nBits in 1st block: "
+                  << bit_arr.getNumberOfBits() << "  bits in 2nd block: "<< tempBitArr.getNumberOfBits()<<"\n";
+        return false;
+      }
+    }//if we need more data
+
     prev_code = small_arr;
     small_arr = bit_arr.getSmallBitSequence(bits_read, currentCodeLength);
     bits_read += currentCodeLength;
@@ -121,6 +148,8 @@ bool decode(const GIFColourTable& colourTable, const GIFTableBasedImage& image)
     }
     ++loop_iterations;
   }//while
+
+
 
   //just for fun: print the indices we have so far
   std::cout << "The "<<indexStream.size()<<" indices after "<<loop_iterations<<" steps so far:";

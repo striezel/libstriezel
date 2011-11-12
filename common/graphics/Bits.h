@@ -89,18 +89,24 @@ struct SmallBitArray16
     uint8_t m_BitsPresent;
 }; //struct
 
-// an "array" for up to 2048 bits
-struct LargeBitArray2048
+// an "array" for up to 65535 bits
+struct LargeBitArray64k
 {
   public:
     /* constructor */
-    LargeBitArray2048();
+    LargeBitArray64k();
 
     /* member constructor */
-    LargeBitArray2048(const unsigned char* theBits, const uint16_t numberOfBits);
+    LargeBitArray64k(const unsigned char* theBits, const uint16_t numberOfBits);
+
+    /* assignment operator */
+    LargeBitArray64k& operator=(const LargeBitArray64k& other);
+
+    /* destructor */
+    ~LargeBitArray64k();
 
     /* equality operator */
-    bool operator==(const LargeBitArray2048& other) const;
+    bool operator==(const LargeBitArray64k& other) const;
 
     /* equality operator for small bits */
     bool operator==(const SmallBitArray16& right) const;
@@ -140,7 +146,15 @@ struct LargeBitArray2048
     */
     bool appendBitAtBack(const bool newBit);
 
-    static const uint16_t cMaximumBits = 256*8;
+    /* tries to append a bit "array" at the end of the array and returns true in
+       case of success
+
+       parameters:
+           other - the array that has to be appended
+    */
+    bool appendBitsAtBack(const LargeBitArray64k& other);
+
+    static const uint16_t cMaximumBits = 65535;
 
     /* retrieves a small part (up to 16 bits) of the array as a small array
 
@@ -150,9 +164,34 @@ struct LargeBitArray2048
     */
     SmallBitArray16 getSmallBitSequence(const uint16_t startIndex, const uint8_t length) const;
 
-    uint8_t exposeByte(const uint8_t byte_index) const;
+    /* returns the internally set value of the byte at given index */
+    uint8_t exposeByte(const uint16_t byte_index) const;
+
+    /* tries to remove at most count bytes from the start of the array, which
+       reduces the array's size for count*8 bits
+
+       parameters:
+           count - number of leading bytes to be removed
+    */
+    void removeLeadingBytes(const uint16_t count);
   private:
-    uint8_t m_Bits[256];
+    /* returns true, if the currently allocated bytes would allow at least
+       one more bit to be stored
+    */
+    bool hasEnoughSpaceForAnotherBit() const;
+
+    /* returns true, if we could possibly allocate space for at least one more
+       bit to be stored
+    */
+    bool canAllocateMoreSpace() const;
+
+    /* tries to increase the size of the internal array and returns true in case
+       of success, false on failure
+    */
+    bool increaseInternalArray();
+
+    uint8_t * m_Bits;
+    uint16_t m_CurrentBytesAllocated;
     uint16_t m_BitsPresent;
 }; //struct
 
