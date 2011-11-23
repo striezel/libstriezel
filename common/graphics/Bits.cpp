@@ -298,6 +298,7 @@ void LargeBitArray64k::removeLeadingBytes(const uint16_t count)
   if (m_CurrentBytesAllocated<=count)
   {
     m_BitsPresent = 0;
+    memset(m_Bits, 0, m_CurrentBytesAllocated);
     return;
   }
   memmove(m_Bits, &(m_Bits[count]), m_CurrentBytesAllocated-count);

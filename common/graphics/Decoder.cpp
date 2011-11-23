@@ -72,10 +72,11 @@ bool decode(const GIFColourTable& colourTable, const GIFTableBasedImage& image)
   std::vector<uint16_t> app_sequence;
 
   int loop_iterations = 0;
-  while (bits_read+currentCodeLength<=bit_arr.getNumberOfBits())
+  bool done = (bits_read>=bit_arr.getNumberOfBits());
+  while (!done)
   {
     //are we out of data?
-    if (bits_read+currentCodeLength<=bit_arr.getNumberOfBits())
+    if (bits_read+currentCodeLength>bit_arr.getNumberOfBits())
     {
       std::cout << "Debug: Out of data, trying to append new block!\n";
       LargeBitArray64k tempBitArr;
@@ -91,6 +92,17 @@ bool decode(const GIFColourTable& colourTable, const GIFTableBasedImage& image)
                   << " reached yet!\n";
         return false;
       }
+      //is there enough space?
+      if (tempBitArr.getNumberOfBits()+bit_arr.getNumberOfBits()>LargeBitArray64k::cMaximumBits)
+      {
+        std::cout << "Debug: Shortening needed, current length is "<<bit_arr.getNumberOfBits()<<" bits!\n";
+        const uint16_t cutOff = bits_read/8;
+        std::cout << "Trying to cut off "<<cutOff<<" bytes.\n";
+        bit_arr.removeLeadingBytes(cutOff);
+        std::cout << "New length is "<<bit_arr.getNumberOfBits()<<" bits!\n";
+        bits_read = bits_read -8*cutOff;
+      }
+
       //append it
       if (!bit_arr.appendBitsAtBack(tempBitArr))
       {
@@ -131,7 +143,7 @@ bool decode(const GIFColourTable& colourTable, const GIFTableBasedImage& image)
       //not found in table
       std::cout << "next code "<<small_arr.exposeBits()<<" was NOT found!\n";
       // let K be the first index of {CODE-1}
-      ct_iter = codeTable.find(small_arr.exposeBits()-1);
+      ct_iter = codeTable.find(/*small_arr.exposeBits()-1*/prev_code.exposeBits());
       uint16_t k = ct_iter->second.at(0);
       // output {CODE-1}+K to index stream
       app_sequence = ct_iter->second;
@@ -147,6 +159,7 @@ bool decode(const GIFColourTable& colourTable, const GIFTableBasedImage& image)
       }
     }
     ++loop_iterations;
+    done = (bits_read>=bit_arr.getNumberOfBits());
   }//while
 
 
