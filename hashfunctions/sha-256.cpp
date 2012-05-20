@@ -18,75 +18,191 @@
  -----------------------------------------------------------------------------
 */
 
+#define SHA256_DEBUG
+
 #include "sha-256.h"
+#include <cstring>
+#ifdef SHA256_DEBUG
+  #include <iostream>
+#endif
 
 namespace SHA256
 {
 
-void MessageDigest::setInitialValue()
+struct MessageBlock
 {
-  hash[0] = 0x6a09e667;
-  hash[1] = 0xbb67ae85;
-  hash[2] = 0x3c6ef372;
-  hash[3] = 0xa54ff53a;
-  hash[4] = 0x510e527f;
-  hash[5] = 0x9b05688c;
-  hash[6] = 0x1f83d9ab;
-  hash[7] = 0x5be0cd19;
+  uint32_t words[16];
+};//struct
+
+std::string MessageDigest::toHexString() const
+{
+  const char cHexDigits[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+  std::string result(' ', 64);
+  unsigned int i;
+  for (i=0; i<8; ++i)
+  {
+    result[i*8] = cHexDigits[hash[i]>>28];
+    result[i*8+1] = cHexDigits[(hash[i]>>24)%16];
+    result[i*8+2] = cHexDigits[(hash[i]>>20)%16];
+    result[i*8+3] = cHexDigits[(hash[i]>>16)%16];
+    result[i*8+4] = cHexDigits[(hash[i]>>12)%16];
+    result[i*8+5] = cHexDigits[(hash[i]>>8)%16];
+    result[i*8+6] = cHexDigits[(hash[i]>>4)%16];
+    result[i*8+7] = cHexDigits[hash[i]%16];
+  }//for
+  return result;
 }
+
+bool MessageDigest::operator==(const MessageDigest& other) const
+{
+  return ((hash[0]==other.hash[0]) and (hash[1]==other.hash[1])
+    and (hash[2]==other.hash[2]) and (hash[3]==other.hash[3])
+    and (hash[4]==other.hash[4]) and (hash[5]==other.hash[5])
+    and (hash[6]==other.hash[6]) and (hash[7]==other.hash[7]));
+}
+
+//SHA-256 constants
+const uint32_t sha256_k[64] = {
+  0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+  0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+  0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+  0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+  0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+  0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+  0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+  0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
+};
 
 uint32_t rotr(const uint8_t n, const uint32_t w)
 {
   //no values larger than 31 allowed here, because 32 is the word size
   if (n>31) throw 42;
-  return ((w >> n) bitor (w << (32-n)));
+  return ((w >> n) | (w << (32-n)));
 }
 
 uint32_t Ch(const uint32_t x, const uint32_t y, const uint32_t z)
 {
-  return ((x bitand y) xor (x bitand z));
+  return ((x & y) ^ ((~x) & z));
 }
 
 uint32_t Maj(const uint32_t x, const uint32_t y, const uint32_t z)
 {
-  return ((x bitand y) xor (x bitand z) xor (y bitand z));
+  return ((x & y) ^ (x & z) ^ (y & z));
 }
 
-uint32_t SigmaZero(const uint32_t x)
+uint32_t CapitalSigmaZero(const uint32_t x)
 {
-  return (rotr(7, x) xor rotr(18, x) xor (x>>3));
+  return (rotr(2, x) ^ rotr(13, x) ^ rotr(22, x));
 }
 
-uint32_t SigmaOne(const uint32_t x)
+uint32_t CapitalSigmaOne(const uint32_t x)
 {
-  return (rotr(17, x) xor rotr(19, x) xor (x>>10));
+  return (rotr(6, x) ^ rotr(11, x) ^ rotr(25, x));
+}
+
+uint32_t sigmaZero(const uint32_t x)
+{
+  return (rotr(7, x) ^ rotr(18, x) ^ (x>>3));
+}
+
+uint32_t sigmaOne(const uint32_t x)
+{
+  return (rotr(17, x) ^ rotr(19, x) ^ (x>>10));
+}
+
+void getMessageBlock(MessageBlock& mBlock, const uint64_t n, const uint8_t* data, const uint64_t data_length_in_bits)
+{
+  if ((n+1)*512<=data_length_in_bits)
+  {
+    memcpy(&(mBlock.words[0]), &data[n*64], 64);
+  }
+  else
+  {
+    throw 42;
+  }
+}
+
+/* pads a SHA-256 message as necessary and returns a buffer containing the
+   padded message.
+
+   parameters:
+       data                - pointer to the message data buffer
+       data_length_in_bits - length of message in bits (will be rounded up to
+                             the next integral multiple of 8, if it's not an
+                             integral multiple of 8 yet)
+       padded_length       - variable that will be used to store the length of
+                             the padded message in bits
+
+   remarks:
+       The application has to free the buffer the return value is pointing to,
+       if it no longer needs that data. Otherwise the application will have a
+       memory leak.
+*/
+uint8_t * padMessage(const uint8_t* data, uint64_t data_length_in_bits, uint64_t& padded_length)
+{
+  data_length_in_bits += ((data_length_in_bits%8)>0); //we want full bytes only
+  padded_length = data_length_in_bits +8 /*usually just one bit, but since we have full bytes here only...*/
+                 +64;
+  uint64_t padded_blocks = padded_length / 512 + ((padded_length%512)>0);
+  padded_length = padded_blocks*512;
+  uint8_t * padded_data = new uint8_t[padded_length/8];
+  //zero out last block of padded message (so we have all zero bits for padding (and a bit more, but we'll overwrite that later))
+  memset(&padded_data[(padded_length-512)/8], 0, 512/8);
+  //copy stuff from message data buffer to padded buffer
+  memcpy(padded_data, data, data_length_in_bits/8);
+  //add 1-bit
+  padded_data[data_length_in_bits/8] = 0x80;
+  //add data length in bits
+  memcpy(&padded_data[padded_length/8-8], &data_length_in_bits, 8);
+  //get going
+  return padded_data;
 }
 
 MessageDigest compute(const uint8_t* data, const uint64_t data_length_in_bits)
 {
-  //assume length to be a multiple of 8 bits, i.e. whole bytes only
+  uint64_t padded_len = 0;
+  uint8_t * padded_data = padMessage(data, data_length_in_bits, padded_len);
+
+  const uint64_t NumberOfMessageBlocks = padded_len/512;
+  MessageBlock msgBlock;
+
   uint32_t msg_schedule[64];
   uint32_t a, b, c, d, e, f, g, h;
-
+  uint32_t temp1, temp2;
   MessageDigest H;
-  H.setInitialValue();
-  #warning TODO!
-  const uint64_t NumberOfMessageBlocks = 1;
-  MessageBlock msgBlock;
+  //set initial value
+  H.hash[0] = 0x6a09e667;
+  H.hash[1] = 0xbb67ae85;
+  H.hash[2] = 0x3c6ef372;
+  H.hash[3] = 0xa54ff53a;
+  H.hash[4] = 0x510e527f;
+  H.hash[5] = 0x9b05688c;
+  H.hash[6] = 0x1f83d9ab;
+  H.hash[7] = 0x5be0cd19;
+
   uint64_t i;
   unsigned int t; //Laufvariable
+
   for (i=0; i<NumberOfMessageBlocks; ++i)
   {
-    msgBlock = getMessageBlock(i);
-
+    getMessageBlock(msgBlock, i, padded_data, padded_len);
     // 1. prepare message schedule
     for (t=0; t<16; ++t)
     {
       msg_schedule[t] = msgBlock.words[t];
     }//for t
+    #ifdef SHA256_DEBUG
+    for (t=0; t<16; ++t)
+    {
+      std::dec(std::cout);
+      std::cout << "W["<<t<<"] = ";
+      std::hex(std::cout);
+      std::cout <<msg_schedule[t]<<"\n";
+    }//for
+    #endif
     for (t=16; t<64; ++t)
     {
-      msg_schedule[t] = SigmaOne(msg_schedule[t-2]) + msg_schedule[t-7] + SigmaZero(msg_schedule[t-15]) + msg_schedule[t-16];
+      msg_schedule[t] = sigmaOne(msg_schedule[t-2]) + msg_schedule[t-7] + sigmaZero(msg_schedule[t-15]) + msg_schedule[t-16];
     }//for run
 
     // 2. init. working vars
@@ -99,10 +215,41 @@ MessageDigest compute(const uint8_t* data, const uint64_t data_length_in_bits)
     g = H.hash[6];
     h = H.hash[7];
 
-    // 3. ... TODO!
-  }//for
+    // 3. for loop
+    for (t=0; t<64; ++t)
+    {
+      temp1 = h +CapitalSigmaOne(e) + Ch(e, f, g) + sha256_k[t] + msg_schedule[t];
+      temp2 = CapitalSigmaZero(a) + Maj(a, b, c);
+      h = g;
+      g = f;
+      f = e;
+      e = d + temp1;
+      d = c;
+      c = b;
+      b = a;
+      a = temp1 + temp2;
+      #ifdef SHA256_DEBUG
+      std::dec(std::cout);
+      std::cout << "t="<<t<<": a to h: ";
+      std::hex(std::cout);
+      std::cout <<a<<" "<<b<<" "<<c<<" "<<d<<" "<<e<<" "<<f<<" "<<g<<" "<<h<<"\n";
+      #endif
+    }//for t
 
+    // 4. compute next intermediate hash value
+    H.hash[0] = a + H.hash[0];
+    H.hash[1] = b + H.hash[1];
+    H.hash[2] = c + H.hash[2];
+    H.hash[3] = d + H.hash[3];
+    H.hash[4] = e + H.hash[4];
+    H.hash[5] = f + H.hash[5];
+    H.hash[6] = g + H.hash[6];
+    H.hash[7] = h + H.hash[7];
+  }//for i
 
+  delete [] padded_data;
+  padded_data = NULL;
+  return H;
 }
 
 } //namespace
