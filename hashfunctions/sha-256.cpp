@@ -31,6 +31,8 @@ namespace SHA256
 {
 
 #if BYTE_ORDER == LITTLE_ENDIAN
+// byte order adjustment functions (Shouldn't there be a std header for that?)
+
 /* reverses little endian to big endian
 
    parameters:
@@ -61,10 +63,7 @@ void reverse64(const uint64_t w, uint64_t& x)
 }
 #endif
 
-struct MessageBlock
-{
-  uint32_t words[16];
-};//struct
+// MessageDigest functions
 
 std::string MessageDigest::toHexString() const
 {
@@ -85,6 +84,57 @@ std::string MessageDigest::toHexString() const
   return result;
 }
 
+bool MessageDigest::fromHexString(const std::string& digestHexString)
+{
+  if (digestHexString.length()!=64) return false;
+  unsigned int i, j;
+  for (i=0; i<8; ++i)
+  {
+    hash[i] = 0;
+    for (j=0; j<8; ++j)
+    {
+      switch (digestHexString.at(i*8+j))
+      {
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+             hash[i] = hash[i] | ((digestHexString.at(i*8+j)-'0')<<(28-j*4));
+             break;
+        case 'a':
+        case 'b':
+        case 'c':
+        case 'd':
+        case 'e':
+        case 'f':
+             hash[i] = hash[i] | ((digestHexString.at(i*8+j)-'a'+10)<<(28-j*4));
+             break;
+        default:
+             //invalid character encountered
+             return false;
+      }//swi
+    }//for j
+  }//for i
+  return true;
+}
+
+bool MessageDigest::isNull() const
+{
+  return ((hash[0]==0) and (hash[1]==0) and (hash[2]==0) and (hash[3]==0)
+      and (hash[4]==0) and (hash[5]==0) and (hash[6]==0) and (hash[7]==0));
+}
+
+void MessageDigest::setToNull()
+{
+  hash[0]= hash[1]= hash[2]= hash[3]= hash[4]= hash[5]= hash[6]= hash[7]= 0;
+}
+
 bool MessageDigest::operator==(const MessageDigest& other) const
 {
   return ((hash[0]==other.hash[0]) and (hash[1]==other.hash[1])
@@ -92,6 +142,12 @@ bool MessageDigest::operator==(const MessageDigest& other) const
     and (hash[4]==other.hash[4]) and (hash[5]==other.hash[5])
     and (hash[6]==other.hash[6]) and (hash[7]==other.hash[7]));
 }
+
+
+struct MessageBlock
+{
+  uint32_t words[16];
+};//struct
 
 //SHA-256 constants
 const uint32_t sha256_k[64] = {
@@ -185,8 +241,16 @@ uint8_t * padMessage(const uint8_t* data, uint64_t data_length_in_bits, uint64_t
   uint64_t padded_blocks = padded_length / 512 + ((padded_length%512)>0);
   padded_length = padded_blocks*512;
   uint8_t * padded_data = new uint8_t[padded_length/8];
-  //zero out last block of padded message (so we have all zero bits for padding (and a bit more, but we'll overwrite that later))
-  memset(&padded_data[(padded_length-512)/8], 0, 512/8);
+  //zero out last blocks of padded message (so we have all zero bits for padding (and a bit more, but we'll overwrite that later))
+  if (padded_blocks>=2)
+  {
+    //zero out last but one block
+    memset(&padded_data[(padded_length-1024)/8], 0, 1024/8);
+  }
+  else
+  {
+    memset(&padded_data[(padded_length-512)/8], 0, 512/8);
+  }
   //copy stuff from message data buffer to padded buffer
   memcpy(padded_data, data, data_length_in_bits/8);
   //add 1-bit

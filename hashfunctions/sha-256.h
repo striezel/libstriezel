@@ -33,6 +33,22 @@ namespace SHA256
     /* returns the message digest's representation as hexadecimal string */
     std::string toHexString() const;
 
+    /* set the message digest according to the given hexadecimal string and
+       returns true in case of success, or false if the string does not re-
+       present a valid hexadecimal digest
+
+       parameters:
+           digestHexString - the string containing the message digest as hex
+                             digits (must be all lower case)
+    */
+    bool fromHexString(const std::string& digestHexString);
+
+    /* returns true, if all hash bits are set to zero */
+    bool isNull() const;
+
+    /* sets all bits of the hash to zero */
+    void setToNull();
+
     /* equality operator */
     bool operator==(const MessageDigest& other) const;
   };
