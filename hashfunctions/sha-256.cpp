@@ -18,16 +18,48 @@
  -----------------------------------------------------------------------------
 */
 
-#define SHA256_DEBUG
+//#define SHA256_DEBUG
 
 #include "sha-256.h"
 #include <cstring>
+#include <sys/types.h>
 #ifdef SHA256_DEBUG
   #include <iostream>
 #endif
 
 namespace SHA256
 {
+
+#if BYTE_ORDER == LITTLE_ENDIAN
+/* reverses little endian to big endian
+
+   parameters:
+       w - little endian value
+       x - var. to store the converted value
+*/
+void reverse32(const uint32_t w, uint32_t& x)
+{
+  uint32_t tmp = w;
+  tmp = (tmp >> 16) | (tmp << 16);
+  x = ((tmp & 0xff00ff00UL) >> 8) | ((tmp & 0x00ff00ffUL) << 8);
+}
+
+/* reverses little endian to big endian
+
+   parameters:
+       w - little endian value
+       x - var. to store the converted value
+*/
+void reverse64(const uint64_t w, uint64_t& x)
+{
+  uint64_t tmp = w;
+  tmp = (tmp >> 32) | (tmp << 32);
+  tmp = ((tmp & 0xff00ff00ff00ff00ULL) >> 8) |
+        ((tmp & 0x00ff00ff00ff00ffULL) << 8);
+  x = ((tmp & 0xffff0000ffff0000ULL) >> 16) |
+      ((tmp & 0x0000ffff0000ffffULL) << 16);
+}
+#endif
 
 struct MessageBlock
 {
@@ -37,18 +69,18 @@ struct MessageBlock
 std::string MessageDigest::toHexString() const
 {
   const char cHexDigits[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
-  std::string result(' ', 64);
+  std::string result;
   unsigned int i;
   for (i=0; i<8; ++i)
   {
-    result[i*8] = cHexDigits[hash[i]>>28];
-    result[i*8+1] = cHexDigits[(hash[i]>>24)%16];
-    result[i*8+2] = cHexDigits[(hash[i]>>20)%16];
-    result[i*8+3] = cHexDigits[(hash[i]>>16)%16];
-    result[i*8+4] = cHexDigits[(hash[i]>>12)%16];
-    result[i*8+5] = cHexDigits[(hash[i]>>8)%16];
-    result[i*8+6] = cHexDigits[(hash[i]>>4)%16];
-    result[i*8+7] = cHexDigits[hash[i]%16];
+    result.push_back(cHexDigits[hash[i]>>28]);
+    result.push_back(cHexDigits[(hash[i]>>24)%16]);
+    result.push_back(cHexDigits[(hash[i]>>20)%16]);
+    result.push_back(cHexDigits[(hash[i]>>16)%16]);
+    result.push_back(cHexDigits[(hash[i]>>12)%16]);
+    result.push_back(cHexDigits[(hash[i]>>8)%16]);
+    result.push_back(cHexDigits[(hash[i]>>4)%16]);
+    result.push_back(cHexDigits[hash[i]%16]);
   }//for
   return result;
 }
@@ -115,6 +147,13 @@ void getMessageBlock(MessageBlock& mBlock, const uint64_t n, const uint8_t* data
   if ((n+1)*512<=data_length_in_bits)
   {
     memcpy(&(mBlock.words[0]), &data[n*64], 64);
+    #if BYTE_ORDER == LITTLE_ENDIAN
+    unsigned int i;
+    for (i=0; i<16; ++i)
+    {
+      reverse32(mBlock.words[i], mBlock.words[i]);
+    }
+    #endif
   }
   else
   {
@@ -153,6 +192,9 @@ uint8_t * padMessage(const uint8_t* data, uint64_t data_length_in_bits, uint64_t
   //add 1-bit
   padded_data[data_length_in_bits/8] = 0x80;
   //add data length in bits
+  #if BYTE_ORDER == LITTLE_ENDIAN
+  reverse64(data_length_in_bits, data_length_in_bits);
+  #endif
   memcpy(&padded_data[padded_length/8-8], &data_length_in_bits, 8);
   //get going
   return padded_data;
