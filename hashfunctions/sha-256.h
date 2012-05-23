@@ -54,6 +54,9 @@ namespace SHA256
 
     /* equality operator */
     bool operator==(const MessageDigest& other) const;
+
+    /* inequality operator */
+    bool operator!=(const MessageDigest& other) const;
   };
 
   /* computes and returns the message digest of data in the given buffer of the

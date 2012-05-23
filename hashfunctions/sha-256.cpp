@@ -147,6 +147,14 @@ bool MessageDigest::operator==(const MessageDigest& other) const
     and (hash[6]==other.hash[6]) and (hash[7]==other.hash[7]));
 }
 
+bool MessageDigest::operator!=(const MessageDigest& other) const
+{
+  return ((hash[0]!=other.hash[0]) or (hash[1]!=other.hash[1])
+    or (hash[2]!=other.hash[2]) or (hash[3]!=other.hash[3])
+    or (hash[4]!=other.hash[4]) or (hash[5]!=other.hash[5])
+    or (hash[6]!=other.hash[6]) or (hash[7]!=other.hash[7]));
+}
+
 
 struct MessageBlock
 {
