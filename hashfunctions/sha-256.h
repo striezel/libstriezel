@@ -30,6 +30,9 @@ namespace SHA256
   {
     uint32_t hash[8];
 
+    /* default constructor */
+    MessageDigest();
+
     /* returns the message digest's representation as hexadecimal string */
     std::string toHexString() const;
 
@@ -53,7 +56,23 @@ namespace SHA256
     bool operator==(const MessageDigest& other) const;
   };
 
-  MessageDigest compute(const uint8_t* data, const uint64_t data_length_in_bits);
+  /* computes and returns the message digest of data in the given buffer of the
+     given length
+
+     parameters:
+         data                - pointer to the message data buffer
+         data_length_in_bits - length of data in bits. Value is rounded up to
+                               the next integral multiple of eight, i.e. only
+                               full bytes are allowed.
+  */
+  MessageDigest computeFromBuffer(const uint8_t* data, const uint64_t data_length_in_bits);
+
+  /* computes and returns the message digest of the given file's contents
+
+     parameters:
+         fileName - name of the file
+  */
+  MessageDigest computeFromFile(const std::string& fileName);
 }//SHA256 namespace
 
 #endif // RANDOM_THORO_SHA_256_H

@@ -18,11 +18,10 @@
  -----------------------------------------------------------------------------
 */
 
-//#define SHA256_DEBUG
-
 #include "sha-256.h"
 #include <cstring>
 #include <sys/types.h>
+#include <fstream>
 #ifdef SHA256_DEBUG
   #include <iostream>
 #endif
@@ -64,6 +63,11 @@ void reverse64(const uint64_t w, uint64_t& x)
 #endif
 
 // MessageDigest functions
+
+MessageDigest::MessageDigest()
+{
+  setToNull();
+}
 
 std::string MessageDigest::toHexString() const
 {
@@ -264,7 +268,7 @@ uint8_t * padMessage(const uint8_t* data, uint64_t data_length_in_bits, uint64_t
   return padded_data;
 }
 
-MessageDigest compute(const uint8_t* data, const uint64_t data_length_in_bits)
+MessageDigest computeFromBuffer(const uint8_t* data, const uint64_t data_length_in_bits)
 {
   uint64_t padded_len = 0;
   uint8_t * padded_data = padMessage(data, data_length_in_bits, padded_len);
@@ -356,6 +360,36 @@ MessageDigest compute(const uint8_t* data, const uint64_t data_length_in_bits)
   delete [] padded_data;
   padded_data = NULL;
   return H;
+}
+
+MessageDigest computeFromFile(const std::string& fileName)
+{
+  //This is still quite inefficent and memory consuming.
+  MessageDigest temp;
+  temp.setToNull();
+  std::ifstream input;
+  input.open(fileName.c_str(), std::ios::in | std::ios::binary);
+  if (!input)
+  {
+    return temp;
+  }
+  input.seekg(0, std::ios_base::end);
+  const std::ifstream::pos_type cFileSize = input.tellg();
+  input.seekg(0, std::ios_base::beg);
+  uint8_t * buffer = new uint8_t[cFileSize];
+  input.read((char*) buffer, cFileSize);
+  const bool well_done = input.good();
+  input.close();
+  if (!well_done)
+  {
+    delete[] buffer;
+    buffer = NULL;
+    return temp;
+  }
+  temp = computeFromBuffer(buffer, cFileSize*8);
+  delete[] buffer;
+  buffer = NULL;
+  return temp;
 }
 
 } //namespace
