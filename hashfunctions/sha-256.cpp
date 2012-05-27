@@ -18,7 +18,10 @@
  -----------------------------------------------------------------------------
 */
 
+//#define SHA256_DEBUG
+
 #include "sha-256.h"
+#include "sha-256_aux.h"
 #include <cstring>
 #include <sys/types.h>
 #include <fstream>
@@ -28,39 +31,6 @@
 
 namespace SHA256
 {
-
-#if BYTE_ORDER == LITTLE_ENDIAN
-// byte order adjustment functions (Shouldn't there be a std header for that?)
-
-/* reverses little endian to big endian
-
-   parameters:
-       w - little endian value
-       x - var. to store the converted value
-*/
-void reverse32(const uint32_t w, uint32_t& x)
-{
-  uint32_t tmp = w;
-  tmp = (tmp >> 16) | (tmp << 16);
-  x = ((tmp & 0xff00ff00UL) >> 8) | ((tmp & 0x00ff00ffUL) << 8);
-}
-
-/* reverses little endian to big endian
-
-   parameters:
-       w - little endian value
-       x - var. to store the converted value
-*/
-void reverse64(const uint64_t w, uint64_t& x)
-{
-  uint64_t tmp = w;
-  tmp = (tmp >> 32) | (tmp << 32);
-  tmp = ((tmp & 0xff00ff00ff00ff00ULL) >> 8) |
-        ((tmp & 0x00ff00ff00ff00ffULL) << 8);
-  x = ((tmp & 0xffff0000ffff0000ULL) >> 16) |
-      ((tmp & 0x0000ffff0000ffffULL) << 16);
-}
-#endif
 
 // MessageDigest functions
 
@@ -156,11 +126,6 @@ bool MessageDigest::operator!=(const MessageDigest& other) const
 }
 
 
-struct MessageBlock
-{
-  uint32_t words[16];
-};//struct
-
 //SHA-256 constants
 const uint32_t sha256_k[64] = {
   0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
@@ -248,7 +213,7 @@ void getMessageBlock(MessageBlock& mBlock, const uint64_t n, const uint8_t* data
 uint8_t * padMessage(const uint8_t* data, uint64_t data_length_in_bits, uint64_t& padded_length)
 {
   data_length_in_bits += ((data_length_in_bits%8)>0); //we want full bytes only
-  padded_length = data_length_in_bits +8 /*usually just one bit, but since we have full bytes here only...*/
+  padded_length = data_length_in_bits +8 //usually just one bit, but since we have full bytes here only...
                  +64;
   uint64_t padded_blocks = padded_length / 512 + ((padded_length%512)>0);
   padded_length = padded_blocks*512;
@@ -367,6 +332,93 @@ MessageDigest computeFromBuffer(const uint8_t* data, const uint64_t data_length_
 
   delete [] padded_data;
   padded_data = NULL;
+  return H;
+}
+
+MessageDigest computeFromBufferSource(uint8_t* data, const uint64_t data_length_in_bits)
+{
+  MessageBlock msgBlock;
+  BufferSource source(data, data_length_in_bits);
+
+  uint32_t msg_schedule[64];
+  uint32_t a, b, c, d, e, f, g, h;
+  uint32_t temp1, temp2;
+  MessageDigest H;
+  //set initial value
+  H.hash[0] = 0x6a09e667;
+  H.hash[1] = 0xbb67ae85;
+  H.hash[2] = 0x3c6ef372;
+  H.hash[3] = 0xa54ff53a;
+  H.hash[4] = 0x510e527f;
+  H.hash[5] = 0x9b05688c;
+  H.hash[6] = 0x1f83d9ab;
+  H.hash[7] = 0x5be0cd19;
+
+  unsigned int t; //Laufvariable
+
+  while (source.getNextMessageBlock(msgBlock))
+  {
+    // 1. prepare message schedule
+    for (t=0; t<16; ++t)
+    {
+      msg_schedule[t] = msgBlock.words[t];
+    }//for t
+    #ifdef SHA256_DEBUG
+    for (t=0; t<16; ++t)
+    {
+      std::dec(std::cout);
+      std::cout << "W["<<t<<"] = ";
+      std::hex(std::cout);
+      std::cout <<msg_schedule[t]<<"\n";
+    }//for
+    #endif
+    for (t=16; t<64; ++t)
+    {
+      msg_schedule[t] = sigmaOne(msg_schedule[t-2]) + msg_schedule[t-7] + sigmaZero(msg_schedule[t-15]) + msg_schedule[t-16];
+    }//for run
+
+    // 2. init. working vars
+    a = H.hash[0];
+    b = H.hash[1];
+    c = H.hash[2];
+    d = H.hash[3];
+    e = H.hash[4];
+    f = H.hash[5];
+    g = H.hash[6];
+    h = H.hash[7];
+
+    // 3. for loop
+    for (t=0; t<64; ++t)
+    {
+      temp1 = h +CapitalSigmaOne(e) + Ch(e, f, g) + sha256_k[t] + msg_schedule[t];
+      temp2 = CapitalSigmaZero(a) + Maj(a, b, c);
+      h = g;
+      g = f;
+      f = e;
+      e = d + temp1;
+      d = c;
+      c = b;
+      b = a;
+      a = temp1 + temp2;
+      #ifdef SHA256_DEBUG
+      std::dec(std::cout);
+      std::cout << "t="<<t<<": a to h: ";
+      std::hex(std::cout);
+      std::cout <<a<<" "<<b<<" "<<c<<" "<<d<<" "<<e<<" "<<f<<" "<<g<<" "<<h<<"\n";
+      #endif
+    }//for t
+
+    // 4. compute next intermediate hash value
+    H.hash[0] = a + H.hash[0];
+    H.hash[1] = b + H.hash[1];
+    H.hash[2] = c + H.hash[2];
+    H.hash[3] = d + H.hash[3];
+    H.hash[4] = e + H.hash[4];
+    H.hash[5] = f + H.hash[5];
+    H.hash[6] = g + H.hash[6];
+    H.hash[7] = h + H.hash[7];
+  }//while messages blocks are there
+
   return H;
 }
 
