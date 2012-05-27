@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011 thoronador
+    Copyright (C) 2011, 2012 thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -55,6 +55,9 @@ struct GLImageStructure
 
     // returns the height value
     unsigned int getHeight() const;
+
+    //returns true, if the loading process of that texture needs NPOT handling
+    bool needsNPOTExtension() const;
 
     // returns the format
     GLint getFormatGL() const;

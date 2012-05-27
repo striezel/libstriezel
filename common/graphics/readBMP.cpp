@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2008, 2009, 2011 thoronador
+    Copyright (C) 2008, 2009, 2011, 2012 thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include "../IntegerUtils.h"
+#include "GLfunctions.h"
 
 struct TBitmapFileHeader
 {
@@ -121,13 +122,11 @@ GLImageStructure readBMP(const std::string& FileName)
   }//if
   result.setHeight(abs(bih.biHeight));
 
-  const bool hasNPOTsupport = (std::string((const char*)glGetString(GL_EXTENSIONS)).find("GL_ARB_texture_non_power_of_two")!=std::string::npos);
-
   if (((!isPowerOfTwo(result.getHeight())) or (!isPowerOfTwo(result.getWidth())))
-     and !hasNPOTsupport)
+     and !hasNPOTSupport())
   {
     std::cout << "Width or height of \""<<FileName<<"\" is not a power of two "
-              << "and NPOT textures are not supported be your OpenGL version.\n";
+              << "and NPOT textures are not supported by your OpenGL version.\n";
     fclose(file_bmp);
     return result;
   }

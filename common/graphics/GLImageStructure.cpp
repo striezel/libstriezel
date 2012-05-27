@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011 thoronador
+    Copyright (C) 2011, 2012 thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <cstring>
+#include "../IntegerUtils.h"
 
 GLImageStructure::GLImageStructure()
 {
@@ -100,6 +101,11 @@ unsigned int GLImageStructure::getWidth() const
 unsigned int GLImageStructure::getHeight() const
 {
   return height;
+}
+
+bool GLImageStructure::needsNPOTExtension() const
+{
+  return (!(isPowerOfTwo(width) and isPowerOfTwo(height)));
 }
 
 GLint GLImageStructure::getFormatGL() const

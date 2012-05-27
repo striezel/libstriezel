@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011 thoronador
+    Copyright (C) 2011, 2012 thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 #include <cstring>
 #include <cstdlib>
 #include "../IntegerUtils.h"
+#include "GLfunctions.h"
 
 bool isPPM(const unsigned char* header, const size_t length)
 {
@@ -149,13 +150,11 @@ GLImageStructure readPPM(const std::string& FileName)
   }
   result.setHeight(width);
 
-  const bool hasNPOTsupport = (std::string((const char*)glGetString(GL_EXTENSIONS)).find("GL_ARB_texture_non_power_of_two")!=std::string::npos);
-
   if (((!isPowerOfTwo(result.getHeight())) or (!isPowerOfTwo(result.getWidth())))
-     and !hasNPOTsupport)
+     and !hasNPOTSupport())
   {
     std::cout << "Width or height of \""<<FileName<<"\" is not a power of two "
-              << "and NPOT textures are not supported be your OpenGL version.\n";
+              << "and NPOT textures are not supported by your OpenGL version.\n";
     fclose(file_ppm);
     return result;
   }
