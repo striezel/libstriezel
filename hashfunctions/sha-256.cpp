@@ -125,6 +125,17 @@ bool MessageDigest::operator!=(const MessageDigest& other) const
     or (hash[6]!=other.hash[6]) or (hash[7]!=other.hash[7]));
 }
 
+bool MessageDigest::operator<(const MessageDigest& other) const
+{
+  unsigned int i;
+  for (i=0; i<7; ++i)
+  {
+    if (hash[i]<other.hash[i]) return true;
+    if (hash[i]>other.hash[i]) return false;
+  }//for
+  return (hash[7]<other.hash[7]);
+}
+
 
 //SHA-256 constants
 const uint32_t sha256_k[64] = {
