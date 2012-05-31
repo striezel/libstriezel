@@ -79,6 +79,8 @@ namespace SHA256
          fileName - name of the file
   */
   MessageDigest computeFromFile(const std::string& fileName);
+
+  MessageDigest computeFromFileSource(const std::string& fileName);
 }//SHA256 namespace
 
 #endif // RANDOM_THORO_SHA_256_H

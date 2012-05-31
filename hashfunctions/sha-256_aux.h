@@ -22,6 +22,7 @@
 #define RANDOM_THORO_SHA_256_AUX_H
 
 #include <stdint.h>
+#include <fstream>
 
 namespace SHA256
 {
@@ -50,6 +51,8 @@ void reverse64(const uint64_t w, uint64_t& x);
 struct MessageBlock
 {
   uint32_t words[16];
+
+  void reverseBlock();
 };//struct
 
 /* basic message source class */
@@ -98,6 +101,38 @@ class BufferSource: public MessageSource
   private:
     uint8_t * m_BufferPointer;
     uint64_t m_BufferSize;
+}; //class
+
+
+/* message source class for files */
+class FileSource: public MessageSource
+{
+  public:
+    /* constructor */
+    FileSource();
+
+    /* destructor */
+    virtual ~FileSource();
+
+    /* puts the next message block from the source in mBlock and returns true,
+       if there is at least one more message block. Returns false and leaves
+       mBlock unchanged, if there are no more message blocks.
+
+       parameters:
+           mBlock - reference to the message blocked that should be filled
+    */
+    virtual bool getNextMessageBlock(MessageBlock& mBlock);
+
+    /* tries to open the given file and prepares for reading from it. Returns
+       true, if operation was successful and the class can be used to read from
+       the file. Returns false on failure.
+
+       parameters:
+           fileName - name (absolute or relative path) of the file to be opened
+    */
+    bool open(const std::string& fileName);
+  private:
+    std::ifstream m_Stream;
 }; //class
 
 } //namespace

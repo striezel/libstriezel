@@ -25,9 +25,9 @@
 #include <cstring>
 #include <sys/types.h>
 #include <fstream>
-#ifdef SHA256_DEBUG
+//#ifdef SHA256_DEBUG
   #include <iostream>
-#endif
+//#endif
 
 namespace SHA256
 {
@@ -461,6 +461,104 @@ MessageDigest computeFromFile(const std::string& fileName)
   delete[] buffer;
   buffer = NULL;
   return temp;
+}
+
+MessageDigest computeFromFileSource(const std::string& fileName)
+{
+  MessageBlock msgBlock;
+
+  uint32_t msg_schedule[64];
+  uint32_t a, b, c, d, e, f, g, h;
+  uint32_t temp1, temp2;
+  MessageDigest H;
+
+  H.setToNull();
+
+  //setup file stuff
+  FileSource source;
+  if (!source.open(fileName))
+  {
+    std::cout << "Could not open file \""<<fileName<<"\" via file source!\n";
+    return H;
+  }
+
+
+  //set initial value
+  H.hash[0] = 0x6a09e667;
+  H.hash[1] = 0xbb67ae85;
+  H.hash[2] = 0x3c6ef372;
+  H.hash[3] = 0xa54ff53a;
+  H.hash[4] = 0x510e527f;
+  H.hash[5] = 0x9b05688c;
+  H.hash[6] = 0x1f83d9ab;
+  H.hash[7] = 0x5be0cd19;
+
+  unsigned int t; //Laufvariable
+
+  while (source.getNextMessageBlock(msgBlock))
+  {
+    // 1. prepare message schedule
+    for (t=0; t<16; ++t)
+    {
+      msg_schedule[t] = msgBlock.words[t];
+    }//for t
+    #ifdef SHA256_DEBUG
+    for (t=0; t<16; ++t)
+    {
+      std::dec(std::cout);
+      std::cout << "W["<<t<<"] = ";
+      std::hex(std::cout);
+      std::cout <<msg_schedule[t]<<"\n";
+    }//for
+    #endif
+    for (t=16; t<64; ++t)
+    {
+      msg_schedule[t] = sigmaOne(msg_schedule[t-2]) + msg_schedule[t-7] + sigmaZero(msg_schedule[t-15]) + msg_schedule[t-16];
+    }//for run
+
+    // 2. init. working vars
+    a = H.hash[0];
+    b = H.hash[1];
+    c = H.hash[2];
+    d = H.hash[3];
+    e = H.hash[4];
+    f = H.hash[5];
+    g = H.hash[6];
+    h = H.hash[7];
+
+    // 3. for loop
+    for (t=0; t<64; ++t)
+    {
+      temp1 = h +CapitalSigmaOne(e) + Ch(e, f, g) + sha256_k[t] + msg_schedule[t];
+      temp2 = CapitalSigmaZero(a) + Maj(a, b, c);
+      h = g;
+      g = f;
+      f = e;
+      e = d + temp1;
+      d = c;
+      c = b;
+      b = a;
+      a = temp1 + temp2;
+      #ifdef SHA256_DEBUG
+      std::dec(std::cout);
+      std::cout << "t="<<t<<": a to h: ";
+      std::hex(std::cout);
+      std::cout <<a<<" "<<b<<" "<<c<<" "<<d<<" "<<e<<" "<<f<<" "<<g<<" "<<h<<"\n";
+      #endif
+    }//for t
+
+    // 4. compute next intermediate hash value
+    H.hash[0] = a + H.hash[0];
+    H.hash[1] = b + H.hash[1];
+    H.hash[2] = c + H.hash[2];
+    H.hash[3] = d + H.hash[3];
+    H.hash[4] = e + H.hash[4];
+    H.hash[5] = f + H.hash[5];
+    H.hash[6] = g + H.hash[6];
+    H.hash[7] = h + H.hash[7];
+  }//while message blocks are there
+
+  return H;
 }
 
 } //namespace
