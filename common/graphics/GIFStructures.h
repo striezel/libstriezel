@@ -24,6 +24,8 @@
 #include <fstream>
 #include <vector>
 #include <stdint.h>
+#include "gif/ElementBase.h"
+#include "gif/DataSubBlock.h"
 
 struct GIFHeader
 {
@@ -183,41 +185,6 @@ struct GIFImageDescriptor
 }; //struct
 
 
-struct GIFDataSubBlock
-{
-  public:
-    /* constructor */
-    GIFDataSubBlock();
-
-    /* copy constructor */
-    GIFDataSubBlock(const GIFDataSubBlock& op);
-
-    /* assignment operator */
-    GIFDataSubBlock& operator=(const GIFDataSubBlock& op);
-
-    /* destructor */
-    ~GIFDataSubBlock();
-
-    /* returns the size of the data block */
-    uint8_t getBlockSize() const;
-
-    /* returns a pointer to the block data */
-    const unsigned char* getBlockData() const;
-
-    /* tries to read a GIF data sub-block from the given input file stream and
-       returns true in case of success, false on failure.
-
-       parameters:
-           inputStream - the input file stream that is used to read the data.
-                         The stream should already be opened.
-    */
-    bool readFromStream(std::ifstream& inputStream);
-  private:
-    uint8_t m_Size;
-    unsigned char* m_DataPointer;
-}; //struct
-
-
 struct GIFTableBasedImageData
 {
   public:
@@ -247,20 +214,6 @@ struct GIFTableBasedImageData
   private:
     uint8_t m_LZW_minCodeSize;
     std::vector<GIFDataSubBlock> m_ImageData;
-};//struct
-
-
-struct GIFElementBase
-{
-  public:
-    /* constructor */
-    GIFElementBase();
-
-    /* destructor */
-    virtual ~GIFElementBase();
-
-    virtual bool isExtension() const = 0;
-    virtual bool isTableBasedImage() const = 0;
 };//struct
 
 
@@ -313,172 +266,6 @@ struct GIFTableBasedImage: public GIFElementBase
     GIFImageDescriptor m_ImageDescriptor;
     GIFColourTable* m_LocalColourTable;
     GIFTableBasedImageData m_ImageData;
-};//struct
-
-/* GIF extensions (can occur in version 89a) */
-
-struct GIFExtensionBase: public GIFElementBase
-{
-  public:
-    /* constructor */
-    GIFExtensionBase();
-
-    /* destructor */
-    virtual ~GIFExtensionBase();
-
-    virtual bool isExtension() const;
-    virtual bool isTableBasedImage() const;
-
-    /* returns the extension's label */
-    uint8_t getExtensionLabel() const;
-
-    /* tries to read a GIF extension from the given input file stream and
-       returns true in case of success, false on failure.
-
-       parameters:
-           inputStream - the input file stream that is used to read the data.
-                         The stream should already be opened.
-
-       remarks:
-           This function is purely virtual.
-    */
-    virtual bool readFromStream(std::ifstream& inputStream) =0;
-  protected:
-    uint8_t m_ExtensionLabel;
-};//struct
-
-
-struct GIFGraphicControlExtension: public GIFExtensionBase
-{
-  public:
-    /* constructor */
-    GIFGraphicControlExtension();
-
-    /* destructor */
-    virtual ~GIFGraphicControlExtension();
-
-    /* returns the delay time that specifies the number of hundredths (1/100)
-       of a second to wait before continuing with the processing
-    */
-    uint16_t getDelayTime() const;
-
-    // --- packed fields
-    /* returns the disposal method */
-    uint8_t getDisposalMethod() const;
-
-    /* returns true, if the user input flag is set */
-    bool getUserInputFlag() const;
-
-    /* returns true, if the transparency flag is set */
-    bool getTransparentColourFlag() const;
-
-    // --- end of packed fields
-
-    /* returns the index of the transparent colour */
-    uint8_t getTransparentColourIndex() const;
-
-    /* tries to read a GIF extension from the given input file stream and
-       returns true in case of success, false on failure.
-
-       parameters:
-           inputStream - the input file stream that is used to read the data.
-                         The stream should already be opened.
-    */
-    virtual bool readFromStream(std::ifstream& inputStream);
-  private:
-    uint8_t m_PackedFields;
-    uint16_t m_DelayTime;
-    uint8_t m_TransparentColourIndex;
-};//struct
-
-
-struct GIFCommentExtension: public GIFExtensionBase
-{
-  public:
-    /* constructor */
-    GIFCommentExtension();
-
-    /* destructor */
-    virtual ~GIFCommentExtension();
-
-    const std::vector<GIFDataSubBlock>& getCommentData() const;
-
-    /* tries to read the GIF comment extension from the given input file stream
-       and returns true in case of success, false on failure.
-
-       parameters:
-           inputStream - the input file stream that is used to read the data.
-                         The stream should already be opened.
-    */
-    virtual bool readFromStream(std::ifstream& inputStream);
-  private:
-    std::vector<GIFDataSubBlock> m_CommentData;
-};//struct
-
-
-struct GIFPlainTextExtension: public GIFExtensionBase
-{
-  public:
-    /* constructor */
-    GIFPlainTextExtension();
-
-    /* destructor */
-    virtual ~GIFPlainTextExtension();
-
-    /* access functions */
-    uint16_t getTextGridLeftPosition() const;
-    uint16_t getTextGridTopPosition() const;
-    uint16_t getTextGridWidth() const;
-    uint16_t getTextGridHeight() const;
-    uint8_t getCharacterCellWidth() const;
-    uint8_t getCharacterCellHeight() const;
-    uint8_t getTextForegroundColourIndex() const;
-    uint8_t getTextBackgroundColourIndex() const;
-    const std::vector<GIFDataSubBlock>& getPlainTextData() const;
-
-    /* tries to read the GIF plain text extension from the given input file
-       stream and returns true in case of success, false on failure.
-
-       parameters:
-           inputStream - the input file stream that is used to read the data.
-                         The stream should already be opened.
-    */
-    virtual bool readFromStream(std::ifstream& inputStream);
-  private:
-    uint16_t m_TextGridLeftPosition, m_TextGridTopPosition;
-    uint16_t m_TextGridWidth, m_TextGridHeight;
-    uint8_t m_CharacterCellWidth, m_CharacterCellHeight;
-    uint8_t m_TextForegroundColourIndex, m_TextBackgroundColourIndex;
-    std::vector<GIFDataSubBlock> m_PlainTextData;
-};//struct
-
-
-struct GIFApplicationExtension: public GIFExtensionBase
-{
-  public:
-    /* constructor */
-    GIFApplicationExtension();
-
-    /* destructor */
-    virtual ~GIFApplicationExtension();
-
-    /* access functions */
-    const char* getApplicationIdentifier() const;
-    const char* getApplicationAuthenticationCode() const;
-    const std::vector<GIFDataSubBlock>& getApplicationData() const;
-
-    /* tries to read the GIF application extension from the given input file
-       stream and returns true in case of success, false on failure.
-
-       parameters:
-           inputStream - the input file stream that is used to read the data.
-                         The stream should already be opened.
-    */
-    virtual bool readFromStream(std::ifstream& inputStream);
-  private:
-    char m_ApplicationIdentifier[9];
-    char m_ApplicationAuthenticationCode[4];
-    std::vector<GIFDataSubBlock> m_ApplicationData;
 };//struct
 
 
