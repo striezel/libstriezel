@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011 thoronador
+    Copyright (C) 2011, 2012  thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@
 #include <fstream>
 #include <vector>
 #include <stdint.h>
-#include "gif/ElementBase.h"
-#include "gif/DataSubBlock.h"
+#include "ElementBase.h"
+#include "DataSubBlock.h"
 
 struct GIFHeader
 {

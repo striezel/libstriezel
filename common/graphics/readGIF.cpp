@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011 thoronador
+    Copyright (C) 2011, 2012  thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
 
 #include "readGIF.h"
 #include <iostream>
-#include "GIFStructures.h"
-#include "Decoder.h"
+#include "gif/GIFStructures.h"
+#include "gif/Decoder.h"
 
 GLImageStructure readGIF(const std::string& FileName)
 {
@@ -74,7 +74,7 @@ GLImageStructure readGIF(const std::string& FileName)
 
   #warning To be continued.
   #warning Not completely implemented yet!
-  std::cout << "Error: Function readGIF() is incomplete. Wait for next commit to SVN. :p\n";
+  std::cout << "Error: Function readGIF() is incomplete. Wait for next commit to git repository. :p\n";
   return result;
 }
 
