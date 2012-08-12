@@ -27,6 +27,9 @@ GLImageStructure readGIF(const std::string& FileName)
 {
   #warning Not implemented yet!
   GLImageStructure result;
+  #warning Premature return!
+  return result; //remove this line later, as soon as function is completely implemented
+
   GIF file_gif;
   if (!file_gif.readFromFile(FileName, true))
   {
