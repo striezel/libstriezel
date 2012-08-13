@@ -50,6 +50,40 @@ class BasicGUI
     */
     virtual bool createWindow(const int width, const int height, const int left, const int top, const std::string& title) = 0;
 
+    /* gets the width of the current window in pixels */
+    virtual int getWindowWidth() = 0;
+
+    /* gets the width of the current window in pixels*/
+    virtual int getWindowHeight() = 0;
+
+    /* sets the dimensions of the current window
+
+       parameters:
+           width  - requested window width
+           height - requested window height
+    */
+    virtual void setWindowDimensions(const int width, const int height) = 0;
+
+    /* gets the current window's distance from the left screen border in pixles */
+    virtual int getWindowPosX() = 0;
+
+    /* gets the current window's distance from the top screen border in pixles */
+    virtual int getWindowPosY() = 0;
+
+    /* sets the position of the current window
+
+       parameters:
+           x - requested distance from the left screen border in pixles
+           y - requested distance from the top screen border in pixles
+    */
+    virtual void setWindowPosition(const int x, const int y) = 0;
+
+    /* requests that the current window shall be made full screen */
+    virtual void makeFullScreen() = 0;
+
+    /* sets the title of the current window */
+    virtual void setWindowTitle(const std::string& title) = 0;
+
     /* function that will be called whenever a key is pressed
 
        parameters:
@@ -69,6 +103,12 @@ class BasicGUI
 
     /* function that will be called when the GUI/application idles */
     virtual void idle(void) = 0;
+
+    /* requests that the current window will be redisplayed */
+    virtual void requestRedisplay() = 0;
+
+    /* swap front and back buffers */
+    virtual void swapBuffers() = 0;
 };//class
 
 #endif // RANDOM_THORO_BASICGUI_H

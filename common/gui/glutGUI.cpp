@@ -57,6 +57,46 @@ bool glutGUI::createWindow(const int width, const int height, const int left, co
   return (glutCreateWindow(title.c_str())>0);
 }
 
+int glutGUI::getWindowWidth()
+{
+  return glutGet(GLUT_WINDOW_WIDTH);
+}
+
+int glutGUI::getWindowHeight()
+{
+  return glutGet(GLUT_WINDOW_HEIGHT);
+}
+
+void glutGUI::setWindowDimensions(const int width, const int height)
+{
+  glutReshapeWindow(width, height);
+}
+
+int glutGUI::getWindowPosX()
+{
+  return glutGet(GLUT_WINDOW_X);
+}
+
+int glutGUI::getWindowPosY()
+{
+  return glutGet(GLUT_WINDOW_Y);
+}
+
+void glutGUI::setWindowPosition(const int x, const int y)
+{
+  glutPositionWindow(x, y);
+}
+
+void glutGUI::makeFullScreen()
+{
+  glutFullScreen();
+}
+
+void glutGUI::setWindowTitle(const std::string& title)
+{
+  glutSetWindowTitle(title.c_str());
+}
+
 void glutGUI::keyWrapper(unsigned char Key, int x, int y)
 {
   wrap_ptr->keyPressed(Key);
@@ -75,4 +115,14 @@ void glutGUI::specialWrapper(int Key, int x, int y)
 void glutGUI::idleWrapper(void)
 {
   wrap_ptr->idle();
+}
+
+void glutGUI::requestRedisplay()
+{
+  glutPostRedisplay();
+}
+
+void glutGUI::swapBuffers()
+{
+  glutSwapBuffers();
 }
