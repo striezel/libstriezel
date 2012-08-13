@@ -36,6 +36,9 @@ class BasicGUI
     /* initializes the GUI class for later use and returns true in case of success */
     virtual bool init() = 0;
 
+    /* starts the GUI loop */
+    virtual void start() = 0;
+
     /* terminates the GUI, i.e. cleans up all created resources */
     virtual void terminate() = 0;
 

@@ -35,6 +35,9 @@ class glutGUI: public BasicGUI
     /* initializes the GUI class for later use and returns true in case of success */
     virtual bool init();
 
+    /* starts the GUI loop */
+    virtual void start();
+
     /* terminates the GUI, i.e. cleans up all created resources */
     virtual void terminate();
 
@@ -88,6 +91,11 @@ class glutGUI: public BasicGUI
 
     /* swap front and back buffers */
     virtual void swapBuffers();
+
+  protected:
+    /* writes out a text at the given location */
+    static void protectedWriteText(const std::string& text, const float x, const float y, const float z);
+
   private:
     static void keyWrapper(unsigned char Key, int x, int y);
 

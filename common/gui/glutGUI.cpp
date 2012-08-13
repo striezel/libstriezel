@@ -28,7 +28,8 @@ glutGUI* glutGUI::wrap_ptr = NULL;
 bool glutGUI::init()
 {
   if (wrap_ptr==NULL) wrap_ptr = this;
-  glutInit(NULL, NULL);
+  int argcount = 0;
+  glutInit(&argcount, NULL);
   glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
   #ifdef APP_USING_FREEGLUT
   //If we use freeglut API instead of the usual one, we like to return from the
@@ -43,10 +44,20 @@ bool glutGUI::init()
   return true;
 }
 
+void glutGUI::start()
+{
+  glutMainLoop();
+}
+
 void glutGUI::terminate()
 {
+  /* glutLeaveMainLoop() would be a nicer, cleaner way, but this function is
+     only part of freeglut(?) and not part of the original GLUT implementation.
+     So we do an ordinary exit(0) instead. */
   #ifdef APP_USING_FREEGLUT
   glutLeaveMainLoop();
+  #else
+  exit(0);
   #endif
 }
 
@@ -99,22 +110,26 @@ void glutGUI::setWindowTitle(const std::string& title)
 
 void glutGUI::keyWrapper(unsigned char Key, int x, int y)
 {
-  wrap_ptr->keyPressed(Key);
+  if (NULL!=wrap_ptr)
+    wrap_ptr->keyPressed(Key);
 }
 
 void glutGUI::drawWrapper(void)
 {
-  wrap_ptr->draw();
+  if (NULL!=wrap_ptr)
+    wrap_ptr->draw();
 }
 
 void glutGUI::specialWrapper(int Key, int x, int y)
 {
-  wrap_ptr->specialKeyPressed(Key);
+  if (NULL!=wrap_ptr)
+    wrap_ptr->specialKeyPressed(Key);
 }
 
 void glutGUI::idleWrapper(void)
 {
-  wrap_ptr->idle();
+  if (NULL!=wrap_ptr)
+    wrap_ptr->idle();
 }
 
 void glutGUI::requestRedisplay()
@@ -125,4 +140,16 @@ void glutGUI::requestRedisplay()
 void glutGUI::swapBuffers()
 {
   glutSwapBuffers();
+}
+
+void glutGUI::protectedWriteText(const std::string& text, const float x, const float y, const float z)
+{
+  glRasterPos3f(x, y, z);
+  const std::string::size_type len = text.length();
+  unsigned int i;
+  for (i=0; i<len; ++i)
+  {
+    if (text[i]>=32) /* and (text[i] <=127)*/
+      glutBitmapCharacter(GLUT_BITMAP_8_BY_13, text[i]);
+  }
 }
