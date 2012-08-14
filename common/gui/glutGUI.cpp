@@ -36,12 +36,16 @@ bool glutGUI::init()
   //main loop instead of exiting without prior notice.
   glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
   #endif
+  return true;
+}
+
+void glutGUI::setCallbacks()
+{
   //assign callback functions
   glutDisplayFunc(drawWrapper);
   glutKeyboardFunc(keyWrapper);
   glutSpecialFunc(specialWrapper);
   glutIdleFunc(idleWrapper);
-  return true;
 }
 
 void glutGUI::start()

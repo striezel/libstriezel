@@ -35,6 +35,9 @@ class glutGUI: public BasicGUI
     /* initializes the GUI class for later use and returns true in case of success */
     virtual bool init();
 
+    /* sets the callback functions for GLUT */
+    void setCallbacks();
+
     /* starts the GUI loop */
     virtual void start();
 
