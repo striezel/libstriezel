@@ -112,6 +112,36 @@ void glutGUI::setWindowTitle(const std::string& title)
   glutSetWindowTitle(title.c_str());
 }
 
+bool glutGUI::isLeftKeyCode(const int key)
+{
+  return (key==GLUT_KEY_LEFT);
+}
+
+bool glutGUI::isRightKeyCode(const int key)
+{
+  return (key==GLUT_KEY_RIGHT);
+}
+
+bool glutGUI::isESCKeyCode(const int key)
+{
+  return (key==27);
+}
+
+bool glutGUI::isEnterKeyCode(const int key)
+{
+  return (key==13);
+}
+
+bool glutGUI::isBackspaceKeyCode(const int key)
+{
+  return (key==8);
+}
+
+bool glutGUI::isDeleteKeyCode(const int key)
+{
+  return (key==127);
+}
+
 void glutGUI::keyWrapper(unsigned char Key, int x, int y)
 {
   if (NULL!=wrap_ptr)
@@ -127,7 +157,7 @@ void glutGUI::drawWrapper(void)
 void glutGUI::specialWrapper(int Key, int x, int y)
 {
   if (NULL!=wrap_ptr)
-    wrap_ptr->specialKeyPressed(Key);
+    wrap_ptr->keyPressed(Key);
 }
 
 void glutGUI::idleWrapper(void)

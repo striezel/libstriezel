@@ -92,14 +92,62 @@ class BasicGUI
        parameters:
            key - the pressed key or generated character
     */
-    virtual void keyPressed(unsigned char key) = 0;
+    virtual void keyPressed(int key) = 0;
 
     /* function that will be called whenever a special key (e.g. system key) is pressed
 
        parameters:
            key - the pressed key
     */
-    virtual void specialKeyPressed(int key) = 0;
+    //virtual void specialKeyPressed(int key) = 0;
+
+    /* returns true, if the integer value in key represents the GUI's code for
+       the left arrow key
+
+       parameters:
+           key - the key code
+    */
+    virtual bool isLeftKeyCode(const int key) = 0;
+
+    /* returns true, if the integer value in key represents the GUI's code for
+       the right arrow key
+
+       parameters:
+           key - the key code
+    */
+    virtual bool isRightKeyCode(const int key) = 0;
+
+    /* returns true, if the integer value in key represents the GUI's code for
+       the escape key
+
+       parameters:
+           key - the key code
+    */
+    virtual bool isESCKeyCode(const int key) = 0;
+
+    /* returns true, if the integer value in key represents the GUI's code for
+       the enter key
+
+       parameters:
+           key - the key code
+    */
+    virtual bool isEnterKeyCode(const int key) = 0;
+
+    /* returns true, if the integer value in key represents the GUI's code for
+       the backspace key
+
+       parameters:
+           key - the key code
+    */
+    virtual bool isBackspaceKeyCode(const int key) = 0;
+
+    /* returns true, if the integer value in key represents the GUI's code for
+       the delete key
+
+       parameters:
+           key - the key code
+    */
+    virtual bool isDeleteKeyCode(const int key) = 0;
 
     /* function that draws a frame */
     virtual void draw(void) = 0;

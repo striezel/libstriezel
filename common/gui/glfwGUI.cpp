@@ -58,6 +58,7 @@ void glfwGUI::start()
   m_Started = true;
   while (!m_ExitLoop)
   {
+    glfwPollEvents();
     if (m_NeedsRedisplay)
     {
       m_NeedsRedisplay = false;
@@ -76,7 +77,6 @@ void glfwGUI::terminate()
 
 bool glfwGUI::createWindow(const int width, const int height, const int left, const int top, const std::string& title)
 {
-  glfwOpenWindowHint(GLFW_STEREO, GL_TRUE);
   if (glfwOpenWindow(width, height, 8, 8, 8, 8, /*RGBA bits*/
                  8, /*8 bit depth buffer*/
                  0, /*stencil buffer bits*/
@@ -140,6 +140,36 @@ void glfwGUI::setWindowTitle(const std::string& title)
   glfwSetWindowTitle(title.c_str());
 }
 
+bool glfwGUI::isLeftKeyCode(const int key)
+{
+  return (key==GLFW_KEY_LEFT);
+}
+
+bool glfwGUI::isRightKeyCode(const int key)
+{
+  return (key==GLFW_KEY_RIGHT);
+}
+
+bool glfwGUI::isESCKeyCode(const int key)
+{
+  return (key==GLFW_KEY_ESC);
+}
+
+bool glfwGUI::isEnterKeyCode(const int key)
+{
+  return (key==GLFW_KEY_ENTER);
+}
+
+bool glfwGUI::isBackspaceKeyCode(const int key)
+{
+  return (key==GLFW_KEY_BACKSPACE);
+}
+
+bool glfwGUI::isDeleteKeyCode(const int key)
+{
+  return (key==GLFW_KEY_DEL);
+}
+
 void glfwGUI::requestRedisplay()
 {
   m_NeedsRedisplay = true;
@@ -161,14 +191,14 @@ void glfwGUI::keyWrapper(int Key, int action)
   {
     if (wrap_ptr!=NULL)
     {
-      if ((0<=Key) && (255>=Key))
-      {
+      //if ((0<=Key) && (255>=Key))
+      //{
         wrap_ptr->keyPressed(Key);
-      }
-      else
-      {
-        wrap_ptr->specialKeyPressed(Key);
-      }
+      //}
+      //else
+      //{
+      //  wrap_ptr->specialKeyPressed(Key);
+      //}
     }
   }
 }

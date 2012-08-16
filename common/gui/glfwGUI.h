@@ -89,6 +89,54 @@ class glfwGUI: public BasicGUI
     /* sets the title of the current window */
     virtual void setWindowTitle(const std::string& title);
 
+    /* returns true, if the integer value in key represents the GUI's code for
+       the left arrow key
+
+       parameters:
+           key - the key code
+    */
+    virtual bool isLeftKeyCode(const int key);
+
+    /* returns true, if the integer value in key represents the GUI's code for
+       the right arrow key
+
+       parameters:
+           key - the key code
+    */
+    virtual bool isRightKeyCode(const int key);
+
+    /* returns true, if the integer value in key represents the GUI's code for
+       the escape key
+
+       parameters:
+           key - the key code
+    */
+    virtual bool isESCKeyCode(const int key);
+
+    /* returns true, if the integer value in key represents the GUI's code for
+       the enter key
+
+       parameters:
+           key - the key code
+    */
+    virtual bool isEnterKeyCode(const int key);
+
+    /* returns true, if the integer value in key represents the GUI's code for
+       the backspace key
+
+       parameters:
+           key - the key code
+    */
+    virtual bool isBackspaceKeyCode(const int key);
+
+    /* returns true, if the integer value in key represents the GUI's code for
+       the delete key
+
+       parameters:
+           key - the key code
+    */
+    virtual bool isDeleteKeyCode(const int key);
+
     /* requests that the current window will be redisplayed */
     virtual void requestRedisplay();
 
@@ -103,8 +151,6 @@ class glfwGUI: public BasicGUI
     static void keyWrapper(int Key, int action);
 
     static void drawWrapper(void);
-
-    static void specialWrapper(int Key, int x, int y);
 
     static void idleWrapper(void);
 
