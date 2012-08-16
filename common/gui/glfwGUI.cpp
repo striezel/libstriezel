@@ -33,6 +33,11 @@ glfwGUI::glfwGUI()
   m_ExitLoop = false;
 }
 
+std::string glfwGUI::getType() const
+{
+  return "GLFW";
+}
+
 /* initializes the GUI class for later use and returns true in case of success */
 bool glfwGUI::init()
 {

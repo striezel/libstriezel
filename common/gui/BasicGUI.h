@@ -33,6 +33,9 @@ class BasicGUI
     /* destructor */
     virtual ~BasicGUI() {}
 
+    /* returns a string identifying the GUI's type */
+    virtual std::string getType() const = 0;
+
     /* initializes the GUI class for later use and returns true in case of success */
     virtual bool init() = 0;
 

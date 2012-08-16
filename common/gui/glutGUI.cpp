@@ -24,6 +24,11 @@
 //static member
 glutGUI* glutGUI::wrap_ptr = NULL;
 
+std::string glutGUI::getType() const
+{
+  return "GLUT";
+}
+
 /* initializes the GUI class for later use and returns true in case of success */
 bool glutGUI::init()
 {

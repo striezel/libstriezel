@@ -32,6 +32,9 @@ class glutGUI: public BasicGUI
     /* destructor */
     virtual ~glutGUI() {}
 
+    /* returns a string identifying the GUI's type */
+    virtual std::string getType() const;
+
     /* initializes the GUI class for later use and returns true in case of success */
     virtual bool init();
 
