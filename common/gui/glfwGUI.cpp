@@ -38,7 +38,6 @@ std::string glfwGUI::getType() const
   return "GLFW";
 }
 
-/* initializes the GUI class for later use and returns true in case of success */
 bool glfwGUI::init()
 {
   if (wrap_ptr==NULL) wrap_ptr = this;
@@ -50,10 +49,6 @@ void glfwGUI::setCallbacks()
 {
   //assign callback functions
   #warning Not implemented yet!
-  /*glutDisplayFunc(drawWrapper);
-  glutKeyboardFunc(keyWrapper);
-  glutSpecialFunc(specialWrapper);
-  glutIdleFunc(idleWrapper);*/
   glfwSetKeyCallback(keyWrapper);
 }
 
@@ -196,14 +191,7 @@ void glfwGUI::keyWrapper(int Key, int action)
   {
     if (wrap_ptr!=NULL)
     {
-      //if ((0<=Key) && (255>=Key))
-      //{
-        wrap_ptr->keyPressed(Key);
-      //}
-      //else
-      //{
-      //  wrap_ptr->specialKeyPressed(Key);
-      //}
+      wrap_ptr->keyPressed(Key);
     }
   }
 }
