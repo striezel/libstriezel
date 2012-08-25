@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011 thoronador
+    Copyright (C) 2011, 2012  thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -54,6 +54,9 @@ void trimRight(std::string& str1);
 
 /* Returns string representation of integer 'value' */
 std::string intToString(const int value);
+
+/* Returns string representation of integer 'value' */
+std::string uintToString(const unsigned int value);
 
 /* tries to convert a the string representation of a integer number into
    a int and returns true on success, false on failure.

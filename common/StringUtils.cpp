@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011 thoronador
+    Copyright (C) 2011, 2012  thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -107,7 +107,14 @@ void trim(std::string& str1)
 
 std::string intToString(const int value)
 {
-  std::stringstream s_str;
+  std::ostringstream s_str;
+  s_str << value;
+  return s_str.str();
+}
+
+std::string uintToString(const unsigned int value)
+{
+  std::ostringstream s_str;
   s_str << value;
   return s_str.str();
 }
