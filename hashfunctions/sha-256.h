@@ -23,6 +23,7 @@
 
 #include <stdint.h>
 #include <string>
+#include "sha-256_aux.h"
 
 namespace SHA256
 {
@@ -71,7 +72,7 @@ namespace SHA256
                                the next integral multiple of eight, i.e. only
                                full bytes are allowed.
   */
-  MessageDigest computeFromBuffer(const uint8_t* data, const uint64_t data_length_in_bits);
+  MessageDigest computeFromBuffer(uint8_t* data, const uint64_t data_length_in_bits);
 
   /* computes and returns the message digest of the given file's contents
 
@@ -80,7 +81,7 @@ namespace SHA256
   */
   MessageDigest computeFromFile(const std::string& fileName);
 
-  MessageDigest computeFromFileSource(const std::string& fileName);
+  MessageDigest computeFromSource(MessageSource& source);
 }//SHA256 namespace
 
 #endif // RANDOM_THORO_SHA_256_H

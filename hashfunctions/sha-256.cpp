@@ -21,7 +21,6 @@
 //#define SHA256_DEBUG
 
 #include "sha-256.h"
-#include "sha-256_aux.h"
 #include <cstring>
 #include <sys/types.h>
 #include <fstream>
@@ -252,218 +251,26 @@ uint8_t * padMessage(const uint8_t* data, uint64_t data_length_in_bits, uint64_t
   return padded_data;
 }
 
-MessageDigest computeFromBuffer(const uint8_t* data, const uint64_t data_length_in_bits)
+MessageDigest computeFromBuffer(uint8_t* data, const uint64_t data_length_in_bits)
 {
-  uint64_t padded_len = 0;
-  uint8_t * padded_data = padMessage(data, data_length_in_bits, padded_len);
-
-  const uint64_t NumberOfMessageBlocks = padded_len/512;
-  MessageBlock msgBlock;
-
-  uint32_t msg_schedule[64];
-  uint32_t a, b, c, d, e, f, g, h;
-  uint32_t temp1, temp2;
-  MessageDigest H;
-  //set initial value
-  H.hash[0] = 0x6a09e667;
-  H.hash[1] = 0xbb67ae85;
-  H.hash[2] = 0x3c6ef372;
-  H.hash[3] = 0xa54ff53a;
-  H.hash[4] = 0x510e527f;
-  H.hash[5] = 0x9b05688c;
-  H.hash[6] = 0x1f83d9ab;
-  H.hash[7] = 0x5be0cd19;
-
-  uint64_t i;
-  unsigned int t; //Laufvariable
-
-  for (i=0; i<NumberOfMessageBlocks; ++i)
-  {
-    getMessageBlock(msgBlock, i, padded_data, padded_len);
-    // 1. prepare message schedule
-    for (t=0; t<16; ++t)
-    {
-      msg_schedule[t] = msgBlock.words[t];
-    }//for t
-    #ifdef SHA256_DEBUG
-    for (t=0; t<16; ++t)
-    {
-      std::dec(std::cout);
-      std::cout << "W["<<t<<"] = ";
-      std::hex(std::cout);
-      std::cout <<msg_schedule[t]<<"\n";
-    }//for
-    #endif
-    for (t=16; t<64; ++t)
-    {
-      msg_schedule[t] = sigmaOne(msg_schedule[t-2]) + msg_schedule[t-7] + sigmaZero(msg_schedule[t-15]) + msg_schedule[t-16];
-    }//for run
-
-    // 2. init. working vars
-    a = H.hash[0];
-    b = H.hash[1];
-    c = H.hash[2];
-    d = H.hash[3];
-    e = H.hash[4];
-    f = H.hash[5];
-    g = H.hash[6];
-    h = H.hash[7];
-
-    // 3. for loop
-    for (t=0; t<64; ++t)
-    {
-      temp1 = h +CapitalSigmaOne(e) + Ch(e, f, g) + sha256_k[t] + msg_schedule[t];
-      temp2 = CapitalSigmaZero(a) + Maj(a, b, c);
-      h = g;
-      g = f;
-      f = e;
-      e = d + temp1;
-      d = c;
-      c = b;
-      b = a;
-      a = temp1 + temp2;
-      #ifdef SHA256_DEBUG
-      std::dec(std::cout);
-      std::cout << "t="<<t<<": a to h: ";
-      std::hex(std::cout);
-      std::cout <<a<<" "<<b<<" "<<c<<" "<<d<<" "<<e<<" "<<f<<" "<<g<<" "<<h<<"\n";
-      #endif
-    }//for t
-
-    // 4. compute next intermediate hash value
-    H.hash[0] = a + H.hash[0];
-    H.hash[1] = b + H.hash[1];
-    H.hash[2] = c + H.hash[2];
-    H.hash[3] = d + H.hash[3];
-    H.hash[4] = e + H.hash[4];
-    H.hash[5] = f + H.hash[5];
-    H.hash[6] = g + H.hash[6];
-    H.hash[7] = h + H.hash[7];
-  }//for i
-
-  delete [] padded_data;
-  padded_data = NULL;
-  return H;
-}
-
-MessageDigest computeFromBufferSource(uint8_t* data, const uint64_t data_length_in_bits)
-{
-  MessageBlock msgBlock;
   BufferSource source(data, data_length_in_bits);
-
-  uint32_t msg_schedule[64];
-  uint32_t a, b, c, d, e, f, g, h;
-  uint32_t temp1, temp2;
-  MessageDigest H;
-  //set initial value
-  H.hash[0] = 0x6a09e667;
-  H.hash[1] = 0xbb67ae85;
-  H.hash[2] = 0x3c6ef372;
-  H.hash[3] = 0xa54ff53a;
-  H.hash[4] = 0x510e527f;
-  H.hash[5] = 0x9b05688c;
-  H.hash[6] = 0x1f83d9ab;
-  H.hash[7] = 0x5be0cd19;
-
-  unsigned int t; //Laufvariable
-
-  while (source.getNextMessageBlock(msgBlock))
-  {
-    // 1. prepare message schedule
-    for (t=0; t<16; ++t)
-    {
-      msg_schedule[t] = msgBlock.words[t];
-    }//for t
-    #ifdef SHA256_DEBUG
-    for (t=0; t<16; ++t)
-    {
-      std::dec(std::cout);
-      std::cout << "W["<<t<<"] = ";
-      std::hex(std::cout);
-      std::cout <<msg_schedule[t]<<"\n";
-    }//for
-    #endif
-    for (t=16; t<64; ++t)
-    {
-      msg_schedule[t] = sigmaOne(msg_schedule[t-2]) + msg_schedule[t-7] + sigmaZero(msg_schedule[t-15]) + msg_schedule[t-16];
-    }//for run
-
-    // 2. init. working vars
-    a = H.hash[0];
-    b = H.hash[1];
-    c = H.hash[2];
-    d = H.hash[3];
-    e = H.hash[4];
-    f = H.hash[5];
-    g = H.hash[6];
-    h = H.hash[7];
-
-    // 3. for loop
-    for (t=0; t<64; ++t)
-    {
-      temp1 = h +CapitalSigmaOne(e) + Ch(e, f, g) + sha256_k[t] + msg_schedule[t];
-      temp2 = CapitalSigmaZero(a) + Maj(a, b, c);
-      h = g;
-      g = f;
-      f = e;
-      e = d + temp1;
-      d = c;
-      c = b;
-      b = a;
-      a = temp1 + temp2;
-      #ifdef SHA256_DEBUG
-      std::dec(std::cout);
-      std::cout << "t="<<t<<": a to h: ";
-      std::hex(std::cout);
-      std::cout <<a<<" "<<b<<" "<<c<<" "<<d<<" "<<e<<" "<<f<<" "<<g<<" "<<h<<"\n";
-      #endif
-    }//for t
-
-    // 4. compute next intermediate hash value
-    H.hash[0] = a + H.hash[0];
-    H.hash[1] = b + H.hash[1];
-    H.hash[2] = c + H.hash[2];
-    H.hash[3] = d + H.hash[3];
-    H.hash[4] = e + H.hash[4];
-    H.hash[5] = f + H.hash[5];
-    H.hash[6] = g + H.hash[6];
-    H.hash[7] = h + H.hash[7];
-  }//while messages blocks are there
-
-  return H;
+  return computeFromSource(source);
 }
 
 MessageDigest computeFromFile(const std::string& fileName)
 {
-  //This is still quite inefficent and memory consuming.
-  MessageDigest temp;
-  temp.setToNull();
-  std::ifstream input;
-  input.open(fileName.c_str(), std::ios::in | std::ios::binary);
-  if (!input)
+  //setup file stuff
+  FileSource source;
+  if (!source.open(fileName))
   {
-    return temp;
+    std::cout << "Could not open file \""<<fileName<<"\" via file source!\n";
+    MessageDigest H;
+    return H;
   }
-  input.seekg(0, std::ios_base::end);
-  const std::ifstream::pos_type cFileSize = input.tellg();
-  input.seekg(0, std::ios_base::beg);
-  uint8_t * buffer = new uint8_t[cFileSize];
-  input.read((char*) buffer, cFileSize);
-  const bool well_done = input.good();
-  input.close();
-  if (!well_done)
-  {
-    delete[] buffer;
-    buffer = NULL;
-    return temp;
-  }
-  temp = computeFromBuffer(buffer, cFileSize*8);
-  delete[] buffer;
-  buffer = NULL;
-  return temp;
+  return computeFromSource(source);
 }
 
-MessageDigest computeFromFileSource(const std::string& fileName)
+MessageDigest computeFromSource(MessageSource& source)
 {
   MessageBlock msgBlock;
 
@@ -474,14 +281,7 @@ MessageDigest computeFromFileSource(const std::string& fileName)
 
   H.setToNull();
 
-  //setup file stuff
-  FileSource source;
-  if (!source.open(fileName))
-  {
-    std::cout << "Could not open file \""<<fileName<<"\" via file source!\n";
-    return H;
-  }
-
+  //setup stuff should have been done before this, so go on with hash initialization
 
   //set initial value
   H.hash[0] = 0x6a09e667;
