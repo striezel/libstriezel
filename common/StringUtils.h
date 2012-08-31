@@ -70,5 +70,24 @@ std::string uintToString(const unsigned int value);
 */
 bool stringToInt(const std::string& str, int& value);
 
+/* tries to convert a the string representation of a floating point value into
+   a float and returns true on success, false on failure.
+
+   parameters:
+       str   - the string that contains the number
+       value - the float that will be used to store the result
+
+   remarks:
+       If false is returned, the value of parameter value is undefined.
+*/
+bool stringToFloat(const std::string& str, float& value);
+
+/* converts a floating point value into its string representation
+
+   parameters:
+       f - the floating point value
+*/
+std::string floatToString(const float f);
+
 #endif // STRINGUTILS_H
 

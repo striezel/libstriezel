@@ -29,7 +29,7 @@
            will always fail here!
 #endif
 
-namespace MWTP
+namespace Thoro
 {
 
 bool getRegistryStringValueHKLM(std::string& theString, const std::string& subKey, const std::string& valueName)

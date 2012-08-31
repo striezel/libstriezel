@@ -22,7 +22,7 @@
 #include <iostream>
 #include <zlib.h>
 
-namespace MWTP
+namespace Thoro
 {
 
 bool zlibDecompress(uint8_t * compressedData, const uint32_t compressedSize, uint8_t * decompBuffer, const uint32_t decompSize)

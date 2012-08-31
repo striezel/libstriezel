@@ -18,8 +18,8 @@
  -------------------------------------------------------------------------------
 */
 
-#ifndef FILEFUNCTIONS_H
-#define FILEFUNCTIONS_H
+#ifndef LIBTHORO_FILEFUNCTIONS_H
+#define LIBTHORO_FILEFUNCTIONS_H
 
 #include <string>
 #include <stdint.h>
@@ -102,4 +102,4 @@ std::vector<FileEntry> getDirectoryFileList(const std::string& Directory);
 */
 void splitPathFileExtension(const std::string fileName, const char pathSeperator, std::string& path, std::string& name, std::string& extension);
 
-#endif // FILEFUNCTIONS_H
+#endif // LIBTHORO_FILEFUNCTIONS_H

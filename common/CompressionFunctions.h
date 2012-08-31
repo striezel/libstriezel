@@ -18,12 +18,12 @@
  -------------------------------------------------------------------------------
 */
 
-#ifndef COMPRESSIONFUNCTIONS_H
-#define COMPRESSIONFUNCTIONS_H
+#ifndef LIBTHORO_COMPRESSIONFUNCTIONS_H
+#define LIBTHORO_COMPRESSIONFUNCTIONS_H
 
 #include <stdint.h>
 
-namespace MWTP
+namespace Thoro
 {
 
 /* tries to decompress the data pointed to by compressedData and stores the
@@ -40,4 +40,4 @@ bool zlibDecompress(uint8_t * compressedData, const uint32_t compressedSize, uin
 
 } //namespace
 
-#endif // COMPRESSIONFUNCTIONS_H
+#endif // LIBTHORO_COMPRESSIONFUNCTIONS_H

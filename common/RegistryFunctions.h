@@ -18,12 +18,12 @@
  -------------------------------------------------------------------------------
 */
 
-#ifndef MWTP_BASE_REGISTRYFUNCTIONS_H
-#define MWTP_BASE_REGISTRYFUNCTIONS_H
+#ifndef LIBTHORO_REGISTRYFUNCTIONS_H
+#define LIBTHORO_REGISTRYFUNCTIONS_H
 
 #include <string>
 
-namespace MWTP
+namespace Thoro
 {
 
 /* tries to read a string value from the HKEY_LOCAL_MACHINE branch of the
@@ -44,4 +44,4 @@ bool getRegistryStringValueHKLM(std::string& theString, const std::string& subKe
 
 } //namespace
 
-#endif // MWTP_BASE_REGISTRYFUNCTIONS_H
+#endif // LIBTHORO_REGISTRYFUNCTIONS_H

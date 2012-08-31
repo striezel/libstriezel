@@ -23,7 +23,7 @@
 #include <utime.h>
 #include <unistd.h>
 #include <cmath>
-#include "UtilityFunctions.h"
+#include "StringUtils.h"
 #include <iostream>
 #include <cstdio>
 #if defined(_WIN32)
@@ -48,21 +48,6 @@ int64_t getFileSize64(const std::string& fileName)
   // Return -1 in this case to indicate an error.
   return -1;
 }//function
-
-/*
-time_t getFileModificationTime(const std::string& FileName)
-{
-  struct stat buffer;
-  if (stat(FileName.c_str(), &buffer)==0)
-  {
-    //stat() was successful
-    return buffer.st_mtime;
-  }//if
-  //An error occured, so we don't have a proper value for time.
-  // Return -1 in this case to indicate an error.
-  return -1;
-}//function
-*/
 
 bool setFileModificationTime(const std::string& FileName, const time_t new_mtime)
 {
