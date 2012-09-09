@@ -98,3 +98,24 @@ bool getHomeDirectory(std::string& result)
     #error Unknown operating system!
   #endif
 }
+
+std::string slashify(const std::string& path)
+{
+  if (path.empty()) return path;
+  //Does it have a trailing (back)slash?
+  if (path[path.length()-1]!=Thoro::pathDelimiter)
+  {
+    return path + Thoro::pathDelimiter;
+  }
+  return path;
+}
+
+std::string unslashify(const std::string& path)
+{
+  if (path.empty()) return path;
+  if ((path[path.length()-1]==Thoro::pathDelimiter) and (path.length()>1))
+  {
+    return path.substr(0, path.length()-1);
+  }
+  return path;
+}

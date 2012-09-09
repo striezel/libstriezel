@@ -68,4 +68,22 @@ bool createDirectoryRecursive(const std::string& dirName);
 */
 bool getHomeDirectory(std::string& result);
 
+/* adds a slash or backslash (or whatever is the path delimiter on the current
+   system) to the given path, if the path is not empty and has no path delimiter
+   as the last character yet.
+
+   parameters:
+       path - the path that should (possibly) have an (back)slash
+*/
+std::string slashify(const std::string& path);
+
+/* removes a slash or backslash (or whatever is the path delimiter on the
+   current system) from the given path, if the path is not empty and has a path
+   delimiter as the last character.
+
+   parameters:
+       path - the path that should (possibly) has an (back)slash too much
+*/
+std::string unslashify(const std::string& path);
+
 #endif // LIBTHORO_DIRECTORYFUNCTIONS_H
