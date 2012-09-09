@@ -23,6 +23,7 @@
 
 #if defined(_WIN32)
   #include <Windows.h>
+  #include <Shlobj.h>
 #elif defined(__linux__) || defined(linux)
   #include <unistd.h>
   #include <pwd.h>
@@ -49,7 +50,7 @@ bool createDirectory(const std::string& dirName)
     //mkdir() returns zero on success
     return (0==mkdir(dirName.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH));
   #else
-    #error "Unknown operating system!"
+    #error Unknown operating system!
   #endif
 }
 
@@ -76,8 +77,16 @@ bool createDirectoryRecursive(const std::string& dirName)
 bool getHomeDirectory(std::string& result)
 {
   #if defined(_WIN32)
-    #warning Not implemented yet!
-    return false;
+    char buffer[MAX_PATH+1];
+    memset(buffer, 0, MAX_PATH+1);
+    /*SHGetFolderLocation() is usually preferred over SHGetFolderPathA(), but
+      the later one works on older Windows systems before Vista, too. */
+    if (SHGetFolderPathA(0, CSIDL_PROFILE, NULL, 0, buffer)!=S_OK)
+    {
+      return false;
+    }
+    result = std::string(buffer);
+    return true;
   #elif defined(__linux__) || defined(linux)
     const long int buf_size = sysconf(_SC_GETPW_R_SIZE_MAX);
     char * buffer = new char[buf_size];
