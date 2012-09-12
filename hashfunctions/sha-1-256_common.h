@@ -21,6 +21,9 @@
 #ifndef LIBTHORO_SHA_1_256_COMMON_H
 #define LIBTHORO_SHA_1_256_COMMON_H
 
+/* This file contains functions that are used in SHA-1 and/or SHA-256 hash
+   calculations. */
+
 namespace SHA1_256
 {
 
@@ -29,6 +32,13 @@ inline uint32_t rotr(const uint8_t n, const uint32_t w)
   //no values larger than 31 allowed here, because 32 is the word size
   if (n>31) throw 42;
   return ((w >> n) | (w << (32-n)));
+}
+
+inline uint32_t rotl(const uint8_t n, const uint32_t w)
+{
+  //no values larger than 31 allowed here, because 32 is the word size
+  if (n>31) throw 42;
+  return ((w << n) | (w >> (32-n)));
 }
 
 inline uint32_t Ch(const uint32_t x, const uint32_t y, const uint32_t z)

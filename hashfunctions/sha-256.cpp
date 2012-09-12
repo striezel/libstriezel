@@ -21,6 +21,7 @@
 //#define SHA256_DEBUG
 
 #include "sha-256.h"
+#include "sha-256_functions.h"
 #include <cstring>
 #include <sys/types.h>
 #include <fstream>
@@ -135,56 +136,6 @@ bool MessageDigest::operator<(const MessageDigest& other) const
   return (hash[7]<other.hash[7]);
 }
 
-
-//SHA-256 constants
-const uint32_t sha256_k[64] = {
-  0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
-  0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
-  0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
-  0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
-  0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
-  0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
-  0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
-  0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
-};
-
-uint32_t rotr(const uint8_t n, const uint32_t w)
-{
-  //no values larger than 31 allowed here, because 32 is the word size
-  if (n>31) throw 42;
-  return ((w >> n) | (w << (32-n)));
-}
-
-uint32_t Ch(const uint32_t x, const uint32_t y, const uint32_t z)
-{
-  return ((x & y) ^ ((~x) & z));
-}
-
-uint32_t Maj(const uint32_t x, const uint32_t y, const uint32_t z)
-{
-  return ((x & y) ^ (x & z) ^ (y & z));
-}
-
-uint32_t CapitalSigmaZero(const uint32_t x)
-{
-  return (rotr(2, x) ^ rotr(13, x) ^ rotr(22, x));
-}
-
-uint32_t CapitalSigmaOne(const uint32_t x)
-{
-  return (rotr(6, x) ^ rotr(11, x) ^ rotr(25, x));
-}
-
-uint32_t sigmaZero(const uint32_t x)
-{
-  return (rotr(7, x) ^ rotr(18, x) ^ (x>>3));
-}
-
-uint32_t sigmaOne(const uint32_t x)
-{
-  return (rotr(17, x) ^ rotr(19, x) ^ (x>>10));
-}
-
 MessageDigest computeFromBuffer(uint8_t* data, const uint64_t data_length_in_bits)
 {
   BufferSource source(data, data_length_in_bits);
@@ -263,8 +214,8 @@ MessageDigest computeFromSource(MessageSource& source)
     // 3. for loop
     for (t=0; t<64; ++t)
     {
-      temp1 = h +CapitalSigmaOne(e) + Ch(e, f, g) + sha256_k[t] + msg_schedule[t];
-      temp2 = CapitalSigmaZero(a) + Maj(a, b, c);
+      temp1 = h +CapitalSigmaOne(e) + SHA1_256::Ch(e, f, g) + sha256_k[t] + msg_schedule[t];
+      temp2 = CapitalSigmaZero(a) + SHA1_256::Maj(a, b, c);
       h = g;
       g = f;
       f = e;
