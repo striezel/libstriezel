@@ -1,6 +1,6 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's random stuff.
+    This file is part of the Thoronador's common code library.
     Copyright (C) 2012 thoronador
 
     This program is free software: you can redistribute it and/or modify
@@ -18,34 +18,14 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef RANDOM_THORO_SHA_256_AUX_H
-#define RANDOM_THORO_SHA_256_AUX_H
+#ifndef LIBTHORO_SHA_256_SOURCES_H
+#define LIBTHORO_SHA_256_SOURCES_H
 
 #include <stdint.h>
 #include <fstream>
 
 namespace SHA256
 {
-
-#if BYTE_ORDER == LITTLE_ENDIAN
-// byte order adjustment functions (Shouldn't there be a std header for that?)
-
-/* reverses little endian to big endian
-
-   parameters:
-       w - little endian value
-       x - var. to store the converted value
-*/
-void reverse32(const uint32_t w, uint32_t& x);
-
-/* reverses little endian to big endian
-
-   parameters:
-       w - little endian value
-       x - var. to store the converted value
-*/
-void reverse64(const uint64_t w, uint64_t& x);
-#endif
 
 /* MessageBlock structure */
 struct MessageBlock
@@ -137,4 +117,4 @@ class FileSource: public MessageSource
 
 } //namespace
 
-#endif // RANDOM_THORO_SHA_256_AUX_H
+#endif // LIBTHORO_SHA_256_SOURCES_H

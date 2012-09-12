@@ -1,6 +1,6 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's random stuff.
+    This file is part of the Thoronador's common code library.
     Copyright (C) 2012 thoronador
 
     This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
  -----------------------------------------------------------------------------
 */
 
-#include "sha-256_aux.h"
+#include "sha-256_sources.h"
 #include <cstring>
 #include <sys/types.h>
 

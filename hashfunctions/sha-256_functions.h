@@ -21,7 +21,7 @@
 #ifndef LIBTHORO_SHA256_FUNCTIONS_H
 #define LIBTHORO_SHA256_FUNCTIONS_H
 
-#include "sha-1-256_common.h"
+#include "sha-1-256_functions.h"
 
 /* This file contains the constants and (shorter) functions for tSHA-256
    calculation. */
