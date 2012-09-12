@@ -20,7 +20,6 @@
 
 #include "sha-256_sources.h"
 #include <cstring>
-#include <sys/types.h>
 
 namespace SHA256
 {

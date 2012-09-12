@@ -23,6 +23,7 @@
 
 #include <stdint.h>
 #include <fstream>
+#include <sys/types.h>
 
 namespace SHA256
 {
@@ -34,6 +35,16 @@ struct MessageBlock
 
   void reverseBlock();
 };//struct
+
+#if BYTE_ORDER == LITTLE_ENDIAN
+/* reverses little endian to big endian
+
+   parameters:
+       w - little endian value
+       x - var. to store the converted value
+*/
+void reverse64(const uint64_t w, uint64_t& x);
+#endif
 
 /* basic message source class */
 class MessageSource
