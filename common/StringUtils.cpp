@@ -218,7 +218,7 @@ std::string floatToString(const float f)
   return s_str.str();
 }
 
-std::string::size_type find_ci(const std::string& haystack, const std::string& needle, std::string::size_type pos = 0)
+std::string::size_type find_ci(const std::string& haystack, const std::string& needle, std::string::size_type pos)
 {
   const std::string::size_type lenHay = haystack.length();
   const std::string::size_type lenNeedle = needle.length();
