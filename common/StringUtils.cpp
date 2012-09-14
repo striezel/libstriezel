@@ -217,3 +217,25 @@ std::string floatToString(const float f)
   s_str << f;
   return s_str.str();
 }
+
+std::string::size_type find_ci(const std::string& haystack, const std::string& needle, std::string::size_type pos = 0)
+{
+  const std::string::size_type lenHay = haystack.length();
+  const std::string::size_type lenNeedle = needle.length();
+
+  if ((pos>=lenHay) or (lenNeedle>lenHay) or (lenNeedle<=0)) return std::string::npos;
+
+  std::string::size_type j, s;
+  for (; pos<lenHay; ++pos)
+  {
+    s = 0;
+    for (j=0; j<lenNeedle; ++j)
+    {
+      if (!std::string::traits_type::eq(std::toupper(haystack[pos+j]), std::toupper(needle[j])))
+        break;
+      ++s;
+    }//for j
+    if (lenNeedle==s) return pos;
+  }//for i/pos
+  return std::string::npos;
+}

@@ -89,5 +89,14 @@ bool stringToFloat(const std::string& str, float& value);
 */
 std::string floatToString(const float f);
 
+/* case-insensitive version of std::basic_string's find()
+
+   parameters:
+       haystack - the string to search in
+       needle   - the substring
+       pos      - offset where the search starts
+*/
+std::string::size_type find_ci(const std::string& haystack, const std::string& needle, std::string::size_type pos = 0);
+
 #endif // STRINGUTILS_H
 
