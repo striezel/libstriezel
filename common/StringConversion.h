@@ -133,24 +133,24 @@ int convertString(const std::string& from, const std::string& to, const std::str
   return cseNone;
 }//function
 
-/* converts the UTF8-encoded string given as input to a ISO-8859-15-encoded
+/* converts the UTF8-encoded string given as input to a ISO-8859-1-encoded
    string and returns the converted string in out_iso. Returns true in case of
    success, false in case of error. If an error occured, the output string
    stays unchanged.
 */
-inline bool utf8_to_iso8859_15(const std::string& in_utf8, std::string& out_iso)
+inline bool utf8_to_iso8859_1(const std::string& in_utf8, std::string& out_iso)
 {
-  return (convertString("utf8", "iso-8859-15", in_utf8, out_iso)==cseNone);
+  return (convertString("utf8", "iso-8859-1", in_utf8, out_iso)==cseNone);
 }
 
-/* converts the ISO-8859-15-encoded string given as input to a UTF8-encoded
+/* converts the ISO-8859-1-encoded string given as input to a UTF8-encoded
    string and returns the converted string in out_utf8. Returns true in case of
    success, false in case of error. If an error occured, the output string
    stays unchanged.
 */
-inline bool iso8859_15_to_utf8(const std::string& in_iso, std::string& out_utf8)
+inline bool iso8859_1_to_utf8(const std::string& in_iso, std::string& out_utf8)
 {
-  return (convertString("iso-8859-15", "utf8", in_iso, out_utf8)==cseNone);
+  return (convertString("iso-8859-1", "utf8", in_iso, out_utf8)==cseNone);
 }
 
 } //namespace
