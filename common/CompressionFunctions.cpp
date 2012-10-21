@@ -97,4 +97,79 @@ bool zlibDecompress(uint8_t * compressedData, const uint32_t compressedSize, uin
   return false;
 }
 
+bool zlibCompress(uint8_t * rawData, const uint32_t rawSize, CompressPointer& compBuffer, uint32_t& compSize, uint32_t& usedSize, const int level)
+{
+  if ((rawData==NULL) or (rawSize==0) or (compBuffer==NULL) or (compSize==0))
+  {
+    usedSize = 0;
+    std::cout << "zlibCompress: Error: invalid buffer values given!\n";
+    return false;
+  }
+
+  z_stream streamZlib;
+
+  /* allocate deflate state */
+  streamZlib.zalloc = Z_NULL;
+  streamZlib.zfree = Z_NULL;
+  streamZlib.opaque = Z_NULL;
+  streamZlib.avail_in = 0;
+  streamZlib.next_in = Z_NULL;
+  int z_return = deflateInit(&streamZlib, level);
+  if (z_return != Z_OK)
+  {
+    switch (z_return)
+    {
+      case Z_MEM_ERROR:
+           std::cout << "zlibCompress: Error: not enough memory to initialize z_stream!\n";
+           break;
+      case Z_VERSION_ERROR:
+           std::cout << "zlibCompress: Error: incompatible library version!\n";
+           break;
+      case Z_STREAM_ERROR:
+           std::cout << "zlibCompress: Error: "<<level<<" is not a valid compression level!\n";
+           break;
+      default:
+           std::cout << "zlibCompress: Error: could not initialize z_stream!\n";
+           break;
+    }//swi
+    return false;
+  }//if error occured
+
+  const uLong bound = deflateBound(&streamZlib, rawSize);
+  if (compSize<bound)
+  {
+    //re-allocate buffer
+    delete[] compBuffer;
+    compBuffer = new uint8_t[bound];
+    compSize = bound;
+  }
+
+
+  streamZlib.avail_in = rawSize;
+  streamZlib.next_in = rawData;
+
+  streamZlib.avail_out = compSize;
+  streamZlib.next_out = compBuffer;
+
+  /* compress */
+  z_return = deflate(&streamZlib, Z_FINISH);
+  switch (z_return)
+  {
+    case Z_OK: //not enough output buffer
+         usedSize = 0;
+         (void)deflateEnd(&streamZlib);
+         std::cout << "zlibCompress: output buffer is too small for deflate(), available output buffer size is "
+                   << streamZlib.avail_out<<" bytes!\n";
+         return false;
+    case Z_STREAM_END: //finished
+         usedSize = compSize - streamZlib.avail_out;
+         (void)deflateEnd(&streamZlib);
+         return true;
+    default:
+         std::cout << "zlibCompress: unknown error (code="<<z_return<<")!\n";
+         (void)deflateEnd(&streamZlib);
+         return false;
+  }//swi
+}
+
 } //namespace

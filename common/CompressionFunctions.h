@@ -38,6 +38,31 @@ namespace Thoro
 */
 bool zlibDecompress(uint8_t * compressedData, const uint32_t compressedSize, uint8_t * decompBuffer, const uint32_t decompSize);
 
+
+typedef uint8_t* CompressPointer;
+
+/* tries to compress the data pointed to by rawData and stores the compressed
+   bits in compBuffer. Returns true in case of success, or false if an error
+   occured.
+
+   parameters:
+       rawData    - pointer to the buffer containing the uncompressed data
+       rawSize    - length of the buffer in bytes
+       compBuffer - pre-allocated buffer that will hold the compressed data
+       compSize   - size of compBuffer in bytes
+       usedSize   - actual size of the compressed data
+       level      - compression level, should be in [0;9], where 0 is no
+                    compression and 9 is best compression
+
+   remarks:
+       The buffer pointed to by compBuffer will be re-allocated, if it is too
+       small to hold all compressed data. The new size of the buffer will be
+       stored in compSize.
+       usedSize will hold the actual number of bytes that are used in that
+       buffer. This value may be less than compSize.
+*/
+bool zlibCompress(uint8_t * rawData, const uint32_t rawSize, CompressPointer& compBuffer, uint32_t& compSize, uint32_t& usedSize, const int level=6);
+
 } //namespace
 
 #endif // LIBTHORO_COMPRESSIONFUNCTIONS_H
