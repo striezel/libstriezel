@@ -58,8 +58,8 @@ std::string intToString(const int value);
 /* Returns string representation of integer 'value' */
 std::string uintToString(const unsigned int value);
 
-/* tries to convert a the string representation of a integer number into
-   a int and returns true on success, false on failure.
+/* tries to convert the string representation of an integer number into
+   an int and returns true on success, false on failure.
 
    parameters:
        str   - the string that contains the number
@@ -70,7 +70,19 @@ std::string uintToString(const unsigned int value);
 */
 bool stringToInt(const std::string& str, int& value);
 
-/* tries to convert a the string representation of a floating point value into
+/* tries to convert the string representation of an unsigned integer number
+   into an unsigned int and returns true on success, false on failure.
+
+   parameters:
+       str   - the string that contains the number
+       value - the unsigned int that will be used to store the result
+
+   remarks:
+       If false is returned, the value of parameter value is undefined.
+*/
+bool stringToUnsignedInt(const std::string& str, unsigned int& value);
+
+/* tries to convert the string representation of a floating point value into
    a float and returns true on success, false on failure.
 
    parameters:

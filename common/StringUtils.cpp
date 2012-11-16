@@ -20,6 +20,7 @@
 
 #include "StringUtils.h"
 #include <sstream>
+#include <limits>
 
 std::string toLowerString(std::string str)
 {
@@ -124,6 +125,8 @@ bool stringToInt(const std::string& str, int& value)
   if (str.length()==0) return false;
   value = 0;
   unsigned int i;
+  const int cTenthLimit = std::numeric_limits<int>::max() / 10;
+  const int cRealLimit = std::numeric_limits<int>::max();
   bool negative;
   if (str.at(0)=='-')
   {
@@ -139,7 +142,13 @@ bool stringToInt(const std::string& str, int& value)
   {
     if ((str.at(i)>='0') and (str.at(i)<='9'))
     {
+      /* If the result of the multiplication in the next line would go out of
+         the type range, then the result is not useful anyway, so quit here. */
+      if (value>cTenthLimit) return false;
       value = value * 10;
+      /* If the result of the addition in the next line would go out of the
+         type's range, then the result is not useful anyway, so quit here. */
+      if (value>cRealLimit-(str.at(i)-'0')) return false;
       value = value + (str.at(i)-'0');
     }//if
     else
@@ -149,6 +158,35 @@ bool stringToInt(const std::string& str, int& value)
     }
   }//for
   if (negative) value = -value;
+  return true;
+}
+
+bool stringToUnsignedInt(const std::string& str, unsigned int& value)
+{
+  if (str.length()==0) return false;
+  value = 0;
+  const unsigned int cTenthLimit = std::numeric_limits<unsigned int>::max() / 10;
+  const unsigned int cRealLimit = std::numeric_limits<unsigned int>::max();
+  unsigned int i = 0;
+  for ( ; i<str.length(); ++i)
+  {
+    if ((str.at(i)>='0') and (str.at(i)<='9'))
+    {
+      /* If the result of the multiplication in the next line would go out of
+         the type range, then the result is not useful anyway, so quit here. */
+      if (value>cTenthLimit) return false;
+      value = value * 10;
+      /* If the result of the addition in the next line would go out of the
+         type's range, then the result is not useful anyway, so quit here. */
+      if (value>cRealLimit-(str.at(i)-'0')) return false;
+      value = value + (str.at(i)-'0');
+    }//if
+    else
+    {
+      //unknown or invalid character detected
+      return false;
+    }
+  }//for
   return true;
 }
 
