@@ -70,10 +70,11 @@ void MessageBlock::reverseBlock()
 
 /* MessageSource functions */
 MessageSource::MessageSource()
+: m_BitsRead(0),
+  m_PaddingBuffer((uint8_t*) 0),
+  m_Status(psUnpadded)
 {
-  m_BitsRead = 0;
-  m_PaddingBuffer = (uint8_t*) 0;
-  m_Status = psUnpadded;
+
 }
 
 MessageSource::~MessageSource()

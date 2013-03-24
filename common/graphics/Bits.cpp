@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011 thoronador
+    Copyright (C) 2011, 2013  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,9 +22,9 @@
 #include <cstring>
 
 SmallBitArray16::SmallBitArray16()
+: m_Bits(0), m_BitsPresent(0)
 {
-  m_Bits = 0;
-  m_BitsPresent = 0;
+
 }
 
 SmallBitArray16& SmallBitArray16::operator=(const SmallBitArray16& other)
@@ -35,9 +35,8 @@ SmallBitArray16& SmallBitArray16::operator=(const SmallBitArray16& other)
 }
 
 SmallBitArray16::SmallBitArray16(const uint16_t theBits, const uint8_t numberOfBits)
+: m_Bits(theBits), m_BitsPresent(numberOfBits)
 {
-  m_Bits = theBits;
-  m_BitsPresent = numberOfBits;
   if (m_BitsPresent>16) m_BitsPresent = 16;
 }
 
@@ -109,16 +108,16 @@ uint16_t SmallBitArray16::exposeBits() const
 /** Large bit array's functions **/
 
 LargeBitArray64k::LargeBitArray64k()
+: m_BitsPresent(0),
+  m_Bits(new uint8_t[256]),
+  m_CurrentBytesAllocated(256)
 {
-  m_BitsPresent = 0;
-  m_Bits = new uint8_t[256];
-  m_CurrentBytesAllocated = 256;
   memset(m_Bits, 0, 256);
 }
 
 LargeBitArray64k::LargeBitArray64k(const unsigned char* theBits, const uint16_t numberOfBits)
+: m_BitsPresent(numberOfBits)
 {
-  m_BitsPresent = numberOfBits;
   uint16_t BytesRequired = (numberOfBits+7)/8;
   if (BytesRequired<256) BytesRequired = 256;
   m_Bits = new uint8_t[BytesRequired];

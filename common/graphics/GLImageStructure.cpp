@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011, 2012 thoronador
+    Copyright (C) 2011, 2012, 2013  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,18 +25,18 @@
 #include "../IntegerUtils.h"
 
 GLImageStructure::GLImageStructure()
+: buffer(NULL),
+  width(0),
+  height(0),
+  format(0)
 {
-  buffer = NULL;
-  width = 0;
-  height = 0;
-  format = 0;
 }
 
 GLImageStructure::GLImageStructure(const GLImageStructure& op)
+: width(op.getWidth()),
+  height(op.getHeight()),
+  format(op.getFormatGL())
 {
-  width = op.getWidth();
-  height = op.getHeight();
-  format = op.getFormatGL();
   if (op.getBufferPointer()==NULL)
   {
     buffer = NULL;
@@ -120,14 +120,11 @@ unsigned int GLImageStructure::getNumberOfComponents() const
     case GL_RGB:
     case GL_BGR:
          return 3;
-         break;
     case GL_RGBA:
          return 4;
-         break;
     case 0:
     default:
          return 0;
-         break;
   }//swi
 }
 
