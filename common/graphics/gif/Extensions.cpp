@@ -30,8 +30,8 @@
 /***** GIFExtensionBase *****/
 
 GIFExtensionBase::GIFExtensionBase()
+: m_ExtensionLabel(0)
 {
-  m_ExtensionLabel = 0;
 }
 
 GIFExtensionBase::~GIFExtensionBase()
@@ -57,11 +57,11 @@ uint8_t GIFExtensionBase::getExtensionLabel() const
 /***** GIFGraphicControlExtension *****/
 
 GIFGraphicControlExtension::GIFGraphicControlExtension()
-: GIFExtensionBase()
+: GIFExtensionBase(),
+  m_PackedFields(0),
+  m_DelayTime(0),
+  m_TransparentColourIndex(0)
 {
-  m_PackedFields = 0;
-  m_DelayTime = 0;
-  m_TransparentColourIndex = 0;
 }
 
 GIFGraphicControlExtension::~GIFGraphicControlExtension()
@@ -206,9 +206,9 @@ bool GIFGraphicControlExtension::readFromStream(std::ifstream& inputStream)
 /***** GIFCommentExtension *****/
 
 GIFCommentExtension::GIFCommentExtension()
-: GIFExtensionBase()
+: GIFExtensionBase(),
+  m_CommentData(std::vector<GIFDataSubBlock>())
 {
-  m_CommentData.clear();
 }
 
 GIFCommentExtension::~GIFCommentExtension()
@@ -303,12 +303,17 @@ bool GIFCommentExtension::readFromStream(std::ifstream& inputStream)
 /** GIFPlainTextExtension functions **/
 
 GIFPlainTextExtension::GIFPlainTextExtension()
+: GIFExtensionBase(),
+  m_TextGridLeftPosition(0),
+  m_TextGridTopPosition(0),
+  m_TextGridWidth(0),
+  m_TextGridHeight(0),
+  m_CharacterCellWidth(0),
+  m_CharacterCellHeight(0),
+  m_TextForegroundColourIndex(0),
+  m_TextBackgroundColourIndex(0),
+  m_PlainTextData(std::vector<GIFDataSubBlock>())
 {
-  m_TextGridLeftPosition = m_TextGridTopPosition = 0;
-  m_TextGridWidth = m_TextGridHeight = 0;
-  m_CharacterCellWidth = m_CharacterCellHeight = 0;
-  m_TextBackgroundColourIndex = m_TextForegroundColourIndex = 0;
-  m_PlainTextData.clear();
 }
 
 GIFPlainTextExtension::~GIFPlainTextExtension()
@@ -500,10 +505,11 @@ bool GIFPlainTextExtension::readFromStream(std::ifstream& inputStream)
 /** GIFApplicationExtension functions **/
 
 GIFApplicationExtension::GIFApplicationExtension()
+: GIFExtensionBase(),
+  m_ApplicationData(std::vector<GIFDataSubBlock>())
 {
   memset(m_ApplicationIdentifier, 0, 9);
   memset(m_ApplicationAuthenticationCode, 0, 4);
-  m_ApplicationData.clear();
 }
 
 GIFApplicationExtension::~GIFApplicationExtension()

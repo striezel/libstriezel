@@ -25,9 +25,10 @@
 /***** GIFDataSubBlock functions *****/
 
 GIFDataSubBlock::GIFDataSubBlock()
+: m_Size(0),
+  m_DataPointer(NULL)
 {
-  m_Size = 0;
-  m_DataPointer = NULL;
+
 }
 
 GIFDataSubBlock::GIFDataSubBlock(const GIFDataSubBlock& op)
