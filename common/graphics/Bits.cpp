@@ -108,9 +108,9 @@ uint16_t SmallBitArray16::exposeBits() const
 /** Large bit array's functions **/
 
 LargeBitArray64k::LargeBitArray64k()
-: m_BitsPresent(0),
-  m_Bits(new uint8_t[256]),
-  m_CurrentBytesAllocated(256)
+: m_Bits(new uint8_t[256]),
+  m_CurrentBytesAllocated(256),
+  m_BitsPresent(0)
 {
   memset(m_Bits, 0, 256);
 }
