@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's common code library.
-    Copyright (C) 2012 thoronador
+    Copyright (C) 2012, 2014  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include "sha-1.h"
 #include "sha-1-256_functions.h"
 #include <iostream>
+#include <stdexcept>
 #include <cstring>
 #include <sys/types.h>
 
@@ -149,7 +150,7 @@ uint32_t f_t(const uint8_t t, const uint32_t x, const uint32_t y, const uint32_t
   if (t<40) return SHA1_256::Parity(x,y,z);
   if (t<60) return SHA1_256::Maj(x,y,z);
   if (t<80) return SHA1_256::Parity(x,y,z);
-  throw 42;
+  throw std::invalid_argument("f_t(): values of t have to be less than 80!");
 }
 
 MessageDigest computeFromSource(MessageSource& source)

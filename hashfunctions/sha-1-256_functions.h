@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's common code library.
-    Copyright (C) 2012 thoronador
+    Copyright (C) 2012, 2014  thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,8 @@
 #ifndef LIBTHORO_SHA_1_256_COMMON_H
 #define LIBTHORO_SHA_1_256_COMMON_H
 
+#include <stdexcept>
+
 /* This file contains functions that are used in SHA-1 and/or SHA-256 hash
    calculations. */
 
@@ -30,14 +32,16 @@ namespace SHA1_256
 inline uint32_t rotr(const uint8_t n, const uint32_t w)
 {
   //no values larger than 31 allowed here, because 32 is the word size
-  if (n>31) throw 42;
+  if (n>31)
+    throw std::invalid_argument("rotr(): no values of n which are larger than 31 are allowed here, because 32 is the word size!");
   return ((w >> n) | (w << (32-n)));
 }
 
 inline uint32_t rotl(const uint8_t n, const uint32_t w)
 {
   //no values larger than 31 allowed here, because 32 is the word size
-  if (n>31) throw 42;
+  if (n>31)
+    throw std::invalid_argument("rotl(): no values of n which are larger than 31 are allowed here, because 32 is the word size!");
   return ((w << n) | (w >> (32-n)));
 }
 

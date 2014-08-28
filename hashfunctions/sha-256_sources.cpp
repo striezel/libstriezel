@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's common code library.
-    Copyright (C) 2012 thoronador
+    Copyright (C) 2012, 2014  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 
 #include "sha-256_sources.h"
 #include <cstring>
+#include <stdexcept>
 
 namespace SHA256
 {
@@ -170,7 +171,7 @@ bool BufferSource::getNextMessageBlock(MessageBlock& mBlock)
            break;
       case psUnpadded:
            //should never happen
-           throw 42;
+           throw std::logic_error("BufferSource::getNextMessageBlock(): Code execution should never get to this point!");
            return false;
     }//swi
     m_BitsRead += 512;
@@ -255,12 +256,12 @@ bool FileSource::getNextMessageBlock(MessageBlock& mBlock)
     case psPadded512:
     case psPadded1024:
          //We should never get to this point!
-         throw 42;
+         throw std::logic_error("FileSource::getNextMessageBlock(): Code execution should never get to this point!");
          return false;
          break;
   }//swi
   //We should never get to this point either!
-  throw 42;
+  throw std::logic_error("FileSource::getNextMessageBlock(): Code execution should never get to this point either!");
   return false;
 }
 
