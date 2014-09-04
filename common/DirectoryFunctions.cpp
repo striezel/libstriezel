@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the Thoronador's common code library.
-    Copyright (C) 2011, 2012  Thoronador
+    Copyright (C) 2011, 2012, 2014  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -89,6 +89,8 @@ bool getHomeDirectory(std::string& result)
     return true;
   #elif defined(__linux__) || defined(linux)
     const long int buf_size = sysconf(_SC_GETPW_R_SIZE_MAX);
+    if (buf_size <= -1)
+      return false; //-1 means: sysconf() error / EINVAL
     char * buffer = new char[buf_size];
     struct passwd info;
     struct passwd * pwd_ptr = NULL;
