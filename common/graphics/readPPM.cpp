@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011, 2012 thoronador
+    Copyright (C) 2011, 2012, 2014  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -233,6 +233,7 @@ GLImageStructure readPPM(const std::string& FileName)
     offset -= line_size_in_bytes;
     ++lines_read;
   }//while
+  fclose(file_ppm);
   //free the read buffer
   free(line_buffer);
   //set the GL image structure's pointer
