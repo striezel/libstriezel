@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011, 2012  thoronador
+    Copyright (C) 2011, 2012, 2014  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -96,11 +96,12 @@ bool GIFHeader::readFromStream(std::ifstream& inputStream)
 /***** GIFLogicalScreenDescriptor functions *****/
 
 GIFLogicalScreenDescriptor::GIFLogicalScreenDescriptor()
+: m_ScreenWidth(0),
+  m_ScreenHeight(0),
+  m_PackedFields(0),
+  m_BackgroundColourIndex(0),
+  m_PixelAspectRatio(0)
 {
-  m_ScreenWidth = m_ScreenHeight = 0;
-  m_PackedFields = 0;
-  m_BackgroundColourIndex = 0;
-  m_PixelAspectRatio = 0;
 }
 
 GIFLogicalScreenDescriptor::~GIFLogicalScreenDescriptor()
@@ -180,12 +181,12 @@ uint8_t GIFLogicalScreenDescriptor::getSizeOfGlobalColourTable() const
   return (m_PackedFields & (1 | (1<<1) | (1<<2)));
 }
 
-/***** GIFColourTable function *****/
+/***** GIFColourTable functions *****/
 
 GIFColourTable::GIFColourTable()
+: m_TablePointer(NULL),
+  m_TableEntries(0)
 {
-  m_TableEntries = 0;
-  m_TablePointer = NULL;
 }
 
 GIFColourTable::GIFColourTable(const GIFColourTable& op)
@@ -290,10 +291,12 @@ bool GIFColourTable::readFromStream(std::ifstream& inputStream, const uint8_t si
 /***** GIFImageDescriptor functions *****/
 
 GIFImageDescriptor::GIFImageDescriptor()
+: m_LeftPosition(0),
+  m_TopPosition(0),
+  m_Width(0),
+  m_Height(0),
+  m_PackedFields(0)
 {
-  m_LeftPosition = m_TopPosition = 0;
-  m_Width = m_Height = 0;
-  m_PackedFields = 0;
 }
 
 GIFImageDescriptor::~GIFImageDescriptor()
@@ -392,9 +395,9 @@ bool GIFImageDescriptor::readFromStream(std::ifstream& inputStream)
 /***** GIFTableBasedImageData functions *****/
 
 GIFTableBasedImageData::GIFTableBasedImageData()
+: m_LZW_minCodeSize(0),
+  m_ImageData(std::vector<GIFDataSubBlock>())
 {
-  m_LZW_minCodeSize = 0;
-  m_ImageData.clear();
 }
 
 GIFTableBasedImageData::~GIFTableBasedImageData()
@@ -471,8 +474,8 @@ bool GIFTableBasedImageData::readFromStream(std::ifstream& inputStream)
 /***** GIFTableBasedImage functions *****/
 
 GIFTableBasedImage::GIFTableBasedImage()
+: m_LocalColourTable(NULL)
 {
-  m_LocalColourTable = NULL;
 }
 
 GIFTableBasedImage::GIFTableBasedImage(const GIFTableBasedImage& op)
