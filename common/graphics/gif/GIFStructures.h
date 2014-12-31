@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011, 2012  thoronador
+    Copyright (C) 2011, 2012, 2014  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #define GIFSTRUCTURES_H
 
 #include <fstream>
+#include <string>
 #include <vector>
 #include <stdint.h>
 #include "ElementBase.h"
@@ -42,12 +43,12 @@ struct GIFHeader
     */
     int getVersionInt() const;
 
-    /* returns a constant pointer to the C string indicating the version found
+    /* returns a reference to a C++ string indicating the version found
        in the GIF header. Possible values are "87a" for 87a and "89a" for 89a.
-       A return value of NULL will indicate an invalid or unknown version or
+       An empty string will indicate an invalid or unknown version or
        indicate that no header has been read yet.
     */
-    const char* getVersion() const;
+    const std::string& getVersion() const;
 
     /* tries to read a GIF header from the given input file stream and returns
        true in case of success, false on failure.
@@ -58,7 +59,7 @@ struct GIFHeader
     */
     bool readFromStream(std::ifstream& inputStream);
   private:
-    char* m_Version;
+    std::string m_Version;
 }; //struct
 
 
@@ -99,17 +100,31 @@ struct GIFLogicalScreenDescriptor
 struct GIFColourTable
 {
   public:
+    /* structure to hold a table entry */
+    struct ColourTableEntry
+    {
+      uint8_t red;
+      uint8_t green;
+      uint8_t blue;
+
+      /* default constructor - initializes all members with zero */
+      ColourTableEntry();
+
+      /* alternative constructor - presets members with given values */
+      ColourTableEntry(const uint8_t r, const uint8_t g, const uint8_t b);
+    }; //struct
+
     /* constructor */
     GIFColourTable();
 
-    /* copy constructor */
-    GIFColourTable(const GIFColourTable& op);
-
-    /* assignment operator */
-    GIFColourTable& operator=(const GIFColourTable& op);
-
     /* destructor */
     ~GIFColourTable();
+
+    /* checks whether the colour table is empty */
+    bool empty() const;
+
+    /* clears the colour table, i.e. removes all entries */
+    void clear();
 
     /* returns the number of entries within the table */
     uint16_t getNumberOfColourEntries() const;
@@ -128,8 +143,20 @@ struct GIFColourTable
     */
     bool getEntryByIndex(const uint8_t index, uint8_t& red, uint8_t& green, uint8_t& blue) const;
 
+    /* returns the red, green and blue values of the index-th entry in the
+       colour table in the second parameter. Index is zero-based.
+       If a entry with that index exists, the function returns true. Otherwise,
+       false will be returned. In the later case, the parameter entry will
+       remain unchanged.
+
+       parameters:
+           index - zero-based index of the entry in the colour table
+           entry - variable used to store the RGB components of the colour
+    */
+    bool getEntryByIndex(const uint8_t index, ColourTableEntry& entry) const;
+
     /* returns pointer to the colour table for faster access */
-    const unsigned char* getColourTablePointer() const;
+    const std::vector<ColourTableEntry>& getRawColourTable() const;
 
     /* tries to read a GIF colour table from the given input file stream and
        returns true in case of success, false on failure.
@@ -143,8 +170,7 @@ struct GIFColourTable
     */
     bool readFromStream(std::ifstream& inputStream, const uint8_t sizeOfColourTable);
   private:
-    unsigned char * m_TablePointer;
-    uint16_t m_TableEntries;
+    std::vector<ColourTableEntry> m_Table;
 };//struct
 
 
@@ -264,7 +290,7 @@ struct GIFTableBasedImage: public GIFElementBase
     bool readFromStream(std::ifstream& inputStream);
   private:
     GIFImageDescriptor m_ImageDescriptor;
-    GIFColourTable* m_LocalColourTable;
+    GIFColourTable m_LocalColourTable;
     GIFTableBasedImageData m_ImageData;
 };//struct
 

@@ -28,34 +28,24 @@
 /***** GIFHeader functions *****/
 
 GIFHeader::GIFHeader()
+: m_Version("")
 {
-  m_Version = NULL;
 }
 
 GIFHeader::~GIFHeader()
 {
-  delete[] m_Version;
+  m_Version.clear();
 }
 
 int GIFHeader::getVersionInt() const
 {
-  if (m_Version==NULL) return 0;
-  if ((m_Version[0]=='8') and (m_Version[2]=='a'))
-  {
-    switch (m_Version[1])
-    {
-      case '7':
-           return 87;
-           break;
-      case '9':
-           return 89;
-           break;
-    }//swi
-  }
+  if (m_Version.empty()) return 0;
+  if (m_Version=="87a") return 87;
+  if (m_Version=="89a") return 89;
   return 0;
 }
 
-const char* GIFHeader::getVersion() const
+const std::string& GIFHeader::getVersion() const
 {
   return m_Version;
 }
@@ -88,8 +78,8 @@ bool GIFHeader::readFromStream(std::ifstream& inputStream)
     return false;
   }
   //set new read version
-  delete [] m_Version; //delete possibly previously allocated buffer
-  m_Version = buffer;
+  m_Version = std::string(buffer);
+  delete[] buffer;
   return true;
 }
 
@@ -183,78 +173,82 @@ uint8_t GIFLogicalScreenDescriptor::getSizeOfGlobalColourTable() const
 
 /***** GIFColourTable functions *****/
 
+
+GIFColourTable::ColourTableEntry::ColourTableEntry()
+: red(0), green(0), blue(0)
+{
+}
+
+GIFColourTable::ColourTableEntry::ColourTableEntry(const uint8_t r, const uint8_t g, const uint8_t b)
+: red(r), green(g), blue(b)
+{
+}
+
 GIFColourTable::GIFColourTable()
-: m_TablePointer(NULL),
-  m_TableEntries(0)
+: m_Table(std::vector<ColourTableEntry>())
 {
 }
 
-GIFColourTable::GIFColourTable(const GIFColourTable& op)
-{
-  m_TableEntries = op.getNumberOfColourEntries();
-  if (m_TableEntries!=0)
-  {
-    m_TablePointer = new unsigned char [m_TableEntries*3];
-    memcpy(m_TablePointer, op.getColourTablePointer(), m_TableEntries*3);
-  }
-  else
-  {
-    m_TablePointer = NULL;
-  }
-}
-
-GIFColourTable& GIFColourTable::operator=(const GIFColourTable& op)
-{
-  //avoid self-assignment
-  if (this == &op) return *this;
-  delete m_TablePointer;
-  m_TableEntries = op.getNumberOfColourEntries();
-  if (m_TableEntries!=0)
-  {
-    m_TablePointer = new unsigned char [m_TableEntries*3];
-    memcpy(m_TablePointer, op.getColourTablePointer(), m_TableEntries*3);
-  }
-  else
-  {
-    m_TablePointer = NULL;
-  }
-  return *this;
-}
 
 GIFColourTable::~GIFColourTable()
 {
-  m_TableEntries = 0;
-  delete[] m_TablePointer;
-  m_TablePointer = NULL;
+  m_Table.clear();
+}
+
+bool GIFColourTable::empty() const
+{
+  return m_Table.empty();
+}
+
+void GIFColourTable::clear()
+{
+  m_Table.clear();
 }
 
 uint16_t GIFColourTable::getNumberOfColourEntries() const
 {
-  return m_TableEntries;
+  return m_Table.size();
 }
 
 bool GIFColourTable::getEntryByIndex(const uint8_t index, uint8_t& red, uint8_t& green, uint8_t& blue) const
 {
-  if (m_TablePointer==NULL)
+  if (m_Table.empty())
   {
     std::cout << "GIFColourTable::getEntryByIndex: Error: Colour table has no entries!\n";
     return false;
   }
-  if (index>=m_TableEntries)
+  if (index>=m_Table.size())
   {
     std::cout << "GIFColourTable::getEntryByIndex: Error: Colour table has not enough entries!\n";
     return false;
   }
-  //table is present and has enoun entries, put data into referenced vars
-  red = m_TablePointer[index*3];
-  green = m_TablePointer[index*3+1];
-  blue = m_TablePointer[index*3+2];
+  //table is present and has enough entries, put data into referenced vars
+  red = m_Table[index].red;
+  green = m_Table[index].green;
+  blue = m_Table[index].blue;
   return true;
 }
 
-const unsigned char* GIFColourTable::getColourTablePointer() const
+bool GIFColourTable::getEntryByIndex(const uint8_t index, ColourTableEntry& entry) const
 {
-  return m_TablePointer;
+  if (m_Table.empty())
+  {
+    std::cout << "GIFColourTable::getEntryByIndex: Error: Colour table has no entries!\n";
+    return false;
+  }
+  if (index>=m_Table.size())
+  {
+    std::cout << "GIFColourTable::getEntryByIndex: Error: Colour table has not enough entries!\n";
+    return false;
+  }
+  //table is present and has enough entries, put data into referenced vars
+  entry = m_Table[index];
+  return true;
+}
+
+const std::vector<GIFColourTable::ColourTableEntry>& GIFColourTable::getRawColourTable() const
+{
+  return m_Table;
 }
 
 bool GIFColourTable::readFromStream(std::ifstream& inputStream, const uint8_t sizeOfColourTable)
@@ -280,10 +274,14 @@ bool GIFColourTable::readFromStream(std::ifstream& inputStream, const uint8_t si
     delete[] newTablePointer;
     return false;
   }
-  m_TableEntries = 0;
-  delete[] m_TablePointer;
-  m_TablePointer = newTablePointer;
-  m_TableEntries = actualTableEntries;
+
+  m_Table.clear();
+  unsigned int i;
+  for (i=0; i<actualTableEntries; ++i)
+  {
+    m_Table.push_back(ColourTableEntry(newTablePointer[3*i], newTablePointer[3*i+1], newTablePointer[3*i+2]));
+  } //for
+  delete[] newTablePointer;
   return true;
 }
 
@@ -474,28 +472,15 @@ bool GIFTableBasedImageData::readFromStream(std::ifstream& inputStream)
 /***** GIFTableBasedImage functions *****/
 
 GIFTableBasedImage::GIFTableBasedImage()
-: m_LocalColourTable(NULL)
+: m_ImageDescriptor(GIFImageDescriptor()),
+  m_LocalColourTable(GIFColourTable()),
+  m_ImageData(GIFTableBasedImageData())
 {
-}
-
-GIFTableBasedImage::GIFTableBasedImage(const GIFTableBasedImage& op)
-{
-  m_ImageDescriptor = op.getImageDescriptor();
-  m_ImageData = op.getImageData();
-  delete m_LocalColourTable;
-  if (op.hasLocalColourTable())
-  {
-    *m_LocalColourTable = op.getLocalColourTable();
-  }
-  else
-  {
-    m_LocalColourTable = NULL;
-  }
 }
 
 GIFTableBasedImage::~GIFTableBasedImage()
 {
-  delete m_LocalColourTable;
+  m_LocalColourTable.clear();
 }
 
 bool GIFTableBasedImage::isExtension() const
@@ -515,13 +500,14 @@ const GIFImageDescriptor& GIFTableBasedImage::getImageDescriptor() const
 
 bool GIFTableBasedImage::hasLocalColourTable() const
 {
-  return (m_LocalColourTable!=NULL);
+  //there are no "valid" empty tables, i.e. empty table means no table
+  return (!m_LocalColourTable.empty());
 }
 
 const GIFColourTable& GIFTableBasedImage::getLocalColourTable() const
 {
-  if (m_LocalColourTable!=NULL) return *m_LocalColourTable;
-  //We have no local colour table here, throw up!
+  if (!m_LocalColourTable.empty()) return m_LocalColourTable;
+  //We have no local colour table here, throw an exception!
   std::cout << "GIFTableBasedImage::getLocalColourTable: Error: there is no local colour table!\n";
   std::cout.flush();
   throw std::string("GIFTableBasedImage::getLocalColourTable: Error: requesting non-existing colour table.");
@@ -548,20 +534,20 @@ bool GIFTableBasedImage::readFromStream(std::ifstream& inputStream)
   //check for local colour table
   if (m_ImageDescriptor.getLocalColourTableFlag())
   {
-    GIFColourTable * newColourTable = new GIFColourTable;
     //... and read it
-    if (!(newColourTable->readFromStream(inputStream, m_ImageDescriptor.getSizeOfLocalColourTable())))
+    if (!m_LocalColourTable.readFromStream(inputStream, m_ImageDescriptor.getSizeOfLocalColourTable()))
     {
       std::cout << "GIFTableBasedImage::readFromStream: Error while reading local colour table!\n";
-      delete newColourTable;
+      /* Any read data may be inconsistent, after readFromStream() failed,
+         so let's clear it. */
+      m_LocalColourTable.clear();
       return false;
     }
   }//if local colour table
   else
   {
     //no local colour table
-    delete m_LocalColourTable;
-    m_LocalColourTable = NULL;
+    m_LocalColourTable.clear();
   }
   //image data follows
   if (!m_ImageData.readFromStream(inputStream))
@@ -574,9 +560,9 @@ bool GIFTableBasedImage::readFromStream(std::ifstream& inputStream)
 
 /***** GIF functions *****/
 GIF::GIF()
+: m_Elements(std::vector<GIFElementBase*>())
 {
   m_GlobalColourTable = NULL;
-  m_Elements.clear();
 }
 
 GIF::~GIF()
@@ -650,7 +636,7 @@ bool GIF::readFromFile(const std::string& FileName, const bool onlyReadFirstImag
   if (!m_Header.readFromStream(input))
   {
     std::cout << "GIF::readFromFile: Error while reading GIF header of file \""
-              << FileName << "\" for reading.\n";
+              << FileName << "\".\n";
     input.close();
     return false;
   }
