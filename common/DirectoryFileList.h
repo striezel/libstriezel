@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011 thoronador
+    Copyright (C) 2011, 2015  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,6 +36,12 @@
 struct FileEntry {
          std::string FileName;
          bool IsDirectory;
+
+         /** default constructor */
+         FileEntry();
+
+         /** alternative constructor */
+         FileEntry(const std::string& name, const bool isDir);
 };//struct
 
 /* returns in the result parameter a vector containing the names of all files and directories within the

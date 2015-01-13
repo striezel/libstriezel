@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011 thoronador
+    Copyright (C) 2011, 2015  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,6 +30,15 @@
   #include <dirent.h>
 #endif
 #include <unistd.h>
+
+FileEntry::FileEntry()
+: FileName(""), IsDirectory(false)
+{ }
+
+FileEntry::FileEntry(const std::string& name, const bool isDir)
+: FileName(name), IsDirectory(isDir)
+{ }
+
 
 bool getDirectoryFileList(const std::string& Directory, std::vector<FileEntry>& result, const std::string& Prefix, const bool recursive)
 {

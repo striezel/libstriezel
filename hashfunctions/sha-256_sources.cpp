@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's common code library.
-    Copyright (C) 2012, 2014  Thoronador
+    Copyright (C) 2012, 2014, 2015  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -89,10 +89,11 @@ MessageSource::~MessageSource()
 
 /* BufferSource functions */
 BufferSource::BufferSource(uint8_t* data, uint64_t data_length_in_bits)
-: MessageSource(), m_BufferPointer(data)
+: MessageSource(), m_BufferPointer(data),
+  m_BufferSize((data_length_in_bits/8) + ((data_length_in_bits%8)>0)) //we want full bytes only
 {
   //do the padding here
-  m_BufferSize = (data_length_in_bits/8) + ((data_length_in_bits%8)>0); //we want full bytes only
+  //m_BufferSize = (data_length_in_bits/8) + ((data_length_in_bits%8)>0); //we want full bytes only
   const unsigned int remainingDataBits = (m_BufferSize*8)%512;
   if (remainingDataBits>440)
   {
@@ -190,7 +191,6 @@ bool BufferSource::getNextMessageBlock(MessageBlock& mBlock)
 FileSource::FileSource()
 : MessageSource()
 {
-
 }
 
 FileSource::~FileSource()
