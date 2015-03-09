@@ -55,10 +55,4 @@ struct FileEntry {
 */
 bool getDirectoryFileList(const std::string& Directory, std::vector<FileEntry>& result, const std::string& Prefix, const bool recursive);
 
-/* Checks for existence of file FileName and returns true, if it exists. */
-//bool FileExists_old(const std::string& FileName);
-
-/* Checks for existence of file FileName and returns true, if it exists. */
-bool FileExists(const std::string& FileName);
-
 #endif // DIRECTORYFILELIST_H

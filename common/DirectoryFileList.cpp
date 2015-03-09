@@ -115,14 +115,3 @@ bool getDirectoryFileList(const std::string& Directory, std::vector<FileEntry>& 
   #endif
   return true;
 }//function
-
-bool FileExists(const std::string& FileName)
-{
-  const int ret = access(FileName.c_str(), F_OK);
-  if (ret==0)
-  {
-    //succeeded
-    return true;
-  }
-  return false;
-}

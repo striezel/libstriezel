@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the Thoronador's common code library.
-    Copyright (C) 2011, 2012  Thoronador
+    Copyright (C) 2011, 2012, 2015  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,8 +23,12 @@
 
 #include <string>
 
-namespace Thoro
+namespace libthoro
 {
+
+namespace filesystem
+{
+
 #if defined(_WIN32)
   const char pathDelimiter = '\\';
 #elif defined(__linux__) || defined(linux)
@@ -32,41 +36,49 @@ namespace Thoro
 #else
   #error Unknown operating system!
 #endif
-} //namespace
 
-/* Checks for existence of directory dirName and returns true, if it exists.
 
-  parameters:
-      dirName - the directory whose existence shall be determined
-*/
-bool directoryExists(const std::string& dirName);
+class Directory
+{
+  public:
+    /* Checks for existence of directory dirName and returns true, if it exists.
 
-/* tries to create the directory dirName and returns true, if the directory
-   could be created, false otherwise.
+       parameters:
+           dirName - the directory whose existence shall be determined
+    */
+    static bool exists(const std::string& dirName);
 
-   parameters:
-       dirName - path/name of the directory that shall be created
-*/
-bool createDirectory(const std::string& dirName);
 
-/* tries to create the directory dirName and returns true, if the directory
-   could be created, false otherwise. If neccessary, the required parent
-   directories will be created, too.
+    /* tries to create the directory dirName and returns true, if the directory
+       could be created, false otherwise.
 
-   parameters:
-       dirName - path/name of the directory that shall be created
-*/
-bool createDirectoryRecursive(const std::string& dirName);
+       parameters:
+           dirName - path/name of the directory that shall be created
+    */
+    static bool create(const std::string& dirName);
 
-/* tries to determine the absolute path to the current user's home directory
-   and returns that path in result in case of success. If the directory's path
-   cannot be determined, the function returns false and the result string is
-   unchanged.
 
-   parameters:
-       result - the string that will hold the result, if successful
-*/
-bool getHomeDirectory(std::string& result);
+    /* tries to create the directory dirName and returns true, if the directory
+       could be created, false otherwise. If neccessary, the required parent
+       directories will be created, too.
+
+       parameters:
+           dirName - path/name of the directory that shall be created
+    */
+    static bool createRecursive(const std::string& dirName);
+
+
+    /* tries to determine the absolute path to the current user's home directory
+       and returns that path in result in case of success. If the directory's path
+       cannot be determined, the function returns false and the result string is
+       unchanged.
+
+       parameters:
+           result - the string that will hold the result, if successful
+    */
+    bool getHomeDirectory(std::string& result);
+}; //class Directory
+
 
 /* adds a slash or backslash (or whatever is the path delimiter on the current
    system) to the given path, if the path is not empty and has no path delimiter
@@ -85,5 +97,9 @@ std::string slashify(const std::string& path);
        path - the path that should (possibly) has an (back)slash too much
 */
 std::string unslashify(const std::string& path);
+
+} //namespace filesystem
+
+} //namespace libthoro
 
 #endif // LIBTHORO_DIRECTORYFUNCTIONS_H

@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the Morrowind Tools Project.
-    Copyright (C) 2011 Thoronador
+    Copyright (C) 2011, 2015  Thoronador
 
     The Morrowind Tools are free software: you can redistribute them and/or
     modify them under the terms of the GNU General Public License as published
@@ -18,12 +18,12 @@
  -------------------------------------------------------------------------------
 */
 
-#include "FileFunctions.h"
+#include "FileFunctions.hpp"
 #include <sys/stat.h>
 #include <utime.h>
 #include <unistd.h>
 #include <cmath>
-#include "StringUtils.h"
+#include "../common/StringUtils.h"
 #include <iostream>
 #include <cstdio>
 #if defined(_WIN32)
@@ -36,7 +36,13 @@
   #error "Unknown operating system!"
 #endif
 
-int64_t getFileSize64(const std::string& fileName)
+namespace libthoro
+{
+
+namespace filesystem
+{
+
+int64_t File::getSize64(const std::string& fileName)
 {
   struct stat buffer;
   if (stat(fileName.c_str(), &buffer)==0)
@@ -49,7 +55,7 @@ int64_t getFileSize64(const std::string& fileName)
   return -1;
 }//function
 
-bool setFileModificationTime(const std::string& FileName, const time_t new_mtime)
+bool File::setModificationTime(const std::string& FileName, const time_t new_mtime)
 {
   struct stat buffer;
   if (stat(FileName.c_str(), &buffer)==0)
@@ -66,7 +72,7 @@ bool setFileModificationTime(const std::string& FileName, const time_t new_mtime
   return false;
 }
 
-bool getFileSizeAndModificationTime(const std::string& FileName, int64_t& FileSize, time_t& FileTime)
+bool File::getSizeAndModificationTime(const std::string& FileName, int64_t& FileSize, time_t& FileTime)
 {
   struct stat buffer;
   if (stat(FileName.c_str(), &buffer)==0)
@@ -82,6 +88,16 @@ bool getFileSizeAndModificationTime(const std::string& FileName, int64_t& FileSi
   FileTime = -1;
   return false;
 }//function
+
+bool File::exists(const std::string& FileName)
+{
+  return (access(FileName.c_str(), F_OK)==0);
+}
+
+bool File::remove(const std::string& fileName)
+{
+  return (remove(fileName.c_str())==0);
+}
 
 
 float round(const float f)
@@ -107,16 +123,6 @@ std::string getSizeString(const int64_t fileSize)
     return floatToString(round((fileSize*100.0f)/1024.0f)/100.0f)+" KB";
   }
   return floatToString(fileSize)+" byte";
-}
-
-bool FileExists(const std::string& FileName)
-{
-  return (access(FileName.c_str(), F_OK)==0);
-}
-
-bool deleteFile(const std::string& fileName)
-{
-  return (remove(fileName.c_str())==0);
 }
 
 std::vector<FileEntry> getDirectoryFileList(const std::string& Directory)
@@ -210,3 +216,7 @@ void splitPathFileExtension(const std::string fileName, const char pathSeperator
   name = name.substr(0, dotPos);
   return;
 }
+
+} //namespace filesystem
+
+} //namespace libt

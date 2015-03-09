@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the Thoronador's common code library.
-    Copyright (C) 2011, 2012, 2014  Thoronador
+    Copyright (C) 2011, 2012, 2014, 2015  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  -------------------------------------------------------------------------------
 */
 
-#include "DirectoryFunctions.h"
+#include "DirectoryFunctions.hpp"
 #include <sys/stat.h>
 
 #if defined(_WIN32)
@@ -29,7 +29,13 @@
   #include <pwd.h>
 #endif
 
-bool directoryExists(const std::string& dirName)
+namespace libthoro
+{
+
+namespace filesystem
+{
+
+bool Directory::exists(const std::string& dirName)
 {
   struct stat buffer;
   if (stat(dirName.c_str(), &buffer)==0)
@@ -41,7 +47,7 @@ bool directoryExists(const std::string& dirName)
   return false;
 }
 
-bool createDirectory(const std::string& dirName)
+bool Directory::create(const std::string& dirName)
 {
   #if defined(_WIN32)
     //WinAPI's CreateDirectory() returns nonzero on success
@@ -54,27 +60,27 @@ bool createDirectory(const std::string& dirName)
   #endif
 }
 
-bool createDirectoryRecursive(const std::string& dirName)
+bool Directory::createRecursive(const std::string& dirName)
 {
-  const std::string::size_type delimPos = dirName.rfind(Thoro::pathDelimiter);
-  if (delimPos==std::string::npos) return createDirectory(dirName);
+  const std::string::size_type delimPos = dirName.rfind(libthoro::filesystem::pathDelimiter);
+  if (delimPos==std::string::npos) return create(dirName);
 
-  if (directoryExists(dirName.substr(0, delimPos)))
+  if (exists(dirName.substr(0, delimPos)))
   {
     //parent directory already exists, just create the requested directory
-    return createDirectory(dirName);
+    return create(dirName);
   }
   //recursive creation neccessary, parent directory does not exist
-  if (createDirectoryRecursive(dirName.substr(0, delimPos)))
+  if (createRecursive(dirName.substr(0, delimPos)))
   {
     //creation of parent directory completed, go on with the final directory
-    return createDirectory(dirName);
+    return create(dirName);
   }
   //creation of parent directory failed
   return false;
 }
 
-bool getHomeDirectory(std::string& result)
+bool Directory::getHomeDirectory(std::string& result)
 {
   #if defined(_WIN32)
     char buffer[MAX_PATH+1];
@@ -114,9 +120,9 @@ std::string slashify(const std::string& path)
 {
   if (path.empty()) return path;
   //Does it have a trailing (back)slash?
-  if (path[path.length()-1]!=Thoro::pathDelimiter)
+  if (path[path.length()-1]!=libthoro::filesystem::pathDelimiter)
   {
-    return path + Thoro::pathDelimiter;
+    return path + libthoro::filesystem::pathDelimiter;
   }
   return path;
 }
@@ -124,9 +130,13 @@ std::string slashify(const std::string& path)
 std::string unslashify(const std::string& path)
 {
   if (path.empty()) return path;
-  if ((path[path.length()-1]==Thoro::pathDelimiter) and (path.length()>1))
+  if ((path[path.length()-1]==libthoro::filesystem::pathDelimiter) and (path.length()>1))
   {
     return path.substr(0, path.length()-1);
   }
   return path;
 }
+
+} //namespace filesystem
+
+} //namespace libthoro
