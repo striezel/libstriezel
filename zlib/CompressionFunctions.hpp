@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the Morrowind Tools Project.
-    Copyright (C) 2011 Thoronador
+    Copyright (C) 2011, 2015  Thoronador
 
     The Morrowind Tools are free software: you can redistribute them and/or
     modify them under the terms of the GNU General Public License as published
@@ -23,7 +23,10 @@
 
 #include <stdint.h>
 
-namespace Thoro
+namespace libthoro
+{
+
+namespace zlib
 {
 
 /* tries to decompress the data pointed to by compressedData and stores the
@@ -36,7 +39,7 @@ namespace Thoro
        decompBuffer   - pre-allocated buffer that will hold the decompressed data
        decompSize     - size of decompBuffer
 */
-bool zlibDecompress(uint8_t * compressedData, const uint32_t compressedSize, uint8_t * decompBuffer, const uint32_t decompSize);
+bool decompress(uint8_t * compressedData, const uint32_t compressedSize, uint8_t * decompBuffer, const uint32_t decompSize);
 
 
 typedef uint8_t* CompressPointer;
@@ -61,7 +64,9 @@ typedef uint8_t* CompressPointer;
        usedSize will hold the actual number of bytes that are used in that
        buffer. This value may be less than compSize.
 */
-bool zlibCompress(uint8_t * rawData, const uint32_t rawSize, CompressPointer& compBuffer, uint32_t& compSize, uint32_t& usedSize, const int level=6);
+bool compress(uint8_t * rawData, const uint32_t rawSize, CompressPointer& compBuffer, uint32_t& compSize, uint32_t& usedSize, const int level=6);
+
+} //namespace zlib
 
 } //namespace
 
