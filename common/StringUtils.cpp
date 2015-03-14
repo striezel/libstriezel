@@ -38,14 +38,14 @@ std::string toLowerString(std::string str)
 
 void trimLeft(std::string& str1)
 {
-  if (str1=="") return;
+  if (str1.empty()) return;
   //trim stuff at begin
   int len = str1.length();
   int pos = 0;
   bool go_on = true;
   while (go_on)
   {
-    char ch = str1.at(pos);
+    const char ch = str1.at(pos);
     if ((ch==' ') or (ch=='\t'))
     {
       ++pos;
@@ -58,7 +58,7 @@ void trimLeft(std::string& str1)
   }//while
   if (pos>=len)
   {
-    str1 = "";
+    str1.clear();
     return;
   }
   else if (pos>0)
@@ -77,7 +77,7 @@ void trimRight(std::string& str1)
   bool go_on = true;
   while (go_on)
   {
-    char ch = str1.at(pos);
+    const char ch = str1.at(pos);
     if ((ch==' ') or (ch=='\t'))
     {
       --pos;
@@ -90,7 +90,7 @@ void trimRight(std::string& str1)
   }//while
   if (pos==-1)
   {
-    str1 = "";
+    str1.clear();
   }
   else if (pos<len-1)
   {
@@ -122,7 +122,7 @@ std::string uintToString(const unsigned int value)
 
 bool stringToInt(const std::string& str, int& value)
 {
-  if (str.length()==0) return false;
+  if (str.empty()) return false;
   value = 0;
   unsigned int i;
   const int cTenthLimit = std::numeric_limits<int>::max() / 10;
@@ -138,7 +138,7 @@ bool stringToInt(const std::string& str, int& value)
     i=0;
     negative = false;
   }
-  for ( ; i<str.length(); ++i)
+  for ( ; i<str.size(); ++i)
   {
     if ((str.at(i)>='0') and (str.at(i)<='9'))
     {
@@ -163,12 +163,12 @@ bool stringToInt(const std::string& str, int& value)
 
 bool stringToUnsignedInt(const std::string& str, unsigned int& value)
 {
-  if (str.length()==0) return false;
+  if (str.empty()) return false;
   value = 0;
   const unsigned int cTenthLimit = std::numeric_limits<unsigned int>::max() / 10;
   const unsigned int cRealLimit = std::numeric_limits<unsigned int>::max();
-  unsigned int i = 0;
-  for ( ; i<str.length(); ++i)
+  std::string::size_type i = 0;
+  for ( ; i < str.size(); ++i)
   {
     if ((str.at(i)>='0') and (str.at(i)<='9'))
     {
@@ -193,7 +193,7 @@ bool stringToUnsignedInt(const std::string& str, unsigned int& value)
 //tries to get the floating point representation of a string
 bool stringToFloat(const std::string& str, float& value)
 {
-  if (str.length()==0) return false;
+  if (str.empty()) return false;
   value = 0.0f;
   unsigned int i, next_look;
   bool negative;
