@@ -76,7 +76,7 @@ class Directory
        parameters:
            result - the string that will hold the result, if successful
     */
-    bool getHomeDirectory(std::string& result);
+    static bool getHome(std::string& result);
 }; //class Directory
 
 

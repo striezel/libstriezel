@@ -80,7 +80,7 @@ bool Directory::createRecursive(const std::string& dirName)
   return false;
 }
 
-bool Directory::getHomeDirectory(std::string& result)
+bool Directory::getHome(std::string& result)
 {
   #if defined(_WIN32)
     char buffer[MAX_PATH+1];
