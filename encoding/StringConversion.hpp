@@ -26,6 +26,9 @@
 namespace libthoro
 {
 
+namespace encoding
+{
+
 ///error code constants
 const int cseNone = 0;
 const int cseFile = 1;
@@ -74,6 +77,8 @@ inline bool iso8859_1_to_utf8(const std::string& in_iso, std::string& out_utf8)
   return (convertString("iso-8859-1", "utf8", in_iso, out_utf8)==cseNone);
 }
 
-} //namespace
+} //namespace encoding
+
+} //namespace libthoro
 
 #endif // LIBTHORO_STRINGCONVERSION_HPP

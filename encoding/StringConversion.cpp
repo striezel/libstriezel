@@ -26,6 +26,9 @@
 namespace libthoro
 {
 
+namespace encoding
+{
+
 int convertString(const std::string& from, const std::string& to, const std::string& text, std::string& output)
 {
   if (text.empty())
@@ -110,4 +113,6 @@ int convertString(const std::string& from, const std::string& to, const std::str
   return cseNone;
 }//function
 
-} //namespace
+} //namespace encoding
+
+} //namespace libthoro
