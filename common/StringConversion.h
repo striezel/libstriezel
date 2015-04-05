@@ -59,7 +59,7 @@ int convertString(const std::string& from, const std::string& to, const std::str
   iconv_t cd = iconv_open(to.c_str(), from.c_str());
   if (cd==(iconv_t) -1)
   {
-    //error occured
+    //error occurred
     switch (errno)
     {
       case EMFILE:
@@ -109,7 +109,7 @@ int convertString(const std::string& from, const std::string& to, const std::str
   size_t result = iconv(cd, &buffer, &in_size_left, &buffOutput, &out_size_left);
   if (((size_t)-1) == result)
   {
-    //error occured
+    //error occurred
     delete[] buffPointer;
     delete[] buffOutputPtr;
     iconv_close(cd);
@@ -135,7 +135,7 @@ int convertString(const std::string& from, const std::string& to, const std::str
 
 /* converts the UTF8-encoded string given as input to a ISO-8859-1-encoded
    string and returns the converted string in out_iso. Returns true in case of
-   success, false in case of error. If an error occured, the output string
+   success, false in case of error. If an error occurred, the output string
    stays unchanged.
 */
 inline bool utf8_to_iso8859_1(const std::string& in_utf8, std::string& out_iso)
@@ -145,7 +145,7 @@ inline bool utf8_to_iso8859_1(const std::string& in_utf8, std::string& out_iso)
 
 /* converts the ISO-8859-1-encoded string given as input to a UTF8-encoded
    string and returns the converted string in out_utf8. Returns true in case of
-   success, false in case of error. If an error occured, the output string
+   success, false in case of error. If an error occurred, the output string
    stays unchanged.
 */
 inline bool iso8859_1_to_utf8(const std::string& in_iso, std::string& out_utf8)

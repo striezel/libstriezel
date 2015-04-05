@@ -63,7 +63,7 @@ bool decompress(uint8_t * compressedData, const uint32_t compressedSize, uint8_t
            break;
     }//swi
     return false;
-  }//if error occured
+  }//if error occurred
 
 
   streamZlib.avail_in = compressedSize;

@@ -31,7 +31,7 @@ namespace zlib
 
 /* tries to decompress the data pointed to by compressedData and stores the
    decompressed bits in decompressionBuffer. Returns true in case of success,
-   or false if an error occured.
+   or false if an error occurred.
 
    parameters:
        compressedData - pointer to the buffer containing the compressed data
@@ -46,7 +46,7 @@ typedef uint8_t* CompressPointer;
 
 /* tries to compress the data pointed to by rawData and stores the compressed
    bits in compBuffer. Returns true in case of success, or false if an error
-   occured.
+   occurred.
 
    parameters:
        rawData    - pointer to the buffer containing the uncompressed data

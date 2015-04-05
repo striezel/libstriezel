@@ -69,7 +69,7 @@ bool getDirectoryFileList(const std::string& Directory, std::vector<FileEntry>& 
       if (!getDirectoryFileList(Directory+std::string(sr.name)+DirectorySeparator,
           result, Prefix+std::string(sr.name)+DirectorySeparator, recursive))
       {
-        //error occured, close handle and return
+        //error occurred, close handle and return
         _findclose(handle);
         return false;
       }
@@ -103,7 +103,7 @@ bool getDirectoryFileList(const std::string& Directory, std::vector<FileEntry>& 
         if (!getDirectoryFileList(Directory+std::string(entry->d_name)+DirectorySeparator,
             result, Prefix+std::string(entry->d_name)+DirectorySeparator, recursive))
         {
-          //error occured, close handle and return
+          //error occurred, close handle and return
           closedir(direc);
           return false;
         }
