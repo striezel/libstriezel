@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's common code library.
-    Copyright (C) 2012 thoronador
+    Copyright (C) 2012  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,37 +18,14 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_STRINGCONVERSION_H
-#define LIBTHORO_STRINGCONVERSION_H
-
+#include "StringConversion.hpp"
 #include <iconv.h>
 #include <cerrno>
 #include <cstring>
 
-namespace Thoro
+namespace libthoro
 {
 
-//error code constants
-const int cseNone = 0;
-const int cseFile = 1;
-const int cseOutOfMemory = 2;
-const int cseNotSupported = 3;
-const int cseBadArgument = 4;
-const int cseInvalidCode = 5;
-const int cseBufferToSmall = 6;
-const int cseUnknown = 7;
-
-/* converts a string from one codeset to another
-
-   parameters:
-       from - name of the original codeset (e.g. "utf8")
-       to   - name of the target codeset (e.g. "iso-8859-15")
-       text - the text in the original encoding
-       output - string that shall store the text in the target encoding
-
-   remarks:
-       If this function fails, the string in output is not touched.
-*/
 int convertString(const std::string& from, const std::string& to, const std::string& text, std::string& output)
 {
   if (text.empty())
@@ -133,26 +110,4 @@ int convertString(const std::string& from, const std::string& to, const std::str
   return cseNone;
 }//function
 
-/* converts the UTF8-encoded string given as input to a ISO-8859-1-encoded
-   string and returns the converted string in out_iso. Returns true in case of
-   success, false in case of error. If an error occurred, the output string
-   stays unchanged.
-*/
-inline bool utf8_to_iso8859_1(const std::string& in_utf8, std::string& out_iso)
-{
-  return (convertString("utf8", "iso-8859-1", in_utf8, out_iso)==cseNone);
-}
-
-/* converts the ISO-8859-1-encoded string given as input to a UTF8-encoded
-   string and returns the converted string in out_utf8. Returns true in case of
-   success, false in case of error. If an error occurred, the output string
-   stays unchanged.
-*/
-inline bool iso8859_1_to_utf8(const std::string& in_iso, std::string& out_utf8)
-{
-  return (convertString("iso-8859-1", "utf8", in_iso, out_utf8)==cseNone);
-}
-
 } //namespace
-
-#endif // LIBTHORO_STRINGCONVERSION_H
