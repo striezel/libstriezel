@@ -26,6 +26,7 @@
 #include "../common/StringUtils.h"
 #include <iostream>
 #include <cstdio>
+#include <cstdlib> //for mkstemp()
 #if defined(_WIN32)
   //Windows includes go here
   #include <io.h>
@@ -99,6 +100,23 @@ bool File::remove(const std::string& fileName)
   return (std::remove(fileName.c_str())==0);
 }
 
+bool File::createTemp(std::string& tempFileName)
+{
+  char tmpFile[] = "/tmp/fileXXXXXXXXXX";
+  const mode_t orig_umask = umask(S_IXUSR | S_IRWXG | S_IRWXO);
+  const int fd = mkstemp(tmpFile);
+  //reset umask
+  umask(orig_umask);
+  if (fd < 0) //-1 signals error
+  {
+    //Could not get temporary file name!
+    unlink(tmpFile);
+    return false;
+  }
+  close(fd);
+  tempFileName = std::string(tmpFile);
+  return true;
+}
 
 float round(const float f)
 {

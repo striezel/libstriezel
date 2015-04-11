@@ -78,7 +78,15 @@ class File
        parameters:
            fileName - the file that shall be deleted
     */
-    bool remove(const std::string& fileName);
+    static bool remove(const std::string& fileName);
+
+
+    /** \brief tries to create a temporary file
+     *
+     * \param tempFileName  string that will hold the file name of the temp file
+     * \return Returns true, if a temporary file was created. Returns false otherwise.
+     */
+    static bool createTemp(std::string& tempFileName);
 }; //class File
 
 
