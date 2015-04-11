@@ -96,7 +96,7 @@ bool File::exists(const std::string& FileName)
 
 bool File::remove(const std::string& fileName)
 {
-  return (remove(fileName.c_str())==0);
+  return (std::remove(fileName.c_str())==0);
 }
 
 
