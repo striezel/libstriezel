@@ -30,13 +30,13 @@
  (C) 2012  Thoronador (minor modifications)
 */
 
-#ifndef LIBTHORO_BUFFERSTREAM_H
-#define LIBTHORO_BUFFERSTREAM_H
+#ifndef LIBTHORO_BUFFERSTREAM_HPP
+#define LIBTHORO_BUFFERSTREAM_HPP
 
 #include <istream>
 #include <stdint.h>
 
-namespace Thoro
+namespace libthoro
 {
 
 //!A streambuf class that controls the transmission of elements to and from
@@ -307,4 +307,4 @@ typedef basic_ibufferstream<char, std::char_traits<char> > BufferStream;
 
 } //namespace
 
-#endif // LIBTHORO_BUFFERSTREAM_H
+#endif // LIBTHORO_BUFFERSTREAM_HPP
