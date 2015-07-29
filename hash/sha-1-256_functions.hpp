@@ -22,6 +22,7 @@
 #define LIBTHORO_SHA_1_256_COMMON_HPP
 
 #include <stdexcept>
+#include <stdint.h>
 
 /* This file contains functions that are used in SHA-1 and/or SHA-256 hash
    calculations. */

@@ -21,9 +21,10 @@
 #ifndef LIBTHORO_SHA256_FUNCTIONS_HPP
 #define LIBTHORO_SHA256_FUNCTIONS_HPP
 
+#include <stdint.h>
 #include "../sha-1-256_functions.hpp"
 
-/* This file contains the constants and (shorter) functions for tSHA-256
+/* This file contains the constants and (shorter) functions for SHA-256
    calculation. */
 
 namespace SHA256

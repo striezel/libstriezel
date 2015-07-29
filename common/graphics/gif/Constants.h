@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011 thoronador
+    This file is part of the Thoronador's common code library.
+    Copyright (C) 2011, 2015  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
 
 #ifndef GIFCONSTANTS_H
 #define GIFCONSTANTS_H
+
+#include <stdint.h>
 
 // constants
 const uint8_t cGIFImageSeparator = 0x2C;
