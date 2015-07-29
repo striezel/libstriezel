@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#include "sha-1.h"
-#include "sha-1-256_functions.h"
+#include "sha-1.hpp"
+#include "sha-1-256_functions.hpp"
 #include <iostream>
 #include <stdexcept>
 #include <cstring>

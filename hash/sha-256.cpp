@@ -20,8 +20,8 @@
 
 //#define SHA256_DEBUG
 
-#include "sha-256.h"
-#include "sha-256_functions.h"
+#include "sha-256.hpp"
+#include "sha-256_functions.hpp"
 #include <cstring>
 #include <sys/types.h>
 #include <fstream>

@@ -18,10 +18,10 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_SHA256_FUNCTIONS_H
-#define LIBTHORO_SHA256_FUNCTIONS_H
+#ifndef LIBTHORO_SHA256_FUNCTIONS_HPP
+#define LIBTHORO_SHA256_FUNCTIONS_HPP
 
-#include "sha-1-256_functions.h"
+#include "sha-1-256_functions.hpp"
 
 /* This file contains the constants and (shorter) functions for tSHA-256
    calculation. */
@@ -63,4 +63,4 @@ inline uint32_t sigmaOne(const uint32_t x)
 
 }//namespace SHA256
 
-#endif // LIBTHORO_SHA256_FUNCTIONS_H
+#endif // LIBTHORO_SHA256_FUNCTIONS_HPP

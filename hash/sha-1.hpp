@@ -1,6 +1,6 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's random stuff.
+    This file is part of the Thoronador's common code library.
     Copyright (C) 2012 thoronador
 
     This program is free software: you can redistribute it and/or modify
@@ -18,18 +18,25 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef RANDOM_THORO_SHA_256_H
-#define RANDOM_THORO_SHA_256_H
+#ifndef LIBTHORO_SHA_1_HPP
+#define LIBTHORO_SHA_1_HPP
 
 #include <stdint.h>
 #include <string>
-#include "sha-256_sources.h"
+#include "sha-256_sources.hpp"
 
-namespace SHA256
+namespace SHA1
 {
+  //alias for types that are shared with SHA-256
+  typedef SHA256::MessageSource MessageSource;
+  typedef SHA256::BufferSource  BufferSource;
+  typedef SHA256::FileSource    FileSource;
+  typedef SHA256::MessageBlock  MessageBlock;
+
+  //the MessageDigest strucure for SHA-1
   struct MessageDigest
   {
-    uint32_t hash[8];
+    uint32_t hash[5];
 
     /* default constructor */
     MessageDigest();
@@ -82,6 +89,6 @@ namespace SHA256
   MessageDigest computeFromFile(const std::string& fileName);
 
   MessageDigest computeFromSource(MessageSource& source);
-}//SHA256 namespace
+}//SHA1 namespace
 
-#endif // RANDOM_THORO_SHA_256_H
+#endif // LIBTHORO_SHA_1_HPP
