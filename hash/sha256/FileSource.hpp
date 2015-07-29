@@ -21,79 +21,11 @@
 #ifndef LIBTHORO_SHA_256_SOURCES_HPP
 #define LIBTHORO_SHA_256_SOURCES_HPP
 
-#include <stdint.h>
 #include <fstream>
-#include <sys/types.h>
+#include "MessageSource.hpp"
 
 namespace SHA256
 {
-
-/* MessageBlock structure */
-struct MessageBlock
-{
-  uint32_t words[16];
-
-  void reverseBlock();
-};//struct
-
-#if BYTE_ORDER == LITTLE_ENDIAN
-/* reverses little endian to big endian
-
-   parameters:
-       w - little endian value
-       x - var. to store the converted value
-*/
-void reverse64(const uint64_t w, uint64_t& x);
-#endif
-
-/* basic message source class */
-class MessageSource
-{
-  public:
-    /* constructor */
-    MessageSource();
-
-    /* destructor */
-    virtual ~MessageSource();
-
-    /* puts the next message block from the source in mBlock and returns true,
-       if there is at least one more message block. Returns false and leaves
-       mBlock unchanged, if there are no more message blocks.
-
-       parameters:
-           mBlock - reference to the message blocked that should be filled
-    */
-    virtual bool getNextMessageBlock(MessageBlock& mBlock) = 0;
-  protected:
-    uint64_t m_BitsRead;
-    uint8_t * m_PaddingBuffer;
-    enum PaddingStatus {psUnpadded, psPadded512, psPadded1024, psPadded1024And512Read, psPaddedAndAllRead};
-    PaddingStatus m_Status;
-}; //class
-
-/* message source class for buffers */
-class BufferSource: public MessageSource
-{
-  public:
-    /* constructor */
-    BufferSource(uint8_t* data, const uint64_t data_length_in_bits);
-
-    /* destructor */
-    virtual ~BufferSource();
-
-    /* puts the next message block from the source in mBlock and returns true,
-       if there is at least one more message block. Returns false and leaves
-       mBlock unchanged, if there are no more message blocks.
-
-       parameters:
-           mBlock - reference to the message blocked that should be filled
-    */
-    virtual bool getNextMessageBlock(MessageBlock& mBlock);
-  private:
-    uint8_t * m_BufferPointer;
-    uint64_t m_BufferSize;
-}; //class
-
 
 /* message source class for files */
 class FileSource: public MessageSource

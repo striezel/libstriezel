@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2012 thoronador
+    Copyright (C) 2012, 2015  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,14 +20,11 @@
 
 //#define SHA256_DEBUG
 
+#include <iostream>
 #include "sha256.hpp"
+#include "BufferSource.hpp"
+#include "FileSource.hpp"
 #include "functions.hpp"
-#include <cstring>
-#include <sys/types.h>
-#include <fstream>
-//#ifdef SHA256_DEBUG
-  #include <iostream>
-//#endif
 
 namespace SHA256
 {
@@ -178,7 +175,7 @@ MessageDigest computeFromSource(MessageSource& source)
   H.hash[6] = 0x1f83d9ab;
   H.hash[7] = 0x5be0cd19;
 
-  unsigned int t; //Laufvariable
+  unsigned int t; //loop variable
 
   while (source.getNextMessageBlock(msgBlock))
   {
@@ -214,7 +211,7 @@ MessageDigest computeFromSource(MessageSource& source)
     // 3. for loop
     for (t=0; t<64; ++t)
     {
-      temp1 = h +CapitalSigmaOne(e) + SHA1_256::Ch(e, f, g) + sha256_k[t] + msg_schedule[t];
+      temp1 = h + CapitalSigmaOne(e) + SHA1_256::Ch(e, f, g) + sha256_k[t] + msg_schedule[t];
       temp2 = CapitalSigmaZero(a) + SHA1_256::Maj(a, b, c);
       h = g;
       g = f;

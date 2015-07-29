@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's common code library.
-    Copyright (C) 2012 thoronador
+    Copyright (C) 2012, 2015  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,7 +23,9 @@
 
 #include <stdint.h>
 #include <string>
-#include "../sha256/sources.hpp"
+#include "../sha256/MessageSource.hpp"
+#include "../sha256/BufferSource.hpp"
+#include "../sha256/FileSource.hpp"
 
 namespace SHA1
 {
