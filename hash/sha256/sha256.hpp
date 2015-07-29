@@ -23,7 +23,7 @@
 
 #include <stdint.h>
 #include <string>
-#include "sha-256_sources.hpp"
+#include "sources.hpp"
 
 namespace SHA256
 {

@@ -18,7 +18,7 @@
  -----------------------------------------------------------------------------
 */
 
-#include "sha-256_sources.hpp"
+#include "sources.hpp"
 #include <cstring>
 #include <stdexcept>
 

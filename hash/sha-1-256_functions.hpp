@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_SHA_1_256_COMMON_H
-#define LIBTHORO_SHA_1_256_COMMON_H
+#ifndef LIBTHORO_SHA_1_256_COMMON_HPP
+#define LIBTHORO_SHA_1_256_COMMON_HPP
 
 #include <stdexcept>
 
@@ -62,4 +62,4 @@ inline uint32_t Parity(const uint32_t x, const uint32_t y, const uint32_t z)
 
 } //namespace SHA1_256
 
-#endif // LIBTHORO_SHA_1_256_COMMON_H
+#endif // LIBTHORO_SHA_1_256_COMMON_HPP
