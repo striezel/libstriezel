@@ -18,37 +18,16 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_SHA256_BUFFERSOURCE_HPP
-#define LIBTHORO_SHA256_BUFFERSOURCE_HPP
-
-#include "MessageSource.hpp"
+#include "BufferSourceUtility.hpp"
+#include "BufferSource.hpp"
 
 namespace SHA256
 {
 
-/* message source class for buffers */
-class BufferSource: public MessageSource
+MessageDigest computeFromBuffer(uint8_t* data, const uint64_t data_length_in_bits)
 {
-  public:
-    /* constructor */
-    BufferSource(uint8_t* data, const uint64_t data_length_in_bits);
-
-    /** destructor */
-    virtual ~BufferSource();
-
-    /* puts the next message block from the source in mBlock and returns true,
-       if there is at least one more message block. Returns false and leaves
-       mBlock unchanged, if there are no more message blocks.
-
-       parameters:
-           mBlock - reference to the message blocked that should be filled
-    */
-    virtual bool getNextMessageBlock(MessageBlock& mBlock);
-  private:
-    uint8_t * m_BufferPointer; /**< pointer to the buffer */
-    uint64_t m_BufferSize; /**< size of the buffer in bits */
-}; //class
+  BufferSource source(data, data_length_in_bits);
+  return computeFromSource(source);
+}
 
 } //namespace
-
-#endif // LIBTHORO_SHA256_BUFFERSOURCE_HPP

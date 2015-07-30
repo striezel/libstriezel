@@ -20,11 +20,11 @@
 
 #include "FileSource.hpp"
 #include <cstring>
+#include <iostream>
 #include <stdexcept>
 
 namespace SHA256
 {
-
 
 /* FileSource functions */
 FileSource::FileSource()

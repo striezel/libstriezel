@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_SHA_256_SOURCES_HPP
-#define LIBTHORO_SHA_256_SOURCES_HPP
+#ifndef LIBTHORO_SHA256_FILESOURCE_HPP
+#define LIBTHORO_SHA256_FILESOURCE_HPP
 
 #include <fstream>
 #include "MessageSource.hpp"
@@ -60,4 +60,4 @@ class FileSource: public MessageSource
 
 } //namespace
 
-#endif // LIBTHORO_SHA_256_SOURCES_HPP
+#endif // LIBTHORO_SHA256_FILESOURCE_HPP

@@ -22,8 +22,6 @@
 
 #include <iostream>
 #include "sha256.hpp"
-#include "BufferSource.hpp"
-#include "FileSource.hpp"
 #include "functions.hpp"
 
 namespace SHA256
@@ -131,25 +129,6 @@ bool MessageDigest::operator<(const MessageDigest& other) const
     if (hash[i]>other.hash[i]) return false;
   }//for
   return (hash[7]<other.hash[7]);
-}
-
-MessageDigest computeFromBuffer(uint8_t* data, const uint64_t data_length_in_bits)
-{
-  BufferSource source(data, data_length_in_bits);
-  return computeFromSource(source);
-}
-
-MessageDigest computeFromFile(const std::string& fileName)
-{
-  //setup file stuff
-  FileSource source;
-  if (!source.open(fileName))
-  {
-    std::cout << "Could not open file \""<<fileName<<"\" via file source!\n";
-    MessageDigest H;
-    return H;
-  }
-  return computeFromSource(source);
 }
 
 MessageDigest computeFromSource(MessageSource& source)

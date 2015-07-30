@@ -24,18 +24,14 @@
 #include <stdint.h>
 #include <string>
 #include "../sha256/MessageSource.hpp"
-#include "../sha256/BufferSource.hpp"
-#include "../sha256/FileSource.hpp"
 
 namespace SHA1
 {
   //alias for types that are shared with SHA-256
   typedef SHA256::MessageSource MessageSource;
-  typedef SHA256::BufferSource  BufferSource;
-  typedef SHA256::FileSource    FileSource;
   typedef SHA256::MessageBlock  MessageBlock;
 
-  //the MessageDigest strucure for SHA-1
+  ///the MessageDigest structure for SHA-1
   struct MessageDigest
   {
     uint32_t hash[5];
@@ -72,24 +68,14 @@ namespace SHA1
     bool operator<(const MessageDigest& other) const;
   };
 
-  /* computes and returns the message digest of data in the given buffer of the
-     given length
 
-     parameters:
-         data                - pointer to the message data buffer
-         data_length_in_bits - length of data in bits. Value is rounded up to
-                               the next integral multiple of eight, i.e. only
-                               full bytes are allowed.
-  */
-  MessageDigest computeFromBuffer(uint8_t* data, const uint64_t data_length_in_bits);
-
-  /* computes and returns the message digest of the given file's contents
-
-     parameters:
-         fileName - name of the file
-  */
-  MessageDigest computeFromFile(const std::string& fileName);
-
+  /** \brief computes and returns the message digest of the given source
+   *
+   * \param source   the message source
+   * \return Returns the SHA1 message digest on success.
+   *         Returns the "null" message digest (i.e. all bits set to zero),
+   *         if an error occurred.
+   */
   MessageDigest computeFromSource(MessageSource& source);
 }//SHA1 namespace
 

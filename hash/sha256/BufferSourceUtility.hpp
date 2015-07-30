@@ -18,37 +18,26 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_SHA256_BUFFERSOURCE_HPP
-#define LIBTHORO_SHA256_BUFFERSOURCE_HPP
+#ifndef LIBTHORO_SHA256_BUFFERSOURCEUTILITY_HPP
+#define LIBTHORO_SHA256_BUFFERSOURCEUTILITY_HPP
 
-#include "MessageSource.hpp"
+#include "sha256.hpp"
 
 namespace SHA256
 {
 
-/* message source class for buffers */
-class BufferSource: public MessageSource
-{
-  public:
-    /* constructor */
-    BufferSource(uint8_t* data, const uint64_t data_length_in_bits);
-
-    /** destructor */
-    virtual ~BufferSource();
-
-    /* puts the next message block from the source in mBlock and returns true,
-       if there is at least one more message block. Returns false and leaves
-       mBlock unchanged, if there are no more message blocks.
-
-       parameters:
-           mBlock - reference to the message blocked that should be filled
-    */
-    virtual bool getNextMessageBlock(MessageBlock& mBlock);
-  private:
-    uint8_t * m_BufferPointer; /**< pointer to the buffer */
-    uint64_t m_BufferSize; /**< size of the buffer in bits */
-}; //class
+/** \brief computes and returns the message digest of data in the given buffer of the given length
+ *
+ * \param data                  pointer to the message data buffer
+ * \param data_length_in_bits   length of data in bits. Value is rounded up to
+ *                              the next integral multiple of eight, i.e. only
+ *                              full bytes are allowed.
+ * \return Returns the SHA256 message digest on success.
+ *         Returns the "null" message digest (i.e. all bits set to zero),
+ *         if an error occurred.
+ */
+MessageDigest computeFromBuffer(uint8_t* data, const uint64_t data_length_in_bits);
 
 } //namespace
 
-#endif // LIBTHORO_SHA256_BUFFERSOURCE_HPP
+#endif // LIBTHORO_SHA256_BUFFERSOURCEUTILITY_HPP

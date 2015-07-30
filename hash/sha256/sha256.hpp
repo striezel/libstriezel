@@ -63,24 +63,14 @@ namespace SHA256
     bool operator<(const MessageDigest& other) const;
   };
 
-  /* computes and returns the message digest of data in the given buffer of the
-     given length
 
-     parameters:
-         data                - pointer to the message data buffer
-         data_length_in_bits - length of data in bits. Value is rounded up to
-                               the next integral multiple of eight, i.e. only
-                               full bytes are allowed.
-  */
-  MessageDigest computeFromBuffer(uint8_t* data, const uint64_t data_length_in_bits);
-
-  /* computes and returns the message digest of the given file's contents
-
-     parameters:
-         fileName - name of the file
-  */
-  MessageDigest computeFromFile(const std::string& fileName);
-
+  /** \brief computes and returns the message digest of the given source
+   *
+   * \param source   the message source
+   * \return Returns the SHA256 message digest on success.
+   *         Returns the "null" message digest (i.e. all bits set to zero),
+   *         if an error occurred.
+   */
   MessageDigest computeFromSource(MessageSource& source);
 }//SHA256 namespace
 
