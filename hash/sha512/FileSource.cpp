@@ -86,7 +86,7 @@ bool FileSource::getNextMessageBlock(MessageBlock& mBlock)
          reverse64(m_BitsRead, m_BitsRead);
          #endif
          mBlock.words[14] = 0;
-         mBlock.words[14] = m_BitsRead;
+         mBlock.words[15] = m_BitsRead;
          m_Status = psPaddedAndAllRead;
          mBlock.reverseBlock();
          return true;
