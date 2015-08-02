@@ -32,17 +32,21 @@ namespace SHA1_256
 
 inline uint32_t rotr(const uint8_t n, const uint32_t w)
 {
+  #ifdef SHA256_DEBUG
   //no values larger than 31 allowed here, because 32 is the word size
   if (n>31)
     throw std::invalid_argument("rotr(): no values of n which are larger than 31 are allowed here, because 32 is the word size!");
+  #endif
   return ((w >> n) | (w << (32-n)));
 }
 
 inline uint32_t rotl(const uint8_t n, const uint32_t w)
 {
+  #ifdef SHA256_DEBUG
   //no values larger than 31 allowed here, because 32 is the word size
   if (n>31)
     throw std::invalid_argument("rotl(): no values of n which are larger than 31 are allowed here, because 32 is the word size!");
+  #endif
   return ((w << n) | (w >> (32-n)));
 }
 

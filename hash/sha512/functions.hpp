@@ -58,17 +58,21 @@ const uint64_t sha512_k[80] = {
 
 inline uint64_t rotr(const uint8_t n, const uint64_t w)
 {
+  #ifdef SHA512_DEBUG
   //no values larger than 63 allowed here, because 64 is the word size
   if (n>63)
     throw std::invalid_argument("rotr(): no values of n which are larger than 63 are allowed here, because 64 is the word size!");
+  #endif
   return ((w >> n) | (w << (64-n)));
 }
 
 inline uint64_t rotl(const uint8_t n, const uint64_t w)
 {
+  #ifdef SHA512_DEBUG
   //no values larger than 63 allowed here, because 64 is the word size
   if (n>63)
     throw std::invalid_argument("rotl(): no values of n which are larger than 63 are allowed here, because 64 is the word size!");
+  #endif
   return ((w << n) | (w >> (64-n)));
 }
 
