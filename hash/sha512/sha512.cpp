@@ -63,12 +63,12 @@ bool MessageDigest::fromHexString(const std::string& digestHexString)
 {
   if (digestHexString.length()!=128) return false;
   unsigned int i, j;
-  for (i=0; i<16; ++i)
+  for (i=0; i<8; ++i)
   {
     hash[i] = 0;
-    for (j=0; j<8; ++j)
+    for (j=0; j<16; ++j)
     {
-      switch (digestHexString.at(i*8+j))
+      switch (digestHexString.at(i*16+j))
       {
         case '0':
         case '1':
@@ -80,7 +80,7 @@ bool MessageDigest::fromHexString(const std::string& digestHexString)
         case '7':
         case '8':
         case '9':
-             hash[i] = hash[i] | ((digestHexString.at(i*8+j)-'0')<<(28-j*4));
+             hash[i] = hash[i] | (static_cast<uint64_t>(digestHexString.at(i*16+j)-'0')<<(60-j*4));
              break;
         case 'a':
         case 'b':
@@ -88,7 +88,7 @@ bool MessageDigest::fromHexString(const std::string& digestHexString)
         case 'd':
         case 'e':
         case 'f':
-             hash[i] = hash[i] | ((digestHexString.at(i*8+j)-'a'+10)<<(28-j*4));
+             hash[i] = hash[i] | (static_cast<uint64_t>(digestHexString.at(i*16+j)-'a'+10)<<(60-j*4));
              break;
         default:
              //invalid character encountered
