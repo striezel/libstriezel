@@ -30,7 +30,16 @@ namespace SHA512
 class BufferSource: public MessageSource
 {
   public:
-    /** \brief constructor */
+    /** \brief constructor
+     *
+     * \param data   pointer to the buffer (must not be null);
+     *  The buffer pointer must not be freed or changed during the lifetime of
+     *  the BufferSource object, because it uses the data directly instead of
+     *  copying it for internal use.
+     * \param data_length_in_bits  length of the buffer in bits(!);
+     *  will be rounded up to the next multiple of eight, because the
+     *  implementation is byte-oriented.
+     */
     BufferSource(uint8_t* data, const uint64_t data_length_in_bits);
 
 
@@ -48,7 +57,7 @@ class BufferSource: public MessageSource
     virtual bool getNextMessageBlock(MessageBlock& mBlock);
   private:
     uint8_t * m_BufferPointer; /**< pointer to the buffer */
-    uint64_t m_BufferSize; /**< size of the buffer in bits */
+    uint64_t m_BufferSize; /**< size of the buffer in bytes */
 }; //class
 
 } //namespace

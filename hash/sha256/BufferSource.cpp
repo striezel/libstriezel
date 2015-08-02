@@ -76,7 +76,7 @@ BufferSource::~BufferSource()
 
 bool BufferSource::getNextMessageBlock(MessageBlock& mBlock)
 {
-  if (m_BitsRead+512<=m_BufferSize)
+  if (m_BitsRead+512<=(m_BufferSize*8))
   {
     memcpy(&(mBlock.words[0]), &m_BufferPointer[m_BitsRead/8], 64);
     m_BitsRead += 512;
