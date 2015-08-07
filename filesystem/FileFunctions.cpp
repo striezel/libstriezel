@@ -30,6 +30,7 @@
 #if defined(_WIN32)
   //Windows includes go here
   #include <io.h>
+  #include <Windows.h>
 #elif defined(__linux__) || defined(linux)
   //Linux directory entries
   #include <dirent.h>
@@ -102,6 +103,29 @@ bool File::remove(const std::string& fileName)
 
 bool File::createTemp(std::string& tempFileName)
 {
+  #if defined(_WIN32)
+  //no windows implementation yet
+  char buffer[MAX_PATH+2];
+  memset(buffer, '\0', MAX_PATH+2);
+  const DWORD ret = GetTempPath(MAX_PATH+1, buffer);
+  //function failed, return false
+  if (ret == 0)
+    return false;
+  //buffer too small -> should not happen
+  if (ret>MAX_PATH+1)
+    return false;
+  std::string path = std::string(buffer);
+  //fill buffer with zeros for next use
+  memset(buffer, '\0', MAX_PATH+2);
+  const UINT gtfn_ret = GetTempFileName(path.c_str(), "tmp", 0, buffer);
+  if (gtfn_ret == 0)
+    return false;
+  //Path component too long?
+  if (ERROR_BUFFER_OVERFLOW == gtfn_ret)
+    return false;
+  tempFileName = std::string(buffer);
+  return true;
+  #elif defined(__linux__) || defined(linux)
   char tmpFile[] = "/tmp/fileXXXXXXXXXX";
   const mode_t orig_umask = umask(S_IXUSR | S_IRWXG | S_IRWXO);
   const int fd = mkstemp(tmpFile);
@@ -116,6 +140,11 @@ bool File::createTemp(std::string& tempFileName)
   close(fd);
   tempFileName = std::string(tmpFile);
   return true;
+  #else
+    //Unknown operating system.
+    #error Unknown operating system!
+    return false;
+  #endif
 }
 
 float round(const float f)
