@@ -55,8 +55,8 @@ GLImageStructure readPNG(const std::string& FileName)
     return result;
   }
   //read signature
-  fread(header, 1, 8, file_png);
-  if (png_sig_cmp(header, 0, 8))
+  const size_t itemsRead = fread(header, 1, 8, file_png);
+  if (png_sig_cmp(header, 0, itemsRead) != 0)
   {
     std::cout << "File \""<<FileName<<"\" is not a PNG file.\n";
     fclose(file_png);
