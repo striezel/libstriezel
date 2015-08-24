@@ -124,7 +124,7 @@ std::vector<FileEntry> getDirectoryFileList(const std::string& Directory);
            name: "readme"
            ext.: "txt" (i.e. without dot)
 */
-void splitPathFileExtension(const std::string fileName, const char pathSeparator, std::string& path, std::string& name, std::string& extension);
+void splitPathFileExtension(const std::string& fileName, const char pathSeparator, std::string& path, std::string& name, std::string& extension);
 
 } //namespace filesystem
 

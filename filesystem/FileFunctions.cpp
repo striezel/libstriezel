@@ -227,7 +227,7 @@ std::vector<FileEntry> getDirectoryFileList(const std::string& Directory)
   return result;
 }//function
 
-void splitPathFileExtension(const std::string fileName, const char pathSeperator, std::string& path, std::string& name, std::string& extension)
+void splitPathFileExtension(const std::string& fileName, const char pathSeperator, std::string& path, std::string& name, std::string& extension)
 {
   const std::string::size_type len = fileName.length();
   if (len==0)
