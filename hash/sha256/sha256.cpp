@@ -1,6 +1,6 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's random stuff.
+    This file is part of Thoronador's common code library.
     Copyright (C) 2012, 2015  Thoronador
 
     This program is free software: you can redistribute it and/or modify
@@ -129,6 +129,40 @@ bool MessageDigest::operator<(const MessageDigest& other) const
     if (hash[i]>other.hash[i]) return false;
   }//for
   return (hash[7]<other.hash[7]);
+}
+
+bool isValidHash(const std::string& hash)
+{
+  if (hash.length() != 64)
+    return false;
+  unsigned int i;
+  for (i=0; i<64; ++i)
+  {
+    switch (hash[i])
+    {
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+      case 'a':
+      case 'b':
+      case 'c':
+      case 'd':
+      case 'e':
+      case 'f':
+           break;
+      default:
+           return false;
+           break;
+    }//swi
+  }//for
+  return true;
 }
 
 MessageDigest computeFromSource(MessageSource& source)

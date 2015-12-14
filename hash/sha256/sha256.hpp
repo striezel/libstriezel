@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's random stuff.
-    Copyright (C) 2012 thoronador
+    This file is part of Thoronador's common code library.
+    Copyright (C) 2012, 2015  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -62,6 +62,16 @@ namespace SHA256
     /* comparison operator */
     bool operator<(const MessageDigest& other) const;
   };
+
+
+  /** \brief checks whether a string represents a valid SHA256 hash
+   *
+   * \param hash  a potential SHA256 hash string
+   * \return Returns true, if @hash contains a valid SHA256 hash.
+   *         Returns false otherwise.
+   * \remarks This function only considers lower case letters to be valid.
+   */
+  bool isValidHash(const std::string& hash);
 
 
   /** \brief computes and returns the message digest of the given source
