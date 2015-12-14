@@ -73,7 +73,7 @@ class File
 
 
     /* tries to delete the file fileName and returns true, if it could be deleted,
-       or false if en error occurred.
+       or false if an error occurred.
 
        parameters:
            fileName - the file that shall be deleted
