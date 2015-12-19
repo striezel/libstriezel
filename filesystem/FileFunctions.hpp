@@ -87,6 +87,19 @@ class File
      * \return Returns true, if a temporary file was created. Returns false otherwise.
      */
     static bool createTemp(std::string& tempFileName);
+
+
+    /** \brief tries to read the complete(!) content of a file into a string
+     *
+     * \param fileName  the name of the file which shall be read
+     * \param content   variable that will be used to store the read content
+     * \return Returns true, if the complete file was successfully read.
+     *         Returns false, if an error occurred.
+     * \remarks This functions should only be used to read the content of
+     *          small files, because storing several gigabytes of data in a
+     *          string will cause problems on most systems.
+     */
+    static bool readIntoString(const std::string& fileName, std::string& content);
 }; //class File
 
 

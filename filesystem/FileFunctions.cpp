@@ -25,6 +25,7 @@
 #include <cmath>
 #include "../common/StringUtils.h"
 #include <iostream>
+#include <fstream>
 #include <cstdio>
 #include <cstdlib> //for mkstemp()
 #if defined(_WIN32)
@@ -145,6 +146,39 @@ bool File::createTemp(std::string& tempFileName)
     #error Unknown operating system!
     return false;
   #endif
+}
+
+bool File::readIntoString(const std::string& fileName, std::string& content)
+{
+  if (fileName.empty())
+    return false;
+
+  std::ifstream fileStream(fileName, std::ios_base::in | std::ios_base::binary);
+  if (!fileStream.good())
+  {
+    std::cerr << "Error in File::readIntoString(): File could not be opened." << std::endl;
+    return false;
+  }
+  std::string temp = "";
+  content = "";
+  while (!fileStream.eof() && std::getline(fileStream, temp, '\0'))
+  {
+    //append the delimiting NUL character, if necessary
+    if (!content.empty())
+      content.append(1, '\0');
+    //append the data that was read from the file
+    content.append(temp);
+  }
+  //File should be read until EOF, but failbit and badbit should not be set.
+  if (!fileStream.eof() || fileStream.bad() || fileStream.fail())
+  {
+    fileStream.close();
+    std::cerr << "Error in File::readIntoString(): "
+              << "File could not be read." << std::endl;
+    return false;
+  }
+  fileStream.close();
+  return true;
 }
 
 float round(const float f)
