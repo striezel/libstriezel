@@ -112,7 +112,7 @@ bool stringEndsWith(const std::string& str, const std::string& suffix)
   const std::string::size_type suffixLen = suffix.size();
   if (strLen < suffixLen)
     return false;
-  return str.substr(strLen - suffixLen).compare(suffix);
+  return (str.substr(strLen - suffixLen).compare(suffix) == 0);
 }
 
 std::string intToString(const int value)
