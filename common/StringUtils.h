@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011, 2012  thoronador
+    Copyright (C) 2011, 2012, 2015  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -51,6 +51,19 @@ void trimLeft(std::string& str1);
        str1 - the affected string
 */
 void trimRight(std::string& str1);
+
+
+/* checks whether a string ends with another string
+
+   parameters:
+       str    - the string where the search takes place
+       suffix - the "end" of the string for which we want to check
+
+   return value:
+       Returns true, if the string @str ends with @suffix.
+       Returns false otherwise.
+*/
+bool stringEndsWith(const std::string& str, const std::string& suffix);
 
 /* Returns string representation of integer 'value' */
 std::string intToString(const int value);

@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011, 2012  thoronador
+    Copyright (C) 2011, 2012, 2015  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -105,6 +105,15 @@ void trim(std::string& str1)
   trimRight(str1);
   return;
 } //end of trim
+
+bool stringEndsWith(const std::string& str, const std::string& suffix)
+{
+  const std::string::size_type strLen = str.size();
+  const std::string::size_type suffixLen = suffix.size();
+  if (strLen < suffixLen)
+    return false;
+  return str.substr(strLen - suffixLen).compare(suffix);
+}
 
 std::string intToString(const int value)
 {
