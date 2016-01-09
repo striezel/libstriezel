@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the Morrowind Tools Project.
-    Copyright (C) 2011, 2015  Thoronador
+    Copyright (C) 2011, 2015, 2016  Thoronador
 
     The Morrowind Tools are free software: you can redistribute them and/or
     modify them under the terms of the GNU General Public License as published
@@ -79,6 +79,16 @@ class File
            fileName - the file that shall be deleted
     */
     static bool remove(const std::string& fileName);
+
+
+    /** \brief renames / moves a file
+     *
+     * \param oldFileName   the old file name
+     * \param newFileName   the new file name
+     * \return Returns true, if the rename was successful.
+     *          Returns false otherwise.
+     */
+    static bool rename(const std::string& oldFileName, const std::string& newFileName);
 
 
     /** \brief tries to create a temporary file

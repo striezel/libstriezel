@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the Morrowind Tools Project.
-    Copyright (C) 2011, 2015  Thoronador
+    Copyright (C) 2011, 2015, 2016  Thoronador
 
     The Morrowind Tools are free software: you can redistribute them and/or
     modify them under the terms of the GNU General Public License as published
@@ -100,6 +100,11 @@ bool File::exists(const std::string& FileName)
 bool File::remove(const std::string& fileName)
 {
   return (std::remove(fileName.c_str())==0);
+}
+
+bool File::rename(const std::string& oldFileName, const std::string& newFileName)
+{
+  return (std::rename(oldFileName.c_str(), newFileName.c_str()) == 0);
 }
 
 bool File::createTemp(std::string& tempFileName)
