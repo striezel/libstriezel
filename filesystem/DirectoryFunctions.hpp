@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the Thoronador's common code library.
-    Copyright (C) 2011, 2012, 2015  Thoronador
+    Copyright (C) 2011, 2012, 2015, 2016  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -66,6 +66,20 @@ class Directory
            dirName - path/name of the directory that shall be created
     */
     static bool createRecursive(const std::string& dirName);
+
+
+     /** \brief tries to remove the given directory
+      *
+      * \param dirName  the name of the directory that shall be removed
+      * \remarks Details of removing a directory are up to the operating
+      *          system's implementation, but usually a directory can only
+      *          be removed, if it is empty and no process uses it as a
+      *          working directory. Therefore, trying to remove a non-empty
+      *          directory will fail.
+      * \return Returns true, if the directory was removed.
+      *         Returns false otherwise.
+      */
+    static bool remove(const std::string& dirName);
 
 
     /* tries to determine the absolute path to the current user's home directory

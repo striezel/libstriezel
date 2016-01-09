@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the Thoronador's common code library.
-    Copyright (C) 2011, 2012, 2014, 2015  Thoronador
+    Copyright (C) 2011, 2012, 2014, 2015, 2016  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -78,6 +78,19 @@ bool Directory::createRecursive(const std::string& dirName)
   }
   //creation of parent directory failed
   return false;
+}
+
+bool Directory::remove(const std::string& dirName)
+{
+  #if defined(_WIN32)
+    //WinAPI's RemoveDirectory() returns nonzero on success
+    return (RemoveDirectory(dirName.c_str()) != 0);
+  #elif defined(__linux__) || defined(linux)
+    //rmdir() returns zero on success
+    return (0 == rmdir(dirName.c_str()));
+  #else
+    #error Unknown operating system!
+  #endif
 }
 
 bool Directory::getHome(std::string& result)
