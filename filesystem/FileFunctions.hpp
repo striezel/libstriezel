@@ -126,6 +126,9 @@ std::string getSizeString(const int64_t fileSize);
 struct FileEntry {
          std::string fileName;
          bool isDirectory;
+
+         /// default constructor
+         FileEntry();
 };//struct
 
 /* returns a list of all files in the given directory as a vector */

@@ -211,6 +211,11 @@ std::string getSizeString(const int64_t fileSize)
   return floatToString(fileSize)+" byte";
 }
 
+FileEntry::FileEntry()
+: fileName(""),
+  isDirectory(false)
+{ }
+
 std::vector<FileEntry> getDirectoryFileList(const std::string& Directory)
 {
   std::vector<FileEntry> result;
@@ -224,8 +229,8 @@ std::vector<FileEntry> getDirectoryFileList(const std::string& Directory)
   handle = _findfirst(std::string(Directory+"*").c_str(),&sr);
   if (handle == -1)
   {
-    std::cout << "getDirectoryFileList: ERROR: unable to open directory "
-              <<"\""<<Directory<<"\". Returning empty list.\n";
+    std::cout << "libthoro::filesystem::getDirectoryFileList: ERROR: unable to"
+              <<" open directory \""<<Directory<<"\". Returning empty list.\n";
     return result;
   }
   //search it
@@ -241,8 +246,8 @@ std::vector<FileEntry> getDirectoryFileList(const std::string& Directory)
   DIR * direc = opendir(Directory.c_str());
   if (direc == NULL)
   {
-    std::cout << "Dusk::getDirectoryFileList: ERROR: unable to open directory "
-              <<"\""<<Directory<<"\". Returning empty list.\n";
+    std::cout << "libthoro::filesystem::getDirectoryFileList: ERROR: unable to"
+              <<" open directory \""<<Directory<<"\". Returning empty list.\n";
     return result;
   }//if
 
