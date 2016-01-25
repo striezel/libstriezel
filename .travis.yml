@@ -9,7 +9,7 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - cmake
-    - g++4.8
+    - g++-4.8
     - gcc-4.8
     - freeglut3-dev
     - libglfw-dev
