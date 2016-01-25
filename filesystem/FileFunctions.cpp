@@ -164,7 +164,7 @@ bool File::readIntoString(const std::string& fileName, std::string& content)
     std::cerr << "Error in File::readIntoString(): File could not be opened." << std::endl;
     return false;
   }
-  std::string temp = "";
+  /*std::string temp = "";
   content = "";
   while (!fileStream.eof() && std::getline(fileStream, temp, '\0'))
   {
@@ -182,6 +182,16 @@ bool File::readIntoString(const std::string& fileName, std::string& content)
               << "File could not be read." << std::endl;
     return false;
   }
+  */
+  fileStream.seekg(0, std::ios_base::end);
+  const auto sizeOfFile = fileStream.tellg();
+  if (sizeOfFile == std::ifstream::pos_type(-1))
+    return false;
+  fileStream.seekg(0, std::ios_base::beg);
+  content.resize(sizeOfFile);
+  fileStream.read(&content[0], sizeOfFile);
+  if (!fileStream.good())
+    return false;
   fileStream.close();
   return true;
 }
