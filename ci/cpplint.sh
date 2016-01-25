@@ -36,7 +36,7 @@ $CXX --version
 echo
 
 # find all C++ files and run them through CXX's syntax check
-find ./ \( -name '*.cpp' -o -name '*.hpp' -o -name '*.h' \) -print0 | xargs -0 -i $CXX $CFLAGS -fsyntax-only -Wall {}
+find ./ \( -name '*.cpp' -o -name '*.hpp' -o -name '*.h' \) -print0 | xargs -0 -i $CXX $CFLAGS -fsyntax-only -Wall --std=c++0x {}
 if [[ $? -ne 0 ]]
 then
   echo "Some source code files contain syntax errors!"

@@ -5,12 +5,24 @@ compiler:
 sudo: false
 addons:
   apt:
+    sources:
+    - ubuntu-toolchain-r-test
     packages:
+    - cmake
+    - g++4.8
+    - gcc-4.8
     - freeglut3-dev
     - libglfw-dev
     - libxml2-dev
     - zlib1g-dev
+before_install:
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
 script:
   - ./ci/cpplint.sh
+  - mkdir ./build
+  - cd ./build
+  - cmake ..
+  - make -j2
+  - ctest -V
 notifications:
   email: false
