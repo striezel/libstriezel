@@ -4,5 +4,8 @@ cmake_minimum_required(VERSION 2.8)
 # Recurse into subdirectory for hash tests (SHA160 - SHA512 tests).
 add_subdirectory (hash)
 
+# Recurse into subdirectory for os tests.
+add_subdirectory (os)
+
 # Recurse into subdirectory for procfs tests.
 add_subdirectory (procfs)
