@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the Thoronador's common code library.
-    Copyright (C) 2014, 2015  Thoronador
+    Copyright (C) 2014, 2015, 2016  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -40,6 +40,8 @@ std::string os::detect()
   //some kind of Linux distribution
   return detectLinuxDistro();
   #else
+    /* Feel free to extend that code for Mac OS or whatever you are using, and
+       don't forget to send a pull request. */
     #error Unknown operating system! Please extend the function.
     //We should never get this far, error directive aborts compilation beforehand.
     return "unknown operating system";
@@ -51,6 +53,7 @@ std::string checkForMatch(const std::string& str)
 {
   std::vector<std::string> releases;
   releases.push_back("CentOS");
+  releases.push_back("Debian GNU/Linux stretch/sid");
   releases.push_back("Debian GNU/Linux 8");
   releases.push_back("Debian GNU/Linux 7");
   releases.push_back("Debian GNU/Linux 6");
