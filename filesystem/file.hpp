@@ -18,11 +18,11 @@
  -------------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_FILEFUNCTIONS_H
-#define LIBTHORO_FILEFUNCTIONS_H
+#ifndef LIBTHORO_FILE_HPP
+#define LIBTHORO_FILE_HPP
 
 #include <string>
-#include <stdint.h>
+#include <cstdint>
 #include <vector>
 
 namespace libthoro
@@ -31,7 +31,7 @@ namespace libthoro
 namespace filesystem
 {
 
-class File
+class file
 {
   public:
     /* returns the file size of file fileName. If the file does not exist or if an
@@ -156,4 +156,4 @@ void splitPathFileExtension(const std::string& fileName, const char pathSeparato
 
 } //namespace libthoro
 
-#endif // LIBTHORO_FILEFUNCTIONS_H
+#endif // LIBTHORO_FILE_HPP

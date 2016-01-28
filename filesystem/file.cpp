@@ -18,7 +18,7 @@
  -------------------------------------------------------------------------------
 */
 
-#include "FileFunctions.hpp"
+#include "file.hpp"
 #include <sys/stat.h>
 #include <utime.h>
 #include <unistd.h>
@@ -45,7 +45,7 @@ namespace libthoro
 namespace filesystem
 {
 
-int64_t File::getSize64(const std::string& fileName)
+int64_t file::getSize64(const std::string& fileName)
 {
   struct stat buffer;
   if (stat(fileName.c_str(), &buffer)==0)
@@ -58,7 +58,7 @@ int64_t File::getSize64(const std::string& fileName)
   return -1;
 }//function
 
-bool File::setModificationTime(const std::string& FileName, const time_t new_mtime)
+bool file::setModificationTime(const std::string& FileName, const time_t new_mtime)
 {
   struct stat buffer;
   if (stat(FileName.c_str(), &buffer)==0)
@@ -75,7 +75,7 @@ bool File::setModificationTime(const std::string& FileName, const time_t new_mti
   return false;
 }
 
-bool File::getSizeAndModificationTime(const std::string& FileName, int64_t& FileSize, time_t& FileTime)
+bool file::getSizeAndModificationTime(const std::string& FileName, int64_t& FileSize, time_t& FileTime)
 {
   struct stat buffer;
   if (stat(FileName.c_str(), &buffer)==0)
@@ -92,22 +92,22 @@ bool File::getSizeAndModificationTime(const std::string& FileName, int64_t& File
   return false;
 }//function
 
-bool File::exists(const std::string& FileName)
+bool file::exists(const std::string& FileName)
 {
   return (access(FileName.c_str(), F_OK)==0);
 }
 
-bool File::remove(const std::string& fileName)
+bool file::remove(const std::string& fileName)
 {
   return (std::remove(fileName.c_str())==0);
 }
 
-bool File::rename(const std::string& oldFileName, const std::string& newFileName)
+bool file::rename(const std::string& oldFileName, const std::string& newFileName)
 {
   return (std::rename(oldFileName.c_str(), newFileName.c_str()) == 0);
 }
 
-bool File::createTemp(std::string& tempFileName)
+bool file::createTemp(std::string& tempFileName)
 {
   #if defined(_WIN32)
   //no windows implementation yet
@@ -153,7 +153,7 @@ bool File::createTemp(std::string& tempFileName)
   #endif
 }
 
-bool File::readIntoString(const std::string& fileName, std::string& content)
+bool file::readIntoString(const std::string& fileName, std::string& content)
 {
   if (fileName.empty())
     return false;

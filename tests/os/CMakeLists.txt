@@ -6,7 +6,7 @@ project(test_os_detect)
 
 set(test_os_detect_src
     ../../common/StringUtils.cpp
-    ../../filesystem/FileFunctions.cpp
+    ../../filesystem/file.cpp
     ../../os/os.cpp
     detect.cpp)
 

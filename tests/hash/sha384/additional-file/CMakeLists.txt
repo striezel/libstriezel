@@ -6,7 +6,7 @@ project(test_additional_sha384)
 
 set(test_additional_sha384_src
     ../../../../common/StringUtils.cpp
-    ../../../../filesystem/FileFunctions.cpp
+    ../../../../filesystem/file.cpp
     ../../../../hash/sha384/FileSourceUtility.cpp
     ../../../../hash/sha384/sha384.cpp
     ../../../../hash/sha512/FileSource.cpp

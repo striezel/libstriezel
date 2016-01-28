@@ -26,8 +26,8 @@
 		</Compiler>
 		<Unit filename="../../../../common/StringUtils.cpp" />
 		<Unit filename="../../../../common/StringUtils.h" />
-		<Unit filename="../../../../filesystem/FileFunctions.cpp" />
-		<Unit filename="../../../../filesystem/FileFunctions.hpp" />
+		<Unit filename="../../../../filesystem/file.cpp" />
+		<Unit filename="../../../../filesystem/file.hpp" />
 		<Unit filename="../../../../hash/sha384/FileSourceUtility.cpp" />
 		<Unit filename="../../../../hash/sha384/FileSourceUtility.hpp" />
 		<Unit filename="../../../../hash/sha384/sha384.cpp" />

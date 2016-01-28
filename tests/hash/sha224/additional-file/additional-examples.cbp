@@ -26,10 +26,10 @@
 		</Compiler>
 		<Unit filename="../../../../common/StringUtils.cpp" />
 		<Unit filename="../../../../common/StringUtils.h" />
-		<Unit filename="../../../../filesystem/DirectoryFunctions.cpp" />
-		<Unit filename="../../../../filesystem/DirectoryFunctions.hpp" />
-		<Unit filename="../../../../filesystem/FileFunctions.cpp" />
-		<Unit filename="../../../../filesystem/FileFunctions.hpp" />
+		<Unit filename="../../../../filesystem/directory.cpp" />
+		<Unit filename="../../../../filesystem/directory.hpp" />
+		<Unit filename="../../../../filesystem/file.cpp" />
+		<Unit filename="../../../../filesystem/file.hpp" />
 		<Unit filename="../../../../hash/sha-1-256_functions.hpp" />
 		<Unit filename="../../../../hash/sha224/FileSource.hpp" />
 		<Unit filename="../../../../hash/sha224/FileSourceUtility.cpp" />

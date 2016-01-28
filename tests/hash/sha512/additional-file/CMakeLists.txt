@@ -6,7 +6,7 @@ project(test_additional_sha512)
 
 set(test_additional_sha512_src
     ../../../../common/StringUtils.cpp
-    ../../../../filesystem/FileFunctions.cpp
+    ../../../../filesystem/file.cpp
     ../../../../hash/sha512/FileSourceUtility.cpp
     ../../../../hash/sha512/sha512.cpp
     ../../../../hash/sha512/FileSource.cpp

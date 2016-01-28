@@ -18,8 +18,8 @@
  -------------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_DIRECTORYFUNCTIONS_H
-#define LIBTHORO_DIRECTORYFUNCTIONS_H
+#ifndef LIBTHORO_DIRECTORY_HPP
+#define LIBTHORO_DIRECTORY_HPP
 
 #include <string>
 
@@ -38,7 +38,7 @@ namespace filesystem
 #endif
 
 
-class Directory
+class directory
 {
   public:
     /* Checks for existence of directory dirName and returns true, if it exists.
@@ -116,4 +116,4 @@ std::string unslashify(const std::string& path);
 
 } //namespace libthoro
 
-#endif // LIBTHORO_DIRECTORYFUNCTIONS_H
+#endif // LIBTHORO_DIRECTORY_HPP

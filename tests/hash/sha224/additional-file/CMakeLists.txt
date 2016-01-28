@@ -6,8 +6,8 @@ project(test_additional_sha224)
 
 set(test_additional_sha224_src
     ../../../../common/StringUtils.cpp
-    ../../../../filesystem/DirectoryFunctions.cpp
-    ../../../../filesystem/FileFunctions.cpp
+    ../../../../filesystem/directory.cpp
+    ../../../../filesystem/file.cpp
     ../../../../hash/sha224/FileSourceUtility.cpp
     ../../../../hash/sha224/sha224.cpp
     ../../../../hash/sha256/FileSource.cpp

@@ -23,8 +23,8 @@
 #include <string>
 #include <tuple>
 #include <vector>
-#include "../../../../filesystem/DirectoryFunctions.hpp"
-#include "../../../../filesystem/FileFunctions.hpp"
+#include "../../../../filesystem/directory.hpp"
+#include "../../../../filesystem/file.hpp"
 #include "../../../../hash/sha256/sha256.hpp"
 #include "../../../../hash/sha256/FileSourceUtility.hpp"
 
@@ -114,7 +114,7 @@ int main(int argc, char** argv)
     } //if argv != null
   } //if args are present
 
-  if (!libthoro::filesystem::Directory::exists(fileDir))
+  if (!libthoro::filesystem::directory::exists(fileDir))
   {
     std::cout << "Error: Directory " << fileDir << " does not exist!"
               << std::endl;
@@ -157,7 +157,7 @@ int main(int argc, char** argv)
 
   //create temp file for tests
   std::string fileName = "";
-  if (!libthoro::filesystem::File::createTemp(fileName))
+  if (!libthoro::filesystem::file::createTemp(fileName))
   {
     std::cout << "Error: Could not create temporary file!"   << std::endl;
     return 1;
@@ -184,7 +184,7 @@ int main(int argc, char** argv)
       {
         std::cout << "Error: Could not write data to temporary file!" << std::endl;
         stream.close();
-        libthoro::filesystem::File::remove(fileName);
+        libthoro::filesystem::file::remove(fileName);
         return 1;
       }
       stream.close();
@@ -198,12 +198,12 @@ int main(int argc, char** argv)
       if (std::get<2>(item) != md_sha256.toHexString())
       {
         std::cout << "ERROR: Message digest is not as expected!" << std::endl;
-        libthoro::filesystem::File::remove(fileName);
+        libthoro::filesystem::file::remove(fileName);
         return 1;
       }
     } //if short/long check
   } //for
-  libthoro::filesystem::File::remove(fileName);
+  libthoro::filesystem::file::remove(fileName);
   std::cout << "Passed test!" << std::endl;
   return 0;
 }

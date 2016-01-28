@@ -29,8 +29,8 @@
 		</Compiler>
 		<Unit filename="../../common/StringUtils.cpp" />
 		<Unit filename="../../common/StringUtils.h" />
-		<Unit filename="../../filesystem/FileFunctions.cpp" />
-		<Unit filename="../../filesystem/FileFunctions.hpp" />
+		<Unit filename="../../filesystem/file.cpp" />
+		<Unit filename="../../filesystem/file.hpp" />
 		<Unit filename="../../os/os.cpp" />
 		<Unit filename="../../os/os.hpp" />
 		<Unit filename="detect.cpp" />

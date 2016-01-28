@@ -18,7 +18,7 @@
  -------------------------------------------------------------------------------
 */
 
-#include "DirectoryFunctions.hpp"
+#include "directory.hpp"
 #include <sys/stat.h>
 
 #if defined(_WIN32)
@@ -35,7 +35,7 @@ namespace libthoro
 namespace filesystem
 {
 
-bool Directory::exists(const std::string& dirName)
+bool directory::exists(const std::string& dirName)
 {
   struct stat buffer;
   if (stat(dirName.c_str(), &buffer)==0)
@@ -47,7 +47,7 @@ bool Directory::exists(const std::string& dirName)
   return false;
 }
 
-bool Directory::create(const std::string& dirName)
+bool directory::create(const std::string& dirName)
 {
   #if defined(_WIN32)
     //WinAPI's CreateDirectory() returns nonzero on success
@@ -60,7 +60,7 @@ bool Directory::create(const std::string& dirName)
   #endif
 }
 
-bool Directory::createRecursive(const std::string& dirName)
+bool directory::createRecursive(const std::string& dirName)
 {
   const std::string::size_type delimPos = dirName.rfind(libthoro::filesystem::pathDelimiter);
   if (delimPos==std::string::npos) return create(dirName);
@@ -80,7 +80,7 @@ bool Directory::createRecursive(const std::string& dirName)
   return false;
 }
 
-bool Directory::remove(const std::string& dirName)
+bool directory::remove(const std::string& dirName)
 {
   #if defined(_WIN32)
     //WinAPI's RemoveDirectory() returns nonzero on success
@@ -93,7 +93,7 @@ bool Directory::remove(const std::string& dirName)
   #endif
 }
 
-bool Directory::getHome(std::string& result)
+bool directory::getHome(std::string& result)
 {
   #if defined(_WIN32)
     char buffer[MAX_PATH+1];
