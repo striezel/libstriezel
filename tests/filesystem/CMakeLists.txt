@@ -3,3 +3,6 @@ cmake_minimum_required(VERSION 2.8)
 
 # Recurse into subdirectory for libthoro::filesystem::getSizeString() tests.
 add_subdirectory (getsizestring)
+
+# Recurse into subdirectory for libthoro::filesystem::splitPathFileExtension().
+add_subdirectory (splitpathfileextension)
