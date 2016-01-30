@@ -7,6 +7,9 @@ add_subdirectory (createtemp)
 # Recurse into subdirectory for libthoro::filesystem::file::exists().
 add_subdirectory (exists)
 
+# Recurse into subdirectory for libthoro::filesystem::file::getSize64().
+add_subdirectory (getsize64)
+
 # Recurse into subdirectory for libthoro::filesystem::file::readIntoString().
 add_subdirectory (readintostring)
 
