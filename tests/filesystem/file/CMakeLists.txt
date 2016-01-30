@@ -4,5 +4,8 @@ cmake_minimum_required(VERSION 2.8)
 # Recurse into subdirectory for libthoro::filesystem::file::createTemp().
 add_subdirectory (createtemp)
 
+# Recurse into subdirectory for libthoro::filesystem::file::exists().
+add_subdirectory (exists)
+
 # Recurse into subdirectory for libthoro::filesystem::file::readIntoString().
 add_subdirectory (readintostring)
