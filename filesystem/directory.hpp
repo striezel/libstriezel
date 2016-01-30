@@ -108,7 +108,7 @@ std::string slashify(const std::string& path);
    delimiter as the last character.
 
    parameters:
-       path - the path that should (possibly) has an (back)slash too much
+       path - the path that (possibly) has an (back)slash too much
 */
 std::string unslashify(const std::string& path);
 
