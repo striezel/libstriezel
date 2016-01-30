@@ -10,5 +10,8 @@ add_subdirectory (exists)
 # Recurse into subdirectory for libthoro::filesystem::file::readIntoString().
 add_subdirectory (readintostring)
 
-# Recurse into subdirectory for libthoro::filesystem::file::readIntoString().
+# Recurse into subdirectory for libthoro::filesystem::file::remove().
+add_subdirectory (remove)
+
+# Recurse into subdirectory for libthoro::filesystem::file::rename().
 add_subdirectory (rename)
