@@ -22,7 +22,6 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
-#include "../../../../filesystem/directory.hpp"
 #include "../../../../filesystem/file.hpp"
 
 const std::vector<std::size_t> testSizes =
