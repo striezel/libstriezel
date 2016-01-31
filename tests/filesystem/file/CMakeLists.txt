@@ -22,3 +22,7 @@ add_subdirectory (remove)
 
 # Recurse into subdirectory for libthoro::filesystem::file::rename().
 add_subdirectory (rename)
+
+# Recurse into subdirectory for
+# libthoro::filesystem::file::setSizeModificationTime().
+add_subdirectory (setmtime)
