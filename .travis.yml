@@ -14,6 +14,7 @@ addons:
     - freeglut3-dev
     - libglfw-dev
     - libxml2-dev
+    - libzip-dev
     - zlib1g-dev
 before_install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
