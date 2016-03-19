@@ -22,12 +22,12 @@
  http://vespucci.svn.sourceforge.net/viewvc/vespucci/trunk/engine/BitmapReader.pas?view=markup
 */
 
-#include "readBMP.h"
+#include "readBMP.hpp"
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
-#include "../IntegerUtils.h"
-#include "GLfunctions.h"
+#include "../IntegerUtils.hpp"
+#include "GLfunctions.hpp"
 
 struct TBitmapFileHeader
 {

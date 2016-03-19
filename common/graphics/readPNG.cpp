@@ -18,13 +18,13 @@
  -----------------------------------------------------------------------------
 */
 
-#include "readPNG.h"
+#include "readPNG.hpp"
 #include <png.h>
 #include <iostream>
 #include <cstdlib>
 #include <GL/gl.h>
-#include "../IntegerUtils.h"
-#include "GLfunctions.h"
+#include "../IntegerUtils.hpp"
+#include "GLfunctions.hpp"
 
 //aux. function
 void deallocateRowPointers(png_bytep* rp, const unsigned int height)

@@ -18,12 +18,12 @@
  -----------------------------------------------------------------------------
 */
 
-#include "ImageLoader.h"
-#include "readBMP.h"
-#include "readGIF.h"
-#include "readJPEG.h"
-#include "readPNG.h"
-#include "readPPM.h"
+#include "ImageLoader.hpp"
+#include "readBMP.hpp"
+#include "readGIF.hpp"
+#include "readJPEG.hpp"
+#include "readPNG.hpp"
+#include "readPPM.hpp"
 
 namespace ImageLoader
 {

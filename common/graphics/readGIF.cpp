@@ -18,10 +18,10 @@
  -----------------------------------------------------------------------------
 */
 
-#include "readGIF.h"
+#include "readGIF.hpp"
 #include <iostream>
-#include "gif/GIFStructures.h"
-#include "gif/Decoder.h"
+#include "gif/GIFStructures.hpp"
+#include "gif/Decoder.hpp"
 
 GLImageStructure readGIF(const std::string& FileName)
 {

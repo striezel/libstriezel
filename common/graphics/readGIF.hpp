@@ -18,11 +18,11 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef READGIF_H
-#define READGIF_H
+#ifndef LIBTHORO_READGIF_HPP
+#define LIBTHORO_READGIF_HPP
 
 #include <string>
-#include "GLImageStructure.h"
+#include "GLImageStructure.hpp"
 
 /* returns a structure containing the image data of the given GIF file
 
@@ -41,4 +41,4 @@ GLImageStructure readGIF(const std::string& FileName);
 */
 bool isGIF(const unsigned char* header, const size_t length);
 
-#endif // READGIF_H
+#endif // LIBTHORO_READGIF_HPP

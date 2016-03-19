@@ -18,12 +18,10 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef DECODER_H
-#define DECODER_H
+#ifndef LIBTHORO_INTEGERUTILS_HPP
+#define LIBTHORO_INTEGERUTILS_HPP
 
-#include "GIFStructures.h"
+/* returns true, if i is a power of two */
+bool isPowerOfTwo(const unsigned int i);
 
-bool decode(const GIFColourTable& colourTable, const GIFTableBasedImage& image);
-
-
-#endif // DECODER_H
+#endif // LIBTHORO_INTEGERUTILS_HPP

@@ -18,10 +18,28 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef INTEGERUTILS_H
-#define INTEGERUTILS_H
+#ifndef LIBTHORO_READPPM_HPP
+#define LIBTHORO_READPPM_HPP
 
-/* returns true, if i is a power of two */
-bool isPowerOfTwo(const unsigned int i);
+#include <string>
 
-#endif // INTEGERUTILS_H
+#include "GLImageStructure.hpp"
+
+/* returns a structure containing the image data of the given PPM file
+
+   parameters:
+       FileName - name of the PPM
+*/
+GLImageStructure readPPM(const std::string& FileName);
+
+/* returns true, if the given file seems to be a PPM file according to its
+   first bytes
+
+   parameters:
+       header - pointer to an array that contains at least the first two bytes
+                from the file
+       length - number of elements in the array - has to be at least two
+*/
+bool isPPM(const unsigned char* header, const size_t length);
+
+#endif // LIBTHORO_READPPM_HPP

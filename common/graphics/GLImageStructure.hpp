@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef GLIMAGESTRUCTURE_H
-#define GLIMAGESTRUCTURE_H
+#ifndef LIBTHORO_GLIMAGESTRUCTURE_HPP
+#define LIBTHORO_GLIMAGESTRUCTURE_HPP
 
 #include <GL/gl.h>
 #if defined(__WIN32__) || defined(_WIN32_) || defined(_WIN32)
@@ -85,4 +85,4 @@ struct GLImageStructure
     bool resizeToHalf();
 };//struct
 
-#endif // GLIMAGESTRUCTURE_H
+#endif // LIBTHORO_GLIMAGESTRUCTURE_HPP

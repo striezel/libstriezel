@@ -18,7 +18,7 @@
  -----------------------------------------------------------------------------
 */
 
-#include "IntegerUtils.h"
+#include "IntegerUtils.hpp"
 
 bool isPowerOfTwo(const unsigned int i)
 {

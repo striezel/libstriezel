@@ -25,7 +25,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="../../../../common/StringUtils.cpp" />
-		<Unit filename="../../../../common/StringUtils.h" />
+		<Unit filename="../../../../common/StringUtils.hpp" />
 		<Unit filename="../../../../filesystem/directory.cpp" />
 		<Unit filename="../../../../filesystem/directory.hpp" />
 		<Unit filename="../../../../filesystem/file.cpp" />

@@ -18,28 +18,33 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef READPNG_H
-#define READPNG_H
+#ifndef LIBTHORO_READBMP_HPP
+#define LIBTHORO_READBMP_HPP
 
 #include <string>
-#include "GLImageStructure.h"
-#include <png.h>
+#include <GL/gl.h>
+#if defined(__WIN32__)
+  //under windows, some GL constants seem to be defined in another header
+  #include <GL/glext.h>
+#endif
 
-/* returns a structure containing the image data of the given PNG file
+#include "GLImageStructure.hpp"
+
+/* returns a structure containing the image data of the given bitmap file
 
    parameters:
-       FileName - name of the PNG
+       FileName - name of the bitmap
 */
-GLImageStructure readPNG(const std::string& FileName);
+GLImageStructure readBMP(const std::string& FileName);
 
-/* returns true, if the given file seems to be a PNG file according to its
+/* returns true, if the given file seems to be a bitmap file according to its
    first bytes
 
    parameters:
-       header - pointer to an array that contains at least the first eight bytes
+       header - pointer to an array that contains at least the first two bytes
                 from the file
-       length - number of elements in the array - has to be at least eight
+       length - number of elements in the array - has to be at least two
 */
-bool isPNG(const png_bytep header, const size_t length);
+bool isBMP(const unsigned char* header, const size_t length);
 
-#endif //READPNG_H
+#endif //LIBTHORO_READBMP_HPP

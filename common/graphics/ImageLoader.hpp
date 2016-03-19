@@ -18,11 +18,11 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef IMAGELOADER_H
-#define IMAGELOADER_H
+#ifndef LIBTHORO_IMAGELOADER_HPP
+#define LIBTHORO_IMAGELOADER_HPP
 
 #include <string>
-#include "GLImageStructure.h"
+#include "GLImageStructure.hpp"
 
 namespace ImageLoader
 {
@@ -66,4 +66,4 @@ GLImageStructure readImage(const std::string& FileName, ImageType type_hint);
 
 }//namespace
 
-#endif // IMAGELOADER_H
+#endif // LIBTHORO_IMAGELOADER_HPP

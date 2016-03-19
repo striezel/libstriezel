@@ -18,44 +18,20 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef GIFDATASUBBLOCK_H
-#define GIFDATASUBBLOCK_H
+#ifndef LIBTHORO_GIFELEMENTBASE_HPP
+#define LIBTHORO_GIFELEMENTBASE_HPP
 
-#include <fstream>
-#include <stdint.h>
-
-struct GIFDataSubBlock
+struct GIFElementBase
 {
   public:
     /* constructor */
-    GIFDataSubBlock();
-
-    /* copy constructor */
-    GIFDataSubBlock(const GIFDataSubBlock& op);
-
-    /* assignment operator */
-    GIFDataSubBlock& operator=(const GIFDataSubBlock& op);
+    GIFElementBase();
 
     /* destructor */
-    ~GIFDataSubBlock();
+    virtual ~GIFElementBase();
 
-    /* returns the size of the data block */
-    uint8_t getBlockSize() const;
+    virtual bool isExtension() const = 0;
+    virtual bool isTableBasedImage() const = 0;
+};//struct
 
-    /* returns a pointer to the block data */
-    const unsigned char* getBlockData() const;
-
-    /* tries to read a GIF data sub-block from the given input file stream and
-       returns true in case of success, false on failure.
-
-       parameters:
-           inputStream - the input file stream that is used to read the data.
-                         The stream should already be opened.
-    */
-    bool readFromStream(std::ifstream& inputStream);
-  private:
-    uint8_t m_Size;
-    unsigned char* m_DataPointer;
-}; //struct
-
-#endif // GIFDATASUBBLOCK_H
+#endif // LIBTHORO_GIFELEMENTBASE_HPP

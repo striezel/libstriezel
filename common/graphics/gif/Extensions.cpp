@@ -18,10 +18,10 @@
  -----------------------------------------------------------------------------
 */
 
-#include "Extensions.h"
+#include "Extensions.hpp"
 #include <cstring>
 #include <iostream>
-#include "Constants.h"
+#include "Constants.hpp"
 
 /****************************************
  ***** GIF extensions (version 89a) *****

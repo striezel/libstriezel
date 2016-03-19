@@ -23,7 +23,7 @@
 #include <utime.h>
 #include <unistd.h>
 #include <cmath>
-#include "../common/StringUtils.h"
+#include "../common/StringUtils.hpp"
 #include <iostream>
 #include <fstream>
 #include <cstdio>

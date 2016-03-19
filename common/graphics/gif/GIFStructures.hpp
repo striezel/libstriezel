@@ -18,15 +18,15 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef GIFSTRUCTURES_H
-#define GIFSTRUCTURES_H
+#ifndef LIBTHORO_GIFSTRUCTURES_HPP
+#define LIBTHORO_GIFSTRUCTURES_HPP
 
 #include <fstream>
 #include <string>
 #include <vector>
 #include <stdint.h>
-#include "ElementBase.h"
-#include "DataSubBlock.h"
+#include "ElementBase.hpp"
+#include "DataSubBlock.hpp"
 
 struct GIFHeader
 {
@@ -348,4 +348,4 @@ struct GIF
     std::vector<GIFElementBase*> m_Elements;
 };//struct
 
-#endif // GIFSTRUCTURES_H
+#endif // LIBTHORO_GIFSTRUCTURES_HPP

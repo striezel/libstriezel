@@ -18,11 +18,11 @@
  -----------------------------------------------------------------------------
 */
 
-#include "GLImageStructure.h"
+#include "GLImageStructure.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <cstring>
-#include "../IntegerUtils.h"
+#include "../IntegerUtils.hpp"
 
 GLImageStructure::GLImageStructure()
 : buffer(NULL),

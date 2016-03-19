@@ -18,7 +18,7 @@
  -----------------------------------------------------------------------------
 */
 
-#include "ElementBase.h"
+#include "ElementBase.hpp"
 
 /***** GIFElementBase functions *****/
 

@@ -18,12 +18,12 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef READJPEG_H
-#define READJPEG_H
+#ifndef LIBTHORO_READJPEG_HPP
+#define LIBTHORO_READJPEG_HPP
 
 #include <string>
 
-#include "GLImageStructure.h"
+#include "GLImageStructure.hpp"
 
 /* returns a structure containing the image data of the given JPEG file
 
@@ -42,4 +42,4 @@ GLImageStructure readJPEG(const std::string& FileName);
 */
 bool isJPEG(const unsigned char* header, const size_t length);
 
-#endif // READJPEG_H
+#endif // LIBTHORO_READJPEG_HPP

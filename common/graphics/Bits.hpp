@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef BITS_H
-#define BITS_H
+#ifndef LIBTHORO_BITS_HPP
+#define LIBTHORO_BITS_HPP
 
 #include <stdint.h>
 
@@ -195,4 +195,4 @@ struct LargeBitArray64k
     uint16_t m_BitsPresent;
 }; //struct
 
-#endif // BITS_H
+#endif // LIBTHORO_BITS_HPP

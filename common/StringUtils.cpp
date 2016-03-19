@@ -18,7 +18,7 @@
  -----------------------------------------------------------------------------
 */
 
-#include "StringUtils.h"
+#include "StringUtils.hpp"
 #include <sstream>
 #include <limits>
 

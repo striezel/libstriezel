@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef DIRECTORYFILELIST_H
-#define DIRECTORYFILELIST_H
+#ifndef LIBTHORO_DIRECTORYFILELIST_HPP
+#define LIBTHORO_DIRECTORYFILELIST_HPP
 
 #include <string>
 #include <vector>
@@ -55,4 +55,4 @@ struct FileEntry {
 */
 bool getDirectoryFileList(const std::string& Directory, std::vector<FileEntry>& result, const std::string& Prefix, const bool recursive);
 
-#endif // DIRECTORYFILELIST_H
+#endif // LIBTHORO_DIRECTORYFILELIST_HPP

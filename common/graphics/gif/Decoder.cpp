@@ -18,12 +18,12 @@
  -----------------------------------------------------------------------------
 */
 
-#include "Decoder.h"
+#include "Decoder.hpp"
 #include <map>
 #include <vector>
 #include <iostream>
 #include <cmath>
-#include "../Bits.h"
+#include "../Bits.hpp"
 
 typedef std::map<uint16_t, std::vector<uint16_t> >::const_iterator codeTableIterator;
 

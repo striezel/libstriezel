@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef RANDOM_THORO_GLFUNCTIONS_H
-#define RANDOM_THORO_GLFUNCTIONS_H
+#ifndef LIBTHORO_GLFUNCTIONS_HPP
+#define LIBTHORO_GLFUNCTIONS_HPP
 
 #include <GL/gl.h>
 
@@ -45,4 +45,4 @@ inline bool hasNPOTSupport()
 */
 void getNPOTTextureTargets(const NPOTSupportType n, GLenum& tex, GLenum& proxy);
 
-#endif // RANDOM_THORO_GLFUNCTIONS_H
+#endif // LIBTHORO_GLFUNCTIONS_HPP

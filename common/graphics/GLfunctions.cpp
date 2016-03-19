@@ -18,7 +18,7 @@
  -----------------------------------------------------------------------------
 */
 
-#include "GLfunctions.h"
+#include "GLfunctions.hpp"
 #include <string>
 #if defined(__WIN32__)
   //under windows, some GL constants seem to be defined in another header

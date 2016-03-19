@@ -18,28 +18,28 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef READPPM_H
-#define READPPM_H
+#ifndef LIBTHORO_READPNG_HPP
+#define LIBTHORO_READPNG_HPP
 
 #include <string>
+#include "GLImageStructure.hpp"
+#include <png.h>
 
-#include "GLImageStructure.h"
-
-/* returns a structure containing the image data of the given PPM file
+/* returns a structure containing the image data of the given PNG file
 
    parameters:
-       FileName - name of the PPM
+       FileName - name of the PNG
 */
-GLImageStructure readPPM(const std::string& FileName);
+GLImageStructure readPNG(const std::string& FileName);
 
-/* returns true, if the given file seems to be a PPM file according to its
+/* returns true, if the given file seems to be a PNG file according to its
    first bytes
 
    parameters:
-       header - pointer to an array that contains at least the first two bytes
+       header - pointer to an array that contains at least the first eight bytes
                 from the file
-       length - number of elements in the array - has to be at least two
+       length - number of elements in the array - has to be at least eight
 */
-bool isPPM(const unsigned char* header, const size_t length);
+bool isPNG(const png_bytep header, const size_t length);
 
-#endif // READPPM_H
+#endif //LIBTHORO_READPNG_HPP

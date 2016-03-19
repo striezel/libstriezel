@@ -18,7 +18,7 @@
  -----------------------------------------------------------------------------
 */
 
-#include "Bits.h"
+#include "Bits.hpp"
 #include <cstring>
 
 SmallBitArray16::SmallBitArray16()

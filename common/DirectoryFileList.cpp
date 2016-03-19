@@ -18,7 +18,7 @@
  -----------------------------------------------------------------------------
 */
 
-#include "DirectoryFileList.h"
+#include "DirectoryFileList.hpp"
 #include <iostream>
 #include <fstream>
 

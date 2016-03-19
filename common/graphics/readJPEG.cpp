@@ -18,7 +18,7 @@
  -----------------------------------------------------------------------------
 */
 
-#include "readJPEG.h"
+#include "readJPEG.hpp"
 #include <GL/gl.h>
 #include <jpeglib.h>
 #include <iostream>
@@ -26,8 +26,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <setjmp.h>
-#include "../IntegerUtils.h"
-#include "GLfunctions.h"
+#include "../IntegerUtils.hpp"
+#include "GLfunctions.hpp"
 
 /*
  * ERROR HANDLING:

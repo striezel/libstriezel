@@ -18,33 +18,12 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef READBMP_H
-#define READBMP_H
+#ifndef LIBTHORO_GIF_DECODER_HPP
+#define LIBTHORO_GIF_DECODER_HPP
 
-#include <string>
-#include <GL/gl.h>
-#if defined(__WIN32__)
-  //under windows, some GL constants seem to be defined in another header
-  #include <GL/glext.h>
-#endif
+#include "GIFStructures.hpp"
 
-#include "GLImageStructure.h"
+bool decode(const GIFColourTable& colourTable, const GIFTableBasedImage& image);
 
-/* returns a structure containing the image data of the given bitmap file
 
-   parameters:
-       FileName - name of the bitmap
-*/
-GLImageStructure readBMP(const std::string& FileName);
-
-/* returns true, if the given file seems to be a bitmap file according to its
-   first bytes
-
-   parameters:
-       header - pointer to an array that contains at least the first two bytes
-                from the file
-       length - number of elements in the array - has to be at least two
-*/
-bool isBMP(const unsigned char* header, const size_t length);
-
-#endif //READBMP_H
+#endif // LIBTHORO_GIF_DECODER_HPP

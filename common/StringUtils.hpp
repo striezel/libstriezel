@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef STRINGUTILS_H
-#define STRINGUTILS_H
+#ifndef LIBTHORO_STRINGUTILS_HPP
+#define LIBTHORO_STRINGUTILS_HPP
 
 #include <string>
 
@@ -123,5 +123,4 @@ std::string floatToString(const float f);
 */
 std::string::size_type find_ci(const std::string& haystack, const std::string& needle, std::string::size_type pos = 0);
 
-#endif // STRINGUTILS_H
-
+#endif // LIBTHORO_STRINGUTILS_HPP

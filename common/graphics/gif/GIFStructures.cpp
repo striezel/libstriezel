@@ -18,12 +18,12 @@
  -----------------------------------------------------------------------------
 */
 
-#include "GIFStructures.h"
+#include "GIFStructures.hpp"
 #include <iostream>
 #include <cstring>
 #include <cmath>
-#include "Constants.h"
-#include "Extensions.h"
+#include "Constants.hpp"
+#include "Extensions.hpp"
 
 /***** GIFHeader functions *****/
 

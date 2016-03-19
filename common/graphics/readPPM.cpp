@@ -18,14 +18,14 @@
  -----------------------------------------------------------------------------
 */
 
-#include "readPPM.h"
+#include "readPPM.hpp"
 #include <GL/gl.h>
 #include <iostream>
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
-#include "../IntegerUtils.h"
-#include "GLfunctions.h"
+#include "../IntegerUtils.hpp"
+#include "GLfunctions.hpp"
 
 bool isPPM(const unsigned char* header, const size_t length)
 {
