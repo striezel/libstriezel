@@ -70,8 +70,26 @@ class archive
      * Returns an empty vector, if an error occurred.
      */
     std::vector<entry> entries() const;
+
+
+    /** \brief extracts the file at a given index to the specified destination
+     *
+     * \param destFileName  the destination file name - file must not exist yet
+     * \param index         index of the entry that shall be extracted
+     * \return Returns true, if the file could be extracted successfully.
+     *         Returns false, if the extraction failed.
+     */
+    bool extractTo(const std::string& destFileName, int64_t index) const;
   private:
-    struct zip * m_archive;
+    /** \brief gets the error message for the archive
+     *
+     * \return Returns a string containing the error message.
+     *         Might return an empty string, if there is no error.
+     */
+    std::string getError() const;
+
+
+    struct zip * m_archive; /**< zip archive handle */
 }; //class
 
 } //namespace

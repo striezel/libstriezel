@@ -19,15 +19,29 @@
 */
 
 #include "archive.hpp"
+#include <cerrno> //for errno
+#include <cstring> //for memset()
+#include <fstream> //for std::ofstream
+#include <iostream> //for std::cerr
+#include <memory> //for std::unique_ptr
 #include <sstream> //for ostringstream to convert int to string
 #include <stdexcept> //for standard exception classes
-#include <cerrno> //for errno
+#include "../filesystem/file.hpp"
 
 namespace libthoro
 {
 
 namespace zip
 {
+
+struct DeleterZipFile {
+  void operator()(zip_file* fp) const
+  {
+    if (fp != nullptr)
+      zip_fclose(fp);
+  }
+};
+
 
 archive::archive(const std::string& fileName)
 : m_archive(nullptr)
@@ -127,6 +141,100 @@ std::vector<entry> archive::entries() const
         return std::vector<entry>();
     } //for
     return result;
+}
+
+bool archive::extractTo(const std::string& destFileName, int64_t index) const
+{
+  const auto num = numEntries();
+  if (((num >= 0) && (index >= num)) || (index < 0))
+  {
+    std::cerr << "zip::archive::extractTo: error: invalid index!" << std::endl;
+    return false;
+  }
+
+  /* Check whether destination file already exists, we do not want to overwrite
+     existing files. */
+  if (libthoro::filesystem::file::exists(destFileName))
+  {
+    std::cerr << "zip::archive::extractTo: error: destination file "
+              << destFileName << " already exists!" << std::endl;
+    return false;
+  }
+
+  //open/create destination file
+  std::ofstream destination;
+  destination.open(destFileName, std::ios_base::out | std::ios_base::binary | std::ios_base::trunc);
+  if (!destination.good() || !destination.is_open())
+  {
+    std::cerr << "zip::archive::extractTo: error: destination file "
+              << destFileName << " could not be created/opened for writing!"
+              << std::endl;
+    return false;
+  }
+
+  //open file inside archive and wrap it in unique_ptr to make sure it gets closed
+  std::unique_ptr<zip_file, DeleterZipFile> file(zip_fopen_index(m_archive, index, 0));
+  if (nullptr == file)
+  {
+    std::cerr << "zip::archive::extractTo: error: " << getError() << std::endl;
+    destination.close();
+    filesystem::file::remove(destFileName);
+    return false;
+  }
+
+  //one megabyte should be enough for incremental buffer
+  const unsigned int bufferSize = 1024 * 1024;
+  char buffer[bufferSize];
+  zip_int64_t bytesRead = 1;
+
+  while (bytesRead > 0)
+  {
+    bytesRead = zip_fread(file.get(), buffer, bufferSize);
+    if (bytesRead < 0)
+    {
+      std::cerr << "zip::archive::extractTo: error while reading data from archive: "
+                << getError() << std::endl;
+      destination.close();
+      filesystem::file::remove(destFileName);
+      //close zip file - unique_ptr deleter handles zip_fclose()
+      file = nullptr;
+      return false;
+    } //if
+    destination.write(buffer, bytesRead);
+    if (!destination.good())
+    {
+      std::cerr << "zip::archive::extractTo: error: Could not write data to file "
+                << destFileName << "." << std::endl;
+      destination.close();
+      filesystem::file::remove(destFileName);
+      //close zip file - unique_ptr deleter handles zip_fclose()
+      file = nullptr;
+      return false;
+    } //if
+  } //while
+
+  //close zip file - unique_ptr deleter handles zip_fclose()
+  file = nullptr;
+  //close destination file
+  destination.close();
+  return true;
+}
+
+std::string archive::getError() const
+{
+  int zipErr = 0;
+  int sysErr = 0;
+  zip_error_get(m_archive, &zipErr, &sysErr);
+
+  //2048 bytes should be more than enough
+  const unsigned int bufferSize = 2048;
+  char buf[bufferSize];
+  std::memset(buf, '\0', bufferSize);
+  int written = zip_error_to_str(buf, bufferSize, zipErr, sysErr);
+  if (written < 0)
+    return std::string("Error while getting the error string!")
+          +std::string(" (A most peculiar thing, isn't it?)");
+  return std::string(buf);
 }
 
 } //namespace
