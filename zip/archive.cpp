@@ -109,6 +109,26 @@ int64_t archive::numEntries() const
    return zip_get_num_entries(m_archive, 0);
 }
 
+std::vector<entry> archive::entries() const
+{
+    const auto num = numEntries();
+    std::vector<entry> result;
+    struct zip_stat sb;
+    zip_stat_init(&sb);
+    int64_t i = 0;
+    for (i=0; i<num; ++i)
+    {
+      const int ret = zip_stat_index(m_archive, i, 0, &sb);
+      if (0 == ret)
+      {
+        result.push_back(sb);
+      }
+      else
+        return std::vector<entry>();
+    } //for
+    return result;
+}
+
 } //namespace
 
 } //namespace

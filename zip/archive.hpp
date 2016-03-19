@@ -22,7 +22,9 @@
 #define LIBTHORO_ZIP_ARCHIVE_HPP
 
 #include <string>
+#include <vector>
 #include <zip.h>
+#include "entry.hpp"
 
 namespace libthoro
 {
@@ -60,6 +62,14 @@ class archive
      * Returns -1, if an error occurred.
      */
     int64_t numEntries() const;
+
+
+    /** \brief gets a vector of all files within the ZIP archive
+     *
+     * \return Returns a vector of all entries within the ZIP archive.
+     * Returns an empty vector, if an error occurred.
+     */
+    std::vector<entry> entries() const;
   private:
     struct zip * m_archive;
 }; //class
