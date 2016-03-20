@@ -80,6 +80,15 @@ class archive
      *         Returns false, if the extraction failed.
      */
     bool extractTo(const std::string& destFileName, int64_t index) const;
+
+
+    /** \brief checks whether a file may be a ZIP archive
+     *
+     * \param fileName  file name of the potential ZIP archive
+     * \return Returns true, if the file seems to be a ZIP archive.
+     *         Returns false, if not.
+     */
+    static bool isZip(const std::string& fileName);
   private:
     /** \brief gets the error message for the archive
      *

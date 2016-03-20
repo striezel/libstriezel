@@ -237,6 +237,23 @@ std::string archive::getError() const
   return std::string(buf);
 }
 
+bool archive::isZip(const std::string& fileName)
+{
+  std::ifstream stream;
+  stream.open(fileName, std::ios_base::binary | std::ios_base::in);
+  if (!stream.good() || !stream.is_open())
+    return false;
+
+  uint32_t start = 0;
+  stream.read(reinterpret_cast<char*>(&start), 4);
+  if (!stream.good() || stream.gcount() != 4)
+    return false;
+  stream.close();
+
+  /* magic literal for ZIP files is 50 4B 03 04.*/
+  return (start == 0x04034B50);
+}
+
 } //namespace
 
 } //namespace
