@@ -68,6 +68,14 @@ class directory
     static bool createRecursive(const std::string& dirName);
 
 
+    /** \brief tries to create a temporary directory
+     *
+     * \param tempDirName  string that will hold the name of the temporary directory
+     * \return Returns true, if a temporary directory was created. Returns false otherwise.
+     */
+    static bool createTemp(std::string& tempDirName);
+
+
      /** \brief tries to remove the given directory
       *
       * \param dirName  the name of the directory that shall be removed

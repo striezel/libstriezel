@@ -22,9 +22,12 @@
 #include <sys/stat.h>
 
 #if defined(_WIN32)
+  #include <csdtio> //for std::remove()
+  #include <cstring> //for std::memset()
   #include <Windows.h>
   #include <Shlobj.h>
 #elif defined(__linux__) || defined(linux)
+  #include <cstdlib> //for mkdtemp()
   #include <unistd.h>
   #include <pwd.h>
 #endif
@@ -78,6 +81,66 @@ bool directory::createRecursive(const std::string& dirName)
   }
   //creation of parent directory failed
   return false;
+}
+
+bool directory::createTemp(std::string& tempDirName)
+{
+  #if defined(_WIN32)
+    /* Windows API has no function to create a temporary directory directly.
+       Therefore we use an approach which involves several steps:
+       - get the "basic" temporary path (e.g. "C:\Temp") with GetTempPath()
+       - create a temporary file in that path with GetTempFileName()
+       - delete aforementioned file and create directory with its name instead
+
+       This approach contains a potential race condition: After the temporary
+       file is deleted but before the directory is created, another application
+       might create a file or directory with the same name. However, I do not
+       know of any WinAPI functions that might mitigate or even avoid that race
+       condition, so we leave it as it is for now.
+    */
+    char buffer[MAX_PATH+2];
+    std::memset(buffer, '\0', MAX_PATH+2);
+    const DWORD ret = GetTempPath(MAX_PATH+1, buffer);
+    //function failed, return false
+    if (ret == 0)
+      return false;
+    //buffer too small -> should not happen
+    if (ret>MAX_PATH+1)
+      return false;
+    const std::string path = std::string(buffer);
+    //fill buffer with zeros for next use
+    memset(buffer, '\0', MAX_PATH+2);
+    const UINT gtfn_ret = GetTempFileName(path.c_str(), "tmp", 0, buffer);
+    if (gtfn_ret == 0)
+      return false;
+    //Path component too long?
+    if (ERROR_BUFFER_OVERFLOW == gtfn_ret)
+      return false;
+    const tempFileName = std::string(buffer);
+    //delete file ...
+    if (std::remove(tempFileName.c_str()) != 0)
+      return false;
+    // ... and create directory with the same name
+    if (createRecursive(tempFileName))
+    {
+      tempDirName = tempFileName:
+      return true;
+    }
+    tempDirName.clear();
+    return false;
+  #elif defined(__linux__) || defined(linux)
+    char tmpDir[] = "/tmp/directoryXXXXXXXXXX";
+    const char * dirName = mkdtemp(tmpDir);
+    if (nullptr == dirName) //null signals error
+    {
+      tempDirName.clear();
+      return false;
+    }
+    tempDirName = std::string(dirName);
+    return true;
+  #else
+    #error Unknown operating system!
+  #endif
 }
 
 bool directory::remove(const std::string& dirName)
