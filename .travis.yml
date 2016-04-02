@@ -2,7 +2,10 @@ language: cpp
 compiler:
   - clang
   - gcc
-sudo: false
+# sudo: false
+# sudo is required until libiso9660-dev can be installed via APT packages
+# addon.
+sudo: required
 addons:
   apt:
     sources:
@@ -13,12 +16,14 @@ addons:
     - gcc-4.8
     - freeglut3-dev
     - libglfw-dev
+#    - libiso9660-dev
     - libxml2-dev
     - libzip-dev
     - zlib1g-dev
 before_install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
 script:
+  - sudo apt-get install -y libiso9660-dev
   - ./ci/cpplint.sh
   - mkdir ./build
   - cd ./build
