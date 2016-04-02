@@ -3,8 +3,15 @@
 This is the libthoro repository.
 It contains code that is shared (or potentially shared) between multiple
 projects by thoronador (hence the name). All code is in C++, some classes use
-low-level C libraries, but encapsulate them. (Let's shove the dirt under the
-carpet, right where it belongs.)
+low-level C libraries, but encapsulate them. Let's shove the dirt under the
+carpet, right where it belongs.
+
+## Build status
+
+[![Travis CI](https://travis-ci.org/Thoronador/libthoro.svg?branch=master)]
+(https://travis-ci.org/Thoronador/libthoro)
+[![drone.io](https://drone.io/github.com/Thoronador/libthoro/status.png)]
+(https://drone.io/github.com/Thoronador/libthoro/latest)
 
 ## License
 
