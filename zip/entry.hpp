@@ -42,6 +42,20 @@ class entry
     entry(const struct zip_stat& zs);
 
 
+    /** \brief alternative constructor
+     *
+     * \param theName  name of the file
+     * \param index    the index of the entry in the ZIP file
+     * \param uncompressedSize uncompressed size in bytes
+     * \param compressedSize   compressed size in bytes
+     * \param modTime          modification time
+     * \param CRC              CRC checksum
+     */
+    entry(const std::string& theName, const int index, const int64_t uncompressedSize,
+          const int64_t compressedSize = -1, const std::time_t modTime = static_cast<std::time_t>(-1),
+          const uint32_t CRC = 0);
+
+
     /** \brief gets the name of the file
      *
      * \return Returns name of the file.
@@ -104,6 +118,14 @@ class entry
      * \return Returns the name with any leading directory components removed.
      */
     std::string basename() const;
+
+
+    /** \brief equality operator for zip::entry
+     *
+     * \param other  the other ZIP entry
+     * \return Returns true, if this entry and other are equal.
+     */
+    bool operator==(const entry& other) const;
   private:
     std::string m_name; /**< file name */
     int m_index;        /**< index of the file in the ZIP archive */

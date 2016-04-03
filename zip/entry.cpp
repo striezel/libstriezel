@@ -55,6 +55,24 @@ entry::entry(const struct zip_stat& zs)
     m_crc = zs.crc;
 }
 
+entry::entry(const std::string& theName, const int index, const int64_t uncompressedSize,
+             const int64_t compressedSize, const std::time_t modTime, const uint32_t CRC)
+: m_name(theName),
+  m_index(index),
+  m_sizeUncompressed(uncompressedSize),
+  m_sizeCompressed(compressedSize),
+  m_m_time(modTime),
+  m_crc(CRC)
+{
+  //"normalize" invalid values to "not set" values
+  if (m_index < -1)
+    m_index = -1;
+  if (m_sizeCompressed < -1)
+    m_sizeCompressed = -1;
+  if (m_sizeUncompressed < -1)
+    m_sizeUncompressed = -1;
+}
+
 const std::string& entry::name() const
 {
   return m_name;
@@ -113,6 +131,14 @@ std::string entry::basename() const
   if (pos == std::string::npos)
     return result;
   return result.substr(pos +1);
+}
+
+bool entry::operator==(const entry& other) const
+{
+  return ((m_name == other.m_name) && (m_index == other.m_index)
+       && (m_sizeUncompressed == other.m_sizeUncompressed)
+       && (m_sizeCompressed == other.m_sizeCompressed)
+       && (m_m_time == other.m_m_time) && (m_crc == other.m_crc));
 }
 
 } //namespace
