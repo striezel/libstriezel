@@ -41,30 +41,12 @@ then
   exit 1
 fi
 
-# get a .docx file
-wget http://calibre-ebook.com/downloads/demos/demo.docx \
- --output-document="$THIS_DIR/demo.docx"
+# get a zip file
+wget https://github.com/madler/zlib/archive/v1.2.8.zip \
+ --output-document="$THIS_DIR/zlib.zip"
 if [[ $? -ne 0 ]]
 then
-  echo "Error: Could not download .docx with wget!"
-  exit 1
-fi
-
-# get log4j ZIP
-wget http://ftp.halifax.rwth-aachen.de/apache/logging/log4j/1.2.17/log4j-1.2.17.zip \
- --output-document="$THIS_DIR/log4j-1.2.17.zip"
-if [[ $? -ne 0 ]]
-then
-  echo "Error: Could not download log4j with wget!"
-  exit 1
-fi
-
-# extract .jar file from log4j ZIP
-unzip "$THIS_DIR/log4j-1.2.17.zip" "apache-log4j-1.2.17/log4j-1.2.17.jar" \
- -d "$THIS_DIR"
-if [[ $? -ne 0 ]]
-then
-  echo "Error: Could not extract jar from log4j ZIP file!"
+  echo "Error: Could not download zlib's ZIP with wget!"
   exit 1
 fi
 
@@ -72,15 +54,13 @@ fi
 "$TEST_BINARY" "$THIS_DIR"
 if [[ $? -ne 0 ]]
 then
+  rm -f "$THIS_DIR/zlib.zip"
   echo "Error: Test for isZip() failed!"
   exit 1
 fi
 
-# delete downloaded ZIP files
-rm -f "$THIS_DIR/demo.docx"
-rm -f "$THIS_DIR/log4j-1.2.17.zip"
-rm -f "$THIS_DIR/apache-log4j-1.2.17/log4j-1.2.17.jar"
-rmdir "$THIS_DIR/apache-log4j-1.2.17"
+#remove downloaded ZIP file
+rm -f "$THIS_DIR/zlib.zip"
 
 # everything is OK
 exit 0
