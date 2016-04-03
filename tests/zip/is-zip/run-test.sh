@@ -60,7 +60,8 @@ then
 fi
 
 # extract .jar file from log4j ZIP
-unzip "$THIS_DIR/log4j-1.2.17.zip" "apache-log4j-1.2.17/log4j-1.2.17.jar"
+unzip "$THIS_DIR/log4j-1.2.17.zip" "apache-log4j-1.2.17/log4j-1.2.17.jar" \
+ -d "$THIS_DIR"
 if [[ $? -ne 0 ]]
 then
   echo "Error: Could not extract jar from log4j ZIP file!"

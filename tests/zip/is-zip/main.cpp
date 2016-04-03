@@ -23,6 +23,7 @@
 #include <vector>
 #include <utility>
 #include "../../../filesystem/directory.hpp"
+#include "../../../filesystem/file.hpp"
 #include "../../../zip/archive.hpp"
 
 /* List of test files in ZIP directory:
@@ -63,8 +64,19 @@ int main(int argc, char** argv)
   //Iterate over test cases.
   for (const auto item : testCases)
   {
+    //construct file name
     const std::string fileName = zipDirectory + libthoro::filesystem::pathDelimiter + item.first;
+    //existence check
+    if (!libthoro::filesystem::file::exists(fileName))
+    {
+      std::cout << "Error: File " << fileName << " does not exist!" << std::endl;
+      return 1;
+    }
+    //check, if it is a ZIP
     const bool isZip = libthoro::zip::archive::isZip(fileName);
+    std::cout << "isZip(" << fileName << ") = "
+              << (isZip ? "yes" : "no") << std::endl;
+    //compare with expected values
     if (isZip != item.second)
     {
       if (item.second)
