@@ -7,6 +7,9 @@ add_subdirectory (filesystem)
 # Recurse into subdirectory for hash tests (SHA160 - SHA512 tests).
 add_subdirectory (hash)
 
+# Recurse into subdirectory for ISO 9660 disk image tests.
+add_subdirectory (iso9660)
+
 # Recurse into subdirectory for os tests.
 add_subdirectory (os)
 
