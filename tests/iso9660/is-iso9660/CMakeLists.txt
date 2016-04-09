@@ -42,4 +42,4 @@ endif (LIBISO9660_FOUND)
 
 # add run-test.sh as test
 add_test(NAME iso_isISO9660
-         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/run-test.sh $<TARGET_FILE:test-is-iso9660>)
+         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../files/run-test.sh $<TARGET_FILE:test-is-iso9660>)

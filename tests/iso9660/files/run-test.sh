@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script to get an ISO9660 file for the test case in this directory and run the
+# Script to get an ISO9660 file for the corresponding test cases and run the
 # test afterwards.
 #
 #  Copyright (C) 2016  Thoronador
@@ -41,26 +41,25 @@ then
   exit 1
 fi
 
-# get the iso image for Damn Small Linux
-wget http://distro.ibiblio.org/damnsmall/release_candidate/dsl-4.11.rc2.iso \
- --output-document="$THIS_DIR/dsl-4.11.rc2.iso"
-if [[ $? -ne 0 ]]
+if [[ ! -f "$THIS_DIR/dsl-4.11.rc2.iso" ]]
 then
-  echo "Error: Could not download DSL's ISO with wget!"
-  exit 1
+  # get the iso image for Damn Small Linux
+  wget http://distro.ibiblio.org/damnsmall/release_candidate/dsl-4.11.rc2.iso \
+   --output-document="$THIS_DIR/dsl-4.11.rc2.iso"
+  if [[ $? -ne 0 ]]
+  then
+    echo "Error: Could not download DSL's ISO with wget!"
+    exit 1
+  fi
 fi
 
 # run the test
 "$TEST_BINARY" "$THIS_DIR"
 if [[ $? -ne 0 ]]
 then
-  rm -f "$THIS_DIR/dsl-4.11.rc2.iso"
-  echo "Error: Test for iso9660::entries() failed!"
+  echo "Error: Test for iso9660::archive class failed!"
   exit 1
 fi
-
-#remove downloaded file
-rm -f "$THIS_DIR/dsl-4.11.rc2.iso"
 
 # everything is OK
 exit 0
