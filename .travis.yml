@@ -15,6 +15,7 @@ addons:
     - g++-4.8
     - gcc-4.8
     - freeglut3-dev
+    - libarchive-dev
     - libglfw-dev
 #    - libiso9660-dev
     - libxml2-dev
