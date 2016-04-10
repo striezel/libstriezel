@@ -94,6 +94,10 @@ class archive
      */
     void fillEntries();
 
+    /** \brief re-opens the archive
+     */
+    void reopen();
+
 
     struct ::archive * m_archive; /**< archive handle */
     std::vector<entry> m_entries; /**< the entries in the archive */

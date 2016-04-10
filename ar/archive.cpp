@@ -112,6 +112,32 @@ void archive::fillEntries()
            break;
     } //swi
   } //while
+  //reopen file to start at beginning when getting next header
+  reopen();
+}
+
+void archive::reopen()
+{
+  //close and re-open archive to get to the first entry again
+  archive_read_free(m_archive);
+  m_archive = nullptr;
+  m_archive = archive_read_new();
+  if (nullptr == m_archive)
+    throw std::runtime_error("libthoro::ar::archive::reopen(): Could not allocate archive structure!");
+  int r2 = archive_read_support_format_ar(m_archive);
+  if (r2 != ARCHIVE_OK)
+  {
+    archive_read_free(m_archive);
+    m_archive = nullptr;
+    throw std::runtime_error("libthoro::ar::archive::reopen(): Format not supported!");
+  }
+  r2 = archive_read_open_filename(m_archive, m_fileName.c_str(), 4096);
+  if (r2 != ARCHIVE_OK)
+  {
+    archive_read_free(m_archive);
+    m_archive = nullptr;
+    throw std::runtime_error("libthoro::ar::archive::reopen(): Failed to re-open file " + m_fileName + "!");
+  }
 }
 
 std::vector<entry> archive::entries() const
@@ -219,25 +245,7 @@ bool archive::extractTo(const std::string& destFileName, const std::string& arFi
       //set EOF flag for later detection
       beenToEOF = true;
       //close and re-open archive to get to the first entry again
-      archive_read_free(m_archive);
-      m_archive = nullptr;
-      m_archive = archive_read_new();
-      if (nullptr == m_archive)
-        throw std::runtime_error("libthoro::ar::archive: Could not allocate archive structure!");
-      int r2 = archive_read_support_format_ar(m_archive);
-      if (r2 != ARCHIVE_OK)
-      {
-        archive_read_free(m_archive);
-        m_archive = nullptr;
-        throw std::runtime_error("libthoro::ar::archive: Format not supported!");
-      }
-      r2 = archive_read_open_filename(m_archive, m_fileName.c_str(), 4096);
-      if (r2 != ARCHIVE_OK)
-      {
-        archive_read_free(m_archive);
-        m_archive = nullptr;
-        throw std::runtime_error("libthoro::ar::archive: Failed to re-open file " + m_fileName + "!");
-      }
+      reopen();
     } //if ARCHIVE_EOF
     else if (ret == ARCHIVE_RETRY)
     {
