@@ -9,8 +9,8 @@
 sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
 sudo apt-get update
 # install libraries and GNU C++ Compiler 4.8
-sudo apt-get install -y freeglut3-dev libglfw-dev libiso9660-dev libxml2-dev
-sudo apt-get install -y libzip-dev zlib1g-dev g++-4.8 gcc-4.8 cmake
+sudo apt-get install -y freeglut3-dev libglfw-dev libiso9660-dev libxml2-dev \
+     libarchive-dev libzip-dev zlib1g-dev g++-4.8 gcc-4.8 cmake
 # export environment variables for C++ compiler
 export CXX="g++-4.8"
 export CC="gcc-4.8"

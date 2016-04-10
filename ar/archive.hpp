@@ -67,11 +67,19 @@ class archive
     /** \brief extracts the file at a given index to the specified destination
      *
      * \param destFileName  the destination file name - file must not exist yet
-     * \param index         index of the entry that shall be extracted
+     * \param arFilePath         path of the file that shall be extracted
      * \return Returns true, if the file could be extracted successfully.
      *         Returns false, if the extraction failed.
      */
-    bool extractTo(const std::string& destFileName, int64_t index) const;
+    bool extractTo(const std::string& destFileName, const std::string& arFilePath);
+
+
+    /** \brief checks whether the archive contains a certain file
+     *
+     * \param fileName  path of the file whose existence shall be checked
+     * \return Returns true, if the file exists. Returns false otherwise.
+     */
+    bool contains(const std::string& fileName) const;
 
 
     /** \brief checks whether a file may be an ar archive
@@ -82,15 +90,14 @@ class archive
      */
     static bool isAr(const std::string& fileName);
   private:
-    /** \brief gets the error message for the archive
-     *
-     * \return Returns a string containing the error message.
-     *         Might return an empty string, if there is no error.
+    /** \brief fills the list of archive entries
      */
-    std::string getError() const;
+    void fillEntries();
 
 
     struct ::archive * m_archive; /**< archive handle */
+    std::vector<entry> m_entries; /**< the entries in the archive */
+    std::string m_fileName; /**< original file name of archive */
 }; //class
 
 } //namespace

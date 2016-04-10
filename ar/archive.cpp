@@ -21,8 +21,10 @@
 #include "archive.hpp"
 #include <cstring>
 #include <fstream>
+#include <iostream>
 #include <stdexcept>
 #include <archive_entry.h>
+#include "../filesystem/file.hpp"
 
 namespace libthoro
 {
@@ -31,17 +33,29 @@ namespace ar
 {
 
 archive::archive(const std::string& fileName)
-: m_archive(nullptr)
+: m_archive(nullptr),
+  m_entries(std::vector<entry>()),
+  m_fileName(fileName)
 {
   m_archive = archive_read_new();
   if (nullptr == m_archive)
     throw std::runtime_error("libthoro::ar::archive: Could not allocate archive structure!");
   int ret = archive_read_support_format_ar(m_archive);
   if (ret != ARCHIVE_OK)
+  {
+    archive_read_free(m_archive);
+    m_archive = nullptr;
     throw std::runtime_error("libthoro::ar::archive: Format not supported!");
-  ret = archive_read_open_filename(m_archive, fileName.c_str(), 512);
+  }
+  ret = archive_read_open_filename(m_archive, fileName.c_str(), 4096);
   if (ret != ARCHIVE_OK)
+  {
+    archive_read_free(m_archive);
+    m_archive = nullptr;
     throw std::runtime_error("libthoro::ar::archive: Failed to open file " + fileName + "!");
+  }
+  //fill entries
+  fillEntries();
 }
 
 archive::~archive()
@@ -52,21 +66,196 @@ archive::~archive()
   m_archive = nullptr;
 }
 
-std::vector<entry> archive::entries() const
+void archive::fillEntries()
 {
+  m_entries.clear();
   struct archive_entry * ent;
-
-  std::vector<entry> result;
-  while (archive_read_next_header(m_archive, &ent) == ARCHIVE_OK)
+  unsigned int retryCount = 0;
+  bool finished = false;
+  while (!finished)
   {
-    result.push_back(ent);
+    const int ret = archive_read_next_header(m_archive, &ent);
+    switch (ret)
+    {
+      case ARCHIVE_OK: //all OK
+      case ARCHIVE_WARN: //success, but non-critical error occured
+           m_entries.push_back(ent);
+           break;
+      case ARCHIVE_EOF:
+           //reached end of archive
+           finished = true;
+           break;
+      case ARCHIVE_RETRY:
+           //operation failed but can be retried, so let's do that
+           ++retryCount;
+           if (retryCount >= 100)
+           {
+             archive_read_free(m_archive);
+             m_archive = nullptr;
+             throw std::runtime_error("libthoro::ar::archive::fillEntries(): "
+                     + std::string("Too many retries!"));
+           }
+           break;
+      case ARCHIVE_FATAL:
+           //fatal error
+           archive_read_free(m_archive);
+           m_archive = nullptr;
+           throw std::runtime_error("libthoro::ar::archive::fillEntries(): "
+                   + std::string("Fatal error while getting archive entries!"));
+           break;
+      default:
+           //unknwon error
+           archive_read_free(m_archive);
+           m_archive = nullptr;
+           throw std::runtime_error("libthoro::ar::archive::fillEntries(): "
+                   + std::string("Unknown error while getting archive entries!"));
+           break;
+    } //swi
   } //while
-  return result;
 }
 
-bool archive::extractTo(const std::string& destFileName, int64_t index) const
+std::vector<entry> archive::entries() const
 {
-  throw std::runtime_error("ar::archive::extractTo(): Not implemented yet!");
+  return m_entries;
+}
+
+bool archive::contains(const std::string& fileName) const
+{
+  std::vector<entry>::const_iterator it = m_entries.begin();
+  while (it != m_entries.end())
+  {
+    if (it->name() == fileName)
+      return true;
+    ++it;
+  } // while
+  return false;
+}
+
+bool archive::extractTo(const std::string& destFileName, const std::string& arFilePath)
+{
+  //If file does not exist in archive, it cannot be extracted.
+  if (!contains(arFilePath))
+    return false;
+
+  /* Check whether destination file already exists, we do not want to overwrite
+     existing files. */
+  if (libthoro::filesystem::file::exists(destFileName))
+  {
+    std::cerr << "ar::archive::extractTo: error: destination file "
+              << destFileName << " already exists!" << std::endl;
+    return false;
+  }
+
+  struct archive_entry * ent;
+  bool beenToEOF = false;
+  unsigned int retryCount = 0;
+  while (true)
+  {
+    int ret = archive_read_next_header(m_archive, &ent);
+    if ((ret == ARCHIVE_OK) || (ret == ARCHIVE_WARN))
+    {
+      entry e(ent);
+      if (e.name() == arFilePath)
+      {
+        //found the file, extract data
+        //open/create destination file
+        std::ofstream destination;
+        destination.open(destFileName, std::ios_base::out | std::ios_base::binary | std::ios_base::trunc);
+        if (!destination.good() || !destination.is_open())
+        {
+          std::cerr << "ar::archive::extractTo: error: destination file "
+                    << destFileName << " could not be created/opened for writing!"
+                    << std::endl;
+          return false;
+        }
+
+        int64_t totalBytesRead = 0;
+        const unsigned int bufferSize = 4096;
+        char buffer[bufferSize];
+        while (totalBytesRead < e.size())
+        {
+          int bytesRead = 0;
+          if (totalBytesRead + bufferSize <= e.size())
+            bytesRead = archive_read_data(m_archive, buffer, bufferSize);
+          else
+            bytesRead = archive_read_data(m_archive, buffer, e.size() % bufferSize);
+          if (bytesRead >= 0)
+          {
+            //write bytes to file
+            destination.write(buffer, bytesRead);
+            if (!destination.good())
+            {
+              std::cerr << "ar::archive::extractTo: error: Could not write data to file "
+                        << destFileName << "." << std::endl;
+              destination.close();
+              filesystem::file::remove(destFileName);
+              return false;
+            } //if write failed
+            totalBytesRead += bytesRead;
+          }
+          else
+          {
+            std::cerr << "ar::archive::extractTo: error while reading data from archive!"
+                      << std::endl;
+            destination.close();
+            filesystem::file::remove(destFileName);
+            return false;
+          } //else (error)
+        } //while
+        //close destination file
+        destination.close();
+        return true;
+      } //if
+    } //if ARCHIVE_OK or ARCHIVE_WARN
+    else if (ret == ARCHIVE_EOF)
+    {
+      if (beenToEOF)
+      {
+        //Already been here, quit.
+        std::cerr << "ar::archive::extractTo: Could not find file " << arFilePath
+                  << " in archive!" << std::endl;
+        return false;
+      }
+      //set EOF flag for later detection
+      beenToEOF = true;
+      //close and re-open archive to get to the first entry again
+      archive_read_free(m_archive);
+      m_archive = nullptr;
+      m_archive = archive_read_new();
+      if (nullptr == m_archive)
+        throw std::runtime_error("libthoro::ar::archive: Could not allocate archive structure!");
+      int r2 = archive_read_support_format_ar(m_archive);
+      if (r2 != ARCHIVE_OK)
+      {
+        archive_read_free(m_archive);
+        m_archive = nullptr;
+        throw std::runtime_error("libthoro::ar::archive: Format not supported!");
+      }
+      r2 = archive_read_open_filename(m_archive, m_fileName.c_str(), 4096);
+      if (r2 != ARCHIVE_OK)
+      {
+        archive_read_free(m_archive);
+        m_archive = nullptr;
+        throw std::runtime_error("libthoro::ar::archive: Failed to re-open file " + m_fileName + "!");
+      }
+    } //if ARCHIVE_EOF
+    else if (ret == ARCHIVE_RETRY)
+    {
+      //retry
+      ++retryCount;
+      if (retryCount >= 100)
+      {
+        std::cerr << "libthoro::ar::archive::extractTo(): Too many re-tries!" << std::endl;
+        return false;
+      }
+    } //if retry
+    else
+    {
+      //May be ARCHIVE_FATAL or similar
+      std::cerr << "libthoro::ar::archive::extractTo(): Fatal or unknown error!" << std::endl;
+      return false;
+    } //else
+  } //while
 }
 
 bool archive::isAr(const std::string& fileName)
