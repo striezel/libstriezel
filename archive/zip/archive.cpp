@@ -26,7 +26,7 @@
 #include <memory> //for std::unique_ptr
 #include <sstream> //for ostringstream to convert int to string
 #include <stdexcept> //for standard exception classes
-#include "../filesystem/file.hpp"
+#include "../../filesystem/file.hpp"
 
 namespace libthoro
 {

@@ -11,8 +11,8 @@ set(test-zip-extract_sources
     ../../../hash/sha256/FileSourceUtility.cpp
     ../../../hash/sha256/MessageSource.cpp
     ../../../hash/sha256/sha256.cpp
-    ../../../zip/archive.cpp
-    ../../../zip/entry.cpp
+    ../../../archive/zip/archive.cpp
+    ../../../archive/zip/entry.cpp
     main.cpp)
 
 if (CMAKE_COMPILER_IS_GNUCC)

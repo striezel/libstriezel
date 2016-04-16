@@ -24,7 +24,7 @@
 #include <utility>
 #include "../../../filesystem/directory.hpp"
 #include "../../../filesystem/file.hpp"
-#include "../../../ar/archive.hpp"
+#include "../../../archive/ar/archive.hpp"
 
 /* List of test files in Ar file directory:
      first = file name, second = whether it should be detected as Ar or not

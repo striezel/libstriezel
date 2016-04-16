@@ -27,6 +27,8 @@ Here is a short overview over the contents of the various directories. If you
 want details about the classes, just look into the source code. Most of it is
 documented well enough to understand it from the documentation alone.
 
+* **archive/ar/** - classes to read Ar archives
+* **archive/zip/** - classes to read ZIP archives
 * **ci/** - contains script(s) for continous integration
 * **cmake/** - files for the CMake build systems
 * **common/** - code to do some "common" tasks
@@ -44,5 +46,4 @@ documented well enough to understand it from the documentation alone.
 * **procfs/** - functions that use the /proc file system from Linux
 * **tests/** - test cases for various classes (but unfortunately not all
   classes are covered yet)
-* **zip/** - classes to read ZIP archives
 * **zlib/** - wrappers for compression and decompression with zlib

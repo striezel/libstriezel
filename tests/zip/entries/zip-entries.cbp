@@ -6,15 +6,6 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Debug">
-				<Option output="bin/Debug/test-zip-entries" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-g" />
-				</Compiler>
-			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/test-zip-entries" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
@@ -44,10 +35,10 @@
 		<Unit filename="../../../filesystem/directory.hpp" />
 		<Unit filename="../../../filesystem/file.cpp" />
 		<Unit filename="../../../filesystem/file.hpp" />
-		<Unit filename="../../../zip/archive.cpp" />
-		<Unit filename="../../../zip/archive.hpp" />
-		<Unit filename="../../../zip/entry.cpp" />
-		<Unit filename="../../../zip/entry.hpp" />
+		<Unit filename="../../../archive/zip/archive.cpp" />
+		<Unit filename="../../../archive/zip/archive.hpp" />
+		<Unit filename="../../../archive/zip/entry.cpp" />
+		<Unit filename="../../../archive/zip/entry.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

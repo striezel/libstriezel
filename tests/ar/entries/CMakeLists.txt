@@ -7,8 +7,8 @@ set(test-ar-entries_sources
     ../../../common/StringUtils.cpp
     ../../../filesystem/directory.cpp
     ../../../filesystem/file.cpp
-    ../../../ar/archive.cpp
-    ../../../ar/entry.cpp
+    ../../../archive/ar/archive.cpp
+    ../../../archive/ar/entry.cpp
     main.cpp)
 
 if (CMAKE_COMPILER_IS_GNUCC)

@@ -24,7 +24,7 @@
 #include <utility>
 #include "../../../filesystem/directory.hpp"
 #include "../../../filesystem/file.hpp"
-#include "../../../zip/archive.hpp"
+#include "../../../archive/zip/archive.hpp"
 
 /* List of test files in ZIP directory:
      first = file name, second = whether it should be detected as ZIP or not

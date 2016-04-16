@@ -24,7 +24,7 @@
 #include <vector>
 #include "../../../filesystem/directory.hpp"
 #include "../../../filesystem/file.hpp"
-#include "../../../ar/archive.hpp"
+#include "../../../archive/ar/archive.hpp"
 
 void showEntry(const libthoro::ar::entry& e)
 {

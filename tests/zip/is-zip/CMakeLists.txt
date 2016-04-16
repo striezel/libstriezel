@@ -7,8 +7,8 @@ set(test-is-zip_sources
     ../../../common/StringUtils.cpp
     ../../../filesystem/directory.cpp
     ../../../filesystem/file.cpp
-    ../../../zip/archive.cpp
-    ../../../zip/entry.cpp
+    ../../../archive/zip/archive.cpp
+    ../../../archive/zip/entry.cpp
     main.cpp)
 
 if (CMAKE_COMPILER_IS_GNUCC)

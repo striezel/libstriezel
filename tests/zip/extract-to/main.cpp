@@ -26,7 +26,7 @@
 #include "../../../filesystem/file.hpp"
 #include "../../../hash/sha256/sha256.hpp"
 #include "../../../hash/sha256/FileSourceUtility.hpp"
-#include "../../../zip/archive.hpp"
+#include "../../../archive/zip/archive.hpp"
 
 void showEntry(const libthoro::zip::entry& e)
 {

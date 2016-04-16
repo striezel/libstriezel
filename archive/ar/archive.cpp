@@ -24,7 +24,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <archive_entry.h>
-#include "../filesystem/file.hpp"
+#include "../../filesystem/file.hpp"
 
 namespace libthoro
 {

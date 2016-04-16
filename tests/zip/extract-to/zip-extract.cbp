@@ -44,10 +44,10 @@
 		<Unit filename="../../../hash/sha256/functions.hpp" />
 		<Unit filename="../../../hash/sha256/sha256.cpp" />
 		<Unit filename="../../../hash/sha256/sha256.hpp" />
-		<Unit filename="../../../zip/archive.cpp" />
-		<Unit filename="../../../zip/archive.hpp" />
-		<Unit filename="../../../zip/entry.cpp" />
-		<Unit filename="../../../zip/entry.hpp" />
+		<Unit filename="../../../archive/zip/archive.cpp" />
+		<Unit filename="../../../archive/zip/archive.hpp" />
+		<Unit filename="../../../archive/zip/entry.cpp" />
+		<Unit filename="../../../archive/zip/entry.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
