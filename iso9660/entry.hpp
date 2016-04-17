@@ -25,6 +25,7 @@
 #include <ctime>
 #include <string>
 #include <cdio/iso9660.h>
+#include "../archive/entry.hpp"
 
 namespace libthoro
 {
@@ -32,7 +33,7 @@ namespace libthoro
 namespace iso9660
 {
 
-class entry
+class entry: public archive::entry
 {
   public:
     /** \brief constructor to create entry from ISO9660 stat buffer
@@ -41,51 +42,6 @@ class entry
      * \param currentDirectory the current directory
      */
     entry(const iso9660_stat_t * statbuf, const std::string& currentDirectory);
-
-
-    /** \brief gets the name of the file
-     *
-     * \return Returns name of the file.
-     * May return an empty string, if file name is not known.
-     */
-    const std::string& name() const;
-
-
-    /** \brief gets the size of the entry in bytes
-     *
-     * \return Returns the size of the entry in bytes.
-     * Returns -1, if the size is not known.
-     */
-    int64_t size() const;
-
-
-    /** \brief gets the modification time of the file
-     *
-     * \return Returns modification time of the file.
-     * Returns -1 (cast to time_t), if the time is not known.
-     */
-    std::time_t m_time() const;
-
-
-    /** \brief checks whether the entry is a directory
-     *
-     * \return Returns true, if the entry is a directory.
-     *         Returns false, if not.
-     *         Also returns false, if name or size is not known.
-     */
-    bool isDirectory() const;
-
-
-    /** \brief strips directory name from the entry's name
-     *
-     * \return Returns the name with any leading directory components removed.
-     */
-    std::string basename() const;
-  private:
-    std::string m_name; /**< file name */
-    int64_t m_size; /**< size of file in bytes */
-    bool m_directory; /**< whether or not this entry is a directory */
-    std::time_t m_m_time; /**< modification time */
 }; //class
 
 } //namespace

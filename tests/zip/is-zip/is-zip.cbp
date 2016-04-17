@@ -29,16 +29,18 @@
 		<Linker>
 			<Add library="zip" />
 		</Linker>
+		<Unit filename="../../../archive/entry.cpp" />
+		<Unit filename="../../../archive/entry.hpp" />
+		<Unit filename="../../../archive/zip/archive.cpp" />
+		<Unit filename="../../../archive/zip/archive.hpp" />
+		<Unit filename="../../../archive/zip/entry.cpp" />
+		<Unit filename="../../../archive/zip/entry.hpp" />
 		<Unit filename="../../../common/StringUtils.cpp" />
 		<Unit filename="../../../common/StringUtils.hpp" />
 		<Unit filename="../../../filesystem/directory.cpp" />
 		<Unit filename="../../../filesystem/directory.hpp" />
 		<Unit filename="../../../filesystem/file.cpp" />
 		<Unit filename="../../../filesystem/file.hpp" />
-		<Unit filename="../../../archive/zip/archive.cpp" />
-		<Unit filename="../../../archive/zip/archive.hpp" />
-		<Unit filename="../../../archive/zip/entry.cpp" />
-		<Unit filename="../../../archive/zip/entry.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

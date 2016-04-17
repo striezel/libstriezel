@@ -39,6 +39,8 @@
 		<Unit filename="../../../archive/ar/archive.hpp" />
 		<Unit filename="../../../archive/ar/entry.cpp" />
 		<Unit filename="../../../archive/ar/entry.hpp" />
+		<Unit filename="../../../archive/entry.cpp" />
+		<Unit filename="../../../archive/entry.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

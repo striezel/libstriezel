@@ -6,15 +6,6 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Debug">
-				<Option output="bin/Debug/test-ar-entries" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-g" />
-				</Compiler>
-			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/test-ar-entries" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
@@ -48,6 +39,8 @@
 		<Unit filename="../../../archive/ar/archive.hpp" />
 		<Unit filename="../../../archive/ar/entry.cpp" />
 		<Unit filename="../../../archive/ar/entry.hpp" />
+		<Unit filename="../../../archive/entry.cpp" />
+		<Unit filename="../../../archive/entry.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

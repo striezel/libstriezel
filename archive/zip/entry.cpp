@@ -28,21 +28,19 @@ namespace zip
 {
 
 entry::entry(const struct zip_stat& zs)
-: m_name(""),
+: archive::entry(),
   m_index(-1),
-  m_sizeUncompressed(-1),
   m_sizeCompressed(-1),
-  m_m_time(static_cast<std::time_t>(-1)),
   m_crc(0)
 {
   if ((zs.valid & ZIP_STAT_NAME) != 0)
-    m_name = std::string(zs.name);
+    setName(std::string(zs.name));
   if ((zs.valid & ZIP_STAT_INDEX) != 0)
     m_index = zs.index;
   if ((zs.valid & ZIP_STAT_SIZE) != 0)
   {
     if (zs.size <= static_cast<zip_uint64_t>(std::numeric_limits<int64_t>::max()))
-      m_sizeUncompressed = zs.size;
+      setSize(zs.size);
   }
   if ((zs.valid & ZIP_STAT_COMP_SIZE) != 0)
   {
@@ -50,32 +48,26 @@ entry::entry(const struct zip_stat& zs)
       m_sizeCompressed = zs.comp_size;
   }
   if ((zs.valid & ZIP_STAT_MTIME) != 0)
-    m_m_time = zs.mtime;
+    setTime(zs.mtime);
   if ((zs.valid & ZIP_STAT_CRC) != 0)
     m_crc = zs.crc;
 }
 
 entry::entry(const std::string& theName, const int index, const int64_t uncompressedSize,
              const int64_t compressedSize, const std::time_t modTime, const uint32_t CRC)
-: m_name(theName),
+: archive::entry(),
   m_index(index),
-  m_sizeUncompressed(uncompressedSize),
   m_sizeCompressed(compressedSize),
-  m_m_time(modTime),
   m_crc(CRC)
 {
+  setName(theName);
+  setSize(uncompressedSize);
+  setTime(modTime);
   //"normalize" invalid values to "not set" values
   if (m_index < -1)
     m_index = -1;
   if (m_sizeCompressed < -1)
     m_sizeCompressed = -1;
-  if (m_sizeUncompressed < -1)
-    m_sizeUncompressed = -1;
-}
-
-const std::string& entry::name() const
-{
-  return m_name;
 }
 
 int entry::index() const
@@ -83,19 +75,9 @@ int entry::index() const
   return m_index;
 }
 
-int64_t entry::sizeUncompressed() const
-{
-  return m_sizeUncompressed;
-}
-
 int64_t entry::sizeCompressed() const
 {
   return m_sizeCompressed;
-}
-
-std::time_t entry::m_time() const
-{
-  return m_m_time;
 }
 
 uint32_t entry::crc() const
@@ -108,37 +90,23 @@ bool entry::isDirectory() const
   /* Directory entries typically have a uncompressed size of zero bytes and
      their names end with a slash.
   */
-  if (m_sizeUncompressed != 0)
+  if (size() != 0)
     return false;
-  const std::string::size_type len = m_name.size();
+  const std::string::size_type len = name().size();
   if (len>0)
   {
-    return (m_name[len-1] == '/');
+    return (name()[len-1] == '/');
   }
   else
     return false;
 }
 
-std::string entry::basename() const
-{
-  if (m_name.empty())
-    return "";
-
-  std::string result(m_name);
-  if (result[result.size()-1] == '/')
-    result.erase(result.size()-1);
-  const std::string::size_type pos = result.rfind('/');
-  if (pos == std::string::npos)
-    return result;
-  return result.substr(pos +1);
-}
-
 bool entry::operator==(const entry& other) const
 {
-  return ((m_name == other.m_name) && (m_index == other.m_index)
-       && (m_sizeUncompressed == other.m_sizeUncompressed)
+  return ((name() == other.name()) && (m_index == other.m_index)
+       && (size() == other.size())
        && (m_sizeCompressed == other.m_sizeCompressed)
-       && (m_m_time == other.m_m_time) && (m_crc == other.m_crc));
+       && (m_time() == other.m_time()) && (m_crc == other.m_crc));
 }
 
 } //namespace

@@ -28,55 +28,18 @@ namespace ar
 {
 
 entry::entry(struct archive_entry * ent)
-: m_name(""),
-  m_size(-1),
-  m_directory(false),
-  m_m_time(static_cast<std::time_t>(-1))
+: archive::entry()
 {
   //name
-  m_name = archive_entry_pathname(ent);
+  setName(archive_entry_pathname(ent));
   //status buffer
   const struct stat * statbuf = archive_entry_stat(ent);
   //size
-  m_size = statbuf->st_size;
+  setSize(statbuf->st_size);
   // directory: AE_IFDIR
-  m_directory = (archive_entry_filetype(ent) == AE_IFDIR);
+  setDirectory(archive_entry_filetype(ent) == AE_IFDIR);
   //m_time: time_t usually is just seconds since epoch
-  m_m_time = statbuf->st_mtim.tv_sec;
-}
-
-const std::string& entry::name() const
-{
-  return m_name;
-}
-
-int64_t entry::size() const
-{
-  return m_size;
-}
-
-std::time_t entry::m_time() const
-{
-  return m_m_time;
-}
-
-bool entry::isDirectory() const
-{
-  return m_directory;
-}
-
-std::string entry::basename() const
-{
-  if (m_name.empty())
-    return "";
-
-  std::string result(m_name);
-  if (result[result.size()-1] == '/')
-    result.erase(result.size()-1);
-  const std::string::size_type pos = result.rfind('/');
-  if (pos == std::string::npos)
-    return result;
-  return result.substr(pos +1);
+  setTime(statbuf->st_mtim.tv_sec);
 }
 
 } //namespace

@@ -25,6 +25,7 @@
 #include <ctime>
 #include <string>
 #include <zip.h>
+#include "../entry.hpp"
 
 namespace libthoro
 {
@@ -32,7 +33,9 @@ namespace libthoro
 namespace zip
 {
 
-class entry
+/** \brief class to represent an entry within a ZIP archive
+ */
+class entry: public archive::entry
 {
   public:
     /** \brief constructor to create entry from zip_stat
@@ -56,14 +59,6 @@ class entry
           const uint32_t CRC = 0);
 
 
-    /** \brief gets the name of the file
-     *
-     * \return Returns name of the file.
-     * May return an empty string, if file name is not known.
-     */
-    const std::string& name() const;
-
-
     /** \brief gets the index of the file in the zip archive
      *
      * \return Returns zero-based index of the entry in the ZIP file.
@@ -72,28 +67,12 @@ class entry
     int index() const;
 
 
-    /** \brief gets the uncompressed size of the entry in bytes
-     *
-     * \return Returns the uncompressed size of the entry in bytes.
-     * Returns -1, if the size is not known.
-     */
-    int64_t sizeUncompressed() const;
-
-
     /** \brief gets the compressed size of the entry in bytes
      *
      * \return Returns the compressed size of the entry in bytes.
      * Returns -1, if the size is not known.
      */
     int64_t sizeCompressed() const;
-
-
-     /** \brief gets the modification time of the file
-      *
-      * \return Returns modification time of the file.
-      * Returns -1 (cast to time_t), if the time is not known.
-      */
-    std::time_t m_time() const;
 
 
     /** \brief gets the CRC checksum of the file
@@ -110,14 +89,7 @@ class entry
      *         Returns false, if not.
      *         Also returns false, if name or size is not known.
      */
-    bool isDirectory() const;
-
-
-    /** \brief strips directory name from the entry's name
-     *
-     * \return Returns the name with any leading directory components removed.
-     */
-    std::string basename() const;
+    virtual bool isDirectory() const override;
 
 
     /** \brief equality operator for zip::entry
@@ -127,11 +99,8 @@ class entry
      */
     bool operator==(const entry& other) const;
   private:
-    std::string m_name; /**< file name */
     int m_index;        /**< index of the file in the ZIP archive */
-    int64_t m_sizeUncompressed; /**< size of file (uncompressed) in bytes */
     int64_t m_sizeCompressed;   /**< size of file (compressed) in bytes */
-    std::time_t m_m_time;       /**< modification time */
     uint32_t m_crc;             /**< CRC checksum */
 }; //class
 

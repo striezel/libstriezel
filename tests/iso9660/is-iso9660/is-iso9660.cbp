@@ -6,15 +6,6 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Debug">
-				<Option output="bin/Debug/is-iso9660-test" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-g" />
-				</Compiler>
-			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/is-iso9660-test" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
@@ -39,6 +30,8 @@
 			<Add library="cdio" />
 			<Add library="iso9660" />
 		</Linker>
+		<Unit filename="../../../archive/entry.cpp" />
+		<Unit filename="../../../archive/entry.hpp" />
 		<Unit filename="../../../common/StringUtils.cpp" />
 		<Unit filename="../../../common/StringUtils.hpp" />
 		<Unit filename="../../../filesystem/directory.cpp" />

@@ -30,6 +30,8 @@
 			<Add library="cdio" />
 			<Add library="iso9660" />
 		</Linker>
+		<Unit filename="../../../archive/entry.cpp" />
+		<Unit filename="../../../archive/entry.hpp" />
 		<Unit filename="../../../common/StringUtils.cpp" />
 		<Unit filename="../../../common/StringUtils.hpp" />
 		<Unit filename="../../../filesystem/directory.cpp" />

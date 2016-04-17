@@ -4,6 +4,7 @@ cmake_minimum_required (VERSION 2.8)
 project(test-is-iso9660)
 
 set(test-is-iso9660_sources
+    ../../../archive/entry.cpp
     ../../../common/StringUtils.cpp
     ../../../filesystem/directory.cpp
     ../../../filesystem/file.cpp

@@ -29,7 +29,7 @@
 void showEntry(const libthoro::zip::entry& e)
 {
   std::cout << "idx.: " << e.index() << ", name: " << e.name() << std::endl
-            << "    size: " << e.sizeUncompressed() << " byte(s), directory: "
+            << "    size: " << e.size() << " byte(s), directory: "
             << (e.isDirectory() ? "yes" : "no") << std::endl;
 }
 
@@ -89,7 +89,7 @@ int main(int argc, char** argv)
     //zero-th entry should be "zlib-1.2.8/"
     const auto & entry = entries[0];
     if ((entry.name() != "zlib-1.2.8/")
-       || (entry.index() != 0) || (entry.sizeUncompressed() != 0)
+       || (entry.index() != 0) || (entry.size() != 0)
        || (!entry.isDirectory()))
     {
       std::cout << "Error: First entry does not match expected values!" << std::endl;
@@ -99,7 +99,7 @@ int main(int argc, char** argv)
     //3rd entry (index 2) should be "zlib-1.2.8/CMakeLists.txt"
     const auto & e2 = entries[2];
     if ((e2.name() != "zlib-1.2.8/CMakeLists.txt")
-       || (e2.index() != 2) || (e2.sizeUncompressed() != 8098)
+       || (e2.index() != 2) || (e2.size() != 8098)
        || (e2.isDirectory()))
     {
       std::cout << "Error: Third entry does not match expected values!" << std::endl;

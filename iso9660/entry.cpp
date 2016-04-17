@@ -30,10 +30,7 @@ namespace iso9660
 {
 
 entry::entry(const iso9660_stat_t * statbuf, const std::string& currentDirectory)
-: m_name(""),
-  m_size(-1),
-  m_directory(false),
-  m_m_time(static_cast<std::time_t>(-1))
+: archive::entry()
 {
   //make sure buffer is big enough
   const std::size_t bufferSize = std::max(static_cast<std::size_t>(1024), std::strlen(statbuf->filename)+1);
@@ -41,48 +38,14 @@ entry::entry(const iso9660_stat_t * statbuf, const std::string& currentDirectory
   //fill buffer with NUL bytes
   std::memset(nameBuffer, '\0', bufferSize);
   iso9660_name_translate(statbuf->filename, nameBuffer);
-  m_name = currentDirectory + std::string(nameBuffer);
+  setName(currentDirectory + std::string(nameBuffer));
   //size
-  m_size = statbuf->size;
+  setSize(statbuf->size);
   // _STAT_DIR == 2
-  m_directory = (statbuf->type == iso9660_stat_s::_STAT_DIR);
+  setDirectory(statbuf->type == iso9660_stat_s::_STAT_DIR);
   //m_time
   struct tm  temp = statbuf->tm;
-  m_m_time = std::mktime(&temp);
-}
-
-const std::string& entry::name() const
-{
-  return m_name;
-}
-
-int64_t entry::size() const
-{
-  return m_size;
-}
-
-std::time_t entry::m_time() const
-{
-  return m_m_time;
-}
-
-bool entry::isDirectory() const
-{
-  return m_directory;
-}
-
-std::string entry::basename() const
-{
-  if (m_name.empty())
-    return "";
-
-  std::string result(m_name);
-  if (result[result.size()-1] == '/')
-    result.erase(result.size()-1);
-  const std::string::size_type pos = result.rfind('/');
-  if (pos == std::string::npos)
-    return result;
-  return result.substr(pos +1);
+  setTime(std::mktime(&temp));
 }
 
 } //namespace

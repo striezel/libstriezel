@@ -7,6 +7,7 @@ set(test-is-zip_sources
     ../../../common/StringUtils.cpp
     ../../../filesystem/directory.cpp
     ../../../filesystem/file.cpp
+    ../../../archive/entry.cpp
     ../../../archive/zip/archive.cpp
     ../../../archive/zip/entry.cpp
     main.cpp)
