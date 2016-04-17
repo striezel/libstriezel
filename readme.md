@@ -28,6 +28,7 @@ want details about the classes, just look into the source code. Most of it is
 documented well enough to understand it from the documentation alone.
 
 * **archive/ar/** - classes to read Ar archives
+* **archive/gzip/** - classes to uncompress GZIP files
 * **archive/zip/** - classes to read ZIP archives
 * **ci/** - contains script(s) for continous integration
 * **cmake/** - files for the CMake build systems
