@@ -7,6 +7,9 @@ add_subdirectory (ar)
 # Recurse into subdirectory for filesystem function tests.
 add_subdirectory (filesystem)
 
+# Recurse into subdirectory for gzip decompression tests.
+add_subdirectory (gzip)
+
 # Recurse into subdirectory for hash tests (SHA160 - SHA512 tests).
 add_subdirectory (hash)
 

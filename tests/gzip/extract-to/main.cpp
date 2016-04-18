@@ -22,47 +22,40 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "../../../archive/ar/archive.hpp"
+#include "../../../archive/gzip/archive.hpp"
 #include "../../../filesystem/directory.hpp"
 #include "../../../filesystem/file.hpp"
 #include "../../../hash/sha256/sha256.hpp"
 #include "../../../hash/sha256/FileSourceUtility.hpp"
 
-void showEntry(const libthoro::ar::entry& e)
-{
-  std::cout << "name: " << e.name() << std::endl
-            << "    size: " << e.size() << " byte(s), directory: "
-            << (e.isDirectory() ? "yes" : "no") << std::endl;
-}
-
-/* Expected parameters: 1 - directory that contains the .deb file */
+/* Expected parameters: 1 - directory that contains the .gz file */
 
 int main(int argc, char** argv)
 {
-  std::string arDirectory = "";
+  std::string gzDirectory = "";
   if (argc>1 && argv[1] != nullptr)
   {
-    arDirectory = libthoro::filesystem::unslashify(std::string(argv[1]));
-    if (!libthoro::filesystem::directory::exists(arDirectory))
+    gzDirectory = libthoro::filesystem::unslashify(std::string(argv[1]));
+    if (!libthoro::filesystem::directory::exists(gzDirectory))
     {
-      std::cout << "Error: Directory " << arDirectory << " does not exist!" << std::endl;
+      std::cout << "Error: Directory " << gzDirectory << " does not exist!" << std::endl;
       return 1;
     }
   }
   else
   {
-    std::cout << "Error: First argument (Ar directory) is missing!" << std::endl;
+    std::cout << "Error: First argument (gzip directory) is missing!" << std::endl;
     return 1;
   }
 
-  const std::string arFileName = arDirectory + libthoro::filesystem::pathDelimiter + "2vcard_0.5-3_all.deb";
+  const std::string gzFileName = gzDirectory + libthoro::filesystem::pathDelimiter + "zlib.tar.gz";
 
   try
   {
-    libthoro::ar::archive arFile(arFileName);
+    libthoro::gzip::archive gzipFile(gzFileName);
 
     //get list of all entries
-    const auto entries = arFile.entries();
+    const auto entries = gzipFile.entries();
 
     //try to extract every single entry to a temporary directory
     std::string tempDirName;
@@ -85,10 +78,10 @@ int main(int argc, char** argv)
       //extraction - but only for non-directory entries
       if (!e.isDirectory())
       {
-        if (!arFile.extractTo(destFile, e.name()))
+        if (!gzipFile.extractTo(destFile))
         {
           std::cout << "Error: Could not extract file " << e.name()
-                    << " from Ar archive!" << std::endl;
+                    << " from gzip file!" << std::endl;
           libthoro::filesystem::directory::remove(tempDirName);
           return 1;
         }
@@ -107,28 +100,28 @@ int main(int argc, char** argv)
     }
     std::cout << std::endl;
 
-    //3rd entry (index 2) should be "data.tar.gz"
-    const auto & e2 = entries[2];
-    if ((e2.name() != "data.tar.gz")
-       || (e2.isDirectory()))
+    //first and only entry (index 0) should be "zlib.tar.gz"
+    const auto & e0 = entries[0];
+    if ((e0.name() != "zlib.tar")
+       || (e0.isDirectory()))
     {
-      std::cout << "Error: 3rd entry does not match expected values!" << std::endl;
+      std::cout << "Error: First entry does not match expected values!" << std::endl;
       libthoro::filesystem::directory::remove(tempDirName);
       return 1;
     }
 
-    const std::string destFile = libthoro::filesystem::slashify(tempDirName) + e2.basename();
-    //check one file in detail
-    if (!arFile.extractTo(destFile, e2.name()))
+    const std::string destFile = libthoro::filesystem::slashify(tempDirName) + e0.basename();
+    //check file in detail
+    if (!gzipFile.extractTo(destFile))
     {
-      std::cout << "Error: Could not extract file " << e2.name() << " from Ar archive!"
+      std::cout << "Error: Could not extract file " << e0.name() << " from gzip archive!"
                 << std::endl;
       libthoro::filesystem::directory::remove(tempDirName);
       return 1;
     }
 
     //get SHA256 hash - easier than checking content byte by byte
-    const std::string mdExpected = "81d801099e95d35a4aa7f999882acafec25eaa4d7c0ec352acea9b91c8d5f3eb";
+    const std::string mdExpected = "8f9046a4b67c9cf5bc708077ade99d947114b34a4c57d0fdab396589f71c6b2e";
     const SHA256::MessageDigest md = SHA256::computeFromFile(destFile);
     //delete file
     libthoro::filesystem::file::remove(destFile);
@@ -145,12 +138,12 @@ int main(int argc, char** argv)
   } //try
   catch (std::exception& ex)
   {
-    std::cout << "Error: An exception occurred while working with the Ar file: "
+    std::cout << "Error: An exception occurred while working with the gzip file: "
               << ex.what() << std::endl;
     return 1;
   } //try-catch
 
   //Everything is OK.
-  std::cout << "Test for libthoro::ar::archive::extractTo() was successful." << std::endl;
+  std::cout << "Test for libthoro::gzip::archive::extractTo() was successful." << std::endl;
   return 0;
 }
