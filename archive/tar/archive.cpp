@@ -312,15 +312,6 @@ bool archive::isTar(const std::string& fileName)
   }
   stream.close();
 
-  std::cout << "Sequence is \"" << sequence << "\"." << std::endl;
-
-  std::cout << "Bytes: ";
-  std::string::const_iterator it = sequence.begin();
-  for ( ; it != sequence.end(); ++it)
-  {
-    std::cout << (int)((unsigned char) *it) << " ";
-  } //for
-  std::cout << std::endl;
   return ((sequence == std::string("ustar\x20\x20\0", 8))
       || (sequence.substr(0, 6) == std::string("ustar\0", 6)));
 }

@@ -22,5 +22,8 @@ add_subdirectory (os)
 # Recurse into subdirectory for procfs tests.
 add_subdirectory (procfs)
 
+# Recurse into subdirectory for tar archive tests.
+add_subdirectory (tar)
+
 # Recurse into subdirectory for ZIP tests.
 add_subdirectory (zip)
