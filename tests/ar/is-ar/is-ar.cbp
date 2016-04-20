@@ -29,18 +29,18 @@
 		<Linker>
 			<Add library="archive" />
 		</Linker>
+		<Unit filename="../../../archive/ar/archive.cpp" />
+		<Unit filename="../../../archive/ar/archive.hpp" />
+		<Unit filename="../../../archive/entry.cpp" />
+		<Unit filename="../../../archive/entry.hpp" />
+		<Unit filename="../../../archive/entryLibarchive.cpp" />
+		<Unit filename="../../../archive/entryLibarchive.hpp" />
 		<Unit filename="../../../common/StringUtils.cpp" />
 		<Unit filename="../../../common/StringUtils.hpp" />
 		<Unit filename="../../../filesystem/directory.cpp" />
 		<Unit filename="../../../filesystem/directory.hpp" />
 		<Unit filename="../../../filesystem/file.cpp" />
 		<Unit filename="../../../filesystem/file.hpp" />
-		<Unit filename="../../../archive/ar/archive.cpp" />
-		<Unit filename="../../../archive/ar/archive.hpp" />
-		<Unit filename="../../../archive/ar/entry.cpp" />
-		<Unit filename="../../../archive/ar/entry.hpp" />
-		<Unit filename="../../../archive/entry.cpp" />
-		<Unit filename="../../../archive/entry.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

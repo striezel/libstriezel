@@ -12,8 +12,8 @@ set(test-tar-extract_sources
     ../../../hash/sha256/MessageSource.cpp
     ../../../hash/sha256/sha256.cpp
     ../../../archive/entry.cpp
+    ../../../archive/entryLibarchive.cpp
     ../../../archive/tar/archive.cpp
-    ../../../archive/tar/entry.cpp
     main.cpp)
 
 if (CMAKE_COMPILER_IS_GNUCC)

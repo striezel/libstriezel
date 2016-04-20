@@ -34,7 +34,7 @@ namespace tar
 
 archive::archive(const std::string& fileName)
 : m_archive(nullptr),
-  m_entries(std::vector<entry>()),
+  m_entries(std::vector<libthoro::archive::entryLibarchive>()),
   m_fileName(fileName)
 {
   m_archive = archive_read_new();
@@ -154,14 +154,14 @@ void archive::reopen()
   }
 }
 
-std::vector<entry> archive::entries() const
+std::vector<libthoro::archive::entryLibarchive> archive::entries() const
 {
   return m_entries;
 }
 
 bool archive::contains(const std::string& fileName) const
 {
-  std::vector<entry>::const_iterator it = m_entries.begin();
+  auto it = m_entries.begin();
   while (it != m_entries.end())
   {
     if (it->name() == fileName)
@@ -194,7 +194,7 @@ bool archive::extractTo(const std::string& destFileName, const std::string& tarF
     int ret = archive_read_next_header(m_archive, &ent);
     if ((ret == ARCHIVE_OK) || (ret == ARCHIVE_WARN))
     {
-      entry e(ent);
+      libthoro::archive::entryLibarchive e(ent);
       if (e.name() == tarFilePath)
       {
         //found the file, extract data

@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 #include <archive.h>
-#include "entry.hpp"
+#include "../entryLibarchive.hpp"
 
 namespace libthoro
 {
@@ -32,6 +32,11 @@ namespace libthoro
 namespace tar
 {
 
+//alias for entry class
+using entry = libthoro::archive::entryLibarchive;
+
+/** \brief archive class for tar (tape archive) files
+ */
 class archive
 {
   public:
@@ -61,7 +66,7 @@ class archive
      * \return Returns a vector of all entries within the tar archive.
      * Returns an empty vector, if an error occurred.
      */
-    std::vector<entry> entries() const;
+    std::vector<libthoro::archive::entryLibarchive> entries() const;
 
 
     /** \brief extracts the file at a given index to the specified destination
@@ -100,7 +105,7 @@ class archive
 
 
     struct ::archive * m_archive; /**< archive handle */
-    std::vector<entry> m_entries; /**< the entries in the archive */
+    std::vector<libthoro::archive::entryLibarchive> m_entries; /**< the entries in the archive */
     std::string m_fileName; /**< original file name of archive */
 }; //class
 

@@ -29,6 +29,12 @@
 		<Linker>
 			<Add library="archive" />
 		</Linker>
+		<Unit filename="../../../archive/entry.cpp" />
+		<Unit filename="../../../archive/entry.hpp" />
+		<Unit filename="../../../archive/entryLibarchive.cpp" />
+		<Unit filename="../../../archive/entryLibarchive.hpp" />
+		<Unit filename="../../../archive/tar/archive.cpp" />
+		<Unit filename="../../../archive/tar/archive.hpp" />
 		<Unit filename="../../../common/StringUtils.cpp" />
 		<Unit filename="../../../common/StringUtils.hpp" />
 		<Unit filename="../../../filesystem/directory.cpp" />
@@ -44,12 +50,6 @@
 		<Unit filename="../../../hash/sha256/functions.hpp" />
 		<Unit filename="../../../hash/sha256/sha256.cpp" />
 		<Unit filename="../../../hash/sha256/sha256.hpp" />
-		<Unit filename="../../../archive/entry.cpp" />
-		<Unit filename="../../../archive/entry.hpp" />
-		<Unit filename="../../../archive/tar/archive.cpp" />
-		<Unit filename="../../../archive/tar/archive.hpp" />
-		<Unit filename="../../../archive/tar/entry.cpp" />
-		<Unit filename="../../../archive/tar/entry.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

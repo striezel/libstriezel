@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 #include <archive.h>
-#include "entry.hpp"
+#include "../entryLibarchive.hpp"
 
 namespace libthoro
 {
@@ -32,6 +32,11 @@ namespace libthoro
 namespace ar
 {
 
+//alias for entry
+using entry = libthoro::archive::entryLibarchive;
+
+/** \brief class for handling Ar archives
+ */
 class archive
 {
   public:

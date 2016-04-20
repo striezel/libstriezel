@@ -12,8 +12,8 @@ set(test-ar-extract_sources
     ../../../hash/sha256/MessageSource.cpp
     ../../../hash/sha256/sha256.cpp
     ../../../archive/ar/archive.cpp
-    ../../../archive/ar/entry.cpp
     ../../../archive/entry.cpp
+    ../../../archive/entryLibarchive.cpp
     main.cpp)
 
 if (CMAKE_COMPILER_IS_GNUCC)

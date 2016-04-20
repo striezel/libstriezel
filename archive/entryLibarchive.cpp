@@ -18,35 +18,30 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_AR_ENTRY_HPP
-#define LIBTHORO_AR_ENTRY_HPP
-
-#include <cstdint>
-#include <ctime>
-#include <string>
-#include <archive_entry.h>
-#include "../entry.hpp"
+#include "entryLibarchive.hpp"
+#include <sys/stat.h>
 
 namespace libthoro
 {
 
-namespace ar
+namespace archive
 {
 
-/** \brief class to represent an entry within an Ar archive
- */
-class entry: public archive::entry
+entryLibarchive::entryLibarchive(struct archive_entry * ent)
+: archive::entry()
 {
-  public:
-    /** \brief constructor to create entry from libarchive entry
-     *
-     * \param statbuf   pointer to libarchive entry, may not be null
-     */
-    entry(struct archive_entry * ent);
-}; //class
+  //name
+  setName(archive_entry_pathname(ent));
+  //status buffer
+  const struct stat * statbuf = archive_entry_stat(ent);
+  //size
+  setSize(statbuf->st_size);
+  // directory: AE_IFDIR
+  setDirectory(archive_entry_filetype(ent) == AE_IFDIR);
+  //m_time: time_t usually is just seconds since epoch
+  setTime(statbuf->st_mtim.tv_sec);
+}
 
 } //namespace
 
 } //namespace
-
-#endif // LIBTHORO_ISO9660_ENTRY_HPP

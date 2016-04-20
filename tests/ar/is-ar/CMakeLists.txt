@@ -8,8 +8,8 @@ set(test-is-ar_sources
     ../../../filesystem/directory.cpp
     ../../../filesystem/file.cpp
     ../../../archive/ar/archive.cpp
-    ../../../archive/ar/entry.cpp
     ../../../archive/entry.cpp
+    ../../../archive/entryLibarchive.cpp
     main.cpp)
 
 if (CMAKE_COMPILER_IS_GNUCC)

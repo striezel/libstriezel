@@ -8,8 +8,8 @@ set(test-tar-entries_sources
     ../../../filesystem/directory.cpp
     ../../../filesystem/file.cpp
     ../../../archive/entry.cpp
+    ../../../archive/entryLibarchive.cpp
     ../../../archive/tar/archive.cpp
-    ../../../archive/tar/entry.cpp
     main.cpp)
 
 if (CMAKE_COMPILER_IS_GNUCC)
