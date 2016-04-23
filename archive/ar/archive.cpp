@@ -78,7 +78,7 @@ void archive::fillEntries()
     switch (ret)
     {
       case ARCHIVE_OK: //all OK
-      case ARCHIVE_WARN: //success, but non-critical error occured
+      case ARCHIVE_WARN: //success, but non-critical error occurred
            m_entries.push_back(ent);
            break;
       case ARCHIVE_EOF:
@@ -104,7 +104,7 @@ void archive::fillEntries()
                    + std::string("Fatal error while getting archive entries!"));
            break;
       default:
-           //unknwon error
+           //unknown error
            archive_read_free(m_archive);
            m_archive = nullptr;
            throw std::runtime_error("libthoro::ar::archive::fillEntries(): "
