@@ -24,9 +24,9 @@
 #include <vector>
 #include "../../../filesystem/directory.hpp"
 #include "../../../filesystem/file.hpp"
-#include "../../../iso9660/archive.hpp"
+#include "../../../archive/iso9660/archive.hpp"
 
-void showEntry(const libthoro::iso9660::entry& e)
+void showEntry(const libthoro::archive::entryLibarchive& e)
 {
   std::cout << "name: " << e.name() << std::endl
             << "    size: " << e.size() << " byte(s), directory: "
@@ -57,7 +57,7 @@ int main(int argc, char** argv)
 
   try
   {
-    libthoro::iso9660::archive isoFile(isoFileName);
+    libthoro::archive::iso9660::archive isoFile(isoFileName);
 
     //list all entries
     const auto entries = isoFile.entries();
@@ -67,7 +67,7 @@ int main(int argc, char** argv)
     }
 
     //check number of entries via zip::entries().size()
-    const int64_t entryCountExpected = 15;
+    const int64_t entryCountExpected = 16; // 15 entries + one root directory
     if (entries.size() != entryCountExpected)
     {
       std::cout << "Error: Expected to find " << entryCountExpected
@@ -76,23 +76,23 @@ int main(int argc, char** argv)
       return 1;
     }
 
-    //zero-th entry should be "boot/"
-    const auto & entry = entries[0];
-    if ((entry.name() != "/boot")
+    //second entry should be "boot"
+    const auto & entry = entries[2];
+    if ((entry.name() != "boot")
        || (entry.size() != 2048)
        || (!entry.isDirectory()))
     {
-      std::cout << "Error: First entry does not match expected values!" << std::endl;
+      std::cout << "Error: Second entry does not match expected values!" << std::endl;
       return 1;
     }
 
-    //4rd entry (index 3) should be "/boot/isolinux/boot.msg"
-    const auto & e2 = entries[3];
-    if ((e2.name() != "/boot/isolinux/boot.msg")
+    //8th entry (index 9) should be "boot/isolinux/boot.msg"
+    const auto & e2 = entries[8];
+    if ((e2.name() != "boot/isolinux/boot.msg")
        || (e2.size() != 123)
        || (e2.isDirectory()))
     {
-      std::cout << "Error: Third entry does not match expected values!" << std::endl;
+      std::cout << "Error: 8th entry does not match expected values!" << std::endl;
       return 1;
     }
   } //try
@@ -104,6 +104,6 @@ int main(int argc, char** argv)
   } //try-catch
 
   //All OK.
-  std::cout << "Test for libthoro::iso9660::archive::entries() was successful." << std::endl;
+  std::cout << "Test for libthoro::archive::iso9660::archive::entries() was successful." << std::endl;
   return 0;
 }

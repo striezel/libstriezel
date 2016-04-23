@@ -22,13 +22,13 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "../../../archive/iso9660/archive.hpp"
 #include "../../../filesystem/directory.hpp"
 #include "../../../filesystem/file.hpp"
 #include "../../../hash/sha256/sha256.hpp"
 #include "../../../hash/sha256/FileSourceUtility.hpp"
-#include "../../../iso9660/archive.hpp"
 
-void showEntry(const libthoro::iso9660::entry& e)
+void showEntry(const libthoro::archive::entryLibarchive& e)
 {
   std::cout << "name: " << e.name() << std::endl
             << "    size: " << e.size() << " byte(s), directory: "
@@ -59,7 +59,7 @@ int main(int argc, char** argv)
 
   try
   {
-    libthoro::iso9660::archive isoFile(isoFileName);
+    libthoro::archive::iso9660::archive isoFile(isoFileName);
 
     //get list of all entries
     const auto entries = isoFile.entries();
@@ -82,6 +82,7 @@ int main(int argc, char** argv)
       ++dotCount;
       if ((dotCount % 60) == 0)
         std::cout << std::endl;
+      showEntry(e);
       //extraction - but only for non-directory entries
       if (!e.isDirectory())
       {
@@ -107,21 +108,21 @@ int main(int argc, char** argv)
     }
     std::cout << std::endl;
 
-    //8th entry (index 7) should be "/boot/isolinux/isolinux.bin"
-    const auto & e7 = entries[7];
-    if ((e7.name() != "/boot/isolinux/isolinux.bin")
-       || (e7.isDirectory()))
+    //6th entry (index 5) should be "boot/isolinux/isolinux.bin"
+    const auto & e6 = entries[5];
+    if ((e6.name() != "boot/isolinux/isolinux.bin")
+       || (e6.isDirectory()))
     {
-      std::cout << "Error: 8th entry does not match expected values!" << std::endl;
+      std::cout << "Error: 6th entry does not match expected values!" << std::endl;
       libthoro::filesystem::directory::remove(tempDirName);
       return 1;
     }
 
-    const std::string destFile = libthoro::filesystem::slashify(tempDirName) + e7.basename();
+    const std::string destFile = libthoro::filesystem::slashify(tempDirName) + e6.basename();
     //check one file in detail
-    if (!isoFile.extractTo(destFile, e7.name()))
+    if (!isoFile.extractTo(destFile, e6.name()))
     {
-      std::cout << "Error: Could not extract file " << e7.name() << " from ISO image!"
+      std::cout << "Error: Could not extract file " << e6.name() << " from ISO image!"
                 << std::endl;
       libthoro::filesystem::directory::remove(tempDirName);
       return 1;

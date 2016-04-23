@@ -24,7 +24,7 @@
 #include <utility>
 #include "../../../filesystem/directory.hpp"
 #include "../../../filesystem/file.hpp"
-#include "../../../iso9660/archive.hpp"
+#include "../../../archive/iso9660/archive.hpp"
 
 /* List of test files in ISO9660 file directory:
      first = file name, second = whether it should be detected as ISO9660 or not
@@ -68,7 +68,7 @@ int main(int argc, char** argv)
       return 1;
     }
     //check, if it is an ISO9660 image
-    const bool isISO = libthoro::iso9660::archive::isISO9660(fileName);
+    const bool isISO = libthoro::archive::iso9660::archive::isISO9660(fileName);
     std::cout << "isISO9660(" << fileName << ") = "
               << (isISO ? "yes" : "no") << std::endl;
     //compare with expected values

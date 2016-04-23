@@ -27,21 +27,22 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Linker>
-			<Add library="iso9660" />
-			<Add library="cdio" />
+			<Add library="archive" />
 		</Linker>
+		<Unit filename="../../../archive/archiveLibarchive.cpp" />
+		<Unit filename="../../../archive/archiveLibarchive.hpp" />
 		<Unit filename="../../../archive/entry.cpp" />
 		<Unit filename="../../../archive/entry.hpp" />
+		<Unit filename="../../../archive/entryLibarchive.cpp" />
+		<Unit filename="../../../archive/entryLibarchive.hpp" />
+		<Unit filename="../../../archive/iso9660/archive.cpp" />
+		<Unit filename="../../../archive/iso9660/archive.hpp" />
 		<Unit filename="../../../common/StringUtils.cpp" />
 		<Unit filename="../../../common/StringUtils.hpp" />
 		<Unit filename="../../../filesystem/directory.cpp" />
 		<Unit filename="../../../filesystem/directory.hpp" />
 		<Unit filename="../../../filesystem/file.cpp" />
 		<Unit filename="../../../filesystem/file.hpp" />
-		<Unit filename="../../../iso9660/archive.cpp" />
-		<Unit filename="../../../iso9660/archive.hpp" />
-		<Unit filename="../../../iso9660/entry.cpp" />
-		<Unit filename="../../../iso9660/entry.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
