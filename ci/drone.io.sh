@@ -17,8 +17,9 @@ export CC="gcc-4.8"
 # create and change into build directory
 mkdir ./build
 cd ./build
-# build binaries for test cases with CMake
-cmake ../
+# build binaries for test cases with CMake, but skip all of the long-running
+# SHA tests that take several minutes altogether
+cmake ../ -DLONG_HASH_TESTS=OFF
 if [[ $? -ne 0 ]]
 then
   echo "CMake failed!"

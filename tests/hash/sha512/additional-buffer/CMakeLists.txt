@@ -19,5 +19,10 @@ set( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -s" )
 add_executable(test_additional_buffer_sha512 ${test_additional_buffer_sha512_src})
 
 # add it as a test
-add_test(NAME SHA-512-additional-buffer
-         COMMAND $<TARGET_FILE:test_additional_buffer_sha512> --long)
+if (LONG_HASH_TESTS)
+  add_test(NAME SHA-512-additional-buffer
+           COMMAND $<TARGET_FILE:test_additional_buffer_sha512> --long)
+else ()
+  add_test(NAME SHA-512-additional-buffer
+           COMMAND $<TARGET_FILE:test_additional_buffer_sha512>)
+endif ()
