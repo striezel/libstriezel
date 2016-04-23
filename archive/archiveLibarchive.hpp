@@ -38,8 +38,10 @@ class archiveLibarchive
 {
   public:
      /** \brief default constructor
+      *
+      * \param fileName  -  file name of the archive
       */
-    archiveLibarchive();
+    archiveLibarchive(const std::string& fileName);
 
 
     /** \brief destructor
@@ -69,8 +71,22 @@ class archiveLibarchive
      */
     bool contains(const std::string& fileName) const;
   protected:
+    /** \brief fills the list of archive entries
+     */
+    void fillEntries();
+
+    /** \brief re-opens the archive
+     */
+    void reopen();
+
+    /** \brief apply format support for supported archive types
+     */
+    virtual void applyFormats() = 0;
+
+
     struct ::archive * m_archive; /**< archive handle */
     std::vector<libthoro::archive::entryLibarchive> m_entries; /**< the entries in the archive */
+    std::string m_fileName; /**< original file name of archive */
 }; //class
 
 } //namespace

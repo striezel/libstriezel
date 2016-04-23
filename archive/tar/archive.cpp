@@ -33,8 +33,7 @@ namespace tar
 {
 
 archive::archive(const std::string& fileName)
-: libthoro::archive::archiveLibarchive(),
-  m_fileName(fileName)
+: libthoro::archive::archiveLibarchive(fileName)
 {
   applyFormats();
   int ret = archive_read_open_filename(m_archive, fileName.c_str(), 4096);
@@ -54,74 +53,6 @@ archive::~archive()
   if (ret != ARCHIVE_OK)
     throw std::runtime_error("libthoro::tar::archive: Could not close/free archive!");
   m_archive = nullptr;
-}
-
-void archive::fillEntries()
-{
-  m_entries.clear();
-  struct archive_entry * ent;
-  unsigned int retryCount = 0;
-  bool finished = false;
-  while (!finished)
-  {
-    const int ret = archive_read_next_header(m_archive, &ent);
-    switch (ret)
-    {
-      case ARCHIVE_OK: //all OK
-      case ARCHIVE_WARN: //success, but non-critical error occurred
-           m_entries.push_back(ent);
-           break;
-      case ARCHIVE_EOF:
-           //reached end of archive
-           finished = true;
-           break;
-      case ARCHIVE_RETRY:
-           //operation failed but can be retried, so let's do that
-           ++retryCount;
-           if (retryCount >= 100)
-           {
-             archive_read_free(m_archive);
-             m_archive = nullptr;
-             throw std::runtime_error("libthoro::tar::archive::fillEntries(): "
-                     + std::string("Too many retries!"));
-           }
-           break;
-      case ARCHIVE_FATAL:
-           //fatal error
-           archive_read_free(m_archive);
-           m_archive = nullptr;
-           throw std::runtime_error("libthoro::tar::archive::fillEntries(): "
-                   + std::string("Fatal error while getting archive entries!"));
-           break;
-      default:
-           //unknown error
-           archive_read_free(m_archive);
-           m_archive = nullptr;
-           throw std::runtime_error("libthoro::tar::archive::fillEntries(): "
-                   + std::string("Unknown error while getting archive entries!"));
-           break;
-    } //swi
-  } //while
-  //reopen file to start at beginning when getting next header
-  reopen();
-}
-
-void archive::reopen()
-{
-  //close and re-open archive to get to the first entry again
-  archive_read_free(m_archive);
-  m_archive = nullptr;
-  m_archive = archive_read_new();
-  if (nullptr == m_archive)
-    throw std::runtime_error("libthoro::tar::tarchive::reopen(): Could not allocate archive structure!");
-  applyFormats();
-  int r2 = archive_read_open_filename(m_archive, m_fileName.c_str(), 4096);
-  if (r2 != ARCHIVE_OK)
-  {
-    archive_read_free(m_archive);
-    m_archive = nullptr;
-    throw std::runtime_error("libthoro::tar::archive::reopen(): Failed to re-open file " + m_fileName + "!");
-  }
 }
 
 void archive::applyFormats()

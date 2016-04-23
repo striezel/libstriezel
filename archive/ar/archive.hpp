@@ -80,20 +80,9 @@ class archive: public libthoro::archive::archiveLibarchive
      */
     static bool isAr(const std::string& fileName);
   private:
-    /** \brief fills the list of archive entries
-     */
-    void fillEntries();
-
-    /** \brief re-opens the archive
-     */
-    void reopen();
-
     /** \brief apply format support for Ar archives
      */
     void applyFormats();
-
-
-    std::string m_fileName; /**< original file name of archive */
 }; //class
 
 } //namespace
