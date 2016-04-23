@@ -62,16 +62,6 @@ class archive: public libthoro::archive::archiveLibarchive
     archive(const archive&& op) = delete;
 
 
-    /** \brief extracts the file at a given index to the specified destination
-     *
-     * \param destFileName  the destination file name - file must not exist yet
-     * \param arFilePath         path of the file that shall be extracted
-     * \return Returns true, if the file could be extracted successfully.
-     *         Returns false, if the extraction failed.
-     */
-    bool extractTo(const std::string& destFileName, const std::string& arFilePath);
-
-
     /** \brief checks whether a file may be an ar archive
      *
      * \param fileName  file name of the potential ar archive

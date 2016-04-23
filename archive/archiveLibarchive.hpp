@@ -70,6 +70,16 @@ class archiveLibarchive
      * \return Returns true, if the file exists. Returns false otherwise.
      */
     bool contains(const std::string& fileName) const;
+
+
+    /** \brief extracts the file with the given name to the specified destination
+     *
+     * \param destFileName  the destination file name - file must not exist yet
+     * \param archiveFilePath      path of the file that shall be extracted
+     * \return Returns true, if the file could be extracted successfully.
+     *         Returns false, if the extraction failed.
+     */
+    bool extractTo(const std::string& destFileName, const std::string& archiveFilePath);
   protected:
     /** \brief fills the list of archive entries
      */
