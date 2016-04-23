@@ -24,6 +24,7 @@
 #include <string>
 #include <vector>
 #include <archive.h>
+#include "../archiveLibarchive.hpp"
 #include "../entryLibarchive.hpp"
 
 namespace libthoro
@@ -37,7 +38,7 @@ using entry = libthoro::archive::entryLibarchive;
 
 /** \brief class for handling Ar archives
  */
-class archive
+class archive: public libthoro::archive::archiveLibarchive
 {
   public:
      /** \brief constructor - opens an ar archive in read-only mode
@@ -61,14 +62,6 @@ class archive
     archive(const archive&& op) = delete;
 
 
-    /** \brief gets a vector of all files within the ar archive
-     *
-     * \return Returns a vector of all entries within the ar archive.
-     * Returns an empty vector, if an error occurred.
-     */
-    std::vector<entry> entries() const;
-
-
     /** \brief extracts the file at a given index to the specified destination
      *
      * \param destFileName  the destination file name - file must not exist yet
@@ -77,14 +70,6 @@ class archive
      *         Returns false, if the extraction failed.
      */
     bool extractTo(const std::string& destFileName, const std::string& arFilePath);
-
-
-    /** \brief checks whether the archive contains a certain file
-     *
-     * \param fileName  path of the file whose existence shall be checked
-     * \return Returns true, if the file exists. Returns false otherwise.
-     */
-    bool contains(const std::string& fileName) const;
 
 
     /** \brief checks whether a file may be an ar archive
@@ -103,9 +88,11 @@ class archive
      */
     void reopen();
 
+    /** \brief apply format support for Ar archives
+     */
+    void applyFormats();
 
-    struct ::archive * m_archive; /**< archive handle */
-    std::vector<entry> m_entries; /**< the entries in the archive */
+
     std::string m_fileName; /**< original file name of archive */
 }; //class
 

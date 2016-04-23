@@ -8,6 +8,7 @@ set(test-is-ar_sources
     ../../../filesystem/directory.cpp
     ../../../filesystem/file.cpp
     ../../../archive/ar/archive.cpp
+    ../../../archive/archiveLibarchive.cpp
     ../../../archive/entry.cpp
     ../../../archive/entryLibarchive.cpp
     main.cpp)

@@ -26,7 +26,7 @@
 #include "../../../filesystem/file.hpp"
 #include "../../../archive/tar/archive.hpp"
 
-void showEntry(const libthoro::tar::entry& e)
+void showEntry(const libthoro::archive::entryLibarchive& e)
 {
   std::cout << "name: " << e.name() << std::endl
             << "    size: " << e.size() << " byte(s), directory: "

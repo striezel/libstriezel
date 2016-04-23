@@ -31,6 +31,8 @@
 		</Linker>
 		<Unit filename="../../../archive/ar/archive.cpp" />
 		<Unit filename="../../../archive/ar/archive.hpp" />
+		<Unit filename="../../../archive/archiveLibarchive.cpp" />
+		<Unit filename="../../../archive/archiveLibarchive.hpp" />
 		<Unit filename="../../../archive/entry.cpp" />
 		<Unit filename="../../../archive/entry.hpp" />
 		<Unit filename="../../../archive/entryLibarchive.cpp" />

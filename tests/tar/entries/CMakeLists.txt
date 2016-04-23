@@ -7,6 +7,7 @@ set(test-tar-entries_sources
     ../../../common/StringUtils.cpp
     ../../../filesystem/directory.cpp
     ../../../filesystem/file.cpp
+    ../../../archive/archiveLibarchive.cpp
     ../../../archive/entry.cpp
     ../../../archive/entryLibarchive.cpp
     ../../../archive/tar/archive.cpp

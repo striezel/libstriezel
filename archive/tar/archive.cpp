@@ -33,28 +33,11 @@ namespace tar
 {
 
 archive::archive(const std::string& fileName)
-: m_archive(nullptr),
-  m_entries(std::vector<libthoro::archive::entryLibarchive>()),
+: libthoro::archive::archiveLibarchive(),
   m_fileName(fileName)
 {
-  m_archive = archive_read_new();
-  if (nullptr == m_archive)
-    throw std::runtime_error("libthoro::tar::archive: Could not allocate archive structure!");
-  int ret = archive_read_support_format_tar(m_archive);
-  if (ret != ARCHIVE_OK)
-  {
-    archive_read_free(m_archive);
-    m_archive = nullptr;
-    throw std::runtime_error("libthoro::tar::archive: Format not supported!");
-  }
-  ret = archive_read_support_format_gnutar(m_archive);
-  if (ret != ARCHIVE_OK)
-  {
-    archive_read_free(m_archive);
-    m_archive = nullptr;
-    throw std::runtime_error("libthoro::tar::archive: Format not supported!");
-  }
-  ret = archive_read_open_filename(m_archive, fileName.c_str(), 4096);
+  applyFormats();
+  int ret = archive_read_open_filename(m_archive, fileName.c_str(), 4096);
   if (ret != ARCHIVE_OK)
   {
     archive_read_free(m_archive);
@@ -131,21 +114,8 @@ void archive::reopen()
   m_archive = archive_read_new();
   if (nullptr == m_archive)
     throw std::runtime_error("libthoro::tar::tarchive::reopen(): Could not allocate archive structure!");
-  int r2 = archive_read_support_format_tar(m_archive);
-  if (r2 != ARCHIVE_OK)
-  {
-    archive_read_free(m_archive);
-    m_archive = nullptr;
-    throw std::runtime_error("libthoro::tar::archive::reopen(): Format not supported!");
-  }
-  r2 = archive_read_support_format_gnutar(m_archive);
-  if (r2 != ARCHIVE_OK)
-  {
-    archive_read_free(m_archive);
-    m_archive = nullptr;
-    throw std::runtime_error("libthoro::tar::archive::reopen(): Format not supported!");
-  }
-  r2 = archive_read_open_filename(m_archive, m_fileName.c_str(), 4096);
+  applyFormats();
+  int r2 = archive_read_open_filename(m_archive, m_fileName.c_str(), 4096);
   if (r2 != ARCHIVE_OK)
   {
     archive_read_free(m_archive);
@@ -154,21 +124,22 @@ void archive::reopen()
   }
 }
 
-std::vector<libthoro::archive::entryLibarchive> archive::entries() const
+void archive::applyFormats()
 {
-  return m_entries;
-}
-
-bool archive::contains(const std::string& fileName) const
-{
-  auto it = m_entries.begin();
-  while (it != m_entries.end())
+  int r2 = archive_read_support_format_tar(m_archive);
+  if (r2 != ARCHIVE_OK)
   {
-    if (it->name() == fileName)
-      return true;
-    ++it;
-  } // while
-  return false;
+    archive_read_free(m_archive);
+    m_archive = nullptr;
+    throw std::runtime_error("libthoro::tar::archive::applyFormats(): Format not supported!");
+  }
+  r2 = archive_read_support_format_gnutar(m_archive);
+  if (r2 != ARCHIVE_OK)
+  {
+    archive_read_free(m_archive);
+    m_archive = nullptr;
+    throw std::runtime_error("libthoro::tar::archive::applyFormats(): Format not supported!");
+  }
 }
 
 bool archive::extractTo(const std::string& destFileName, const std::string& tarFilePath)

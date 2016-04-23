@@ -29,6 +29,8 @@
 		<Linker>
 			<Add library="archive" />
 		</Linker>
+		<Unit filename="../../../archive/archiveLibarchive.cpp" />
+		<Unit filename="../../../archive/archiveLibarchive.hpp" />
 		<Unit filename="../../../archive/entry.cpp" />
 		<Unit filename="../../../archive/entry.hpp" />
 		<Unit filename="../../../archive/entryLibarchive.cpp" />

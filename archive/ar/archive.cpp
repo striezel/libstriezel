@@ -33,21 +33,10 @@ namespace ar
 {
 
 archive::archive(const std::string& fileName)
-: m_archive(nullptr),
-  m_entries(std::vector<entry>()),
-  m_fileName(fileName)
+: m_fileName(fileName)
 {
-  m_archive = archive_read_new();
-  if (nullptr == m_archive)
-    throw std::runtime_error("libthoro::ar::archive: Could not allocate archive structure!");
-  int ret = archive_read_support_format_ar(m_archive);
-  if (ret != ARCHIVE_OK)
-  {
-    archive_read_free(m_archive);
-    m_archive = nullptr;
-    throw std::runtime_error("libthoro::ar::archive: Format not supported!");
-  }
-  ret = archive_read_open_filename(m_archive, fileName.c_str(), 4096);
+  applyFormats();
+  int ret = archive_read_open_filename(m_archive, fileName.c_str(), 4096);
   if (ret != ARCHIVE_OK)
   {
     archive_read_free(m_archive);
@@ -124,14 +113,8 @@ void archive::reopen()
   m_archive = archive_read_new();
   if (nullptr == m_archive)
     throw std::runtime_error("libthoro::ar::archive::reopen(): Could not allocate archive structure!");
-  int r2 = archive_read_support_format_ar(m_archive);
-  if (r2 != ARCHIVE_OK)
-  {
-    archive_read_free(m_archive);
-    m_archive = nullptr;
-    throw std::runtime_error("libthoro::ar::archive::reopen(): Format not supported!");
-  }
-  r2 = archive_read_open_filename(m_archive, m_fileName.c_str(), 4096);
+  applyFormats();
+  int r2 = archive_read_open_filename(m_archive, m_fileName.c_str(), 4096);
   if (r2 != ARCHIVE_OK)
   {
     archive_read_free(m_archive);
@@ -140,21 +123,15 @@ void archive::reopen()
   }
 }
 
-std::vector<entry> archive::entries() const
+void archive::applyFormats()
 {
-  return m_entries;
-}
-
-bool archive::contains(const std::string& fileName) const
-{
-  std::vector<entry>::const_iterator it = m_entries.begin();
-  while (it != m_entries.end())
+  int ret = archive_read_support_format_ar(m_archive);
+  if (ret != ARCHIVE_OK)
   {
-    if (it->name() == fileName)
-      return true;
-    ++it;
-  } // while
-  return false;
+    archive_read_free(m_archive);
+    m_archive = nullptr;
+    throw std::runtime_error("libthoro::ar::archive::applyFormats(): Format not supported!");
+  }
 }
 
 bool archive::extractTo(const std::string& destFileName, const std::string& arFilePath)

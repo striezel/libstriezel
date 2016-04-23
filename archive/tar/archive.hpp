@@ -24,6 +24,7 @@
 #include <string>
 #include <vector>
 #include <archive.h>
+#include "../archiveLibarchive.hpp"
 #include "../entryLibarchive.hpp"
 
 namespace libthoro
@@ -32,12 +33,9 @@ namespace libthoro
 namespace tar
 {
 
-//alias for entry class
-using entry = libthoro::archive::entryLibarchive;
-
 /** \brief archive class for tar (tape archive) files
  */
-class archive
+class archive: public libthoro::archive::archiveLibarchive
 {
   public:
      /** \brief constructor - opens a tar archive in read-only mode
@@ -61,14 +59,6 @@ class archive
     archive(const archive&& op) = delete;
 
 
-    /** \brief gets a vector of all files within the tar archive
-     *
-     * \return Returns a vector of all entries within the tar archive.
-     * Returns an empty vector, if an error occurred.
-     */
-    std::vector<libthoro::archive::entryLibarchive> entries() const;
-
-
     /** \brief extracts the file at a given index to the specified destination
      *
      * \param destFileName  the destination file name - file must not exist yet
@@ -77,14 +67,6 @@ class archive
      *         Returns false, if the extraction failed.
      */
     bool extractTo(const std::string& destFileName, const std::string& tarFilePath);
-
-
-    /** \brief checks whether the archive contains a certain file
-     *
-     * \param fileName  path of the file whose existence shall be checked
-     * \return Returns true, if the file exists. Returns false otherwise.
-     */
-    bool contains(const std::string& fileName) const;
 
 
     /** \brief checks whether a file may be a tar archive
@@ -103,9 +85,10 @@ class archive
      */
     void reopen();
 
+    /** \brief apply format support for tar archives
+     */
+    void applyFormats();
 
-    struct ::archive * m_archive; /**< archive handle */
-    std::vector<libthoro::archive::entryLibarchive> m_entries; /**< the entries in the archive */
     std::string m_fileName; /**< original file name of archive */
 }; //class
 
