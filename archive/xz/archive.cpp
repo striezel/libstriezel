@@ -23,7 +23,6 @@
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
-#include <lzma.h>
 #include "../../filesystem/file.hpp"
 
 namespace libthoro
