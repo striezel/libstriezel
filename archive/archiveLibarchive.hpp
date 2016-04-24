@@ -79,7 +79,18 @@ class archiveLibarchive
      * \return Returns true, if the file could be extracted successfully.
      *         Returns false, if the extraction failed.
      */
-    bool extractTo(const std::string& destFileName, const std::string& archiveFilePath);
+    virtual bool extractTo(const std::string& destFileName, const std::string& archiveFilePath);
+
+
+    /** \brief extracts the data entry to the specified destination
+     *
+     * \param destFileName  the destination file name - file must not exist yet
+     * \return Returns true, if the file could be extracted successfully.
+     *         Returns false, if the extraction failed.
+     * \remarks This function is only useful for single-file archives like .xz
+     *          or similar archive types.
+     */
+    bool extractDataTo(const std::string& destFileName);
   protected:
     /** \brief fills the list of archive entries
      */

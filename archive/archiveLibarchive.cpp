@@ -176,15 +176,17 @@ bool archiveLibarchive::extractTo(const std::string& destFileName, const std::st
         }
 
         int64_t totalBytesRead = 0;
+        int bytesRead = 1;
         const unsigned int bufferSize = 4096;
         char buffer[bufferSize];
-        while (totalBytesRead < e.size())
+        while (bytesRead > 0)
         {
-          int bytesRead = 0;
-          if (totalBytesRead + bufferSize <= e.size())
+          //if (totalBytesRead + bufferSize <= e.size())
             bytesRead = archive_read_data(m_archive, buffer, bufferSize);
+          /*
           else
             bytesRead = archive_read_data(m_archive, buffer, e.size() % bufferSize);
+          */
           if (bytesRead >= 0)
           {
             //write bytes to file
@@ -241,6 +243,108 @@ bool archiveLibarchive::extractTo(const std::string& destFileName, const std::st
     {
       //May be ARCHIVE_FATAL or similar
       std::cerr << "archive::archiveLibarchive::extractTo(): Fatal or unknown error!" << std::endl;
+      return false;
+    } //else
+  } //while
+}
+
+bool archiveLibarchive::extractDataTo(const std::string& destFileName)
+{
+  /* Check whether destination file already exists, we do not want to overwrite
+     existing files. */
+  if (libthoro::filesystem::file::exists(destFileName))
+  {
+    std::cerr << "archive::archiveLibarchive::extractDataTo: error: destination file "
+              << destFileName << " already exists!" << std::endl;
+    return false;
+  }
+
+  struct archive_entry * ent;
+  bool beenToEOF = false;
+  unsigned int retryCount = 0;
+  while (true)
+  {
+    int ret = archive_read_next_header(m_archive, &ent);
+    if ((ret == ARCHIVE_OK) || (ret == ARCHIVE_WARN))
+    {
+      entryLibarchive e(ent);
+      if (e.name() == "data")
+      {
+        //found the data entry, extract data
+        //open/create destination file
+        std::ofstream destination;
+        destination.open(destFileName, std::ios_base::out | std::ios_base::binary | std::ios_base::trunc);
+        if (!destination.good() || !destination.is_open())
+        {
+          std::cerr << "archive::archiveLibarchive::extractDataTo: error: destination file "
+                    << destFileName << " could not be created/opened for writing!"
+                    << std::endl;
+          return false;
+        }
+
+        int64_t totalBytesRead = 0;
+        int bytesRead = 1;
+        const unsigned int bufferSize = 4096;
+        char buffer[bufferSize];
+        while (bytesRead > 0)
+        {
+          bytesRead = archive_read_data(m_archive, buffer, bufferSize);
+          if (bytesRead >= 0)
+          {
+            //write bytes to file
+            destination.write(buffer, bytesRead);
+            if (!destination.good())
+            {
+              std::cerr << "archive::archiveLibarchive::extractDataTo: error: Could not write data to file "
+                        << destFileName << "." << std::endl;
+              destination.close();
+              filesystem::file::remove(destFileName);
+              return false;
+            } //if write failed
+            totalBytesRead += bytesRead;
+          }
+          else
+          {
+            std::cerr << "archive::archiveLibarchive::extractDataTo: error while reading data from archive!"
+                      << std::endl;
+            destination.close();
+            filesystem::file::remove(destFileName);
+            return false;
+          } //else (error)
+        } //while
+        //close destination file
+        destination.close();
+        return true;
+      } //if
+    } //if ARCHIVE_OK or ARCHIVE_WARN
+    else if (ret == ARCHIVE_EOF)
+    {
+      if (beenToEOF)
+      {
+        //Already been here, quit.
+        std::cerr << "archive::archiveLibarchive::extractDataTo: Could not find"
+                  << " entry \"data\" in archive!" << std::endl;
+        return false;
+      }
+      //set EOF flag for later detection
+      beenToEOF = true;
+      //close and re-open archive to get to the first entry again
+      reopen();
+    } //if ARCHIVE_EOF
+    else if (ret == ARCHIVE_RETRY)
+    {
+      //retry
+      ++retryCount;
+      if (retryCount >= 100)
+      {
+        std::cerr << "archive::archiveLibarchive::extractDataTo(): Too many re-tries!" << std::endl;
+        return false;
+      }
+    } //if retry
+    else
+    {
+      //May be ARCHIVE_FATAL or similar
+      std::cerr << "archive::archiveLibarchive::extractDataTo(): Fatal or unknown error!" << std::endl;
       return false;
     } //else
   } //while
