@@ -59,12 +59,17 @@ archive::archive(const std::string& fileName)
   oneEntry.setName(fileName);
   std::string n = oneEntry.basename();
   const std::string::size_type len = n.size();
+  //*.gz, e.g. "file.tar.gz", becomes "file.tar"
   if ((len > 3) && (n.substr(len-3, 3) == ".gz"))
   {
     oneEntry.setName(n.substr(0, len-3));
   }
+  //*.tgz, e.g. "file.tgz", becomes "file.tar"
   else if ((len > 4) && (n.substr(len-4, 4) == ".tgz"))
     oneEntry.setName(n.substr(0, len-4) + ".tar");
+  //*.svgz, e.g. "file.svgz", becomes "file.svg" (just cut the z off)
+  else if ((len > 5) && (n.substr(len-5, 5) == ".svgz"))
+    oneEntry.setName(n.substr(0, len-1));
   else
     //fall back to "data" as generic name
     oneEntry.setName("data");
