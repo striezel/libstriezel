@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 2.8)
 # Recurse into subdirectory for Ar archive tests.
 add_subdirectory (ar)
 
+# Recurse into subdirectory for Cabinet archive tests.
+add_subdirectory (cab)
+
 # Recurse into subdirectory for filesystem function tests.
 add_subdirectory (filesystem)
 
