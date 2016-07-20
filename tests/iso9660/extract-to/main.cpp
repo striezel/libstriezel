@@ -20,8 +20,6 @@
 
 #include <algorithm>
 #include <iostream>
-#include <string>
-#include <vector>
 #include "../../../archive/iso9660/archive.hpp"
 #include "../../../filesystem/directory.hpp"
 #include "../../../filesystem/file.hpp"
