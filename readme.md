@@ -8,10 +8,10 @@ carpet, right where it belongs.
 
 ## Build status
 
-[![Travis CI](https://travis-ci.org/Thoronador/libstriezel.svg?branch=master)]
-(https://travis-ci.org/Thoronador/libstriezel)
-[![drone.io](https://drone.io/github.com/Thoronador/libstriezel/status.png)]
-(https://drone.io/github.com/Thoronador/libstriezel/latest)
+[![Travis CI](https://travis-ci.org/striezel/libstriezel.svg?branch=master)]
+(https://travis-ci.org/striezel/libstriezel)
+[![drone.io](https://drone.io/github.com/Thoronador/libthoro/status.png)]
+(https://drone.io/github.com/Thoronador/libthoro/latest)
 
 ## License
 
