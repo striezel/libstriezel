@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include "../../../filesystem/file.hpp"
 #include "../../../archive/iso9660/archive.hpp"
 
-void showEntry(const libthoro::archive::entryLibarchive& e)
+void showEntry(const libstriezel::archive::entryLibarchive& e)
 {
   std::cout << "name: " << e.name() << std::endl
             << "    size: " << e.size() << " byte(s), directory: "
@@ -38,8 +38,8 @@ int main(int argc, char** argv)
   std::string isoDirectory = "";
   if (argc>1 && argv[1] != nullptr)
   {
-    isoDirectory = libthoro::filesystem::unslashify(std::string(argv[1]));
-    if (!libthoro::filesystem::directory::exists(isoDirectory))
+    isoDirectory = libstriezel::filesystem::unslashify(std::string(argv[1]));
+    if (!libstriezel::filesystem::directory::exists(isoDirectory))
     {
       std::cout << "Error: Directory " << isoDirectory << " does not exist!" << std::endl;
       return 1;
@@ -51,11 +51,11 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  const std::string isoFileName = isoDirectory + libthoro::filesystem::pathDelimiter + "dsl-4.11.rc2.iso";
+  const std::string isoFileName = isoDirectory + libstriezel::filesystem::pathDelimiter + "dsl-4.11.rc2.iso";
 
   try
   {
-    libthoro::archive::iso9660::archive isoFile(isoFileName);
+    libstriezel::archive::iso9660::archive isoFile(isoFileName);
 
     //list all entries
     const auto entries = isoFile.entries();
@@ -102,6 +102,6 @@ int main(int argc, char** argv)
   } //try-catch
 
   //All OK.
-  std::cout << "Test for libthoro::archive::iso9660::archive::entries() was successful." << std::endl;
+  std::cout << "Test for libstriezel::archive::iso9660::archive::entries() was successful." << std::endl;
   return 0;
 }

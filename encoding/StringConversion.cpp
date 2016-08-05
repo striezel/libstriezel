@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2012  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2012  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 #include <cerrno>
 #include <cstring>
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace encoding
@@ -115,4 +115,4 @@ int convertString(const std::string& from, const std::string& to, const std::str
 
 } //namespace encoding
 
-} //namespace libthoro
+} //namespace libstriezel

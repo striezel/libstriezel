@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #include "../../../hash/sha256/sha256.hpp"
 #include "../../../hash/sha256/FileSourceUtility.hpp"
 
-void showEntry(const libthoro::archive::entryLibarchive& e)
+void showEntry(const libstriezel::archive::entryLibarchive& e)
 {
   std::cout << "name: " << e.name() << std::endl
             << "    size: " << e.size() << " byte(s), directory: "
@@ -40,8 +40,8 @@ int main(int argc, char** argv)
   std::string isoDirectory = "";
   if (argc>1 && argv[1] != nullptr)
   {
-    isoDirectory = libthoro::filesystem::unslashify(std::string(argv[1]));
-    if (!libthoro::filesystem::directory::exists(isoDirectory))
+    isoDirectory = libstriezel::filesystem::unslashify(std::string(argv[1]));
+    if (!libstriezel::filesystem::directory::exists(isoDirectory))
     {
       std::cout << "Error: Directory " << isoDirectory << " does not exist!" << std::endl;
       return 1;
@@ -53,18 +53,18 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  const std::string isoFileName = isoDirectory + libthoro::filesystem::pathDelimiter + "dsl-4.11.rc2.iso";
+  const std::string isoFileName = isoDirectory + libstriezel::filesystem::pathDelimiter + "dsl-4.11.rc2.iso";
 
   try
   {
-    libthoro::archive::iso9660::archive isoFile(isoFileName);
+    libstriezel::archive::iso9660::archive isoFile(isoFileName);
 
     //get list of all entries
     const auto entries = isoFile.entries();
 
     //try to extract every single entry to a temporary directory
     std::string tempDirName;
-    if (!libthoro::filesystem::directory::createTemp(tempDirName))
+    if (!libstriezel::filesystem::directory::createTemp(tempDirName))
     {
       std::cout << "Error: Could not create temporary directory for extraction!" << std::endl;
       return 1;
@@ -75,7 +75,7 @@ int main(int argc, char** argv)
     int dotCount = 0;
     for (const auto& e : entries)
     {
-      const std::string destFile = libthoro::filesystem::slashify(tempDirName) + e.basename();
+      const std::string destFile = libstriezel::filesystem::slashify(tempDirName) + e.basename();
       std::cout << ".";
       ++dotCount;
       if ((dotCount % 60) == 0)
@@ -88,20 +88,20 @@ int main(int argc, char** argv)
         {
           std::cout << "Error: Could not extract file " << e.name()
                     << " from ISO image!" << std::endl;
-          libthoro::filesystem::directory::remove(tempDirName);
+          libstriezel::filesystem::directory::remove(tempDirName);
           return 1;
         }
         //check size
-        if (libthoro::filesystem::file::getSize64(destFile) != e.size())
+        if (libstriezel::filesystem::file::getSize64(destFile) != e.size())
         {
           std::cout << "Error: File size of extracted file " << e.name()
                     << " does not match its size specified in the archive!" << std::endl;
-          libthoro::filesystem::file::remove(destFile);
-          libthoro::filesystem::directory::remove(tempDirName);
+          libstriezel::filesystem::file::remove(destFile);
+          libstriezel::filesystem::directory::remove(tempDirName);
           return 1;
         }
         //delete file
-        libthoro::filesystem::file::remove(destFile);
+        libstriezel::filesystem::file::remove(destFile);
       } //if entry is not a directory
     }
     std::cout << std::endl;
@@ -112,17 +112,17 @@ int main(int argc, char** argv)
        || (e6.isDirectory()))
     {
       std::cout << "Error: 6th entry does not match expected values!" << std::endl;
-      libthoro::filesystem::directory::remove(tempDirName);
+      libstriezel::filesystem::directory::remove(tempDirName);
       return 1;
     }
 
-    const std::string destFile = libthoro::filesystem::slashify(tempDirName) + e6.basename();
+    const std::string destFile = libstriezel::filesystem::slashify(tempDirName) + e6.basename();
     //check one file in detail
     if (!isoFile.extractTo(destFile, e6.name()))
     {
       std::cout << "Error: Could not extract file " << e6.name() << " from ISO image!"
                 << std::endl;
-      libthoro::filesystem::directory::remove(tempDirName);
+      libstriezel::filesystem::directory::remove(tempDirName);
       return 1;
     }
 
@@ -130,9 +130,9 @@ int main(int argc, char** argv)
     const std::string mdExpected = "1fb16576ba6beb28991e165397ee6cd505e8dcf452881ee24c5e14172db1ca6d";
     const SHA256::MessageDigest md = SHA256::computeFromFile(destFile);
     //delete file
-    libthoro::filesystem::file::remove(destFile);
+    libstriezel::filesystem::file::remove(destFile);
     //delete temporary directory
-    libthoro::filesystem::directory::remove(tempDirName);
+    libstriezel::filesystem::directory::remove(tempDirName);
     //compare hashes
     if (mdExpected != md.toHexString())
     {
@@ -150,6 +150,6 @@ int main(int argc, char** argv)
   } //try-catch
 
   //Everything is OK.
-  std::cout << "Test for libthoro::iso9660::archive::extractTo() was successful." << std::endl;
+  std::cout << "Test for libstriezel::iso9660::archive::extractTo() was successful." << std::endl;
   return 0;
 }

@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_GIFDATASUBBLOCK_HPP
-#define LIBTHORO_GIFDATASUBBLOCK_HPP
+#ifndef LIBSTRIEZEL_GIFDATASUBBLOCK_HPP
+#define LIBSTRIEZEL_GIFDATASUBBLOCK_HPP
 
 #include <fstream>
 #include <stdint.h>
@@ -58,4 +58,4 @@ struct GIFDataSubBlock
     unsigned char* m_DataPointer;
 }; //struct
 
-#endif // LIBTHORO_GIFDATASUBBLOCK_HPP
+#endif // LIBSTRIEZEL_GIFDATASUBBLOCK_HPP

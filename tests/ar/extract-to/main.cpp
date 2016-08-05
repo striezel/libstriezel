@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #include "../../../hash/sha256/sha256.hpp"
 #include "../../../hash/sha256/FileSourceUtility.hpp"
 
-void showEntry(const libthoro::ar::entry& e)
+void showEntry(const libstriezel::ar::entry& e)
 {
   std::cout << "name: " << e.name() << std::endl
             << "    size: " << e.size() << " byte(s), directory: "
@@ -40,8 +40,8 @@ int main(int argc, char** argv)
   std::string arDirectory = "";
   if (argc>1 && argv[1] != nullptr)
   {
-    arDirectory = libthoro::filesystem::unslashify(std::string(argv[1]));
-    if (!libthoro::filesystem::directory::exists(arDirectory))
+    arDirectory = libstriezel::filesystem::unslashify(std::string(argv[1]));
+    if (!libstriezel::filesystem::directory::exists(arDirectory))
     {
       std::cout << "Error: Directory " << arDirectory << " does not exist!" << std::endl;
       return 1;
@@ -53,18 +53,18 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  const std::string arFileName = arDirectory + libthoro::filesystem::pathDelimiter + "2vcard_0.5-3_all.deb";
+  const std::string arFileName = arDirectory + libstriezel::filesystem::pathDelimiter + "2vcard_0.5-3_all.deb";
 
   try
   {
-    libthoro::ar::archive arFile(arFileName);
+    libstriezel::ar::archive arFile(arFileName);
 
     //get list of all entries
     const auto entries = arFile.entries();
 
     //try to extract every single entry to a temporary directory
     std::string tempDirName;
-    if (!libthoro::filesystem::directory::createTemp(tempDirName))
+    if (!libstriezel::filesystem::directory::createTemp(tempDirName))
     {
       std::cout << "Error: Could not create temporary directory for extraction!" << std::endl;
       return 1;
@@ -75,7 +75,7 @@ int main(int argc, char** argv)
     int dotCount = 0;
     for (const auto& e : entries)
     {
-      const std::string destFile = libthoro::filesystem::slashify(tempDirName) + e.basename();
+      const std::string destFile = libstriezel::filesystem::slashify(tempDirName) + e.basename();
       std::cout << ".";
       ++dotCount;
       if ((dotCount % 60) == 0)
@@ -87,20 +87,20 @@ int main(int argc, char** argv)
         {
           std::cout << "Error: Could not extract file " << e.name()
                     << " from Ar archive!" << std::endl;
-          libthoro::filesystem::directory::remove(tempDirName);
+          libstriezel::filesystem::directory::remove(tempDirName);
           return 1;
         }
         //check size
-        if (libthoro::filesystem::file::getSize64(destFile) != e.size())
+        if (libstriezel::filesystem::file::getSize64(destFile) != e.size())
         {
           std::cout << "Error: File size of extracted file " << e.name()
                     << " does not match its size specified in the archive!" << std::endl;
-          libthoro::filesystem::file::remove(destFile);
-          libthoro::filesystem::directory::remove(tempDirName);
+          libstriezel::filesystem::file::remove(destFile);
+          libstriezel::filesystem::directory::remove(tempDirName);
           return 1;
         }
         //delete file
-        libthoro::filesystem::file::remove(destFile);
+        libstriezel::filesystem::file::remove(destFile);
       } //if entry is not a directory
     }
     std::cout << std::endl;
@@ -111,17 +111,17 @@ int main(int argc, char** argv)
        || (e2.isDirectory()))
     {
       std::cout << "Error: 3rd entry does not match expected values!" << std::endl;
-      libthoro::filesystem::directory::remove(tempDirName);
+      libstriezel::filesystem::directory::remove(tempDirName);
       return 1;
     }
 
-    const std::string destFile = libthoro::filesystem::slashify(tempDirName) + e2.basename();
+    const std::string destFile = libstriezel::filesystem::slashify(tempDirName) + e2.basename();
     //check one file in detail
     if (!arFile.extractTo(destFile, e2.name()))
     {
       std::cout << "Error: Could not extract file " << e2.name() << " from Ar archive!"
                 << std::endl;
-      libthoro::filesystem::directory::remove(tempDirName);
+      libstriezel::filesystem::directory::remove(tempDirName);
       return 1;
     }
 
@@ -129,9 +129,9 @@ int main(int argc, char** argv)
     const std::string mdExpected = "81d801099e95d35a4aa7f999882acafec25eaa4d7c0ec352acea9b91c8d5f3eb";
     const SHA256::MessageDigest md = SHA256::computeFromFile(destFile);
     //delete file
-    libthoro::filesystem::file::remove(destFile);
+    libstriezel::filesystem::file::remove(destFile);
     //delete temporary directory
-    libthoro::filesystem::directory::remove(tempDirName);
+    libstriezel::filesystem::directory::remove(tempDirName);
     //compare hashes
     if (mdExpected != md.toHexString())
     {
@@ -149,6 +149,6 @@ int main(int argc, char** argv)
   } //try-catch
 
   //Everything is OK.
-  std::cout << "Test for libthoro::ar::archive::extractTo() was successful." << std::endl;
+  std::cout << "Test for libstriezel::ar::archive::extractTo() was successful." << std::endl;
   return 0;
 }

@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of a test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of a test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ int main(int argc, char** argv)
   }
 
   //base directory where the files are located
-  const std::string baseDir = libthoro::filesystem::slashify(std::string(argv[1]));
+  const std::string baseDir = libstriezel::filesystem::slashify(std::string(argv[1]));
 
 
   // "test cases": file-existence-pairs
@@ -62,7 +62,7 @@ int main(int argc, char** argv)
   //iterate over all test cases
   for (const auto & item : files)
   {
-    if (libthoro::filesystem::file::exists(item.first) != item.second)
+    if (libstriezel::filesystem::file::exists(item.first) != item.second)
     {
       std::cout << "Error: Existence check for " << item.first << " should return "
                 << item.second << ", but it did not!" << std::endl;

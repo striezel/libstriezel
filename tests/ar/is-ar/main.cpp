@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -46,8 +46,8 @@ int main(int argc, char** argv)
   std::string arDirectory = "";
   if (argc>1 && argv[1] != nullptr)
   {
-    arDirectory = libthoro::filesystem::unslashify(std::string(argv[1]));
-    if (!libthoro::filesystem::directory::exists(arDirectory))
+    arDirectory = libstriezel::filesystem::unslashify(std::string(argv[1]));
+    if (!libstriezel::filesystem::directory::exists(arDirectory))
     {
       std::cout << "Error: Directory " << arDirectory << " does not exist!" << std::endl;
       return 1;
@@ -62,15 +62,15 @@ int main(int argc, char** argv)
   for (const auto item : testCases)
   {
     //construct file name
-    const std::string fileName = arDirectory + libthoro::filesystem::pathDelimiter + item.first;
+    const std::string fileName = arDirectory + libstriezel::filesystem::pathDelimiter + item.first;
     //existence check
-    if (!libthoro::filesystem::file::exists(fileName))
+    if (!libstriezel::filesystem::file::exists(fileName))
     {
       std::cout << "Error: File " << fileName << " does not exist!" << std::endl;
       return 1;
     }
     //check, if it is an Ar archive
-    const bool isAR = libthoro::ar::archive::isAr(fileName);
+    const bool isAR = libstriezel::ar::archive::isAr(fileName);
     std::cout << "isAr(" << fileName << ") = "
               << (isAR ? "yes" : "no") << std::endl;
     //compare with expected values
@@ -86,6 +86,6 @@ int main(int argc, char** argv)
     }
   } //for
   //All OK.
-  std::cout << "Tests for libthoro::ar::archive::isAr() were successful." << std::endl;
+  std::cout << "Tests for libstriezel::ar::archive::isAr() were successful." << std::endl;
   return 0;
 }

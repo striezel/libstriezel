@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2015  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2015  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_SHA384_BUFFERSOURCEUTILITY_HPP
-#define LIBTHORO_SHA384_BUFFERSOURCEUTILITY_HPP
+#ifndef LIBSTRIEZEL_SHA384_BUFFERSOURCEUTILITY_HPP
+#define LIBSTRIEZEL_SHA384_BUFFERSOURCEUTILITY_HPP
 
 #include "sha384.hpp"
 
@@ -38,4 +38,4 @@ namespace SHA384
   MessageDigest computeFromBuffer(uint8_t* data, const uint64_t data_length_in_bits);
 } //namespace
 
-#endif // LIBTHORO_SHA384_BUFFERSOURCEUTILITY_HPP
+#endif // LIBSTRIEZEL_SHA384_BUFFERSOURCEUTILITY_HPP

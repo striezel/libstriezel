@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of a test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of a test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ int main()
     std::string path;
     std::string file;
     std::string ext;
-    libthoro::filesystem::splitPathFileExtension(std::get<0>(item), std::get<1>(item), path, file, ext);
+    libstriezel::filesystem::splitPathFileExtension(std::get<0>(item), std::get<1>(item), path, file, ext);
     std::cout << "splitPathFileExtension(\"" << std::get<0>(item) << "\", '" << std::get<1>(item) << "', ...)" << std::endl
               << "\tpath: \"" << path << "\"" << std::endl
               << "\tfile: \"" << file << "\"" << std::endl

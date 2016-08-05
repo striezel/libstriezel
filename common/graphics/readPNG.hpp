@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_READPNG_HPP
-#define LIBTHORO_READPNG_HPP
+#ifndef LIBSTRIEZEL_READPNG_HPP
+#define LIBSTRIEZEL_READPNG_HPP
 
 #include <string>
 #include "GLImageStructure.hpp"
@@ -42,4 +42,4 @@ GLImageStructure readPNG(const std::string& FileName);
 */
 bool isPNG(const png_bytep header, const size_t length);
 
-#endif //LIBTHORO_READPNG_HPP
+#endif //LIBSTRIEZEL_READPNG_HPP

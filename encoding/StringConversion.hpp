@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2012, 2015  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2012, 2015  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,12 +18,12 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_STRINGCONVERSION_HPP
-#define LIBTHORO_STRINGCONVERSION_HPP
+#ifndef LIBSTRIEZEL_STRINGCONVERSION_HPP
+#define LIBSTRIEZEL_STRINGCONVERSION_HPP
 
 #include <string>
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace encoding
@@ -79,6 +79,6 @@ inline bool iso8859_1_to_utf8(const std::string& in_iso, std::string& out_utf8)
 
 } //namespace encoding
 
-} //namespace libthoro
+} //namespace libstriezel
 
-#endif // LIBTHORO_STRINGCONVERSION_HPP
+#endif // LIBSTRIEZEL_STRINGCONVERSION_HPP

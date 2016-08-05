@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
-    This file is part of Thoronador's common code library.
-    Copyright (C) 2011, 2012, 2015  Thoronador
+    This file is part of striezel's common code library.
+    Copyright (C) 2011, 2012, 2015  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #include <iostream>
 #include <zlib.h>
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace zlib

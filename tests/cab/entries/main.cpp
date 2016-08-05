@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include "../../../filesystem/file.hpp"
 #include "../../../archive/cab/archive.hpp"
 
-void showEntry(const libthoro::cab::entry& e)
+void showEntry(const libstriezel::cab::entry& e)
 {
   std::cout << "name: " << e.name() << std::endl
             << "    size: " << e.size() << " byte(s), directory: "
@@ -38,8 +38,8 @@ int main(int argc, char** argv)
   std::string cabDirectory = "";
   if (argc>1 && argv[1] != nullptr)
   {
-    cabDirectory = libthoro::filesystem::unslashify(std::string(argv[1]));
-    if (!libthoro::filesystem::directory::exists(cabDirectory))
+    cabDirectory = libstriezel::filesystem::unslashify(std::string(argv[1]));
+    if (!libstriezel::filesystem::directory::exists(cabDirectory))
     {
       std::cout << "Error: Directory " << cabDirectory << " does not exist!" << std::endl;
       return 1;
@@ -51,11 +51,11 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  const std::string cabFileName = cabDirectory + libthoro::filesystem::pathDelimiter + "Windows8-RT-KB2999226-x64.msu";
+  const std::string cabFileName = cabDirectory + libstriezel::filesystem::pathDelimiter + "Windows8-RT-KB2999226-x64.msu";
 
   try
   {
-    libthoro::cab::archive cabFile(cabFileName);
+    libstriezel::cab::archive cabFile(cabFileName);
 
     //list all entries
     const auto entries = cabFile.entries();
@@ -103,6 +103,6 @@ int main(int argc, char** argv)
   } //try-catch
 
   //All OK.
-  std::cout << "Test for libthoro::cab::archive::entries() was successful." << std::endl;
+  std::cout << "Test for libstriezel::cab::archive::entries() was successful." << std::endl;
   return 0;
 }

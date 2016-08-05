@@ -27,16 +27,16 @@
  */
 
 /*
- (C) 2012, 2015  Thoronador (minor modifications)
+ (C) 2012, 2015  Dirk Stolle (minor modifications)
 */
 
-#ifndef LIBTHORO_BUFFERSTREAM_HPP
-#define LIBTHORO_BUFFERSTREAM_HPP
+#ifndef LIBSTRIEZEL_BUFFERSTREAM_HPP
+#define LIBSTRIEZEL_BUFFERSTREAM_HPP
 
 #include <istream>
 #include <stdint.h>
 
-namespace libthoro
+namespace libstriezel
 {
 
 //!A streambuf class that controls the transmission of elements to and from
@@ -396,4 +396,4 @@ typedef basic_obufferstream<char, std::char_traits<char> > OutBufferStream;
 
 } //namespace
 
-#endif // LIBTHORO_BUFFERSTREAM_HPP
+#endif // LIBSTRIEZEL_BUFFERSTREAM_HPP

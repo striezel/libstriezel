@@ -3,7 +3,7 @@
 # Script to get a Cabinet file for the corresponding test cases and run the
 # test afterwards.
 #
-#  Copyright (C) 2016  Thoronador
+#  Copyright (C) 2016  Dirk Stolle
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by

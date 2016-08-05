@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of Thoronador's common code library.
-    Copyright (C) 2012, 2015  Thoronador
+    This file is part of striezel's common code library.
+    Copyright (C) 2012, 2015  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_SHA_256_HPP
-#define LIBTHORO_SHA_256_HPP
+#ifndef LIBSTRIEZEL_SHA_256_HPP
+#define LIBSTRIEZEL_SHA_256_HPP
 
 #include <stdint.h>
 #include <string>
@@ -84,4 +84,4 @@ namespace SHA256
   MessageDigest computeFromSource(MessageSource& source);
 }//SHA256 namespace
 
-#endif // LIBTHORO_SHA_256_HPP
+#endif // LIBSTRIEZEL_SHA_256_HPP

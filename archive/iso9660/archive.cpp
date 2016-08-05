@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include <iostream>
 #include <stdexcept>
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace archive
@@ -42,7 +42,7 @@ archive::archive(const std::string& fileName)
   {
     archive_read_free(m_archive);
     m_archive = nullptr;
-    throw std::runtime_error("libthoro::archive::iso9660::archive: Failed to open file " + fileName + "!");
+    throw std::runtime_error("libstriezel::archive::iso9660::archive: Failed to open file " + fileName + "!");
   }
   //fill entries
   fillEntries();
@@ -52,7 +52,7 @@ archive::~archive()
 {
   int ret = archive_read_free(m_archive);
   if (ret != ARCHIVE_OK)
-    throw std::runtime_error("libthoro::archive::iso9660::archive: Could not close/free archive!");
+    throw std::runtime_error("libstriezel::archive::iso9660::archive: Could not close/free archive!");
   m_archive = nullptr;
 }
 
@@ -63,7 +63,7 @@ void archive::applyFormats()
   {
     archive_read_free(m_archive);
     m_archive = nullptr;
-    throw std::runtime_error("libthoro::archive::iso9660::archive::applyFormats(): Format not supported!");
+    throw std::runtime_error("libstriezel::archive::iso9660::archive::applyFormats(): Format not supported!");
   }
 }
 

@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2015  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2015  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_SHA224_FILESOURCE_HPP
-#define LIBTHORO_SHA224_FILESOURCE_HPP
+#ifndef LIBSTRIEZEL_SHA224_FILESOURCE_HPP
+#define LIBSTRIEZEL_SHA224_FILESOURCE_HPP
 
 #include "../sha256/FileSource.hpp"
 
@@ -29,4 +29,4 @@ namespace SHA224
   typedef SHA256::FileSource    FileSource;
 } //namespace
 
-#endif // LIBTHORO_SHA224_FILESOURCE_HPP
+#endif // LIBSTRIEZEL_SHA224_FILESOURCE_HPP

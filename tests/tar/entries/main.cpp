@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include "../../../filesystem/file.hpp"
 #include "../../../archive/tar/archive.hpp"
 
-void showEntry(const libthoro::archive::entryLibarchive& e)
+void showEntry(const libstriezel::archive::entryLibarchive& e)
 {
   std::cout << "name: " << e.name() << std::endl
             << "    size: " << e.size() << " byte(s), directory: "
@@ -38,8 +38,8 @@ int main(int argc, char** argv)
   std::string tarDirectory = "";
   if (argc>1 && argv[1] != nullptr)
   {
-    tarDirectory = libthoro::filesystem::unslashify(std::string(argv[1]));
-    if (!libthoro::filesystem::directory::exists(tarDirectory))
+    tarDirectory = libstriezel::filesystem::unslashify(std::string(argv[1]));
+    if (!libstriezel::filesystem::directory::exists(tarDirectory))
     {
       std::cout << "Error: Directory " << tarDirectory << " does not exist!" << std::endl;
       return 1;
@@ -51,11 +51,11 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  const std::string tarFileName = tarDirectory + libthoro::filesystem::pathDelimiter + "grep-2.0.tar";
+  const std::string tarFileName = tarDirectory + libstriezel::filesystem::pathDelimiter + "grep-2.0.tar";
 
   try
   {
-    libthoro::tar::archive tarFile(tarFileName);
+    libstriezel::tar::archive tarFile(tarFileName);
 
     //list all entries
     const auto entries = tarFile.entries();
@@ -104,6 +104,6 @@ int main(int argc, char** argv)
   } //try-catch
 
   //All OK.
-  std::cout << "Test for libthoro::tar::archive::entries() was successful." << std::endl;
+  std::cout << "Test for libstriezel::tar::archive::entries() was successful." << std::endl;
   return 0;
 }

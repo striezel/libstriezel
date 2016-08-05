@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
-    This file is part of Thoronador's common code library.
-    Copyright (C) 2011, 2015, 2016  Thoronador
+    This file is part of striezel's common code library.
+    Copyright (C) 2011, 2015, 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@
   #error "Unknown operating system!"
 #endif
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace filesystem
@@ -239,7 +239,7 @@ std::vector<FileEntry> getDirectoryFileList(const std::string& Directory)
   handle = _findfirst(std::string(Directory+"*").c_str(),&sr);
   if (handle == -1)
   {
-    std::cout << "libthoro::filesystem::getDirectoryFileList: ERROR: unable to"
+    std::cout << "libstriezel::filesystem::getDirectoryFileList: ERROR: unable to"
               <<" open directory \""<<Directory<<"\". Returning empty list.\n";
     return result;
   }
@@ -256,7 +256,7 @@ std::vector<FileEntry> getDirectoryFileList(const std::string& Directory)
   DIR * direc = opendir(Directory.c_str());
   if (direc == NULL)
   {
-    std::cout << "libthoro::filesystem::getDirectoryFileList: ERROR: unable to"
+    std::cout << "libstriezel::filesystem::getDirectoryFileList: ERROR: unable to"
               <<" open directory \""<<Directory<<"\". Returning empty list.\n";
     return result;
   }//if

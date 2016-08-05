@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2011, 2012, 2014, 2015, 2016  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2011, 2012, 2014, 2015, 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
   #include <pwd.h>
 #endif
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace filesystem
@@ -65,7 +65,7 @@ bool directory::create(const std::string& dirName)
 
 bool directory::createRecursive(const std::string& dirName)
 {
-  const std::string::size_type delimPos = dirName.rfind(libthoro::filesystem::pathDelimiter);
+  const std::string::size_type delimPos = dirName.rfind(libstriezel::filesystem::pathDelimiter);
   if (delimPos==std::string::npos) return create(dirName);
 
   if (exists(dirName.substr(0, delimPos)))
@@ -196,9 +196,9 @@ std::string slashify(const std::string& path)
 {
   if (path.empty()) return path;
   //Does it have a trailing (back)slash?
-  if (path[path.length()-1]!=libthoro::filesystem::pathDelimiter)
+  if (path[path.length()-1]!=libstriezel::filesystem::pathDelimiter)
   {
-    return path + libthoro::filesystem::pathDelimiter;
+    return path + libstriezel::filesystem::pathDelimiter;
   }
   return path;
 }
@@ -206,7 +206,7 @@ std::string slashify(const std::string& path)
 std::string unslashify(const std::string& path)
 {
   if (path.empty()) return path;
-  if ((path[path.length()-1]==libthoro::filesystem::pathDelimiter) and (path.length()>1))
+  if ((path[path.length()-1]==libstriezel::filesystem::pathDelimiter) and (path.length()>1))
   {
     return path.substr(0, path.length()-1);
   }
@@ -215,4 +215,4 @@ std::string unslashify(const std::string& path)
 
 } //namespace filesystem
 
-} //namespace libthoro
+} //namespace libstriezel

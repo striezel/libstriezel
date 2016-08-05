@@ -1,6 +1,6 @@
 /*
  -------------------------------------------------------------------------------
-    This file is part of Thoronador's common code library.
+    This file is part of striezel's common code library.
     Copyright (C) 2011, 2012 Thoronador
 
     This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@
            will always fail here!
 #endif
 
-namespace libthoro
+namespace libstriezel
 {
 
 bool getRegistryStringValueHKLM(std::string& theString, const std::string& subKey, const std::string& valueName)

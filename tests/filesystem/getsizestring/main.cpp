@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of a test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of a test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ int main()
 {
   for (const auto & item : cases)
   {
-    const auto str = libthoro::filesystem::getSizeString(item.first);
+    const auto str = libstriezel::filesystem::getSizeString(item.first);
     std::cout << "getSizeString(" << item.first << ") = " << str << std::endl;
     if (str != item.second)
     {

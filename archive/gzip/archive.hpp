@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,15 +18,15 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_GZIP_ARCHIVE_HPP
-#define LIBTHORO_GZIP_ARCHIVE_HPP
+#ifndef LIBSTRIEZEL_GZIP_ARCHIVE_HPP
+#define LIBSTRIEZEL_GZIP_ARCHIVE_HPP
 
 #include <string>
 #include <vector>
 #include <zlib.h>
 #include "entry.hpp"
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace gzip
@@ -92,4 +92,4 @@ class archive
 
 } //namespace
 
-#endif // LIBTHORO_GZIP_ARCHIVE_HPP
+#endif // LIBSTRIEZEL_GZIP_ARCHIVE_HPP

@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #include <zlib.h>
 #include "../../filesystem/file.hpp"
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace gzip
@@ -39,18 +39,18 @@ archive::archive(const std::string& fileName)
   std::ifstream infile;
   infile.open(fileName.c_str(), std::ios_base::in | std::ios_base::binary);
   if (!infile.good())
-    throw std::runtime_error("libthoro::gzip::archive: Could not open file!");
+    throw std::runtime_error("libstriezel::gzip::archive: Could not open file!");
   infile.seekg(0, std::ios_base::end);
   const std::ifstream::pos_type pos = infile.tellg();
   //file should be at least 10 bytes for header + 4 bytes for size
   if (pos <= 14)
-    throw std::runtime_error("libthoro::gzip::archive: File is too small to be a proper gzip file!");
+    throw std::runtime_error("libstriezel::gzip::archive: File is too small to be a proper gzip file!");
   //seek size
   infile.seekg(-4, std::ios_base::end);
   uint32_t uncompressedSize = 0;
   infile.read(reinterpret_cast<char*>(&uncompressedSize), 4);
   if (!infile.good() || infile.gcount() != 4)
-    throw std::runtime_error("libthoro::gzip::archive: Could not read uncompressed file size!");
+    throw std::runtime_error("libstriezel::gzip::archive: Could not read uncompressed file size!");
   //clean up
   infile.close();
 
@@ -78,13 +78,13 @@ archive::archive(const std::string& fileName)
   //open file with zlib's gzip functions
   m_gzip = gzopen(fileName.c_str(), "rb");
   if (nullptr == m_gzip)
-    throw std::runtime_error("libthoro::gzip::archive: Could not open file with gzopen()!");
+    throw std::runtime_error("libstriezel::gzip::archive: Could not open file with gzopen()!");
 }
 
 archive::~archive()
 {
   if (gzclose(m_gzip) != Z_OK)
-    throw std::runtime_error("libthoro::gzip::archive: Could not close/free archive!");
+    throw std::runtime_error("libstriezel::gzip::archive: Could not close/free archive!");
   m_gzip = nullptr;
 }
 
@@ -97,7 +97,7 @@ bool archive::extractTo(const std::string& destFileName)
 {
   /* Check whether destination file already exists, we do not want to overwrite
      existing files. */
-  if (libthoro::filesystem::file::exists(destFileName))
+  if (libstriezel::filesystem::file::exists(destFileName))
   {
     std::cerr << "gzip::archive::extractTo: error: destination file "
               << destFileName << " already exists!" << std::endl;

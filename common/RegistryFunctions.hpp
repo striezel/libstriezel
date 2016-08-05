@@ -1,6 +1,6 @@
 /*
  -------------------------------------------------------------------------------
-    This file is part of Thoronador's common code library.
+    This file is part of striezel's common code library.
     Copyright (C) 2011, 2012 Thoronador
 
     This program is free software: you can redistribute it and/or modify
@@ -18,12 +18,12 @@
  -------------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_REGISTRYFUNCTIONS_H
-#define LIBTHORO_REGISTRYFUNCTIONS_H
+#ifndef LIBSTRIEZEL_REGISTRYFUNCTIONS_H
+#define LIBSTRIEZEL_REGISTRYFUNCTIONS_H
 
 #include <string>
 
-namespace libthoro
+namespace libstriezel
 {
 
 /* tries to read a string value from the HKEY_LOCAL_MACHINE branch of the
@@ -44,4 +44,4 @@ bool getRegistryStringValueHKLM(std::string& theString, const std::string& subKe
 
 } //namespace
 
-#endif // LIBTHORO_REGISTRYFUNCTIONS_H
+#endif // LIBSTRIEZEL_REGISTRYFUNCTIONS_H

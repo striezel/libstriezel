@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,22 +18,22 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_GZIP_ENTRY_HPP
-#define LIBTHORO_GZIP_ENTRY_HPP
+#ifndef LIBSTRIEZEL_GZIP_ENTRY_HPP
+#define LIBSTRIEZEL_GZIP_ENTRY_HPP
 
 #include "../entry.hpp"
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace gzip
 {
 
 /* We use the unmodified basic entry class as entry type for gzip. */
-using entry = libthoro::archive::entry;
+using entry = libstriezel::archive::entry;
 
 } //namespace
 
 } //namespace
 
-#endif // LIBTHORO_GZIP_ENTRY_HPP
+#endif // LIBSTRIEZEL_GZIP_ENTRY_HPP

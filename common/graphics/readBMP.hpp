@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_READBMP_HPP
-#define LIBTHORO_READBMP_HPP
+#ifndef LIBSTRIEZEL_READBMP_HPP
+#define LIBSTRIEZEL_READBMP_HPP
 
 #include <string>
 #include <GL/gl.h>
@@ -47,4 +47,4 @@ GLImageStructure readBMP(const std::string& FileName);
 */
 bool isBMP(const unsigned char* header, const size_t length);
 
-#endif //LIBTHORO_READBMP_HPP
+#endif //LIBSTRIEZEL_READBMP_HPP

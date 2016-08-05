@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of a test suite for Thoronador's common code library.
-    Copyright (C) 2015, 2016  Thoronador
+    This file is part of a test suite for striezel's common code library.
+    Copyright (C) 2015, 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -115,7 +115,7 @@ int main(int argc, char** argv)
 
   //create temp file for tests
   std::string fileName = "";
-  if (!libthoro::filesystem::file::createTemp(fileName))
+  if (!libstriezel::filesystem::file::createTemp(fileName))
   {
     std::cout << "Error: Could not create temporary file!"   << std::endl;
     return 1;
@@ -143,7 +143,7 @@ int main(int argc, char** argv)
       {
         std::cout << "Error: Could not write data to temporary file!" << std::endl;
         stream.close();
-        libthoro::filesystem::file::remove(fileName);
+        libstriezel::filesystem::file::remove(fileName);
         return 1;
       }
       stream.close();
@@ -157,12 +157,12 @@ int main(int argc, char** argv)
       {
         std::cout << "ERROR: Message digest is not as expected!" << std::endl;
         failed = true;
-        /* libthoro::filesystem::file::remove(fileName);
+        /* libstriezel::filesystem::file::remove(fileName);
         return 1; */
       }
     } //if short/long check
   } //for
-  libthoro::filesystem::file::remove(fileName);
+  libstriezel::filesystem::file::remove(fileName);
   if (!failed)
   {
     std::cout << "Passed test!" << std::endl;

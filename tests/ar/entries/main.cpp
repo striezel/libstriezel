@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include "../../../filesystem/file.hpp"
 #include "../../../archive/ar/archive.hpp"
 
-void showEntry(const libthoro::ar::entry& e)
+void showEntry(const libstriezel::ar::entry& e)
 {
   std::cout << "name: " << e.name() << std::endl
             << "    size: " << e.size() << " byte(s), directory: "
@@ -38,8 +38,8 @@ int main(int argc, char** argv)
   std::string arDirectory = "";
   if (argc>1 && argv[1] != nullptr)
   {
-    arDirectory = libthoro::filesystem::unslashify(std::string(argv[1]));
-    if (!libthoro::filesystem::directory::exists(arDirectory))
+    arDirectory = libstriezel::filesystem::unslashify(std::string(argv[1]));
+    if (!libstriezel::filesystem::directory::exists(arDirectory))
     {
       std::cout << "Error: Directory " << arDirectory << " does not exist!" << std::endl;
       return 1;
@@ -51,11 +51,11 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  const std::string arFileName = arDirectory + libthoro::filesystem::pathDelimiter + "2vcard_0.5-3_all.deb";
+  const std::string arFileName = arDirectory + libstriezel::filesystem::pathDelimiter + "2vcard_0.5-3_all.deb";
 
   try
   {
-    libthoro::ar::archive arFile(arFileName);
+    libstriezel::ar::archive arFile(arFileName);
 
     //list all entries
     const auto entries = arFile.entries();
@@ -102,6 +102,6 @@ int main(int argc, char** argv)
   } //try-catch
 
   //All OK.
-  std::cout << "Test for libthoro::ar::archive::entries() was successful." << std::endl;
+  std::cout << "Test for libstriezel::ar::archive::entries() was successful." << std::endl;
   return 0;
 }

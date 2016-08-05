@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,15 +18,15 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_ARCHIVE_ARCHIVELIBARCHIVE_HPP
-#define LIBTHORO_ARCHIVE_ARCHIVELIBARCHIVE_HPP
+#ifndef LIBSTRIEZEL_ARCHIVE_ARCHIVELIBARCHIVE_HPP
+#define LIBSTRIEZEL_ARCHIVE_ARCHIVELIBARCHIVE_HPP
 
 #include <string>
 #include <vector>
 #include <archive.h>
 #include "entryLibarchive.hpp"
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace archive
@@ -61,7 +61,7 @@ class archiveLibarchive
      * \return Returns a vector of all entries within the archive.
      * Returns an empty vector, if an error occurred.
      */
-    std::vector<libthoro::archive::entryLibarchive> entries() const;
+    std::vector<libstriezel::archive::entryLibarchive> entries() const;
 
 
     /** \brief checks whether the archive contains a certain file
@@ -106,7 +106,7 @@ class archiveLibarchive
 
 
     struct ::archive * m_archive; /**< archive handle */
-    std::vector<libthoro::archive::entryLibarchive> m_entries; /**< the entries in the archive */
+    std::vector<libstriezel::archive::entryLibarchive> m_entries; /**< the entries in the archive */
     std::string m_fileName; /**< original file name of archive */
 }; //class
 
@@ -114,4 +114,4 @@ class archiveLibarchive
 
 } //namespace
 
-#endif // LIBTHORO_ARCHIVE_ARCHIVELIBARCHIVE_HPP
+#endif // LIBSTRIEZEL_ARCHIVE_ARCHIVELIBARCHIVE_HPP

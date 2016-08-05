@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of a test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of a test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ int main(int argc, char** argv)
   for (i=0; i<20; ++i)
   {
     std::string fileName = "";
-    if (!libthoro::filesystem::file::createTemp(fileName))
+    if (!libstriezel::filesystem::file::createTemp(fileName))
     {
       std::cout << "Error: Could not create temporary file!" << std::endl;
       return 1;
@@ -47,7 +47,7 @@ int main(int argc, char** argv)
     tempFileNames.insert(fileName);
 
     //remove temporary file to keep file system clean
-    if (!libthoro::filesystem::file::remove(fileName))
+    if (!libstriezel::filesystem::file::remove(fileName))
     {
       std::cout << "Error: Could not remove temporary file " << fileName
                 << "!" << std::endl;
@@ -60,7 +60,7 @@ int main(int argc, char** argv)
   for (i=0; i<50; ++i)
   {
     std::string fileName = "";
-    if (!libthoro::filesystem::file::createTemp(fileName))
+    if (!libstriezel::filesystem::file::createTemp(fileName))
     {
       std::cout << "Error: Could not create temporary file!" << std::endl;
       return 1;
@@ -79,7 +79,7 @@ int main(int argc, char** argv)
   //remove temporary files
   for(const auto & fn : tempFileNames)
   {
-    if (!libthoro::filesystem::file::remove(fn))
+    if (!libstriezel::filesystem::file::remove(fn))
     {
       std::cout << "Error: Could not remove temporary file " << fn
                 << "!" << std::endl;

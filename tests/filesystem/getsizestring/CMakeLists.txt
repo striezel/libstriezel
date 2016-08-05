@@ -1,7 +1,7 @@
 # We might support earlier versions, too, but it's only tested with 2.8.9.
 cmake_minimum_required (VERSION 2.8)
 
-# binary for test of libthoro::filesystem::getSizeString()
+# binary for test of libstriezel::filesystem::getSizeString()
 project(test_filesystem_getSizeString)
 
 set(test_filesystem_getSizeString_src

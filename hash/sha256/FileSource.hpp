@@ -1,6 +1,6 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
+    This file is part of the striezel's common code library.
     Copyright (C) 2012 thoronador
 
     This program is free software: you can redistribute it and/or modify
@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_SHA256_FILESOURCE_HPP
-#define LIBTHORO_SHA256_FILESOURCE_HPP
+#ifndef LIBSTRIEZEL_SHA256_FILESOURCE_HPP
+#define LIBSTRIEZEL_SHA256_FILESOURCE_HPP
 
 #include <fstream>
 #include "MessageSource.hpp"
@@ -60,4 +60,4 @@ class FileSource: public MessageSource
 
 } //namespace
 
-#endif // LIBTHORO_SHA256_FILESOURCE_HPP
+#endif // LIBSTRIEZEL_SHA256_FILESOURCE_HPP

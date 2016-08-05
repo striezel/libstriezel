@@ -1,7 +1,7 @@
 # We might support earlier versions, too, but it's only tested with 2.8.9.
 cmake_minimum_required (VERSION 2.8)
 
-# binary for test of libthoro::filesystem::file::getSizeAndModificationTime()
+# binary for test of libstriezel::filesystem::file::getSizeAndModificationTime()
 project(test_filesystem_file_getsizeandmodificationtime)
 
 set(test_filesystem_file_getsizeandmodificationtime_src

@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2015  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2015  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_SHA384_FILESOURCEUTILITY_HPP
-#define LIBTHORO_SHA384_FILESOURCEUTILITY_HPP
+#ifndef LIBSTRIEZEL_SHA384_FILESOURCEUTILITY_HPP
+#define LIBSTRIEZEL_SHA384_FILESOURCEUTILITY_HPP
 
 #include "sha384.hpp"
 
@@ -37,4 +37,4 @@ namespace SHA384
 
 } //namespace
 
-#endif // LIBTHORO_SHA384_FILESOURCEUTILITY_HPP
+#endif // LIBSTRIEZEL_SHA384_FILESOURCEUTILITY_HPP

@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2014, 2015, 2016  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2014, 2015, 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
   #include "../filesystem/file.hpp"
 #endif // Linux
 
-namespace libthoro
+namespace libstriezel
 {
 
 std::string os::detect()
@@ -113,12 +113,12 @@ std::string check_etc_files()
 {
   std::string firstLine = "";
   //ArchLinux
-  if (libthoro::filesystem::file::exists("/etc/arch-release"))
+  if (libstriezel::filesystem::file::exists("/etc/arch-release"))
   {
     return "ArchLinux";
   }
   //CentOS
-  if (libthoro::filesystem::file::exists("/etc/centos-release"))
+  if (libstriezel::filesystem::file::exists("/etc/centos-release"))
   {
     firstLine = getFirstLineInFile("/etc/centos-release");
     if (!firstLine.empty())
@@ -126,7 +126,7 @@ std::string check_etc_files()
     return "CentOS";
   }
   //Debian
-  if (libthoro::filesystem::file::exists("/etc/debian_version"))
+  if (libstriezel::filesystem::file::exists("/etc/debian_version"))
   {
     firstLine = getFirstLineInFile("/etc/debian_version");
     if (!firstLine.empty())
@@ -134,7 +134,7 @@ std::string check_etc_files()
     return "Debian";
   }
   //Fedora
-  if (libthoro::filesystem::file::exists("/etc/fedora-release"))
+  if (libstriezel::filesystem::file::exists("/etc/fedora-release"))
   {
     firstLine = getFirstLineInFile("/etc/fedora-release");
     if (!firstLine.empty())
@@ -142,12 +142,12 @@ std::string check_etc_files()
     return "Fedora";
   }
   //Gentoo
-  if (libthoro::filesystem::file::exists("/etc/gentoo-release"))
+  if (libstriezel::filesystem::file::exists("/etc/gentoo-release"))
   {
     return "Gentoo";
   }
   //RedHat
-  if (libthoro::filesystem::file::exists("/etc/redhat-release"))
+  if (libstriezel::filesystem::file::exists("/etc/redhat-release"))
   {
     firstLine = getFirstLineInFile("/etc/redhat-release");
     if (!firstLine.empty())
@@ -155,12 +155,12 @@ std::string check_etc_files()
     return "RedHat";
   }
   //Slackware
-  if (libthoro::filesystem::file::exists("/etc/slackware-version"))
+  if (libstriezel::filesystem::file::exists("/etc/slackware-version"))
   {
     return "Slackware";
   }
   //SuSE
-  if (libthoro::filesystem::file::exists("/etc/SuSE-release"))
+  if (libstriezel::filesystem::file::exists("/etc/SuSE-release"))
   {
     firstLine = getFirstLineInFile("/etc/SuSE-release");
     if (!firstLine.empty())
@@ -179,7 +179,7 @@ std::string check_etc_files()
   std::vector<std::string>::const_iterator iter = files.begin();
   while (iter != files.end())
   {
-    if (libthoro::filesystem::file::exists(*iter))
+    if (libstriezel::filesystem::file::exists(*iter))
     {
       std::ifstream input;
       input.open(iter->c_str(), std::ios::in | std::ios::binary);
@@ -240,4 +240,4 @@ std::string os::detectLinuxDistro()
 }
 #endif //Linux
 
-} //namespace libthoro
+} //namespace libstriezel

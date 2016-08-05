@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011, 2012, 2014  Thoronador
+    Copyright (C) 2011, 2012, 2014  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_GIFSTRUCTURES_HPP
-#define LIBTHORO_GIFSTRUCTURES_HPP
+#ifndef LIBSTRIEZEL_GIFSTRUCTURES_HPP
+#define LIBSTRIEZEL_GIFSTRUCTURES_HPP
 
 #include <fstream>
 #include <string>
@@ -348,4 +348,4 @@ struct GIF
     std::vector<GIFElementBase*> m_Elements;
 };//struct
 
-#endif // LIBTHORO_GIFSTRUCTURES_HPP
+#endif // LIBSTRIEZEL_GIFSTRUCTURES_HPP

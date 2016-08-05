@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2015  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2015  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #include <fstream>
 #include <cstring>
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace procfs
@@ -56,4 +56,4 @@ int getProcessorCount()
 
 } //namespace procfs
 
-} //namespace libthoro
+} //namespace libstriezel

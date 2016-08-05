@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 #include <stdexcept> //for standard exception classes
 #include "../../filesystem/file.hpp"
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace zip
@@ -154,7 +154,7 @@ bool archive::extractTo(const std::string& destFileName, int64_t index) const
 
   /* Check whether destination file already exists, we do not want to overwrite
      existing files. */
-  if (libthoro::filesystem::file::exists(destFileName))
+  if (libstriezel::filesystem::file::exists(destFileName))
   {
     std::cerr << "zip::archive::extractTo: error: destination file "
               << destFileName << " already exists!" << std::endl;

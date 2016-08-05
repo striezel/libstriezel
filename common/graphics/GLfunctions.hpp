@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_GLFUNCTIONS_HPP
-#define LIBTHORO_GLFUNCTIONS_HPP
+#ifndef LIBSTRIEZEL_GLFUNCTIONS_HPP
+#define LIBSTRIEZEL_GLFUNCTIONS_HPP
 
 #include <GL/gl.h>
 
@@ -45,4 +45,4 @@ inline bool hasNPOTSupport()
 */
 void getNPOTTextureTargets(const NPOTSupportType n, GLenum& tex, GLenum& proxy);
 
-#endif // LIBTHORO_GLFUNCTIONS_HPP
+#endif // LIBSTRIEZEL_GLFUNCTIONS_HPP

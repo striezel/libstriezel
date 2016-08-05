@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of a test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of a test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 
 int main()
 {
-  const std::string os = libthoro::os::detect();
+  const std::string os = libstriezel::os::detect();
   std::cout << "Detected operating system: " << os << std::endl;
   #if defined(_WIN64) || defined(__WIN64__) || defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
   if (os.find("Windows") == std::string::npos)
@@ -45,6 +45,6 @@ int main()
     /* Feel free to extend that code for Mac OS or whatever you are using, and
        don't forget to send a pull request. */
   #endif // defined Windows
-  std::cout << "Test of libthoro::os::detect() was successful."<< std::endl;
+  std::cout << "Test of libstriezel::os::detect() was successful."<< std::endl;
   return 0;
 }

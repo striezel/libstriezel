@@ -1,6 +1,6 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
+    This file is part of the striezel's common code library.
     Copyright (C) 2012 thoronador
 
     This program is free software: you can redistribute it and/or modify
@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_SHA256_FUNCTIONS_HPP
-#define LIBTHORO_SHA256_FUNCTIONS_HPP
+#ifndef LIBSTRIEZEL_SHA256_FUNCTIONS_HPP
+#define LIBSTRIEZEL_SHA256_FUNCTIONS_HPP
 
 #include <stdint.h>
 #include "../sha-1-256_functions.hpp"
@@ -64,4 +64,4 @@ inline uint32_t sigmaOne(const uint32_t x)
 
 }//namespace SHA256
 
-#endif // LIBTHORO_SHA256_FUNCTIONS_HPP
+#endif // LIBSTRIEZEL_SHA256_FUNCTIONS_HPP

@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_GIFELEMENTBASE_HPP
-#define LIBTHORO_GIFELEMENTBASE_HPP
+#ifndef LIBSTRIEZEL_GIFELEMENTBASE_HPP
+#define LIBSTRIEZEL_GIFELEMENTBASE_HPP
 
 struct GIFElementBase
 {
@@ -34,4 +34,4 @@ struct GIFElementBase
     virtual bool isTableBasedImage() const = 0;
 };//struct
 
-#endif // LIBTHORO_GIFELEMENTBASE_HPP
+#endif // LIBSTRIEZEL_GIFELEMENTBASE_HPP

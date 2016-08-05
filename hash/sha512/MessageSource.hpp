@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2012, 2015  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2012, 2015  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_SHA512_MESSAGESOURCE_HPP
-#define LIBTHORO_SHA512_MESSAGESOURCE_HPP
+#ifndef LIBSTRIEZEL_SHA512_MESSAGESOURCE_HPP
+#define LIBSTRIEZEL_SHA512_MESSAGESOURCE_HPP
 
 #include <stdint.h>
 #include <sys/types.h>
@@ -72,4 +72,4 @@ class MessageSource
 
 } //namespace SHA512
 
-#endif // LIBTHORO_SHA512_MESSAGESOURCE_HPP
+#endif // LIBSTRIEZEL_SHA512_MESSAGESOURCE_HPP

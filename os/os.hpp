@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2014, 2015  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2014, 2015  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,12 +18,12 @@
  -------------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_OS_HPP
-#define LIBTHORO_OS_HPP
+#ifndef LIBSTRIEZEL_OS_HPP
+#define LIBSTRIEZEL_OS_HPP
 
 #include <string>
 
-namespace libthoro
+namespace libstriezel
 {
   /// class that handles OS-related stuff
   class os
@@ -48,4 +48,4 @@ namespace libthoro
   }; //class
 } //namespace
 
-#endif // LIBTHORO_OS_HPP
+#endif // LIBSTRIEZEL_OS_HPP

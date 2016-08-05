@@ -1,8 +1,8 @@
-# libthoro
+# libstriezel
 
-This is the libthoro repository.
+This is the libstriezel repository (formerly known as libthoro).
 It contains code that is shared (or potentially shared) between multiple
-projects by thoronador (hence the name). All code is in C++, some classes use
+projects by striezel (hence the name). All code is in C++, some classes use
 low-level C libraries, but encapsulate them. (Let's shove the dirt under the
 carpet, right where it belongs.)
 

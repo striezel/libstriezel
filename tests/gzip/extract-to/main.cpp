@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,8 +33,8 @@ int main(int argc, char** argv)
   std::string gzDirectory = "";
   if (argc>1 && argv[1] != nullptr)
   {
-    gzDirectory = libthoro::filesystem::unslashify(std::string(argv[1]));
-    if (!libthoro::filesystem::directory::exists(gzDirectory))
+    gzDirectory = libstriezel::filesystem::unslashify(std::string(argv[1]));
+    if (!libstriezel::filesystem::directory::exists(gzDirectory))
     {
       std::cout << "Error: Directory " << gzDirectory << " does not exist!" << std::endl;
       return 1;
@@ -46,18 +46,18 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  const std::string gzFileName = gzDirectory + libthoro::filesystem::pathDelimiter + "zlib.tar.gz";
+  const std::string gzFileName = gzDirectory + libstriezel::filesystem::pathDelimiter + "zlib.tar.gz";
 
   try
   {
-    libthoro::gzip::archive gzipFile(gzFileName);
+    libstriezel::gzip::archive gzipFile(gzFileName);
 
     //get list of all entries
     const auto entries = gzipFile.entries();
 
     //try to extract every single entry to a temporary directory
     std::string tempDirName;
-    if (!libthoro::filesystem::directory::createTemp(tempDirName))
+    if (!libstriezel::filesystem::directory::createTemp(tempDirName))
     {
       std::cout << "Error: Could not create temporary directory for extraction!" << std::endl;
       return 1;
@@ -68,7 +68,7 @@ int main(int argc, char** argv)
     int dotCount = 0;
     for (const auto& e : entries)
     {
-      const std::string destFile = libthoro::filesystem::slashify(tempDirName) + e.basename();
+      const std::string destFile = libstriezel::filesystem::slashify(tempDirName) + e.basename();
       std::cout << ".";
       ++dotCount;
       if ((dotCount % 60) == 0)
@@ -80,20 +80,20 @@ int main(int argc, char** argv)
         {
           std::cout << "Error: Could not extract file " << e.name()
                     << " from gzip file!" << std::endl;
-          libthoro::filesystem::directory::remove(tempDirName);
+          libstriezel::filesystem::directory::remove(tempDirName);
           return 1;
         }
         //check size
-        if (libthoro::filesystem::file::getSize64(destFile) != e.size())
+        if (libstriezel::filesystem::file::getSize64(destFile) != e.size())
         {
           std::cout << "Error: File size of extracted file " << e.name()
                     << " does not match its size specified in the archive!" << std::endl;
-          libthoro::filesystem::file::remove(destFile);
-          libthoro::filesystem::directory::remove(tempDirName);
+          libstriezel::filesystem::file::remove(destFile);
+          libstriezel::filesystem::directory::remove(tempDirName);
           return 1;
         }
         //delete file
-        libthoro::filesystem::file::remove(destFile);
+        libstriezel::filesystem::file::remove(destFile);
       } //if entry is not a directory
     }
     std::cout << std::endl;
@@ -104,17 +104,17 @@ int main(int argc, char** argv)
        || (e0.isDirectory()))
     {
       std::cout << "Error: First entry does not match expected values!" << std::endl;
-      libthoro::filesystem::directory::remove(tempDirName);
+      libstriezel::filesystem::directory::remove(tempDirName);
       return 1;
     }
 
-    const std::string destFile = libthoro::filesystem::slashify(tempDirName) + e0.basename();
+    const std::string destFile = libstriezel::filesystem::slashify(tempDirName) + e0.basename();
     //check file in detail
     if (!gzipFile.extractTo(destFile))
     {
       std::cout << "Error: Could not extract file " << e0.name() << " from gzip archive!"
                 << std::endl;
-      libthoro::filesystem::directory::remove(tempDirName);
+      libstriezel::filesystem::directory::remove(tempDirName);
       return 1;
     }
 
@@ -122,9 +122,9 @@ int main(int argc, char** argv)
     const std::string mdExpected = "8f9046a4b67c9cf5bc708077ade99d947114b34a4c57d0fdab396589f71c6b2e";
     const SHA256::MessageDigest md = SHA256::computeFromFile(destFile);
     //delete file
-    libthoro::filesystem::file::remove(destFile);
+    libstriezel::filesystem::file::remove(destFile);
     //delete temporary directory
-    libthoro::filesystem::directory::remove(tempDirName);
+    libstriezel::filesystem::directory::remove(tempDirName);
     //compare hashes
     if (mdExpected != md.toHexString())
     {
@@ -142,6 +142,6 @@ int main(int argc, char** argv)
   } //try-catch
 
   //Everything is OK.
-  std::cout << "Test for libthoro::gzip::archive::extractTo() was successful." << std::endl;
+  std::cout << "Test for libstriezel::gzip::archive::extractTo() was successful." << std::endl;
   return 0;
 }

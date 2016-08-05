@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_GIFEXTENSIONS_HPP
-#define LIBTHORO_GIFEXTENSIONS_HPP
+#ifndef LIBSTRIEZEL_GIFEXTENSIONS_HPP
+#define LIBSTRIEZEL_GIFEXTENSIONS_HPP
 
 #include <fstream>
 #include <vector>
@@ -193,4 +193,4 @@ struct GIFApplicationExtension: public GIFExtensionBase
     std::vector<GIFDataSubBlock> m_ApplicationData;
 };//struct
 
-#endif // LIBTHORO_GIFEXTENSIONS_HPP
+#endif // LIBSTRIEZEL_GIFEXTENSIONS_HPP

@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_READJPEG_HPP
-#define LIBTHORO_READJPEG_HPP
+#ifndef LIBSTRIEZEL_READJPEG_HPP
+#define LIBSTRIEZEL_READJPEG_HPP
 
 #include <string>
 
@@ -42,4 +42,4 @@ GLImageStructure readJPEG(const std::string& FileName);
 */
 bool isJPEG(const unsigned char* header, const size_t length);
 
-#endif // LIBTHORO_READJPEG_HPP
+#endif // LIBSTRIEZEL_READJPEG_HPP

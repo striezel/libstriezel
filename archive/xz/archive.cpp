@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 #include <stdexcept>
 #include "../../filesystem/file.hpp"
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace xz
@@ -40,7 +40,7 @@ archive::archive(const std::string& fileName)
   {
     archive_read_free(m_archive);
     m_archive = nullptr;
-    throw std::runtime_error("libthoro::xz::archive: Failed to open file " + fileName + "!");
+    throw std::runtime_error("libstriezel::xz::archive: Failed to open file " + fileName + "!");
   }
   //fill entries
   fillEntries();
@@ -51,7 +51,7 @@ archive::~archive()
 {
   int ret = archive_read_free(m_archive);
   if (ret != ARCHIVE_OK)
-    throw std::runtime_error("libthoro::xz::archive: Could not close/free archive!");
+    throw std::runtime_error("libstriezel::xz::archive: Could not close/free archive!");
   m_archive = nullptr;
 }
 
@@ -63,7 +63,7 @@ void archive::postprocessEntry(const std::string& fileName)
       m_entries[0].setSize(-1);
     if (m_entries[0].name() == "data")
     {
-      libthoro::archive::entryLibarchive oneEntry(m_entries[0]);
+      libstriezel::archive::entryLibarchive oneEntry(m_entries[0]);
       oneEntry.setName(fileName);
       const std::string n = oneEntry.basename();
       const std::string::size_type len = n.size();
@@ -83,14 +83,14 @@ void archive::applyFormats()
   {
     archive_read_free(m_archive);
     m_archive = nullptr;
-    throw std::runtime_error("libthoro::xz::archive::applyFormats(): Format not supported!");
+    throw std::runtime_error("libstriezel::xz::archive::applyFormats(): Format not supported!");
   }
   ret = archive_read_support_compression_xz(m_archive);
   if (ret != ARCHIVE_OK)
   {
     archive_read_free(m_archive);
     m_archive = nullptr;
-    throw std::runtime_error("libthoro::xz::archive::applyFormats(): Format xz not supported!");
+    throw std::runtime_error("libstriezel::xz::archive::applyFormats(): Format xz not supported!");
   }
 }
 

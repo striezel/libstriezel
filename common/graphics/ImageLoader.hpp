@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_IMAGELOADER_HPP
-#define LIBTHORO_IMAGELOADER_HPP
+#ifndef LIBSTRIEZEL_IMAGELOADER_HPP
+#define LIBSTRIEZEL_IMAGELOADER_HPP
 
 #include <string>
 #include "GLImageStructure.hpp"
@@ -66,4 +66,4 @@ GLImageStructure readImage(const std::string& FileName, ImageType type_hint);
 
 }//namespace
 
-#endif // LIBTHORO_IMAGELOADER_HPP
+#endif // LIBSTRIEZEL_IMAGELOADER_HPP

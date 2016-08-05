@@ -1,7 +1,7 @@
 # We might support earlier versions, too, but it's only tested with 2.8.9.
 cmake_minimum_required (VERSION 2.8)
 
-# binary for test of libthoro::os::detect()
+# binary for test of libstriezel::os::detect()
 project(test_os_detect)
 
 set(test_os_detect_src

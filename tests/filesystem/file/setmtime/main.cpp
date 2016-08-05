@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of a test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of a test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include <vector>
 #include "../../../../filesystem/file.hpp"
 
-// test for libthoro::filesystem::file::setModificationTime()
+// test for libstriezel::filesystem::file::setModificationTime()
 
 const std::vector<std::chrono::seconds> testDifferences =
         {
@@ -49,7 +49,7 @@ int main()
 {
   //create temp file for tests
   std::string fileName = "";
-  if (!libthoro::filesystem::file::createTemp(fileName))
+  if (!libstriezel::filesystem::file::createTemp(fileName))
   {
     std::cout << "Error: Could not create temporary file!"   << std::endl;
     return 1;
@@ -60,10 +60,10 @@ int main()
   int64_t dummySize = -2;
   std::time_t mTime = -2;
   //get modification time
-  if (!libthoro::filesystem::file::getSizeAndModificationTime(fileName, dummySize, mTime))
+  if (!libstriezel::filesystem::file::getSizeAndModificationTime(fileName, dummySize, mTime))
   {
     std::cout << "Error: Could not get size and modification time of temporary file!" << std::endl;
-    libthoro::filesystem::file::remove(fileName);
+    libstriezel::filesystem::file::remove(fileName);
     return 1;
   }
   //check modification time
@@ -74,7 +74,7 @@ int main()
               << ", but getSizeAndModificationTime() returns "
               << std::asctime(std::localtime(&mTime)) << " instead!"
               << std::endl;
-    libthoro::filesystem::file::remove(fileName);
+    libstriezel::filesystem::file::remove(fileName);
     return 1;
   }
 
@@ -87,18 +87,18 @@ int main()
     const std::time_t newModTime = std::chrono::system_clock::to_time_t(currentTimePoint + duration);
 
     //set new mtime
-    if (!libthoro::filesystem::file::setModificationTime(fileName, newModTime))
+    if (!libstriezel::filesystem::file::setModificationTime(fileName, newModTime))
     {
       std::cout << "Error: Could not set new modification time of temporary file!" << std::endl;
-      libthoro::filesystem::file::remove(fileName);
+      libstriezel::filesystem::file::remove(fileName);
       return 1;
     }
 
     //get new mtime
-    if (!libthoro::filesystem::file::getSizeAndModificationTime(fileName, dummySize, mTime))
+    if (!libstriezel::filesystem::file::getSizeAndModificationTime(fileName, dummySize, mTime))
     {
       std::cout << "Error: Could not get modification time of temporary file!" << std::endl;
-      libthoro::filesystem::file::remove(fileName);
+      libstriezel::filesystem::file::remove(fileName);
       return 1;
     }
 
@@ -110,7 +110,7 @@ int main()
                 << ", but getSizeAndModificationTime() returns "
                 << std::asctime(std::localtime(&mTime)) << " instead!"
                 << std::endl;
-      libthoro::filesystem::file::remove(fileName);
+      libstriezel::filesystem::file::remove(fileName);
       return 1;
     }
 
@@ -123,13 +123,13 @@ int main()
                 << "However, the current difference is "
                 << std::chrono::duration_cast<std::chrono::seconds>(currentTimePoint-modTimePoint).count()
                 << " seconds." << std::endl;
-      libthoro::filesystem::file::remove(fileName);
+      libstriezel::filesystem::file::remove(fileName);
       return 1;
     }
   } //for
 
   //delete file
-  libthoro::filesystem::file::remove(fileName);
+  libstriezel::filesystem::file::remove(fileName);
 
   //Everything is OK.
   std::cout << "Test for file::setModificationTime() passed!" << std::endl;

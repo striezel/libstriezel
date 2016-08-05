@@ -1,7 +1,7 @@
 # We might support earlier versions, too, but it's only tested with 2.8.9.
 cmake_minimum_required (VERSION 2.8)
 
-# binary for test of libthoro::procfs::getProcessorCount()
+# binary for test of libstriezel::procfs::getProcessorCount()
 project(test_procfs_getprocessorcount)
 
 set(test_procfs_getprocessorcount_src

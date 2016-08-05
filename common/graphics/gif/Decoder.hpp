@@ -18,12 +18,12 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_GIF_DECODER_HPP
-#define LIBTHORO_GIF_DECODER_HPP
+#ifndef LIBSTRIEZEL_GIF_DECODER_HPP
+#define LIBSTRIEZEL_GIF_DECODER_HPP
 
 #include "GIFStructures.hpp"
 
 bool decode(const GIFColourTable& colourTable, const GIFTableBasedImage& image);
 
 
-#endif // LIBTHORO_GIF_DECODER_HPP
+#endif // LIBSTRIEZEL_GIF_DECODER_HPP

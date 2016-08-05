@@ -1,6 +1,6 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
+    This file is part of the striezel's common code library.
     Copyright (C) 2012, 2014  thoronador
 
     This program is free software: you can redistribute it and/or modify
@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_SHA_1_256_COMMON_HPP
-#define LIBTHORO_SHA_1_256_COMMON_HPP
+#ifndef LIBSTRIEZEL_SHA_1_256_COMMON_HPP
+#define LIBSTRIEZEL_SHA_1_256_COMMON_HPP
 
 #include <stdexcept>
 #include <stdint.h>
@@ -67,4 +67,4 @@ inline uint32_t Parity(const uint32_t x, const uint32_t y, const uint32_t z)
 
 } //namespace SHA1_256
 
-#endif // LIBTHORO_SHA_1_256_COMMON_HPP
+#endif // LIBSTRIEZEL_SHA_1_256_COMMON_HPP

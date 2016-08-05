@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,14 +26,14 @@
 #include <archive_entry.h>
 #include "../../filesystem/file.hpp"
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace tar
 {
 
 archive::archive(const std::string& fileName)
-: libthoro::archive::archiveLibarchive(fileName)
+: libstriezel::archive::archiveLibarchive(fileName)
 {
   applyFormats();
   int ret = archive_read_open_filename(m_archive, fileName.c_str(), 4096);
@@ -41,7 +41,7 @@ archive::archive(const std::string& fileName)
   {
     archive_read_free(m_archive);
     m_archive = nullptr;
-    throw std::runtime_error("libthoro::tar::archive: Failed to open file " + fileName + "!");
+    throw std::runtime_error("libstriezel::tar::archive: Failed to open file " + fileName + "!");
   }
   //fill entries
   fillEntries();
@@ -51,7 +51,7 @@ archive::~archive()
 {
   int ret = archive_read_free(m_archive);
   if (ret != ARCHIVE_OK)
-    throw std::runtime_error("libthoro::tar::archive: Could not close/free archive!");
+    throw std::runtime_error("libstriezel::tar::archive: Could not close/free archive!");
   m_archive = nullptr;
 }
 
@@ -62,14 +62,14 @@ void archive::applyFormats()
   {
     archive_read_free(m_archive);
     m_archive = nullptr;
-    throw std::runtime_error("libthoro::tar::archive::applyFormats(): Format not supported!");
+    throw std::runtime_error("libstriezel::tar::archive::applyFormats(): Format not supported!");
   }
   r2 = archive_read_support_format_gnutar(m_archive);
   if (r2 != ARCHIVE_OK)
   {
     archive_read_free(m_archive);
     m_archive = nullptr;
-    throw std::runtime_error("libthoro::tar::archive::applyFormats(): Format not supported!");
+    throw std::runtime_error("libstriezel::tar::archive::applyFormats(): Format not supported!");
   }
 }
 

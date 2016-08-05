@@ -1,12 +1,12 @@
 # We might support earlier versions, too, but it's only tested with 2.8.9.
 cmake_minimum_required(VERSION 2.8)
 
-# Recurse into subdirectory for test of libthoro::zip::archive::entries()
-# and libthoro::zip::archive::numEntries().
+# Recurse into subdirectory for test of libstriezel::zip::archive::entries()
+# and libstriezel::zip::archive::numEntries().
 add_subdirectory (entries)
 
-# Recurse into subdirectory for test of libthoro::zip::archive::extractTo().
+# Recurse into subdirectory for test of libstriezel::zip::archive::extractTo().
 add_subdirectory (extract-to)
 
-# Recurse into subdirectory for test of libthoro::zip::archive::isZip().
+# Recurse into subdirectory for test of libstriezel::zip::archive::isZip().
 add_subdirectory (is-zip)

@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include "../../../filesystem/file.hpp"
 #include "../../../archive/zip/archive.hpp"
 
-void showEntry(const libthoro::zip::entry& e)
+void showEntry(const libstriezel::zip::entry& e)
 {
   std::cout << "idx.: " << e.index() << ", name: " << e.name() << std::endl
             << "    size: " << e.size() << " byte(s), directory: "
@@ -38,8 +38,8 @@ int main(int argc, char** argv)
   std::string zipDirectory = "";
   if (argc>1 && argv[1] != nullptr)
   {
-    zipDirectory = libthoro::filesystem::unslashify(std::string(argv[1]));
-    if (!libthoro::filesystem::directory::exists(zipDirectory))
+    zipDirectory = libstriezel::filesystem::unslashify(std::string(argv[1]));
+    if (!libstriezel::filesystem::directory::exists(zipDirectory))
     {
       std::cout << "Error: Directory " << zipDirectory << " does not exist!" << std::endl;
       return 1;
@@ -51,11 +51,11 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  const std::string zipFileName = zipDirectory + libthoro::filesystem::pathDelimiter + "zlib.zip";
+  const std::string zipFileName = zipDirectory + libstriezel::filesystem::pathDelimiter + "zlib.zip";
 
   try
   {
-    libthoro::zip::archive zipFile(zipFileName);
+    libstriezel::zip::archive zipFile(zipFileName);
 
     //check number of entries via zip::numEntries()
     const int64_t entryCountExpected = 274;
@@ -112,6 +112,6 @@ int main(int argc, char** argv)
   } //try-catch
 
   //All OK.
-  std::cout << "Test for libthoro::zip::archive::entries() was successful." << std::endl;
+  std::cout << "Test for libstriezel::zip::archive::entries() was successful." << std::endl;
   return 0;
 }

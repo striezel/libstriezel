@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the Private Message Database.
-    Copyright (C) 2015  Thoronador
+    Copyright (C) 2015  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 #include <iostream>
 #include <libxml/encoding.h>
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace encoding
@@ -65,4 +65,4 @@ bool libxml2::UTF8_to_ISO_8859_1(const std::string& strUTF8, std::string& strISO
 
 } //namespace encoding
 
-} //namespace libthoro
+} //namespace libstriezel

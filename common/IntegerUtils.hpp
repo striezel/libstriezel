@@ -18,10 +18,10 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_INTEGERUTILS_HPP
-#define LIBTHORO_INTEGERUTILS_HPP
+#ifndef LIBSTRIEZEL_INTEGERUTILS_HPP
+#define LIBSTRIEZEL_INTEGERUTILS_HPP
 
 /* returns true, if i is a power of two */
 bool isPowerOfTwo(const unsigned int i);
 
-#endif // LIBTHORO_INTEGERUTILS_HPP
+#endif // LIBSTRIEZEL_INTEGERUTILS_HPP

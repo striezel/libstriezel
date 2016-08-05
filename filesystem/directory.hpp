@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2011, 2012, 2015, 2016  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2011, 2012, 2015, 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,12 +18,12 @@
  -------------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_DIRECTORY_HPP
-#define LIBTHORO_DIRECTORY_HPP
+#ifndef LIBSTRIEZEL_DIRECTORY_HPP
+#define LIBSTRIEZEL_DIRECTORY_HPP
 
 #include <string>
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace filesystem
@@ -122,6 +122,6 @@ std::string unslashify(const std::string& path);
 
 } //namespace filesystem
 
-} //namespace libthoro
+} //namespace libstriezel
 
-#endif // LIBTHORO_DIRECTORY_HPP
+#endif // LIBSTRIEZEL_DIRECTORY_HPP

@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_READPPM_HPP
-#define LIBTHORO_READPPM_HPP
+#ifndef LIBSTRIEZEL_READPPM_HPP
+#define LIBSTRIEZEL_READPPM_HPP
 
 #include <string>
 
@@ -42,4 +42,4 @@ GLImageStructure readPPM(const std::string& FileName);
 */
 bool isPPM(const unsigned char* header, const size_t length);
 
-#endif // LIBTHORO_READPPM_HPP
+#endif // LIBSTRIEZEL_READPPM_HPP

@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of a test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of a test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 
 int main()
 {
-  const auto procCount = libthoro::procfs::getProcessorCount();
+  const auto procCount = libstriezel::procfs::getProcessorCount();
   if (procCount > 0)
   {
     std::cout << "Machine has " << procCount << " processor(s)." << std::endl

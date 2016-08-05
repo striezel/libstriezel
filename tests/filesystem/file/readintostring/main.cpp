@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of a test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of a test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,13 +32,13 @@ int main(int argc, char** argv)
   }
 
   //base directory where all the files are located
-  const std::string baseDir = libthoro::filesystem::slashify(std::string(argv[1]));
+  const std::string baseDir = libstriezel::filesystem::slashify(std::string(argv[1]));
 
   //var to save file content
   std::string content = "This is not the content you are looking for.";
 
   //file_zero_bytes.dat: file with size of zero bytes
-  if (!libthoro::filesystem::file::readIntoString(baseDir+"file_zero_bytes.dat", content))
+  if (!libstriezel::filesystem::file::readIntoString(baseDir+"file_zero_bytes.dat", content))
   {
     std::cout << "Error: Could not read data from file file_zero_bytes.dat!" << std::endl;
     return 1;
@@ -52,7 +52,7 @@ int main(int argc, char** argv)
 
   //file_16_nul_bytes.dat: 16 NUL bytes
   content = "This is not the content you are looking for."; //reset content
-  if (!libthoro::filesystem::file::readIntoString(baseDir+"file_16_nul_bytes.dat", content))
+  if (!libstriezel::filesystem::file::readIntoString(baseDir+"file_16_nul_bytes.dat", content))
   {
     std::cout << "Error: Could not read data from file file_16_nul_bytes.dat!" << std::endl;
     return 1;
@@ -67,7 +67,7 @@ int main(int argc, char** argv)
 
   //file_256x2.dat: two times all bytes from 0 to 255
   content = "This is not the content you are looking for."; //reset content
-  if (!libthoro::filesystem::file::readIntoString(baseDir+"file_256x2.dat", content))
+  if (!libstriezel::filesystem::file::readIntoString(baseDir+"file_256x2.dat", content))
   {
     std::cout << "Error: Could not read data from file file_256x2.dat!" << std::endl;
     return 1;

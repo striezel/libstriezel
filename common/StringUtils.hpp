@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011, 2012, 2015  Thoronador
+    Copyright (C) 2011, 2012, 2015  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_STRINGUTILS_HPP
-#define LIBTHORO_STRINGUTILS_HPP
+#ifndef LIBSTRIEZEL_STRINGUTILS_HPP
+#define LIBSTRIEZEL_STRINGUTILS_HPP
 
 #include <string>
 
@@ -123,4 +123,4 @@ std::string floatToString(const float f);
 */
 std::string::size_type find_ci(const std::string& haystack, const std::string& needle, std::string::size_type pos = 0);
 
-#endif // LIBTHORO_STRINGUTILS_HPP
+#endif // LIBSTRIEZEL_STRINGUTILS_HPP

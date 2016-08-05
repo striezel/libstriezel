@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011, 2015  Thoronador
+    Copyright (C) 2011, 2015  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_DIRECTORYFILELIST_HPP
-#define LIBTHORO_DIRECTORYFILELIST_HPP
+#ifndef LIBSTRIEZEL_DIRECTORYFILELIST_HPP
+#define LIBSTRIEZEL_DIRECTORYFILELIST_HPP
 
 #include <string>
 #include <vector>
@@ -55,4 +55,4 @@ struct FileEntry {
 */
 bool getDirectoryFileList(const std::string& Directory, std::vector<FileEntry>& result, const std::string& Prefix, const bool recursive);
 
-#endif // LIBTHORO_DIRECTORYFILELIST_HPP
+#endif // LIBSTRIEZEL_DIRECTORYFILELIST_HPP

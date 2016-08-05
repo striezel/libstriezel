@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,14 +18,14 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_ARCHIVE_ISO9660_ARCHIVE_HPP
-#define LIBTHORO_ARCHIVE_ISO9660_ARCHIVE_HPP
+#ifndef LIBSTRIEZEL_ARCHIVE_ISO9660_ARCHIVE_HPP
+#define LIBSTRIEZEL_ARCHIVE_ISO9660_ARCHIVE_HPP
 
 #include <string>
 #include <vector>
 #include "../archiveLibarchive.hpp"
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace archive
@@ -36,7 +36,7 @@ namespace iso9660
 
 /** \brief class for handling Ar archives
  */
-class archive: public libthoro::archive::archiveLibarchive
+class archive: public libstriezel::archive::archiveLibarchive
 {
   public:
      /** \brief constructor - opens an ar archive in read-only mode
@@ -79,4 +79,4 @@ class archive: public libthoro::archive::archiveLibarchive
 
 } //namespace
 
-#endif // LIBTHORO_ARCHIVE_ISO9660_ARCHIVE_HPP
+#endif // LIBSTRIEZEL_ARCHIVE_ISO9660_ARCHIVE_HPP

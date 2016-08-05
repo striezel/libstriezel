@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  -----------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_ZIP_ENTRY_HPP
-#define LIBTHORO_ZIP_ENTRY_HPP
+#ifndef LIBSTRIEZEL_ZIP_ENTRY_HPP
+#define LIBSTRIEZEL_ZIP_ENTRY_HPP
 
 #include <cstdint>
 #include <ctime>
@@ -27,7 +27,7 @@
 #include <zip.h>
 #include "../entry.hpp"
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace zip
@@ -108,4 +108,4 @@ class entry: public archive::entry
 
 } //namespace
 
-#endif // LIBTHORO_ZIP_ENTRY_HPP
+#endif // LIBSTRIEZEL_ZIP_ENTRY_HPP

@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include <stdexcept>
 #include "../filesystem/file.hpp"
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace archive
@@ -32,13 +32,13 @@ namespace archive
 
 archiveLibarchive::archiveLibarchive(const std::string& fileName)
 : m_archive(nullptr),
-  m_entries(std::vector<libthoro::archive::entryLibarchive>()),
+  m_entries(std::vector<libstriezel::archive::entryLibarchive>()),
   m_fileName(fileName)
 {
   //allocate new archive for reading
   m_archive = archive_read_new();
   if (nullptr == m_archive)
-    throw std::runtime_error("libthoro::archive::archiveLibarchive: Could not allocate archive structure!");
+    throw std::runtime_error("libstriezel::archive::archiveLibarchive: Could not allocate archive structure!");
 }
 
 archiveLibarchive::~archiveLibarchive()
@@ -47,7 +47,7 @@ archiveLibarchive::~archiveLibarchive()
   {
     int ret = archive_read_free(m_archive);
     if (ret != ARCHIVE_OK)
-      throw std::runtime_error("libthoro::archive::archiveLibarchive: Could not close/free archive!");
+      throw std::runtime_error("libstriezel::archive::archiveLibarchive: Could not close/free archive!");
     m_archive = nullptr;
   }
 }
@@ -78,7 +78,7 @@ void archiveLibarchive::fillEntries()
            {
              archive_read_free(m_archive);
              m_archive = nullptr;
-             throw std::runtime_error("libthoro::archive::archiveLibarchive::fillEntries(): "
+             throw std::runtime_error("libstriezel::archive::archiveLibarchive::fillEntries(): "
                      + std::string("Too many retries!"));
            }
            break;
@@ -86,14 +86,14 @@ void archiveLibarchive::fillEntries()
            //fatal error
            archive_read_free(m_archive);
            m_archive = nullptr;
-           throw std::runtime_error("libthoro::archive::archiveLibarchive::fillEntries(): "
+           throw std::runtime_error("libstriezel::archive::archiveLibarchive::fillEntries(): "
                    + std::string("Fatal error while getting archive entries!"));
            break;
       default:
            //unknown error
            archive_read_free(m_archive);
            m_archive = nullptr;
-           throw std::runtime_error("libthoro::archive::archiveLibarchive::fillEntries(): "
+           throw std::runtime_error("libstriezel::archive::archiveLibarchive::fillEntries(): "
                    + std::string("Unknown error while getting archive entries!"));
            break;
     } //swi
@@ -109,18 +109,18 @@ void archiveLibarchive::reopen()
   m_archive = nullptr;
   m_archive = archive_read_new();
   if (nullptr == m_archive)
-    throw std::runtime_error("libthoro::archive::archiveLibarchive::reopen(): Could not allocate archive structure!");
+    throw std::runtime_error("libstriezel::archive::archiveLibarchive::reopen(): Could not allocate archive structure!");
   applyFormats();
   int r2 = archive_read_open_filename(m_archive, m_fileName.c_str(), 4096);
   if (r2 != ARCHIVE_OK)
   {
     archive_read_free(m_archive);
     m_archive = nullptr;
-    throw std::runtime_error("libthoro::archive::archiveLibarchive::reopen(): Failed to re-open file " + m_fileName + "!");
+    throw std::runtime_error("libstriezel::archive::archiveLibarchive::reopen(): Failed to re-open file " + m_fileName + "!");
   }
 }
 
-std::vector<libthoro::archive::entryLibarchive> archiveLibarchive::entries() const
+std::vector<libstriezel::archive::entryLibarchive> archiveLibarchive::entries() const
 {
   return m_entries;
 }
@@ -145,7 +145,7 @@ bool archiveLibarchive::extractTo(const std::string& destFileName, const std::st
 
   /* Check whether destination file already exists, we do not want to overwrite
      existing files. */
-  if (libthoro::filesystem::file::exists(destFileName))
+  if (libstriezel::filesystem::file::exists(destFileName))
   {
     std::cerr << "archive::archiveLibarchive::extractTo: error: destination file "
               << destFileName << " already exists!" << std::endl;
@@ -252,7 +252,7 @@ bool archiveLibarchive::extractDataTo(const std::string& destFileName)
 {
   /* Check whether destination file already exists, we do not want to overwrite
      existing files. */
-  if (libthoro::filesystem::file::exists(destFileName))
+  if (libstriezel::filesystem::file::exists(destFileName))
   {
     std::cerr << "archive::archiveLibarchive::extractDataTo: error: destination file "
               << destFileName << " already exists!" << std::endl;

@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of the test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include "../../../filesystem/file.hpp"
 #include "../../../archive/gzip/archive.hpp"
 
-void showEntry(const libthoro::gzip::entry& e)
+void showEntry(const libstriezel::gzip::entry& e)
 {
   std::cout << "name: " << e.name() << std::endl
             << "    size: " << e.size() << " byte(s), directory: "
@@ -38,8 +38,8 @@ int main(int argc, char** argv)
   std::string gzDirectory = "";
   if (argc>1 && argv[1] != nullptr)
   {
-    gzDirectory = libthoro::filesystem::unslashify(std::string(argv[1]));
-    if (!libthoro::filesystem::directory::exists(gzDirectory))
+    gzDirectory = libstriezel::filesystem::unslashify(std::string(argv[1]));
+    if (!libstriezel::filesystem::directory::exists(gzDirectory))
     {
       std::cout << "Error: Directory " << gzDirectory << " does not exist!" << std::endl;
       return 1;
@@ -51,11 +51,11 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  const std::string gzFileName = gzDirectory + libthoro::filesystem::pathDelimiter + "zlib.tar.gz";
+  const std::string gzFileName = gzDirectory + libstriezel::filesystem::pathDelimiter + "zlib.tar.gz";
 
   try
   {
-    libthoro::gzip::archive gzipFile(gzFileName);
+    libstriezel::gzip::archive gzipFile(gzFileName);
 
     //list all entries
     const auto entries = gzipFile.entries();
@@ -92,6 +92,6 @@ int main(int argc, char** argv)
   } //try-catch
 
   //All OK.
-  std::cout << "Test for libthoro::gzip::archive::entries() was successful." << std::endl;
+  std::cout << "Test for libstriezel::gzip::archive::entries() was successful." << std::endl;
   return 0;
 }

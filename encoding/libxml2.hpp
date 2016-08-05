@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the Private Message Database.
-    Copyright (C) 2015  Thoronador
+    Copyright (C) 2015  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,12 +18,12 @@
  -------------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_ENCODING_LIBXML2_HPP
-#define LIBTHORO_ENCODING_LIBXML2_HPP
+#ifndef LIBSTRIEZEL_ENCODING_LIBXML2_HPP
+#define LIBSTRIEZEL_ENCODING_LIBXML2_HPP
 
 #include <string>
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace encoding
@@ -51,6 +51,6 @@ class libxml2
 
 } //namespace encoding
 
-} //namesoace libthoro
+} //namesoace libstriezel
 
-#endif // LIBTHORO_ENCODING_LIBXML2_HPP
+#endif // LIBSTRIEZEL_ENCODING_LIBXML2_HPP

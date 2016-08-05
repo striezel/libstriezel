@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of a test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of a test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ int main()
 {
   //create temp file for tests
   std::string fileName = "";
-  if (!libthoro::filesystem::file::createTemp(fileName))
+  if (!libstriezel::filesystem::file::createTemp(fileName))
   {
     std::cout << "Error: Could not create temporary file!"   << std::endl;
     return 1;
@@ -68,24 +68,24 @@ int main()
     {
       std::cout << "Error: Could not write data to temporary file!" << std::endl;
       stream.close();
-      libthoro::filesystem::file::remove(fileName);
+      libstriezel::filesystem::file::remove(fileName);
       return 1;
     }
     stream.close();
 
     //check file size
-    const auto s = libthoro::filesystem::file::getSize64(fileName);
+    const auto s = libstriezel::filesystem::file::getSize64(fileName);
     if (s != item)
     {
       std::cout << "Error: File size of " << fileName << " should be " << item
                 << " bytes, but getSize64() returns " << s << " instead!" << std::endl;
-      libthoro::filesystem::file::remove(fileName);
+      libstriezel::filesystem::file::remove(fileName);
       return 1;
     }
   } //for
 
   //delete file
-  libthoro::filesystem::file::remove(fileName);
+  libstriezel::filesystem::file::remove(fileName);
   //Everything is OK.
   std::cout << "Test for file::getSize64() passed!" << std::endl;
   return 0;

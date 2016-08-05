@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of a test suite for Thoronador's common code library.
-    Copyright (C) 2016  Thoronador
+    This file is part of a test suite for striezel's common code library.
+    Copyright (C) 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ int main(int argc, char** argv)
   for (i=0; i<20; ++i)
   {
     std::string dirName = "";
-    if (!libthoro::filesystem::directory::createTemp(dirName))
+    if (!libstriezel::filesystem::directory::createTemp(dirName))
     {
       std::cout << "Error: Could not create temporary directory!" << std::endl;
       return 1;
@@ -47,7 +47,7 @@ int main(int argc, char** argv)
     tempDirNames.insert(dirName);
 
     //remove temporary directory to keep file system clean
-    if (!libthoro::filesystem::directory::remove(dirName))
+    if (!libstriezel::filesystem::directory::remove(dirName))
     {
       std::cout << "Error: Could not remove temporary directory " << dirName
                 << "!" << std::endl;
@@ -60,7 +60,7 @@ int main(int argc, char** argv)
   for (i=0; i<50; ++i)
   {
     std::string dirName = "";
-    if (!libthoro::filesystem::directory::createTemp(dirName))
+    if (!libstriezel::filesystem::directory::createTemp(dirName))
     {
       std::cout << "Error: Could not create temporary directory!" << std::endl;
       return 1;
@@ -79,7 +79,7 @@ int main(int argc, char** argv)
   //remove temporary directories
   for(const auto & dn : tempDirNames)
   {
-    if (!libthoro::filesystem::directory::remove(dn))
+    if (!libstriezel::filesystem::directory::remove(dn))
     {
       std::cout << "Error: Could not remove temporary directory " << dn
                 << "!" << std::endl;

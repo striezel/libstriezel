@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
-    This file is part of Thoronador's common code library.
-    Copyright (C) 2011, 2015, 2016  Thoronador
+    This file is part of striezel's common code library.
+    Copyright (C) 2011, 2015, 2016  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,14 +18,14 @@
  -------------------------------------------------------------------------------
 */
 
-#ifndef LIBTHORO_FILE_HPP
-#define LIBTHORO_FILE_HPP
+#ifndef LIBSTRIEZEL_FILE_HPP
+#define LIBSTRIEZEL_FILE_HPP
 
 #include <string>
 #include <cstdint>
 #include <vector>
 
-namespace libthoro
+namespace libstriezel
 {
 
 namespace filesystem
@@ -154,6 +154,6 @@ void splitPathFileExtension(const std::string& fileName, const char pathSeparato
 
 } //namespace filesystem
 
-} //namespace libthoro
+} //namespace libstriezel
 
-#endif // LIBTHORO_FILE_HPP
+#endif // LIBSTRIEZEL_FILE_HPP
