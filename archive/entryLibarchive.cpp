@@ -36,8 +36,12 @@ entryLibarchive::entryLibarchive(struct archive_entry * ent)
   const struct stat * statbuf = archive_entry_stat(ent);
   //size
   setSize(statbuf->st_size);
+  //check some file types
+  const auto type = archive_entry_filetype(ent);
   // directory: AE_IFDIR
-  setDirectory(archive_entry_filetype(ent) == AE_IFDIR);
+  setDirectory(type == AE_IFDIR);
+  // symlink: AE_IFLINK
+  setSymLink(type == AE_IFLNK);
   //m_time: time_t usually is just seconds since epoch
   setTime(statbuf->st_mtim.tv_sec);
 }

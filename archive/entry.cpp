@@ -31,6 +31,7 @@ entry::entry()
 : m_name(""),
   m_size(-1),
   m_directory(false),
+  m_link(false),
   m_m_time(static_cast<std::time_t>(-1))
 {
 }
@@ -58,6 +59,11 @@ std::time_t entry::m_time() const
 bool entry::isDirectory() const
 {
   return m_directory;
+}
+
+bool entry::isSymLink() const
+{
+  return m_link;
 }
 
 std::string entry::basename() const
@@ -95,6 +101,11 @@ void entry::setTime(const std::time_t modTime)
 void entry::setDirectory(const bool isDir)
 {
   m_directory = isDir;
+}
+
+void entry::setSymLink(const bool isSymbolic)
+{
+  m_link = isSymbolic;
 }
 
 } //namespace

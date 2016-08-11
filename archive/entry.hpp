@@ -78,6 +78,14 @@ class entry
     virtual bool isDirectory() const;
 
 
+    /** \brief checks whether the entry is a symbolic link
+     *
+     * \return Returns true, if the entry is a symbolic link.
+     *         Returns false, if not.
+     */
+    virtual bool isSymLink() const;
+
+
     /** \brief strips directory name from the entry's name
      *
      * \return Returns the name with any leading directory components removed.
@@ -111,10 +119,18 @@ class entry
      * \param isDir   true, if entry is a directory; set to false, if not
      */
     void setDirectory(const bool isDir);
+
+
+    /** \brief sets whether or not the entry represents a symbolic link
+     *
+     * \param isSymbolic  true, if entry is a symbolic link; set to false, if not
+     */
+    void setSymLink(const bool isSymbolic);
   private:
     std::string m_name; /**< file name */
     int64_t m_size; /**< size of file in bytes */
     bool m_directory; /**< whether or not this entry is a directory */
+    bool m_link; /**< whether or not this entry is a symbolic link */
     std::time_t m_m_time; /**< modification time */
 }; //class
 
