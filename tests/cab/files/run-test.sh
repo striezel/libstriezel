@@ -48,7 +48,7 @@ then
    --output-document="$THIS_DIR/Windows8-RT-KB2999226-x64.msu"
   if [[ $? -ne 0 ]]
   then
-    echo "Error: Could not download .deb file with wget!"
+    echo "Error: Could not download .msu file with wget!"
     exit 1
   fi
 fi
