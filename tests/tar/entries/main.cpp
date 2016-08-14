@@ -69,7 +69,7 @@ int main(int argc, char** argv)
     if (entries.size() != entryCountExpected)
     {
       std::cout << "Error: Expected to find " << entryCountExpected
-                << " entries in .deb file, but tar::entries() returned "
+                << " entries in .tar file, but tar::entries() returned "
                  << entries.size() << " entries instead!" << std::endl;
       return 1;
     }
