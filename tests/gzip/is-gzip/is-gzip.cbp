@@ -39,7 +39,6 @@
 		<Unit filename="../../../archive/entry.hpp" />
 		<Unit filename="../../../archive/gzip/archive.cpp" />
 		<Unit filename="../../../archive/gzip/archive.hpp" />
-		<Unit filename="../../../archive/gzip/entry.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

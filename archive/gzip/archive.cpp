@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2017  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ namespace gzip
 
 archive::archive(const std::string& fileName)
 : m_gzip(nullptr),
-  m_entries(std::vector<entry>())
+  m_entries(std::vector<libstriezel::archive::entry>())
 {
   std::ifstream infile;
   infile.open(fileName.c_str(), std::ios_base::in | std::ios_base::binary);
@@ -54,20 +54,20 @@ archive::archive(const std::string& fileName)
   //clean up
   infile.close();
 
-  entry oneEntry;
+  libstriezel::archive::entry oneEntry;
   oneEntry.setSize(uncompressedSize);
   oneEntry.setName(fileName);
   std::string n = oneEntry.basename();
   const std::string::size_type len = n.size();
-  //*.gz, e.g. "file.tar.gz", becomes "file.tar"
+  // *.gz, e.g. "file.tar.gz", becomes "file.tar"
   if ((len > 3) && (n.substr(len-3, 3) == ".gz"))
   {
     oneEntry.setName(n.substr(0, len-3));
   }
-  //*.tgz, e.g. "file.tgz", becomes "file.tar"
+  // *.tgz, e.g. "file.tgz", becomes "file.tar"
   else if ((len > 4) && (n.substr(len-4, 4) == ".tgz"))
     oneEntry.setName(n.substr(0, len-4) + ".tar");
-  //*.svgz, e.g. "file.svgz", becomes "file.svg" (just cut the z off)
+  // *.svgz, e.g. "file.svgz", becomes "file.svg" (just cut the z off)
   else if ((len > 5) && (n.substr(len-5, 5) == ".svgz"))
     oneEntry.setName(n.substr(0, len-1));
   else
@@ -88,7 +88,7 @@ archive::~archive()
   m_gzip = nullptr;
 }
 
-std::vector<entry> archive::entries() const
+std::vector<libstriezel::archive::entry> archive::entries() const
 {
   return m_entries;
 }

@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2017  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 #include <zlib.h>
-#include "entry.hpp"
+#include "../entry.hpp"
 
 namespace libstriezel
 {
@@ -64,7 +64,7 @@ class archive
      * However, this function is supplied to have an interface similar to the
      * other archive classes.
      */
-    std::vector<entry> entries() const;
+    std::vector<libstriezel::archive::entry> entries() const;
 
 
     /** \brief extracts the uncompressed file to the specified destination
@@ -85,7 +85,7 @@ class archive
     static bool isGzip(const std::string& fileName);
   private:
     gzFile m_gzip; /**< gzip file handle */
-    std::vector<entry> m_entries; /**< the entries in the archive */
+    std::vector<libstriezel::archive::entry> m_entries; /**< entries in the archive */
 }; //class
 
 } //namespace

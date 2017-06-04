@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the test suite for striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2017  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include "../../../filesystem/file.hpp"
 #include "../../../archive/gzip/archive.hpp"
 
-void showEntry(const libstriezel::gzip::entry& e)
+void showEntry(const libstriezel::archive::entry& e)
 {
   std::cout << "name: " << e.name() << std::endl
             << "    size: " << e.size() << " byte(s), directory: "
