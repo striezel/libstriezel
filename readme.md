@@ -24,8 +24,15 @@ Here is a short overview over the contents of the various directories. If you
 want details about the classes, just look into the source code. Most of it is
 documented well enough to understand it from the documentation alone.
 
+* **archive/7z/** - classes to read 7-Zip archives
 * **archive/ar/** - classes to read Ar archives
+* **archive/cab/** - classes to read Microsoft Cabinet archives
 * **archive/gzip/** - classes to uncompress GZIP files
+* **archive/iso9660/** - classes to read ISO 9660 disk images
+* **archive/rar/** - classes to read Roschal archives (limited support only,
+  due to the proprietary format of those archives)
+* **archive/tar/** - classes to read tape archives (*.tar)
+* **archive/xz/** - classes to read XZ archives
 * **archive/zip/** - classes to read ZIP archives
 * **ci/** - contains script(s) for continous integration
 * **cmake/** - files for the CMake build systems

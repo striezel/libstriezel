@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2017  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ namespace libstriezel
 namespace xz
 {
 
-/** \brief class for handling Ar archives
+/** \brief class for handling xz archives
  */
 class archive: public libstriezel::archive::archiveLibarchive
 {
@@ -90,4 +90,4 @@ class archive: public libstriezel::archive::archiveLibarchive
 
 } //namespace
 
-#endif // LIBSTRIEZEL_AR_ARCHIVE_HPP
+#endif // LIBSTRIEZEL_XZ_ARCHIVE_HPP

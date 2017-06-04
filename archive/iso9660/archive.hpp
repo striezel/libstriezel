@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2017  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,14 +34,14 @@ namespace archive
 namespace iso9660
 {
 
-/** \brief class for handling Ar archives
+/** \brief class for handling ISO9660 images
  */
 class archive: public libstriezel::archive::archiveLibarchive
 {
   public:
-     /** \brief constructor - opens an ar archive in read-only mode
+     /** \brief constructor - opens an ISO9660 image in read-only mode
       *
-      * \param fileName  -  file name of the ar archive
+      * \param fileName  -  file name of the ISO9660 image
       * \remarks This function throws an exception, if the file does not
       *          exist or a similar error occurs.
       */

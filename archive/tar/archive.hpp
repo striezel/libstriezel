@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2017  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,9 +38,9 @@ namespace tar
 class archive: public libstriezel::archive::archiveLibarchive
 {
   public:
-     /** \brief constructor - opens a tar archive in read-only mode
+     /** \brief constructor - opens a tape archive in read-only mode
       *
-      * \param fileName  -  file name of the tar archive
+      * \param fileName  -  file name of the tape archive
       * \remarks This function throws an exception, if the file does not
       *          exist or a similar error occurs.
       */
@@ -59,15 +59,15 @@ class archive: public libstriezel::archive::archiveLibarchive
     archive(const archive&& op) = delete;
 
 
-    /** \brief checks whether a file may be a tar archive
+    /** \brief checks whether a file may be a tape archive
      *
-     * \param fileName  file name of the potential tar archive
-     * \return Returns true, if the file seems to be a tar archive.
+     * \param fileName  file name of the potential tar
+     * \return Returns true, if the file seems to be a tape archive.
      *         Returns false, if not.
      */
     static bool isTar(const std::string& fileName);
   private:
-    /** \brief apply format support for tar archives
+    /** \brief apply format support for tar
      */
     void applyFormats();
 }; //class
