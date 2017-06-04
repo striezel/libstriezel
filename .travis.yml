@@ -3,7 +3,7 @@ compiler:
   - clang
   - gcc
 sudo: false
-dist: trusty
+# dist: trusty
 addons:
   apt:
     sources:
@@ -16,6 +16,7 @@ addons:
     - libarchive-dev
     - libglfw-dev
     - libxml2-dev
+    - libunshield-dev
     - libzip-dev
     - zlib1g-dev
 before_install:
