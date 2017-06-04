@@ -89,7 +89,6 @@ int main(int argc, char** argv)
         {
           std::cout << "Error: Could not extract file " << e.name()
                     << " from rar archive to " << destFile << "!" << std::endl;
-          libstriezel::filesystem::directory::remove(tempDirName);
           std::cout << "However, since libarchive only has limited support for"
                     << " the RAR format due to some proprietary restrictions, "
                     << "we do not treat this as error and just go on here."
