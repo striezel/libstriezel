@@ -34,6 +34,10 @@ namespace rar
 {
 
 /** \brief archive class for Rar files
+ *
+ * \remarks Due to the fact that Rar is a proprietary format not all files
+ * contained in a Rar archive may be extractable with the help of this class.
+ * So use it with care.
  */
 class archive: public libstriezel::archive::archiveLibarchive
 {
