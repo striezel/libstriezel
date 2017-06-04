@@ -141,7 +141,11 @@ bool archiveLibarchive::extractTo(const std::string& destFileName, const std::st
 {
   //If file does not exist in archive, it cannot be extracted.
   if (!contains(archiveFilePath))
+  {
+    std::cerr << "archive::archiveLibarchive::extractTo: error: file "
+              << archiveFilePath << " does not exist!" << std::endl;
     return false;
+  }
 
   /* Check whether destination file already exists, we do not want to overwrite
      existing files. */
