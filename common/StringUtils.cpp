@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011, 2012, 2015  Dirk Stolle
+    This file is part of the striezel's common code library.
+    Copyright (C) 2011, 2012, 2015, 2017  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,16 +19,16 @@
 */
 
 #include "StringUtils.hpp"
+#include <cctype>
 #include <sstream>
 #include <limits>
 
 std::string toLowerString(std::string str)
 {
-  unsigned int i;
   const int diff = 'a'-'A';
-  for (i=0; i<str.size(); ++i)
+  for (unsigned int i = 0; i < str.size(); ++i)
   {
-    if (str[i]>='A' and str[i]<='Z')
+    if (str[i] >= 'A' and str[i] <= 'Z')
     {
       str[i] = str[i] + diff;
     }
@@ -46,10 +46,10 @@ void trimLeft(std::string& str1)
   while (go_on)
   {
     const char ch = str1.at(pos);
-    if ((ch==' ') or (ch=='\t'))
+    if ((ch == ' ') or (ch == '\t'))
     {
       ++pos;
-      go_on = (pos<len);
+      go_on = (pos < len);
     }
     else
     {
@@ -61,7 +61,7 @@ void trimLeft(std::string& str1)
     str1.clear();
     return;
   }
-  else if (pos>0)
+  else if (pos > 0)
   {
     str1.erase(0, pos);
   }
@@ -78,23 +78,23 @@ void trimRight(std::string& str1)
   while (go_on)
   {
     const char ch = str1.at(pos);
-    if ((ch==' ') or (ch=='\t'))
+    if ((ch == ' ') or (ch == '\t'))
     {
       --pos;
-      go_on = (pos>=0);
+      go_on = (pos >= 0);
     }
     else
     {
       go_on = false;
     }
   }//while
-  if (pos==-1)
+  if (pos == -1)
   {
     str1.clear();
   }
-  else if (pos<len-1)
+  else if (pos < len - 1)
   {
-    str1.erase(pos+1);
+    str1.erase(pos + 1);
   }
   return;
 }
@@ -137,28 +137,29 @@ bool stringToInt(const std::string& str, int& value)
   const int cTenthLimit = std::numeric_limits<int>::max() / 10;
   const int cRealLimit = std::numeric_limits<int>::max();
   bool negative;
-  if (str.at(0)=='-')
+  if (str.at(0) == '-')
   {
-    i=1;
+    i = 1;
     negative = true;
   }
   else
   {
-    i=0;
+    i = 0;
     negative = false;
   }
-  for ( ; i<str.size(); ++i)
+  for ( ; i < str.size(); ++i)
   {
-    if ((str.at(i)>='0') and (str.at(i)<='9'))
+    if ((str.at(i) >= '0') and (str.at(i) <= '9'))
     {
       /* If the result of the multiplication in the next line would go out of
          the type range, then the result is not useful anyway, so quit here. */
-      if (value>cTenthLimit) return false;
+      if (value > cTenthLimit)
+        return false;
       value = value * 10;
       /* If the result of the addition in the next line would go out of the
          type's range, then the result is not useful anyway, so quit here. */
-      if (value>cRealLimit-(str.at(i)-'0')) return false;
-      value = value + (str.at(i)-'0');
+      if (value > cRealLimit-(str.at(i) - '0')) return false;
+      value = value + (str.at(i) - '0');
     }//if
     else
     {
@@ -166,7 +167,8 @@ bool stringToInt(const std::string& str, int& value)
       return false;
     }
   }//for
-  if (negative) value = -value;
+  if (negative)
+    value = -value;
   return true;
 }
 
@@ -179,16 +181,18 @@ bool stringToUnsignedInt(const std::string& str, unsigned int& value)
   std::string::size_type i = 0;
   for ( ; i < str.size(); ++i)
   {
-    if ((str.at(i)>='0') and (str.at(i)<='9'))
+    if ((str.at(i) >= '0') and (str.at(i) <= '9'))
     {
       /* If the result of the multiplication in the next line would go out of
          the type range, then the result is not useful anyway, so quit here. */
-      if (value>cTenthLimit) return false;
+      if (value > cTenthLimit)
+        return false;
       value = value * 10;
       /* If the result of the addition in the next line would go out of the
          type's range, then the result is not useful anyway, so quit here. */
-      if (value>cRealLimit-(str.at(i)-'0')) return false;
-      value = value + (str.at(i)-'0');
+      if (value > cRealLimit - (str.at(i) - '0'))
+        return false;
+      value = value + (str.at(i) - '0');
     }//if
     else
     {
@@ -202,34 +206,35 @@ bool stringToUnsignedInt(const std::string& str, unsigned int& value)
 //tries to get the floating point representation of a string
 bool stringToFloat(const std::string& str, float& value)
 {
-  if (str.empty()) return false;
+  if (str.empty())
+    return false;
   value = 0.0f;
   unsigned int i, next_look;
   bool negative;
-  if (str.at(0)=='-')
+  if (str.at(0) == '-')
   {
-    i=1;
+    i = 1;
     negative = true;
     next_look = 1;
   }
   else
   {
-    i=0;
+    i = 0;
     negative = false;
     next_look = 0;
   }
-  for ( ; i<str.length(); ++i)
+  for ( ; i < str.length(); ++i)
   {
-    if ((str.at(i)>='0') and (str.at(i)<='9'))
+    if ((str.at(i) >= '0') and (str.at(i) <= '9'))
     {
       value = value * 10.0f;
-      value = value + (str.at(i)-'0');
+      value = value + (str.at(i) - '0');
       ++next_look;
     }//if
-    else if (str.at(i)=='.')
+    else if (str.at(i) == '.')
     {
       //decimal separator found - break out of loop
-      next_look = i+1;
+      next_look = i + 1;
       break;
     }
     else
@@ -240,11 +245,11 @@ bool stringToFloat(const std::string& str, float& value)
   }//for
   //now go for the stuff after the separator
   float second = 0.0f;
-  for (i=str.length()-1; i>=next_look; --i)
+  for (i = str.length() - 1; i >= next_look; --i)
   {
-    if ((str.at(i)>='0') and (str.at(i)<='9'))
+    if ((str.at(i) >= '0') and (str.at(i) <= '9'))
     {
-      second = second + (str.at(i)-'0');
+      second = second + (str.at(i) - '0');
       second = second / 10.0f;
     }//if
     else
@@ -254,7 +259,8 @@ bool stringToFloat(const std::string& str, float& value)
     }
   }//for, second loop
   value = value + second;
-  if (negative) value = -value;
+  if (negative)
+    value = -value;
   return true;
 }
 
@@ -270,19 +276,34 @@ std::string::size_type find_ci(const std::string& haystack, const std::string& n
   const std::string::size_type lenHay = haystack.length();
   const std::string::size_type lenNeedle = needle.length();
 
-  if ((pos>=lenHay) or (lenNeedle>lenHay) or (lenNeedle<=0)) return std::string::npos;
+  if ((pos >= lenHay) or (lenNeedle > lenHay) or (lenNeedle <= 0)) return std::string::npos;
 
-  std::string::size_type j, s;
-  for (; pos<lenHay; ++pos)
+  for (; pos < lenHay; ++pos)
   {
-    s = 0;
-    for (j=0; j<lenNeedle; ++j)
+    std::string::size_type s = 0;
+    for (std::string::size_type j = 0; j < lenNeedle; ++j)
     {
       if (!std::string::traits_type::eq(std::toupper(haystack[pos+j]), std::toupper(needle[j])))
         break;
       ++s;
-    }//for j
-    if (lenNeedle==s) return pos;
-  }//for i/pos
+    } //for j
+    if (lenNeedle == s)
+      return pos;
+  } //for i/pos
   return std::string::npos;
+}
+
+bool isEmptyOrWhitespace(const std::string& str)
+{
+  if (str.empty())
+    return true;
+  std::string::const_iterator iter = str.begin();
+  while (iter != str.end())
+  {
+    const int charAsInt = static_cast<int>(*iter);
+    if ((charAsInt > 127) or (!std::isspace(*iter)))
+      return false;
+    ++iter;
+  } //while
+  return true;
 }
