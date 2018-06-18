@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011 thoronador
+    This file is part of striezel's common code library.
+    Copyright (C) 2011, 2018  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 */
 
 #include "ImageLoader.hpp"
+#include <cstring>
 #include "readBMP.hpp"
 #include "readGIF.hpp"
 #include "readJPEG.hpp"
