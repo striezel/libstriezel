@@ -3,15 +3,11 @@ compiler:
   - clang
   - gcc
 sudo: false
-dist: trusty
+dist: xenial
 addons:
   apt:
-    sources:
-    - ubuntu-toolchain-r-test
     packages:
     - cmake
-    - g++-4.8
-    - gcc-4.8
     - freeglut3-dev
     - libarchive-dev
     - libglfw-dev
@@ -19,8 +15,6 @@ addons:
     - libunshield-dev
     - libzip-dev
     - zlib1g-dev
-before_install:
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
 script:
   - ./ci/cpplint.sh
   - mkdir ./build
