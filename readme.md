@@ -8,7 +8,7 @@ carpet, right where it belongs.
 
 ## Build status
 
-[![Travis CI](https://travis-ci.org/striezel/libstriezel.svg?branch=master)](https://travis-ci.org/striezel/libstriezel)
+[![GitLab pipeline status](https://gitlab.com/striezel/libstriezel/badges/master/pipeline.svg)](https://gitlab.com/striezel/libstriezel/-/pipelines)
 
 ## License
 
