@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016, 2017  Dirk Stolle
+    Copyright (C) 2016, 2017, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -84,7 +84,7 @@ archive::archive(const std::string& fileName)
 archive::~archive()
 {
   if (gzclose(m_gzip) != Z_OK)
-    throw std::runtime_error("libstriezel::gzip::archive: Could not close/free archive!");
+    std::cerr << "libstriezel::gzip::archive: Could not close/free archive!\n";
   m_gzip = nullptr;
 }
 

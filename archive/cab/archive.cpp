@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ archive::archive(const std::string& fileName)
     m_archive = nullptr;
     throw std::runtime_error("libstriezel::cab::archive: Failed to open file " + fileName + "!");
   }
-  //fill entries
+  // fill entries
   fillEntries();
 }
 
@@ -49,7 +49,7 @@ archive::~archive()
 {
   int ret = archive_read_free(m_archive);
   if (ret != ARCHIVE_OK)
-    throw std::runtime_error("libstriezel::cab::archive: Could not close/free archive!");
+    std::cerr << "libstriezel::cab::archive: Could not close/free archive!\n";
   m_archive = nullptr;
 }
 

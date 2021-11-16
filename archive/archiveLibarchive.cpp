@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ archiveLibarchive::archiveLibarchive(const std::string& fileName)
   m_entries(std::vector<libstriezel::archive::entryLibarchive>()),
   m_fileName(fileName)
 {
-  //allocate new archive for reading
+  // allocate new archive for reading
   m_archive = archive_read_new();
   if (nullptr == m_archive)
     throw std::runtime_error("libstriezel::archive::archiveLibarchive: Could not allocate archive structure!");
@@ -47,7 +47,7 @@ archiveLibarchive::~archiveLibarchive()
   {
     int ret = archive_read_free(m_archive);
     if (ret != ARCHIVE_OK)
-      throw std::runtime_error("libstriezel::archive::archiveLibarchive: Could not close/free archive!");
+      std::cerr << "libstriezel::archive::archiveLibarchive: Could not close/free archive!\n";
     m_archive = nullptr;
   }
 }
@@ -63,16 +63,16 @@ void archiveLibarchive::fillEntries()
     const int ret = archive_read_next_header(m_archive, &ent);
     switch (ret)
     {
-      case ARCHIVE_OK: //all OK
-      case ARCHIVE_WARN: //success, but non-critical error occurred
+      case ARCHIVE_OK: // all OK
+      case ARCHIVE_WARN: // success, but non-critical error occurred
            m_entries.push_back(ent);
            break;
       case ARCHIVE_EOF:
-           //reached end of archive
+           // reached end of archive
            finished = true;
            break;
       case ARCHIVE_RETRY:
-           //operation failed but can be retried, so let's do that
+           // operation failed but can be retried, so let's do that
            ++retryCount;
            if (retryCount >= 100)
            {
@@ -83,22 +83,23 @@ void archiveLibarchive::fillEntries()
            }
            break;
       case ARCHIVE_FATAL:
-           //fatal error
+           // fatal error
            archive_read_free(m_archive);
            m_archive = nullptr;
            throw std::runtime_error("libstriezel::archive::archiveLibarchive::fillEntries(): "
                    + std::string("Fatal error while getting archive entries!"));
            break;
       default:
-           //unknown error
+           // unknown error
            archive_read_free(m_archive);
            m_archive = nullptr;
            throw std::runtime_error("libstriezel::archive::archiveLibarchive::fillEntries(): "
                    + std::string("Unknown error while getting archive entries!"));
            break;
-    } //swi
-  } //while
-  //reopen file to start at beginning when getting next header
+    }
+  }
+
+  // reopen file to start at beginning when getting next header
   reopen();
 }
 
