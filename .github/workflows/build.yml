@@ -1,0 +1,64 @@
+name: GitHub CI
+
+on: push
+
+jobs:
+  gcc10:
+    runs-on: ubuntu-20.04
+    steps:
+      # Checks-out the repository under $GITHUB_WORKSPACE.
+      - uses: actions/checkout@v2
+      - name: Install Debian packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y catch cmake g++-10 git freeglut3-dev libarchive-dev libjpeg-turbo8-dev libpng-dev libunshield-dev libxml2-dev libzip-dev pkg-config zlib1g-dev
+          sudo apt-get -y install unzip wget
+      - name: Linting
+        run: |
+          export CXX=g++-10
+          export CC=gcc-10
+          cd $GITHUB_WORKSPACE
+          ./ci/cpplint.sh
+      - name: Build with GNU GCC 10
+        run: |
+          export CXX=g++-10
+          export CC=gcc-10
+          cd $GITHUB_WORKSPACE
+          mkdir build
+          cd build
+          cmake -DLONG_HASH_TESTS=OFF ../
+          make -j4
+      - name: Tests
+        run: |
+          cd "$GITHUB_WORKSPACE"/build
+          ctest -V
+
+  clang10:
+    runs-on: ubuntu-20.04
+    steps:
+      # Checks-out the repository under $GITHUB_WORKSPACE.
+      - uses: actions/checkout@v2
+      - name: Install Debian packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y catch cmake clang-10 git freeglut3-dev libarchive-dev libjpeg-turbo8-dev libpng-dev libunshield-dev libxml2-dev libzip-dev pkg-config zlib1g-dev
+          sudo apt-get -y install unzip wget
+      - name: Linting
+        run: |
+          export CXX=clang++
+          export CC=clang
+          cd $GITHUB_WORKSPACE
+          ./ci/cpplint.sh
+      - name: Build with Clang 10
+        run: |
+          export CXX=clang++
+          export CC=clang
+          cd $GITHUB_WORKSPACE
+          mkdir build
+          cd build
+          cmake -DLONG_HASH_TESTS=OFF ../
+          make -j4
+      - name: Tests
+        run: |
+          cd "$GITHUB_WORKSPACE"/build
+          ctest -V
