@@ -51,7 +51,7 @@ then
 fi
 
 # get log4j ZIP
-wget http://ftp.halifax.rwth-aachen.de/apache/logging/log4j/1.2.17/log4j-1.2.17.zip \
+wget https://archive.apache.org/dist/logging/log4j/1.2.17/log4j-1.2.17.zip \
  --output-document="$THIS_DIR/log4j-1.2.17.zip"
 if [[ $? -ne 0 ]]
 then

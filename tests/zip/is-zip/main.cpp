@@ -32,7 +32,7 @@ const std::vector<std::pair<std::string, bool> > testCases = {
   { "test_02.dat" , false},
   { "test_03.dat" , false},
   { "test_04.dat" , true},
-  // http://ftp.halifax.rwth-aachen.de/apache/logging/log4j/1.2.17/log4j-1.2.17.zip
+  // https://archive.apache.org/dist/logging/log4j/1.2.17/log4j-1.2.17.zip
   { "log4j-1.2.17.zip" , true},
   //Java Archive from file above
   { "apache-log4j-1.2.17/log4j-1.2.17.jar" , true},
