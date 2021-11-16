@@ -9,6 +9,7 @@ carpet, right where it belongs.
 ## Build status
 
 [![GitLab pipeline status](https://gitlab.com/striezel/libstriezel/badges/master/pipeline.svg)](https://gitlab.com/striezel/libstriezel/-/pipelines)
+[![GitHub Actions status](https://github.com/striezel/libstriezel/workflows/GitHub%20CI/badge.svg)](https://github.com/striezel/libstriezel/actions)
 
 ## License
 
