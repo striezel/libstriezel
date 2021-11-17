@@ -23,7 +23,7 @@
 			<Add option="-Wmain" />
 			<Add option="-pedantic" />
 			<Add option="-Wzero-as-null-pointer-constant" />
-			<Add option="-std=c++0x" />
+			<Add option="-std=c++17" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>

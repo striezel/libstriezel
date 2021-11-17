@@ -23,7 +23,7 @@
 			<Add option="-Weffc++" />
 			<Add option="-Wmain" />
 			<Add option="-Wall" />
-			<Add option="-std=c++11" />
+			<Add option="-std=c++17" />
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Linker>

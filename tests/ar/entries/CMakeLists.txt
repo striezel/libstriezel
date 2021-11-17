@@ -16,7 +16,7 @@ set(test-ar-entries_sources
 if (CMAKE_COMPILER_IS_GNUCC)
     add_definitions (-Wall -O2 -fexceptions)
 endif (CMAKE_COMPILER_IS_GNUCC)
-add_definitions(-std=c++0x)
+add_definitions(-std=c++17)
 
 set( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -s" )
 

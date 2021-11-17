@@ -12,7 +12,7 @@ set(test_simple_sha1_src
     main.cpp)
 
 # We use a C++11 feature in the code, so enable C++0x a.k.a. C++11.
-add_definitions(-Wall -O2 -fexceptions -std=c++0x)
+add_definitions(-Wall -O2 -fexceptions -std=c++17)
 
 set( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -s" )
 
