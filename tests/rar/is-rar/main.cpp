@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the test suite for striezel's common code library.
-    Copyright (C) 2016, 2017  Dirk Stolle
+    Copyright (C) 2016, 2017, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -53,22 +53,22 @@ int main(int argc, char** argv)
     std::cout << "Error: First argument (rar directory) is missing!" << std::endl;
     return 1;
   }
-  //Iterate over test cases.
-  for (const auto item : testCases)
+  // Iterate over test cases.
+  for (const auto& item : testCases)
   {
-    //construct file name
+    // construct file name
     const std::string fileName = rarDirectory + libstriezel::filesystem::pathDelimiter + item.first;
-    //existence check
+    // existence check
     if (!libstriezel::filesystem::file::exists(fileName))
     {
       std::cout << "Error: File " << fileName << " does not exist!" << std::endl;
       return 1;
     }
-    //check, if it is a rar archive
+    // check, if it is a rar archive
     const bool isRar = libstriezel::rar::archive::isRar(fileName);
     std::cout << "isRar(" << fileName << ") = "
               << (isRar ? "yes" : "no") << std::endl;
-    //compare with expected values
+    // compare with expected values
     if (isRar != item.second)
     {
       if (item.second)
@@ -79,8 +79,8 @@ int main(int argc, char** argv)
                   << "but it WAS detected as rar archive!" << std::endl;
       return 1;
     }
-  } //for
-  //All OK.
+  }
+  // All OK.
   std::cout << "Tests for libstriezel::rar::archive::isRar() were successful." << std::endl;
   return 0;
 }

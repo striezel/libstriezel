@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the test suite for striezel's common code library.
-    Copyright (C) 2017  Dirk Stolle
+    Copyright (C) 2017, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ const std::vector<std::pair<std::string, bool> > testCases = {
 int main(int argc, char** argv)
 {
   std::string installShieldDirectory = "";
-  if (argc>1 && argv[1] != nullptr)
+  if (argc > 1 && argv[1] != nullptr)
   {
     installShieldDirectory = libstriezel::filesystem::unslashify(std::string(argv[1]));
     if (!libstriezel::filesystem::directory::exists(installShieldDirectory))
@@ -56,22 +56,22 @@ int main(int argc, char** argv)
     std::cout << "Error: First argument (InstallShield directory) is missing!" << std::endl;
     return 1;
   }
-  //Iterate over test cases.
-  for (const auto item : testCases)
+  // Iterate over test cases.
+  for (const auto& item : testCases)
   {
-    //construct file name
+    // construct file name
     const std::string fileName = installShieldDirectory + libstriezel::filesystem::pathDelimiter + item.first;
-    //existence check
+    // existence check
     if (!libstriezel::filesystem::file::exists(fileName))
     {
       std::cout << "Error: File " << fileName << " does not exist!" << std::endl;
       return 1;
     }
-    //check, if it is a InstallShield cabinet
+    // check, if it is a InstallShield cabinet
     const bool isInstShield = libstriezel::installshield::archive::isInstallShield(fileName);
     std::cout << "isInstShield(" << fileName << ") = "
               << (isInstShield ? "yes" : "no") << std::endl;
-    //compare with expected values
+    // compare with expected values
     if (isInstShield != item.second)
     {
       if (item.second)
@@ -82,8 +82,8 @@ int main(int argc, char** argv)
                   << "but it WAS detected as such!" << std::endl;
       return 1;
     }
-  } //for
-  //All OK.
+  }
+  // All OK.
   std::cout << "Tests for libstriezel::installshield::archive::isInstallShield() were successful." << std::endl;
   return 0;
 }

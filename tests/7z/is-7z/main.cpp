@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the test suite for striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ const std::vector<std::pair<std::string, bool> > testCases = {
 int main(int argc, char** argv)
 {
   std::string sevenZipDirectory = "";
-  if (argc>1 && argv[1] != nullptr)
+  if (argc > 1 && argv[1] != nullptr)
   {
     sevenZipDirectory = libstriezel::filesystem::unslashify(std::string(argv[1]));
     if (!libstriezel::filesystem::directory::exists(sevenZipDirectory))
@@ -57,22 +57,22 @@ int main(int argc, char** argv)
     std::cout << "Error: First argument (7z directory) is missing!" << std::endl;
     return 1;
   }
-  //Iterate over test cases.
-  for (const auto item : testCases)
+  // Iterate over test cases.
+  for (const auto& item : testCases)
   {
-    //construct file name
+    // construct file name
     const std::string fileName = sevenZipDirectory + libstriezel::filesystem::pathDelimiter + item.first;
-    //existence check
+    // existence check
     if (!libstriezel::filesystem::file::exists(fileName))
     {
       std::cout << "Error: File " << fileName << " does not exist!" << std::endl;
       return 1;
     }
-    //check, if it is a 7-Zip archive
+    // check, if it is a 7-Zip archive
     const bool is7z = libstriezel::sevenZip::archive::is7z(fileName);
     std::cout << "is7z(" << fileName << ") = "
               << (is7z ? "yes" : "no") << std::endl;
-    //compare with expected values
+    // compare with expected values
     if (is7z != item.second)
     {
       if (item.second)
@@ -83,8 +83,8 @@ int main(int argc, char** argv)
                   << "but it WAS detected as 7-Zip archive!" << std::endl;
       return 1;
     }
-  } //for
-  //All OK.
+  }
+  // All OK.
   std::cout << "Tests for libstriezel::7z::archive::is7z() were successful." << std::endl;
   return 0;
 }

@@ -76,7 +76,7 @@ class archive: public libstriezel::archive::archiveLibarchive
   private:
     /** \brief Apply format support for xz archives.
      */
-    void applyFormats();
+    void applyFormats() override;
 
     /** \brief Smoothen some edges on the entry data.
      */

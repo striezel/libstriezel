@@ -29,7 +29,7 @@ namespace libstriezel::encoding
 bool libxml2::UTF8_to_ISO_8859_1(const std::string& strUTF8, std::string& strISO)
 {
   // maximum output size should not be more than length of UTF string (+ NUL)
-  const int outLen = strUTF8.size();
+  int outLen = strUTF8.size();
   unsigned char * outBuff = new unsigned char[outLen + 1];
   memset(outBuff, '\0', outLen + 1);
 

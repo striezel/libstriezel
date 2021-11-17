@@ -40,7 +40,7 @@ const std::vector<std::pair<std::string, bool> > testCases = {
 int main(int argc, char** argv)
 {
   std::string isoDirectory = "";
-  if (argc>1 && argv[1] != nullptr)
+  if (argc > 1 && argv[1] != nullptr)
   {
     isoDirectory = libstriezel::filesystem::unslashify(std::string(argv[1]));
     if (!libstriezel::filesystem::directory::exists(isoDirectory))
@@ -54,22 +54,22 @@ int main(int argc, char** argv)
     std::cout << "Error: First argument (ISO directory) is missing!" << std::endl;
     return 1;
   }
-  //Iterate over test cases.
-  for (const auto item : testCases)
+  // Iterate over test cases.
+  for (const auto& item : testCases)
   {
-    //construct file name
+    // construct file name
     const std::string fileName = isoDirectory + libstriezel::filesystem::pathDelimiter + item.first;
-    //existence check
+    // existence check
     if (!libstriezel::filesystem::file::exists(fileName))
     {
       std::cout << "Error: File " << fileName << " does not exist!" << std::endl;
       return 1;
     }
-    //check, if it is an ISO9660 image
+    // check, if it is an ISO9660 image
     const bool isISO = libstriezel::archive::iso9660::archive::isISO9660(fileName);
     std::cout << "isISO9660(" << fileName << ") = "
               << (isISO ? "yes" : "no") << std::endl;
-    //compare with expected values
+    // compare with expected values
     if (isISO != item.second)
     {
       if (item.second)
@@ -80,8 +80,8 @@ int main(int argc, char** argv)
                   << "but it WAS detected as ISO9660 image!" << std::endl;
       return 1;
     }
-  } //for
-  //All OK.
+  }
+  // All OK.
   std::cout << "Tests for libstriezel::iso9660::archive::isISO9660() were successful." << std::endl;
   return 0;
 }
