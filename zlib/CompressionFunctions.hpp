@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of striezel's common code library.
-    Copyright (C) 2011, 2015  Dirk Stolle
+    Copyright (C) 2011, 2015, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,15 +21,12 @@
 #ifndef LIBSTRIEZEL_COMPRESSIONFUNCTIONS_H
 #define LIBSTRIEZEL_COMPRESSIONFUNCTIONS_H
 
-#include <stdint.h>
+#include <cstdint>
 
-namespace libstriezel
+namespace libstriezel::zlib
 {
 
-namespace zlib
-{
-
-/* tries to decompress the data pointed to by compressedData and stores the
+/* Tries to decompress the data pointed to by compressedData and stores the
    decompressed bits in decompressionBuffer. Returns true in case of success,
    or false if an error occurred.
 
@@ -44,7 +41,7 @@ bool decompress(uint8_t * compressedData, const uint32_t compressedSize, uint8_t
 
 typedef uint8_t* CompressPointer;
 
-/* tries to compress the data pointed to by rawData and stores the compressed
+/* Tries to compress the data pointed to by rawData and stores the compressed
    bits in compBuffer. Returns true in case of success, or false if an error
    occurred.
 
@@ -66,8 +63,6 @@ typedef uint8_t* CompressPointer;
 */
 bool compress(uint8_t * rawData, const uint32_t rawSize, CompressPointer& compBuffer, uint32_t& compSize, uint32_t& usedSize, const int level=6);
 
-} //namespace zlib
-
-} //namespace
+} // namespace
 
 #endif // LIBSTRIEZEL_COMPRESSIONFUNCTIONS_H

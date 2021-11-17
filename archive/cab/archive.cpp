@@ -24,10 +24,7 @@
 #include <iostream>
 #include <stdexcept>
 
-namespace libstriezel
-{
-
-namespace cab
+namespace libstriezel::cab
 {
 
 archive::archive(const std::string& fileName)
@@ -82,6 +79,4 @@ bool archive::isCab(const std::string& fileName)
   return (std::string(start, 8) == std::string("MSCF\0\0\0\0", 8));
 }
 
-} //namespace
-
-} //namespace
+} // namespace

@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016, 2017  Dirk Stolle
+    Copyright (C) 2016, 2017, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,10 +27,7 @@
 #include "../archiveLibarchive.hpp"
 #include "../entryLibarchive.hpp"
 
-namespace libstriezel
-{
-
-namespace tar
+namespace libstriezel::tar
 {
 
 /** \brief archive class for tar (tape archive) files
@@ -59,7 +56,7 @@ class archive: public libstriezel::archive::archiveLibarchive
     archive(const archive&& op) = delete;
 
 
-    /** \brief checks whether a file may be a tape archive
+    /** \brief Checks whether a file may be a tape archive.
      *
      * \param fileName  file name of the potential tar
      * \return Returns true, if the file seems to be a tape archive.
@@ -67,13 +64,11 @@ class archive: public libstriezel::archive::archiveLibarchive
      */
     static bool isTar(const std::string& fileName);
   private:
-    /** \brief apply format support for tar
+    /** \brief Apply format support for tar.
      */
     void applyFormats();
-}; //class
+};
 
-} //namespace
-
-} //namespace
+} // namespace
 
 #endif // LIBSTRIEZEL_TAR_ARCHIVE_HPP

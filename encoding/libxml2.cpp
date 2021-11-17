@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the Private Message Database.
-    Copyright (C) 2015  Dirk Stolle
+    Copyright (C) 2015, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,32 +23,29 @@
 #include <iostream>
 #include <libxml/encoding.h>
 
-namespace libstriezel
-{
-
-namespace encoding
+namespace libstriezel::encoding
 {
 
 bool libxml2::UTF8_to_ISO_8859_1(const std::string& strUTF8, std::string& strISO)
 {
-  //maximum output size should not be more than length of UTF string (+ NUL)
-  int outLen = strUTF8.size();
-  unsigned char * outBuff = new unsigned char[outLen+1];
-  memset(outBuff, '\0', outLen+1);
+  // maximum output size should not be more than length of UTF string (+ NUL)
+  const int outLen = strUTF8.size();
+  unsigned char * outBuff = new unsigned char[outLen + 1];
+  memset(outBuff, '\0', outLen + 1);
 
   const unsigned char * inPseudoBuff = reinterpret_cast<const unsigned char*>(strUTF8.c_str());
   int inLen = strUTF8.size();
   const int ret = UTF8Toisolat1(outBuff, &outLen, inPseudoBuff, &inLen);
   if (ret <= 0)
   {
-    //conversion failed
+    // conversion failed
     delete[] outBuff;
     return false;
   }
 
   if (ret > strUTF8.size())
   {
-    //seems strange, would be more than buffer can hold
+    // seems strange, would be more than buffer can hold
     delete[] outBuff;
     return false;
   }
@@ -57,12 +54,11 @@ bool libxml2::UTF8_to_ISO_8859_1(const std::string& strUTF8, std::string& strISO
   delete[] outBuff;
   if (strISO.size() < ret)
   {
-    std::cout << "Encoding error: got only " << strISO.size() << " chars, but expected " << ret << " chars.\n";
+    std::cout << "Encoding error: Got only " << strISO.size()
+              << " chars, but expected " << ret << " chars.\n";
     return false;
   }
   return true;
 }
 
-} //namespace encoding
-
-} //namespace libstriezel
+} // namespace

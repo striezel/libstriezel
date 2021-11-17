@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,13 +27,10 @@
 #include "../archiveLibarchive.hpp"
 #include "../entryLibarchive.hpp"
 
-namespace libstriezel
+namespace libstriezel::ar
 {
 
-namespace ar
-{
-
-//alias for entry
+// alias for entry
 using entry = libstriezel::archive::entryLibarchive;
 
 /** \brief class for handling Ar archives
@@ -73,10 +70,8 @@ class archive: public libstriezel::archive::archiveLibarchive
     /** \brief apply format support for Ar archives
      */
     void applyFormats();
-}; //class
+};
 
-} //namespace
-
-} //namespace
+} // namespace
 
 #endif // LIBSTRIEZEL_AR_ARCHIVE_HPP

@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of striezel's common code library.
-    Copyright (C) 2011, 2012, 2015  Dirk Stolle
+    Copyright (C) 2011, 2012, 2015, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,17 +22,15 @@
 #include <iostream>
 #include <zlib.h>
 
-namespace libstriezel
-{
-
-namespace zlib
+namespace libstriezel::zlib
 {
 
 bool decompress(uint8_t * compressedData, const uint32_t compressedSize, uint8_t * decompBuffer, const uint32_t decompSize)
 {
-  if ((compressedData==NULL) or (compressedSize==0) or (decompBuffer==NULL) or (decompSize==0))
+  if ((compressedData == nullptr) || (compressedSize == 0)
+    || (decompBuffer == nullptr) || (decompSize == 0))
   {
-    std::cout << "zlib::decompress: Error: invalid buffer values given!\n";
+    std::cerr << "zlib::decompress: Error: Invalid buffer values given!\n";
     return false;
   }
 
@@ -50,21 +48,20 @@ bool decompress(uint8_t * compressedData, const uint32_t compressedSize, uint8_t
     switch (z_return)
     {
       case Z_MEM_ERROR:
-           std::cout << "zlib::decompress: Error: not enough memory to initialize z_stream!\n";
+           std::cerr << "zlib::decompress: Error: Not enough memory to initialize z_stream!\n";
            break;
       case Z_VERSION_ERROR:
-           std::cout << "zlib::decompress: Error: incompatible library version!\n";
+           std::cerr << "zlib::decompress: Error: Incompatible library version!\n";
            break;
       case Z_STREAM_ERROR:
-           std::cout << "zlib::decompress: Error: invalid parameters in z_stream!\n";
+           std::cerr << "zlib::decompress: Error: Invalid parameters in z_stream!\n";
            break;
       default:
-           std::cout << "zlib::decompress: Error: could not initialize z_stream!\n";
+           std::cerr << "zlib::decompress: Error: Could not initialize z_stream!\n";
            break;
-    }//swi
+    }
     return false;
-  }//if error occurred
-
+  } // if error occurred
 
   streamZlib.avail_in = compressedSize;
   streamZlib.next_in = compressedData;
@@ -82,30 +79,31 @@ bool decompress(uint8_t * compressedData, const uint32_t compressedSize, uint8_t
     case Z_STREAM_ERROR: //stream state
     case Z_MEM_ERROR:
          (void)inflateEnd(&streamZlib);
-         std::cout << "zlib::decompress: Error while calling inflate()!\n";
+         std::cerr << "zlib::decompress: Error while calling inflate()!\n";
          return false;
-  }//swi
-  int have = decompSize - streamZlib.avail_out;
+  }
+  const int have = decompSize - streamZlib.avail_out;
   /* clean up zlib */
   (void)inflateEnd(&streamZlib);
-  //check, if size matches expected number of bytes
-  if (have!=decompSize)
+  // check, if size matches expected number of bytes
+  if (have != decompSize)
   {
-    std::cout << "zlib::decompress: Error: Having only "<<have<<" bytes in output"
-              << "buffer, but expected size is "<<decompSize<<" bytes.\n";
+    std::cerr << "zlib::decompress: Error: Having only " << have << " bytes in output"
+              << "buffer, but expected size is " << decompSize << " bytes.\n";
     return false;
   }
-  //return value Z_STREAM_END should be the right one, if all was successful
-  if (z_return==Z_STREAM_END) return true;
+  // return value Z_STREAM_END should be the right one, if all was successful
+  if (z_return == Z_STREAM_END)
+    return true;
   return false;
 }
 
 bool compress(uint8_t * rawData, const uint32_t rawSize, CompressPointer& compBuffer, uint32_t& compSize, uint32_t& usedSize, const int level)
 {
-  if ((rawData==NULL) or (rawSize==0) or (compBuffer==NULL) or (compSize==0))
+  if ((rawData == nullptr) || (rawSize == 0) || (compBuffer == nullptr) || (compSize == 0))
   {
     usedSize = 0;
-    std::cout << "zlib::compress: Error: invalid buffer values given!\n";
+    std::cerr << "zlib::compress: Error: Invalid buffer values given!\n";
     return false;
   }
 
@@ -123,30 +121,29 @@ bool compress(uint8_t * rawData, const uint32_t rawSize, CompressPointer& compBu
     switch (z_return)
     {
       case Z_MEM_ERROR:
-           std::cout << "zlib::compress: Error: not enough memory to initialize z_stream!\n";
+           std::cerr << "zlib::compress: Error: Not enough memory to initialize z_stream!\n";
            break;
       case Z_VERSION_ERROR:
-           std::cout << "zlib::compress: Error: incompatible library version!\n";
+           std::cerr << "zlib::compress: Error: Incompatible library version!\n";
            break;
       case Z_STREAM_ERROR:
-           std::cout << "zlib::compress: Error: "<<level<<" is not a valid compression level!\n";
+           std::cerr << "zlib::compress: Error: " << level << " is not a valid compression level!\n";
            break;
       default:
-           std::cout << "zlib::compress: Error: could not initialize z_stream!\n";
+           std::cerr << "zlib::compress: Error: Could not initialize z_stream!\n";
            break;
-    }//swi
+    }
     return false;
-  }//if error occurred
+  } // if error occurred
 
   const uLong bound = deflateBound(&streamZlib, rawSize);
-  if (compSize<bound)
+  if (compSize < bound)
   {
-    //re-allocate buffer
+    // re-allocate buffer
     delete[] compBuffer;
     compBuffer = new uint8_t[bound];
     compSize = bound;
   }
-
 
   streamZlib.avail_in = rawSize;
   streamZlib.next_in = rawData;
@@ -158,23 +155,21 @@ bool compress(uint8_t * rawData, const uint32_t rawSize, CompressPointer& compBu
   z_return = deflate(&streamZlib, Z_FINISH);
   switch (z_return)
   {
-    case Z_OK: //not enough output buffer
+    case Z_OK: // not enough output buffer
          usedSize = 0;
          (void)deflateEnd(&streamZlib);
-         std::cout << "zlib::compress: output buffer is too small for deflate(), available output buffer size is "
-                   << streamZlib.avail_out<<" bytes!\n";
+         std::cerr << "zlib::compress: Output buffer is too small for deflate(), available output buffer size is "
+                   << streamZlib.avail_out << " bytes!\n";
          return false;
-    case Z_STREAM_END: //finished
+    case Z_STREAM_END: // finished
          usedSize = compSize - streamZlib.avail_out;
          (void)deflateEnd(&streamZlib);
          return true;
     default:
-         std::cout << "zlib::compress: unknown error (code="<<z_return<<")!\n";
+         std::cerr << "zlib::compress: unknown error (code=" << z_return << ")!\n";
          (void)deflateEnd(&streamZlib);
          return false;
-  }//swi
+  }
 }
 
-} //namespace zlib
-
-} //namespace
+} // namespace

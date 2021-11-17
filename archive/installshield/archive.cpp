@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2017  Dirk Stolle
+    Copyright (C) 2017, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,10 +24,7 @@
 #include <stdexcept>
 #include "../../filesystem/file.hpp"
 
-namespace libstriezel
-{
-
-namespace installshield
+namespace libstriezel::installshield
 {
 
 archive::archive(const std::string& fileName)
@@ -72,8 +69,8 @@ std::vector<libstriezel::archive::entry> archive::entries() const
         e.setDirectory(false);
         result.push_back(e);
       }
-    } //for fileIdx
-  } //for groupIdx
+    } // for fileIdx
+  } // for groupIdx
   return result;
 }
 
@@ -84,13 +81,13 @@ bool archive::extractTo(const std::string& destFileName, int64_t index) const
     std::cerr << "Error: Index " << index << " does not point to a file!" << std::endl;
     return false;
   }
-  //try old format first
+  // try old format first
   unshield_set_log_level(UNSHIELD_LOG_LEVEL_LOWEST);
   bool oldSave = unshield_file_save_old(m_archive, index, destFileName.c_str());
   unshield_set_log_level(UNSHIELD_LOG_LEVEL_ERROR);
   if (oldSave)
     return true;
-  //try new format, if old format failed
+  // try new format, if old format failed
   return unshield_file_save(m_archive, index, destFileName.c_str());
 }
 
@@ -104,7 +101,7 @@ bool archive::extractTo(const std::string& destFileName, const std::string& arch
               << destFileName << " already exists!" << std::endl;
     return false;
   }
-  //find matching file
+  // find matching file
   int64_t foundFileIdx = -1;
   const auto groupCount = unshield_file_group_count(m_archive);
   for(auto groupIdx = 0; groupIdx < groupCount; ++groupIdx)
@@ -136,7 +133,7 @@ bool archive::extractTo(const std::string& destFileName, const std::string& arch
     if (foundFileIdx >= 0)
       break;
   } //for groupIdx
-  //Have we found anything?
+  // Have we found anything?
   if (foundFileIdx == -1)
   {
     std::cerr << "archive::installshield::extractTo: error: file "
@@ -164,6 +161,4 @@ bool archive::isInstallShield(const std::string& fileName)
   return (std::string(start, 4) == "ISc(");
 }
 
-} //namespace
-
-} //namespace
+} // namespace

@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2015  Dirk Stolle
+    Copyright (C) 2015, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,10 +22,7 @@
 #include <fstream>
 #include <cstring>
 
-namespace libstriezel
-{
-
-namespace procfs
+namespace libstriezel::procfs
 {
 
 int getProcessorCount()
@@ -40,13 +37,13 @@ int getProcessorCount()
   char buffer[buffer_size];
   memset(buffer, '\0', buffer_size);
   std::string line = "";
-  while (input.getline(buffer, buffer_size-1))
+  while (input.getline(buffer, buffer_size - 1))
   {
     line = std::string(buffer);
-    if (line.find("processor")==0)
+    if (line.find("processor") == 0)
       ++procs;
     memset(buffer, '\0', buffer_size);
-  } //while
+  }
   const bool reached_eof = input.eof();
   input.close();
   if (reached_eof)
@@ -54,6 +51,4 @@ int getProcessorCount()
   return -1;
 }
 
-} //namespace procfs
-
-} //namespace libstriezel
+} // namespace

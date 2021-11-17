@@ -26,10 +26,7 @@
 #include <archive_entry.h>
 #include "../../filesystem/file.hpp"
 
-namespace libstriezel
-{
-
-namespace sevenZip
+namespace libstriezel::sevenZip
 {
 
 archive::archive(const std::string& fileName)
@@ -97,7 +94,5 @@ bool archive::is7z(const std::string& fileName)
 
   return (sequence == std::string("7z\xBC\xAF\x27\x1C"));
 }
-
-} //namespace
 
 } //namespace

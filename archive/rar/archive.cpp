@@ -26,10 +26,7 @@
 #include <archive_entry.h>
 #include "../../filesystem/file.hpp"
 
-namespace libstriezel
-{
-
-namespace rar
+namespace libstriezel::rar
 {
 
 archive::archive(const std::string& fileName)
@@ -98,7 +95,5 @@ bool archive::isRar(const std::string& fileName)
   return ((sequence == std::string("Rar!\x1a\x07\0", 7))
           || (sequence.substr(0, 4) == std::string("RE\x7e\x5e", 4)));
 }
-
-} //namespace
 
 } //namespace

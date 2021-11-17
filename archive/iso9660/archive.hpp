@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016, 2017  Dirk Stolle
+    Copyright (C) 2016, 2017, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,13 +25,7 @@
 #include <vector>
 #include "../archiveLibarchive.hpp"
 
-namespace libstriezel
-{
-
-namespace archive
-{
-
-namespace iso9660
+namespace libstriezel::archive::iso9660
 {
 
 /** \brief class for handling ISO9660 images
@@ -60,7 +54,7 @@ class archive: public libstriezel::archive::archiveLibarchive
     archive(const archive&& op) = delete;
 
 
-    /** \brief checks whether a file may be an ISO9660 image
+    /** \brief Checks whether a file may be an ISO9660 image.
      *
      * \param fileName  file name of the potential ISO9660 image
      * \return Returns true, if the file seems to be an ISO9660 image.
@@ -68,15 +62,11 @@ class archive: public libstriezel::archive::archiveLibarchive
      */
     static bool isISO9660(const std::string& fileName);
   private:
-    /** \brief apply format support for ISO9660 images
+    /** \brief Apply format support for ISO9660 images.
      */
     void applyFormats();
-}; //class
+};
 
-} //namespace
-
-} //namespace
-
-} //namespace
+} // namespace
 
 #endif // LIBSTRIEZEL_ARCHIVE_ISO9660_ARCHIVE_HPP

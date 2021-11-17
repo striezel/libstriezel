@@ -24,10 +24,7 @@
 #include <stdexcept>
 #include "../filesystem/file.hpp"
 
-namespace libstriezel
-{
-
-namespace archive
+namespace libstriezel::archive
 {
 
 archiveLibarchive::archiveLibarchive(const std::string& fileName)
@@ -355,6 +352,4 @@ bool archiveLibarchive::extractDataTo(const std::string& destFileName)
   } //while
 }
 
-} //namespace
-
-} //namespace
+} // namespace

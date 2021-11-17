@@ -55,7 +55,7 @@ int main(int argc, char** argv)
 
   try
   {
-    libstriezel::_7z::archive svenZipFile(sevenZipFileName);
+    libstriezel::sevenZip::archive svenZipFile(sevenZipFileName);
 
     //list all entries
     const auto entries = svenZipFile.entries();

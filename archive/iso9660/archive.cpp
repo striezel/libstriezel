@@ -24,13 +24,7 @@
 #include <iostream>
 #include <stdexcept>
 
-namespace libstriezel
-{
-
-namespace archive
-{
-
-namespace iso9660
+namespace libstriezel::archive::iso9660
 {
 
 archive::archive(const std::string& fileName)
@@ -44,13 +38,13 @@ archive::archive(const std::string& fileName)
     m_archive = nullptr;
     throw std::runtime_error("libstriezel::archive::iso9660::archive: Failed to open file " + fileName + "!");
   }
-  //fill entries
+  // fill entries
   fillEntries();
 }
 
 archive::~archive()
 {
-  int ret = archive_read_free(m_archive);
+  const int ret = archive_read_free(m_archive);
   if (ret != ARCHIVE_OK)
     std::cerr << "libstriezel::archive::iso9660::archive: Could not close/free archive!\n";
   m_archive = nullptr;
@@ -58,7 +52,7 @@ archive::~archive()
 
 void archive::applyFormats()
 {
-  int ret = archive_read_support_format_iso9660(m_archive);
+  const int ret = archive_read_support_format_iso9660(m_archive);
   if (ret != ARCHIVE_OK)
   {
     archive_read_free(m_archive);
@@ -104,8 +98,4 @@ bool archive::isISO9660(const std::string& fileName)
   return (std::string("CD001") == sequence);
 }
 
-} //namespace
-
-} //namespace
-
-} //namespace
+} // namespace

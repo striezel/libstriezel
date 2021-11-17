@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,10 +27,7 @@
 #include <zip.h>
 #include "../entry.hpp"
 
-namespace libstriezel
-{
-
-namespace zip
+namespace libstriezel::zip
 {
 
 /** \brief class to represent an entry within a ZIP archive
@@ -59,7 +56,7 @@ class entry: public archive::entry
           const uint32_t CRC = 0);
 
 
-    /** \brief gets the index of the file in the zip archive
+    /** \brief Gets the index of the file in the zip archive.
      *
      * \return Returns zero-based index of the entry in the ZIP file.
      * Returns -1, if index is not known.
@@ -67,7 +64,7 @@ class entry: public archive::entry
     int index() const;
 
 
-    /** \brief gets the compressed size of the entry in bytes
+    /** \brief Gets the compressed size of the entry in bytes.
      *
      * \return Returns the compressed size of the entry in bytes.
      * Returns -1, if the size is not known.
@@ -75,7 +72,7 @@ class entry: public archive::entry
     int64_t sizeCompressed() const;
 
 
-    /** \brief gets the CRC checksum of the file
+    /** \brief Gets the CRC checksum of the file.
      *
      * \return Returns the CRC checksum of the file.
      * Returns 0, if the checksum is not known.
@@ -83,7 +80,7 @@ class entry: public archive::entry
     uint32_t crc() const;
 
 
-    /** \brief checks whether the entry is a directory
+    /** \brief Checks whether the entry is a directory.
      *
      * \return Returns true, if the entry is a directory.
      *         Returns false, if not.
@@ -102,10 +99,8 @@ class entry: public archive::entry
     int m_index;        /**< index of the file in the ZIP archive */
     int64_t m_sizeCompressed;   /**< size of file (compressed) in bytes */
     uint32_t m_crc;             /**< CRC checksum */
-}; //class
+};
 
-} //namespace
-
-} //namespace
+} // namespace
 
 #endif // LIBSTRIEZEL_ZIP_ENTRY_HPP

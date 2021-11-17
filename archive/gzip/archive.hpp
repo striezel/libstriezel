@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016, 2017  Dirk Stolle
+    Copyright (C) 2016, 2017, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,10 +26,7 @@
 #include <zlib.h>
 #include "../entry.hpp"
 
-namespace libstriezel
-{
-
-namespace gzip
+namespace libstriezel::gzip
 {
 
 class archive
@@ -56,7 +53,7 @@ class archive
     archive(const archive&& op) = delete;
 
 
-    /** \brief gets a vector of all files within the gzip file
+    /** \brief Gets a vector of all files within the gzip file.
      *
      * \return Returns a vector of all entries within the gzip file.
      * Returns an empty vector, if an error occurred.
@@ -67,7 +64,7 @@ class archive
     std::vector<libstriezel::archive::entry> entries() const;
 
 
-    /** \brief extracts the uncompressed file to the specified destination
+    /** \brief Extracts the uncompressed file to the specified destination.
      *
      * \param destFileName  the destination file name - file must not exist yet
      * \return Returns true, if the file could be extracted successfully.
@@ -76,7 +73,7 @@ class archive
     bool extractTo(const std::string& destFileName);
 
 
-    /** \brief checks whether a file may be a gzip-compressed file
+    /** \brief Checks whether a file may be a gzip-compressed file.
      *
      * \param fileName  file name of the potential gzip-compressed file
      * \return Returns true, if the file seems to be a gzip-compressed file.
@@ -86,10 +83,8 @@ class archive
   private:
     gzFile m_gzip; /**< gzip file handle */
     std::vector<libstriezel::archive::entry> m_entries; /**< entries in the archive */
-}; //class
+};
 
-} //namespace
-
-} //namespace
+} // namespace
 
 #endif // LIBSTRIEZEL_GZIP_ARCHIVE_HPP

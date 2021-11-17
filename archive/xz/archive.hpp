@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016, 2017  Dirk Stolle
+    Copyright (C) 2016, 2017, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,10 +27,7 @@
 #include "../archiveLibarchive.hpp"
 #include "../entryLibarchive.hpp"
 
-namespace libstriezel
-{
-
-namespace xz
+namespace libstriezel::xz
 {
 
 /** \brief class for handling xz archives
@@ -59,7 +56,7 @@ class archive: public libstriezel::archive::archiveLibarchive
     archive(const archive&& op) = delete;
 
 
-    /** \brief checks whether a file may be an xz archive
+    /** \brief Checks whether a file may be an xz archive.
      *
      * \param fileName  file name of the potential xz archive
      * \return Returns true, if the file seems to be an xz archive.
@@ -68,7 +65,7 @@ class archive: public libstriezel::archive::archiveLibarchive
     static bool isXz(const std::string& fileName);
 
 
-    /** \brief extracts the file to the specified destination
+    /** \brief Extracts the file to the specified destination.
      *
      * \param destFileName  the destination file name - file must not exist yet
      * \param archiveFilePath      path of the file that shall be extracted
@@ -77,17 +74,15 @@ class archive: public libstriezel::archive::archiveLibarchive
      */
     virtual bool extractTo(const std::string& destFileName, const std::string& archiveFilePath) override;
   private:
-    /** \brief apply format support for xz archives
+    /** \brief Apply format support for xz archives.
      */
     void applyFormats();
 
-    /** \brief smoothen some edges on the entry data
+    /** \brief Smoothen some edges on the entry data.
      */
     void postprocessEntry(const std::string& fileName);
-}; //class
+};
 
-} //namespace
-
-} //namespace
+} // namespace
 
 #endif // LIBSTRIEZEL_XZ_ARCHIVE_HPP

@@ -25,17 +25,14 @@
 #include <stdexcept>
 #include "../../filesystem/file.hpp"
 
-namespace libstriezel
-{
-
-namespace xz
+namespace libstriezel::xz
 {
 
 archive::archive(const std::string& fileName)
 : archiveLibarchive(fileName)
 {
   applyFormats();
-  int ret = archive_read_open_filename(m_archive, fileName.c_str(), 4096);
+  const int ret = archive_read_open_filename(m_archive, fileName.c_str(), 4096);
   if (ret != ARCHIVE_OK)
   {
     archive_read_free(m_archive);
@@ -73,7 +70,7 @@ void archive::postprocessEntry(const std::string& fileName)
         m_entries[0].setName(n.substr(0, len-3));
       }
     } //if name equals "data"
-  } //if
+  }
 }
 
 void archive::applyFormats()
@@ -119,13 +116,11 @@ bool archive::isXz(const std::string& fileName)
 
 bool archive::extractTo(const std::string& destFileName, const std::string& archiveFilePath)
 {
-  //If file does not exist in archive, it cannot be extracted.
+  // If file does not exist in archive, it cannot be extracted.
   if (!contains(archiveFilePath))
     return false;
-  //delegate the extraction work to extractDataTo()
+  // delegate the extraction work to extractDataTo()
   return extractDataTo(destFileName);
 }
 
-} //namespace
-
-} //namespace
+} // namespace

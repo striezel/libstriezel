@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,10 +27,7 @@
 #include <archive_entry.h>
 #include "entry.hpp"
 
-namespace libstriezel
-{
-
-namespace archive
+namespace libstriezel::archive
 {
 
 /** \brief class to represent an entry within an archive for libarchive
@@ -43,10 +40,8 @@ class entryLibarchive: public entry
      * \param statbuf   pointer to libarchive entry, may not be null
      */
     entryLibarchive(struct archive_entry * ent);
-}; //class
+};
 
-} //namespace
-
-} //namespace
+} // namespace
 
 #endif // LIBSTRIEZEL_ARCHIVE_ENTRY_LIBARCHIVE_HPP

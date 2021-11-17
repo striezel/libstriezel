@@ -26,10 +26,7 @@
 #include <archive_entry.h>
 #include "../../filesystem/file.hpp"
 
-namespace libstriezel
-{
-
-namespace tar
+namespace libstriezel::tar
 {
 
 archive::archive(const std::string& fileName)
@@ -109,6 +106,4 @@ bool archive::isTar(const std::string& fileName)
       || (sequence.substr(0, 6) == std::string("ustar\0", 6)));
 }
 
-} //namespace
-
-} //namespace
+} // namespace

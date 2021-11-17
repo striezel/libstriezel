@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016, 2017  Dirk Stolle
+    Copyright (C) 2016, 2017, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,10 +27,7 @@
 #include "../archiveLibarchive.hpp"
 #include "../entryLibarchive.hpp"
 
-namespace libstriezel
-{
-
-namespace rar
+namespace libstriezel::rar
 {
 
 /** \brief archive class for Roschal archives (*.rar)
@@ -64,7 +61,7 @@ class archive: public libstriezel::archive::archiveLibarchive
     archive(const archive&& op) = delete;
 
 
-    /** \brief checks whether a file may be a Roschal archive
+    /** \brief Checks whether a file may be a Roschal archive.
      *
      * \param fileName  file name of the potential Roschal archive
      * \return Returns true, if the file seems to be a rar archive.
@@ -75,10 +72,8 @@ class archive: public libstriezel::archive::archiveLibarchive
     /** \brief apply format support for rar
      */
     void applyFormats();
-}; //class
+};
 
-} //namespace
-
-} //namespace
+} // namespace
 
 #endif // LIBSTRIEZEL_RAR_ARCHIVE_HPP

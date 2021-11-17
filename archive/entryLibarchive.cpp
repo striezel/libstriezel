@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,31 +21,26 @@
 #include "entryLibarchive.hpp"
 #include <sys/stat.h>
 
-namespace libstriezel
-{
-
-namespace archive
+namespace libstriezel::archive
 {
 
 entryLibarchive::entryLibarchive(struct archive_entry * ent)
 : archive::entry()
 {
-  //name
+  // name
   setName(archive_entry_pathname(ent));
-  //status buffer
+  // status buffer
   const struct stat * statbuf = archive_entry_stat(ent);
-  //size
+  // size
   setSize(statbuf->st_size);
-  //check some file types
+  // check some file types
   const auto type = archive_entry_filetype(ent);
   // directory: AE_IFDIR
   setDirectory(type == AE_IFDIR);
   // symlink: AE_IFLINK
   setSymLink(type == AE_IFLNK);
-  //m_time: time_t usually is just seconds since epoch
+  // m_time: time_t usually is just seconds since epoch
   setTime(statbuf->st_mtim.tv_sec);
 }
 
-} //namespace
-
-} //namespace
+} // namespace

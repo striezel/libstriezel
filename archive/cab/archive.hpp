@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,13 +24,10 @@
 #include "../archiveLibarchive.hpp"
 #include "../entryLibarchive.hpp"
 
-namespace libstriezel
+namespace libstriezel::cab
 {
 
-namespace cab
-{
-
-//alias for entry
+// alias for entry
 using entry = libstriezel::archive::entryLibarchive;
 
 /** \brief class for handling Microsoft Cabinet archives
@@ -59,7 +56,7 @@ class archive: public libstriezel::archive::archiveLibarchive
     archive(const archive&& op) = delete;
 
 
-    /** \brief checks whether a file may be a Cabinet archive
+    /** \brief Checks whether a file may be a Cabinet archive.
      *
      * \param fileName  file name of the potential Cabinet archive
      * \return Returns true, if the file seems to be an Cabinet archive.
@@ -70,10 +67,8 @@ class archive: public libstriezel::archive::archiveLibarchive
     /** \brief apply format support for Cabinet archives
      */
     void applyFormats();
-}; //class
+};
 
-} //namespace
-
-} //namespace
+} // namespace
 
 #endif // LIBSTRIEZEL_AR_ARCHIVE_HPP

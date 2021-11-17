@@ -26,10 +26,7 @@
 #include <zlib.h>
 #include "../../filesystem/file.hpp"
 
-namespace libstriezel
-{
-
-namespace gzip
+namespace libstriezel::gzip
 {
 
 archive::archive(const std::string& fileName)
@@ -42,7 +39,7 @@ archive::archive(const std::string& fileName)
     throw std::runtime_error("libstriezel::gzip::archive: Could not open file!");
   infile.seekg(0, std::ios_base::end);
   const std::ifstream::pos_type pos = infile.tellg();
-  //file should be at least 10 bytes for header + 4 bytes for size
+  // file should be at least 10 bytes for header + 4 bytes for size
   if (pos <= 14)
     throw std::runtime_error("libstriezel::gzip::archive: File is too small to be a proper gzip file!");
   //seek size
@@ -51,7 +48,7 @@ archive::archive(const std::string& fileName)
   infile.read(reinterpret_cast<char*>(&uncompressedSize), 4);
   if (!infile.good() || infile.gcount() != 4)
     throw std::runtime_error("libstriezel::gzip::archive: Could not read uncompressed file size!");
-  //clean up
+  // clean up
   infile.close();
 
   libstriezel::archive::entry oneEntry;
@@ -174,6 +171,4 @@ bool archive::isGzip(const std::string& fileName)
   return (start == 0x8B1F);
 }
 
-} //namespace
-
-} //namespace
+} // namespace

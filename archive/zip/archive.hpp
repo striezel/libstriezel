@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,10 +26,7 @@
 #include <zip.h>
 #include "entry.hpp"
 
-namespace libstriezel
-{
-
-namespace zip
+namespace libstriezel::zip
 {
 
 class archive
@@ -56,7 +53,7 @@ class archive
     archive(const archive&& op) = delete;
 
 
-    /** \brief returns the number of entries in the ZIP archive
+    /** \brief Returns the number of entries in the ZIP archive.
      *
      * \return Returns number of entries, if archive is open.
      * Returns -1, if an error occurred.
@@ -64,7 +61,7 @@ class archive
     int64_t numEntries() const;
 
 
-    /** \brief gets a vector of all files within the ZIP archive
+    /** \brief Gets a vector of all files within the ZIP archive.
      *
      * \return Returns a vector of all entries within the ZIP archive.
      * Returns an empty vector, if an error occurred.
@@ -72,7 +69,7 @@ class archive
     std::vector<entry> entries() const;
 
 
-    /** \brief extracts the file at a given index to the specified destination
+    /** \brief Extracts the file at a given index to the specified destination.
      *
      * \param destFileName  the destination file name - file must not exist yet
      * \param index         index of the entry that shall be extracted
@@ -82,7 +79,7 @@ class archive
     bool extractTo(const std::string& destFileName, int64_t index) const;
 
 
-    /** \brief checks whether a file may be a ZIP archive
+    /** \brief Checks whether a file may be a ZIP archive.
      *
      * \param fileName  file name of the potential ZIP archive
      * \return Returns true, if the file seems to be a ZIP archive.
@@ -90,7 +87,7 @@ class archive
      */
     static bool isZip(const std::string& fileName);
   private:
-    /** \brief gets the error message for the archive
+    /** \brief Gets the error message for the archive.
      *
      * \return Returns a string containing the error message.
      *         Might return an empty string, if there is no error.
@@ -99,10 +96,8 @@ class archive
 
 
     struct zip * m_archive; /**< zip archive handle */
-}; //class
+};
 
-} //namespace
-
-} //namespace
+} // namespace
 
 #endif // LIBSTRIEZEL_ZIP_ARCHIVE_HPP

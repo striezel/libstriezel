@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,10 +25,7 @@
 #include <ctime>
 #include <string>
 
-namespace libstriezel
-{
-
-namespace archive
+namespace libstriezel::archive
 {
 
 /** \brief base class to represent an entry within an arbitrary archive
@@ -45,7 +42,7 @@ class entry
      */
     virtual ~entry();
 
-    /** \brief gets the name of the file
+    /** \brief Gets the name of the file.
      *
      * \return Returns name of the file.
      * May return an empty string, if file name is not known.
@@ -53,7 +50,7 @@ class entry
     const std::string& name() const;
 
 
-    /** \brief gets the size of the entry in bytes
+    /** \brief Gets the size of the entry in bytes.
      *
      * \return Returns the size of the entry in bytes.
      * Returns -1, if the size is not known.
@@ -61,7 +58,7 @@ class entry
     int64_t size() const;
 
 
-    /** \brief gets the modification time of the file
+    /** \brief Gets the modification time of the file.
      *
      * \return Returns modification time of the file.
      * Returns -1 (cast to time_t), if the time is not known.
@@ -69,7 +66,7 @@ class entry
     std::time_t m_time() const;
 
 
-    /** \brief checks whether the entry is a directory
+    /** \brief Checks whether the entry is a directory.
      *
      * \return Returns true, if the entry is a directory.
      *         Returns false, if not.
@@ -78,7 +75,7 @@ class entry
     virtual bool isDirectory() const;
 
 
-    /** \brief checks whether the entry is a symbolic link
+    /** \brief Checks whether the entry is a symbolic link.
      *
      * \return Returns true, if the entry is a symbolic link.
      *         Returns false, if not.
@@ -86,42 +83,42 @@ class entry
     virtual bool isSymLink() const;
 
 
-    /** \brief strips directory name from the entry's name
+    /** \brief Strips directory name from the entry's name.
      *
      * \return Returns the name with any leading directory components removed.
      */
     std::string basename() const;
 
 
-    /** \brief sets the name of the file
+    /** \brief Sets the name of the file.
      *
      * \param name  the new name of the file
      */
     void setName(const std::string& name);
 
 
-    /** \brief sets the size of the file (in bytes)
+    /** \brief Sets the size of the file (in bytes).
      *
      * \param sizeInBytes  the new size of the file in bytes
      */
     void setSize(const int64_t sizeInBytes);
 
 
-    /** \brief sets the modification time of the file
+    /** \brief Sets the modification time of the file.
      *
      * \param modTime  the new modification time of the file
      */
     void setTime(const std::time_t modTime);
 
 
-    /** \brief sets whether or not the entry represents a directory
+    /** \brief Sets whether or not the entry represents a directory.
      *
      * \param isDir   true, if entry is a directory; set to false, if not
      */
     void setDirectory(const bool isDir);
 
 
-    /** \brief sets whether or not the entry represents a symbolic link
+    /** \brief Sets whether or not the entry represents a symbolic link.
      *
      * \param isSymbolic  true, if entry is a symbolic link; set to false, if not
      */
@@ -132,10 +129,8 @@ class entry
     bool m_directory; /**< whether or not this entry is a directory */
     bool m_link; /**< whether or not this entry is a symbolic link */
     std::time_t m_m_time; /**< modification time */
-}; //class
+};
 
-} //namespace
-
-} //namespace
+} // namespace
 
 #endif // LIBSTRIEZEL_ARCHIVE_ENTRY_HPP

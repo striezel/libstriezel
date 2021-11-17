@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,10 +28,7 @@
 #include <stdexcept> //for standard exception classes
 #include "../../filesystem/file.hpp"
 
-namespace libstriezel
-{
-
-namespace zip
+namespace libstriezel::zip
 {
 
 struct DeleterZipFile {
@@ -50,7 +47,7 @@ archive::archive(const std::string& fileName)
   m_archive = zip_open(fileName.c_str(), 0 /*ZIP_RDONLY*/, &errorCode);
   if (m_archive == nullptr)
   {
-    //error handling: throw
+    // error handling: throw
     std::string msg;
     switch(errorCode)
     {
@@ -90,10 +87,10 @@ archive::archive(const std::string& fileName)
       default:
            msg = "Unknown error occurred.";
            break;
-    } //swi
+    }
     msg = "ZIP error: " + msg;
     throw std::runtime_error(msg);
-  } //if
+  }
 }
 
 archive::~archive()
@@ -129,8 +126,7 @@ std::vector<entry> archive::entries() const
     std::vector<entry> result;
     struct zip_stat sb;
     zip_stat_init(&sb);
-    int64_t i = 0;
-    for (i=0; i<num; ++i)
+    for (int64_t i = 0; i < num; ++i)
     {
       const int ret = zip_stat_index(m_archive, i, 0, &sb);
       if (0 == ret)
@@ -139,7 +135,7 @@ std::vector<entry> archive::entries() const
       }
       else
         return std::vector<entry>();
-    } //for
+    }
     return result;
 }
 
@@ -161,7 +157,7 @@ bool archive::extractTo(const std::string& destFileName, int64_t index) const
     return false;
   }
 
-  //open/create destination file
+  // open/create destination file
   std::ofstream destination;
   destination.open(destFileName, std::ios_base::out | std::ios_base::binary | std::ios_base::trunc);
   if (!destination.good() || !destination.is_open())
@@ -172,7 +168,7 @@ bool archive::extractTo(const std::string& destFileName, int64_t index) const
     return false;
   }
 
-  //open file inside archive and wrap it in unique_ptr to make sure it gets closed
+  // open file inside archive and wrap it in unique_ptr to make sure it gets closed
   std::unique_ptr<zip_file, DeleterZipFile> file(zip_fopen_index(m_archive, index, 0));
   if (nullptr == file)
   {
@@ -182,7 +178,7 @@ bool archive::extractTo(const std::string& destFileName, int64_t index) const
     return false;
   }
 
-  //one megabyte should be enough for incremental buffer
+  // one megabyte should be enough for incremental buffer
   const unsigned int bufferSize = 1024 * 1024;
   char buffer[bufferSize];
   zip_int64_t bytesRead = 1;
@@ -196,10 +192,10 @@ bool archive::extractTo(const std::string& destFileName, int64_t index) const
                 << getError() << std::endl;
       destination.close();
       filesystem::file::remove(destFileName);
-      //close zip file - unique_ptr deleter handles zip_fclose()
+      // close zip file - unique_ptr deleter handles zip_fclose()
       file = nullptr;
       return false;
-    } //if
+    }
     destination.write(buffer, bytesRead);
     if (!destination.good())
     {
@@ -207,15 +203,15 @@ bool archive::extractTo(const std::string& destFileName, int64_t index) const
                 << destFileName << "." << std::endl;
       destination.close();
       filesystem::file::remove(destFileName);
-      //close zip file - unique_ptr deleter handles zip_fclose()
+      // close zip file - unique_ptr deleter handles zip_fclose()
       file = nullptr;
       return false;
-    } //if
-  } //while
+    }
+  }
 
-  //close zip file - unique_ptr deleter handles zip_fclose()
+  // close zip file - unique_ptr deleter handles zip_fclose()
   file = nullptr;
-  //close destination file
+  // close destination file
   destination.close();
   return true;
 }
@@ -254,6 +250,4 @@ bool archive::isZip(const std::string& fileName)
   return (start == 0x04034B50);
 }
 
-} //namespace
-
-} //namespace
+} // namespace

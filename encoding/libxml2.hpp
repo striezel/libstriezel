@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the Private Message Database.
-    Copyright (C) 2015  Dirk Stolle
+    Copyright (C) 2015, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,10 +23,7 @@
 
 #include <string>
 
-namespace libstriezel
-{
-
-namespace encoding
+namespace libstriezel::encoding
 {
 
 /** \brief class that uses libxml2's encoding capabilities
@@ -38,7 +35,7 @@ namespace encoding
 class libxml2
 {
   public:
-    /** \brief converts an UTF-8-encoded string to an ISO-8859-1 encoded string
+    /** \brief Converts an UTF-8-encoded string to an ISO-8859-1 encoded string.
      *
      * \param strUTF8  input string, UTF8-encoded
      * \param strISO   used to return the output string, ISO-88559-1-encoded
@@ -47,10 +44,8 @@ class libxml2
      */
 
     static bool UTF8_to_ISO_8859_1(const std::string& strUTF8, std::string& strISO);
-}; //class
+};
 
-} //namespace encoding
-
-} //namesoace libstriezel
+} // namesoace
 
 #endif // LIBSTRIEZEL_ENCODING_LIBXML2_HPP

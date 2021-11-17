@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,10 +21,7 @@
 #include "entry.hpp"
 #include <sys/stat.h>
 
-namespace libstriezel
-{
-
-namespace archive
+namespace libstriezel::archive
 {
 
 entry::entry()
@@ -38,7 +35,6 @@ entry::entry()
 
 entry::~entry()
 {
-  //empty
 }
 
 const std::string& entry::name() const
@@ -72,12 +68,12 @@ std::string entry::basename() const
     return "";
 
   std::string result(m_name);
-  if (result[result.size()-1] == '/')
-    result.erase(result.size()-1);
+  if (result[result.size() - 1] == '/')
+    result.erase(result.size() - 1);
   const std::string::size_type pos = result.rfind('/');
   if (pos == std::string::npos)
     return result;
-  return result.substr(pos +1);
+  return result.substr(pos + 1);
 }
 
 void entry::setName(const std::string& name)
@@ -108,6 +104,4 @@ void entry::setSymLink(const bool isSymbolic)
   m_link = isSymbolic;
 }
 
-} //namespace
-
-} //namespace
+} // namespace

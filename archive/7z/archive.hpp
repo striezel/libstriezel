@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,10 +27,7 @@
 #include "../archiveLibarchive.hpp"
 #include "../entryLibarchive.hpp"
 
-namespace libstriezel
-{
-
-namespace sevenZip
+namespace libstriezel::sevenZip
 {
 
 /** \brief archive class for 7z (seven zip) files
@@ -59,7 +56,7 @@ class archive: public libstriezel::archive::archiveLibarchive
     archive(const archive&& op) = delete;
 
 
-    /** \brief checks whether a file may be a 7z archive
+    /** \brief Checks whether a file may be a 7z archive.
      *
      * \param fileName  file name of the potential 7z archive
      * \return Returns true, if the file seems to be a 7z archive.
@@ -70,13 +67,8 @@ class archive: public libstriezel::archive::archiveLibarchive
     /** \brief apply format support for 7z archives
      */
     void applyFormats();
-}; //class
+};
 
-} //namespace
-
-//namespace alias
-namespace _7z = sevenZip;
-
-} //namespace
+} // namespace
 
 #endif // LIBSTRIEZEL_7Z_ARCHIVE_HPP

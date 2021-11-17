@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,10 +21,7 @@
 #include "entry.hpp"
 #include <limits>
 
-namespace libstriezel
-{
-
-namespace zip
+namespace libstriezel::zip
 {
 
 entry::entry(const struct zip_stat& zs)
@@ -63,7 +60,7 @@ entry::entry(const std::string& theName, const int index, const int64_t uncompre
   setName(theName);
   setSize(uncompressedSize);
   setTime(modTime);
-  //"normalize" invalid values to "not set" values
+  // "normalize" invalid values to "not set" values
   if (m_index < -1)
     m_index = -1;
   if (m_sizeCompressed < -1)
@@ -93,9 +90,9 @@ bool entry::isDirectory() const
   if (size() != 0)
     return false;
   const std::string::size_type len = name().size();
-  if (len>0)
+  if (len > 0)
   {
-    return (name()[len-1] == '/');
+    return (name()[len - 1] == '/');
   }
   else
     return false;
@@ -109,6 +106,4 @@ bool entry::operator==(const entry& other) const
        && (m_time() == other.m_time()) && (m_crc == other.m_crc));
 }
 
-} //namespace
-
-} //namespace
+} // namespace

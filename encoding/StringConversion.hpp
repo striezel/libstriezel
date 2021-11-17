@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2012, 2015  Dirk Stolle
+    Copyright (C) 2012, 2015, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,10 +23,7 @@
 
 #include <string>
 
-namespace libstriezel
-{
-
-namespace encoding
+namespace libstriezel::encoding
 {
 
 ///error code constants
@@ -77,8 +74,6 @@ inline bool iso8859_1_to_utf8(const std::string& in_iso, std::string& out_utf8)
   return (convertString("iso-8859-1", "utf8", in_iso, out_utf8)==cseNone);
 }
 
-} //namespace encoding
-
-} //namespace libstriezel
+} // namespace
 
 #endif // LIBSTRIEZEL_STRINGCONVERSION_HPP

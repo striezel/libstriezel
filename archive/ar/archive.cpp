@@ -24,10 +24,7 @@
 #include <iostream>
 #include <stdexcept>
 
-namespace libstriezel
-{
-
-namespace ar
+namespace libstriezel::ar
 {
 
 archive::archive(const std::string& fileName)
@@ -82,6 +79,4 @@ bool archive::isAr(const std::string& fileName)
   return (std::string(start, 7) == "!<arch>");
 }
 
-} //namespace
-
-} //namespace
+} // namespace

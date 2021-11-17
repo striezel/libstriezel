@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2012  Dirk Stolle
+    Copyright (C) 2012, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,10 +23,7 @@
 #include <cerrno>
 #include <cstring>
 
-namespace libstriezel
-{
-
-namespace encoding
+namespace libstriezel::encoding
 {
 
 int convertString(const std::string& from, const std::string& to, const std::string& text, std::string& output)
@@ -36,10 +33,10 @@ int convertString(const std::string& from, const std::string& to, const std::str
     output = "";
     return cseNone;
   }
-  iconv_t cd = iconv_open(to.c_str(), from.c_str());
-  if (cd==(iconv_t) -1)
+  const iconv_t cd = iconv_open(to.c_str(), from.c_str());
+  if (cd == (iconv_t) -1)
   {
-    //error occurred
+    // error occurred
     switch (errno)
     {
       case EMFILE:
@@ -54,10 +51,10 @@ int convertString(const std::string& from, const std::string& to, const std::str
            break;
       default:
            return cseUnknown;
-    }//swi
-  }//if
+    }
+  }
   const std::string::size_type text_len = text.length();
-  char * buffer = NULL;
+  char * buffer = nullptr;
   try
   {
     buffer = new char[text_len+1];
@@ -68,11 +65,11 @@ int convertString(const std::string& from, const std::string& to, const std::str
     return cseOutOfMemory;
   }
   const char * buffPointer = buffer;
-  memcpy(buffer, text.c_str(), text_len+1);
-  char * buffOutput = NULL;
+  memcpy(buffer, text.c_str(), text_len + 1);
+  char * buffOutput = nullptr;
   try
   {
-    buffOutput = new char[4*text_len+1];
+    buffOutput = new char[4 * text_len + 1];
   }
   catch (...)
   {
@@ -81,15 +78,15 @@ int convertString(const std::string& from, const std::string& to, const std::str
     return cseOutOfMemory;
   }
   const char * buffOutputPtr = buffOutput;
-  memset(buffOutput, '\0', 4*text_len+1);
+  memset(buffOutput, '\0', 4 * text_len + 1);
 
   size_t in_size_left = text_len;
-  size_t out_size_left = 4*text_len+1;
+  size_t out_size_left = 4 * text_len + 1;
 
-  size_t result = iconv(cd, &buffer, &in_size_left, &buffOutput, &out_size_left);
+  const size_t result = iconv(cd, &buffer, &in_size_left, &buffOutput, &out_size_left);
   if (((size_t)-1) == result)
   {
-    //error occurred
+    // error occurred
     delete[] buffPointer;
     delete[] buffOutputPtr;
     iconv_close(cd);
@@ -104,15 +101,13 @@ int convertString(const std::string& from, const std::string& to, const std::str
            return cseBufferToSmall;
       default:
            return cseUnknown;
-    }//swi
-  }//if error
+    }
+  }
   iconv_close(cd);
   delete [] buffPointer;
   output = std::string(buffOutputPtr);
   delete [] buffOutputPtr;
   return cseNone;
-}//function
+}
 
-} //namespace encoding
-
-} //namespace libstriezel
+} // namespace

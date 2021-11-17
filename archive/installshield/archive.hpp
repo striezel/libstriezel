@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2017  Dirk Stolle
+    Copyright (C) 2017, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,10 +26,7 @@
 #include <libunshield.h>
 #include "../entry.hpp"
 
-namespace libstriezel
-{
-
-namespace installshield
+namespace libstriezel::installshield
 {
 
 class archive
@@ -56,7 +53,7 @@ class archive
     archive(const archive&& op) = delete;
 
 
-    /** \brief returns the number of entries in the archive
+    /** \brief Returns the number of entries in the archive.
      *
      * \return Returns number of entries, if archive is open.
      * Returns -1, if an error occurred.
@@ -64,7 +61,7 @@ class archive
     int64_t numEntries() const;
 
 
-    /** \brief gets a vector of all files within the InstallShield archive
+    /** \brief Gets a vector of all files within the InstallShield archive.
      *
      * \return Returns a vector of all entries within the InstallShield archive.
      * Returns an empty vector, if an error occurred.
@@ -72,7 +69,7 @@ class archive
     std::vector<libstriezel::archive::entry> entries() const;
 
 
-    /** \brief extracts the file at a given index to the specified destination
+    /** \brief Extracts the file at a given index to the specified destination.
      *
      * \param destFileName  the destination file name - file must not exist yet
      * \param index         index of the entry that shall be extracted
@@ -82,7 +79,7 @@ class archive
     bool extractTo(const std::string& destFileName, int64_t index) const;
 
 
-    /** \brief extracts the file with the given name to the specified destination
+    /** \brief Extracts the file with the given name to the specified destination.
      *
      * \param destFileName  the destination file name - file must not exist yet
      * \param archiveFilePath      path of the file that shall be extracted
@@ -92,7 +89,7 @@ class archive
     bool extractTo(const std::string& destFileName, const std::string& archiveFilePath);
 
 
-    /** \brief checks whether a file may be an InstallShield archive
+    /** \brief Checks whether a file may be an InstallShield archive.
      *
      * \param fileName  file name of the potential InstallShield archive
      * \return Returns true, if the file seems to be a InstallShield archive.
@@ -100,7 +97,7 @@ class archive
      */
     static bool isInstallShield(const std::string& fileName);
   private:
-    /** \brief gets the error message for the archive
+    /** \brief Gets the error message for the archive.
      *
      * \return Returns a string containing the error message.
      *         Might return an empty string, if there is no error.
@@ -109,10 +106,8 @@ class archive
 
 
     Unshield * m_archive; /**< archive handle */
-}; //class
+};
 
-} //namespace
-
-} //namespace
+} // namespace
 
 #endif // LIBSTRIEZEL_INSTALLSHIELD_ARCHIVE_HPP

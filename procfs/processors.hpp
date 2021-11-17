@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2015  Dirk Stolle
+    Copyright (C) 2015, 2021  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,20 +21,15 @@
 #ifndef LIBSTRIEZEL_PROCESSORS_HPP
 #define LIBSTRIEZEL_PROCESSORS_HPP
 
-namespace libstriezel
+namespace libstriezel::procfs
 {
 
-namespace procfs
-{
-
-/** \brief determines the number of processors on the current machine
+/** \brief Determines the number of processors on the current machine.
  *
- * \return returns the number of processors, if successful. Returns -1 on failure.
+ * \return Returns the number of processors, if successful. Returns -1 on failure.
  */
 int getProcessorCount();
 
-} //namespace procfs
-
-} //namespace libstriezel
+} // namespace
 
 #endif // LIBSTRIEZEL_PROCESSORS_HPP
