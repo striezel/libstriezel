@@ -281,10 +281,10 @@ std::vector<FileEntry> getDirectoryFileList(const std::string& Directory)
   return result;
 }//function
 
-void splitPathFileExtension(const std::string& fileName, const char pathSeperator, std::string& path, std::string& name, std::string& extension)
+void splitPathFileExtension(const std::string& fileName, const char pathSeparator, std::string& path, std::string& name, std::string& extension)
 {
   const std::string::size_type len = fileName.length();
-  if (len==0)
+  if (len == 0)
   {
     path = "";
     name = "";
@@ -292,9 +292,9 @@ void splitPathFileExtension(const std::string& fileName, const char pathSeperato
     return;
   }
 
-  //split path from file and ext.
-  const std::string::size_type sepPos = fileName.rfind(pathSeperator);
-  if (sepPos==std::string::npos)
+  // split path from file and ext.
+  const std::string::size_type sepPos = fileName.rfind(pathSeparator);
+  if (sepPos == std::string::npos)
   {
     path = "";
     name = fileName;
@@ -304,11 +304,11 @@ void splitPathFileExtension(const std::string& fileName, const char pathSeperato
     path = fileName.substr(0, sepPos+1);
     name = fileName.substr(sepPos+1);
   }
-  // => now path has the path (including seperator), and name has the file including extension
+  // => now path has the path (including separator), and name has the file including extension
 
-  //split extension from name
+  // split extension from name
   const std::string::size_type dotPos = name.rfind('.');
-  if (dotPos==std::string::npos)
+  if (dotPos == std::string::npos)
   {
     extension = "";
     return;
@@ -318,6 +318,6 @@ void splitPathFileExtension(const std::string& fileName, const char pathSeperato
   return;
 }
 
-} //namespace filesystem
+} // namespace filesystem
 
-} //namespace libt
+} // namespace lib

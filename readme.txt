@@ -20,7 +20,7 @@ Here is a short overview over the contents of the various directories. If you
 want details about the classes, just look into the source code. Most of it is
 documented well enough to understand it from the documentation alone.
 
-* ci/ - contains script(s) for continous integration
+* ci/ - contains script(s) for continuous integration
 * cmake/ - files for the CMake build systems
 * common/ - code to do some "common" tasks
 * common/graphics/ - functions + classes to read various image formats

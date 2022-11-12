@@ -165,7 +165,7 @@ GLImageStructure readBMP(const std::string& FileName)
   //now go for the data
   //order for 24bpp is blue, green, red
 
-  //check for Offset and seek it, if neccessary
+  //check for Offset and seek it, if necessary
   const long int filePos = ftell(file_bmp);
   if (filePos==EOF)
   {
@@ -203,6 +203,7 @@ GLImageStructure readBMP(const std::string& FileName)
 
 bool isBMP(const unsigned char* header, const size_t length)
 {
-  if (length<2) return false;
-  return ((header[0]=='B') and (header[1]=='M'));
+  if (length < 2)
+    return false;
+  return ((header[0] == 'B') && (header[1] == 'M'));
 }//function isBMP (second version)

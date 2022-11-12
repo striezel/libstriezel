@@ -35,7 +35,7 @@ documented well enough to understand it from the documentation alone.
 * **archive/tar/** - classes to read tape archives (*.tar)
 * **archive/xz/** - classes to read XZ archives
 * **archive/zip/** - classes to read ZIP archives
-* **ci/** - contains script(s) for continous integration
+* **ci/** - contains script(s) for continuous integration
 * **cmake/** - files for the CMake build systems
 * **common/** - code to do some "common" tasks
 * **common/graphics/** - functions + classes to read various image formats

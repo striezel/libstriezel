@@ -146,7 +146,7 @@ std::vector<FileEntry> getDirectoryFileList(const std::string& Directory);
    remarks:
        Calling the function like splitPathFileExtension("/home/user/path/readme.txt", '/', ...)
        will give the following results:
-           path: "/home/user/path/" (i.e. includes path seperator at the end)
+           path: "/home/user/path/" (i.e. includes path separator at the end)
            name: "readme"
            ext.: "txt" (i.e. without dot)
 */
