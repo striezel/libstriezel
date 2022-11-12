@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2011, 2012, 2014, 2015, 2016, 2021  Dirk Stolle
+    Copyright (C) 2011, 2012, 2014, 2015, 2016, 2021, 2022  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #include <sys/stat.h>
 
 #if defined(_WIN32)
-  #include <csdtio> //for std::remove()
+  #include <cstdio> //for std::remove()
   #include <cstring> //for std::memset()
   #include <Windows.h>
   #include <Shlobj.h>
@@ -116,14 +116,14 @@ bool directory::createTemp(std::string& tempDirName)
     //Path component too long?
     if (ERROR_BUFFER_OVERFLOW == gtfn_ret)
       return false;
-    const tempFileName = std::string(buffer);
+    const std::string tempFileName = std::string(buffer);
     //delete file ...
     if (std::remove(tempFileName.c_str()) != 0)
       return false;
     // ... and create directory with the same name
     if (createRecursive(tempFileName))
     {
-      tempDirName = tempFileName:
+      tempDirName = tempFileName;
       return true;
     }
     tempDirName.clear();

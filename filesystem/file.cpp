@@ -234,7 +234,7 @@ std::vector<FileEntry> getDirectoryFileList(const std::string& Directory)
   //Windows part
   intptr_t handle;
   struct _finddata_t sr;
-  sr.attrib = _A_NORMAL | _A_RDONLY | _A_HIDDEN | _A_SYSTEM | _A_VOLID |
+  sr.attrib = _A_NORMAL | _A_RDONLY | _A_HIDDEN | _A_SYSTEM |
               _A_SUBDIR | _A_ARCH;
   handle = _findfirst(std::string(Directory+"*").c_str(),&sr);
   if (handle == -1)
