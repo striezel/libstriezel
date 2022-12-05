@@ -20,23 +20,27 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Wshadow" />
 			<Add option="-Weffc++" />
 			<Add option="-Wmain" />
-			<Add option="-std=c++17" />
+			<Add option="-pedantic-errors" />
+			<Add option="-pedantic" />
+			<Add option="-Wextra" />
 			<Add option="-Wall" />
+			<Add option="-std=c++17" />
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Linker>
 			<Add library="archive" />
 		</Linker>
+		<Unit filename="../../../archive/7z/archive.cpp" />
+		<Unit filename="../../../archive/7z/archive.hpp" />
 		<Unit filename="../../../archive/archiveLibarchive.cpp" />
 		<Unit filename="../../../archive/archiveLibarchive.hpp" />
 		<Unit filename="../../../archive/entry.cpp" />
 		<Unit filename="../../../archive/entry.hpp" />
 		<Unit filename="../../../archive/entryLibarchive.cpp" />
 		<Unit filename="../../../archive/entryLibarchive.hpp" />
-		<Unit filename="../../../archive/7z/archive.cpp" />
-		<Unit filename="../../../archive/7z/archive.hpp" />
 		<Unit filename="../../../common/StringUtils.cpp" />
 		<Unit filename="../../../common/StringUtils.hpp" />
 		<Unit filename="../../../filesystem/directory.cpp" />
@@ -45,9 +49,6 @@
 		<Unit filename="../../../filesystem/file.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
 			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>

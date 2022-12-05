@@ -46,7 +46,7 @@ int main()
   std::string fileName = "";
   if (!libstriezel::filesystem::file::createTemp(fileName))
   {
-    std::cout << "Error: Could not create temporary file!"   << std::endl;
+    std::cout << "Error: Could not create temporary file!" << std::endl;
     return 1;
   }
 
@@ -60,11 +60,10 @@ int main()
       std::cout << "Error: could not create/open temporary file!" << std::endl;
       return 1;
     }
-    std::size_t i = 0;
-    for (i=0; i<item; ++i)
+    for (std::size_t i = 0; i < item; ++i)
     {
       stream.put('\0');
-    } //for
+    }
     if (!stream.good())
     {
       std::cout << "Error: Could not write data to temporary file!" << std::endl;

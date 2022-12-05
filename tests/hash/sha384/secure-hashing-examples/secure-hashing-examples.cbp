@@ -21,10 +21,12 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
+			<Add option="-Wshadow" />
+			<Add option="-pedantic-errors" />
+			<Add option="-pedantic" />
+			<Add option="-Wextra" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="../../../../hash/sha512/functions.hpp" />
 		<Unit filename="../../../../hash/sha384/BufferSource.hpp" />
 		<Unit filename="../../../../hash/sha384/BufferSourceUtility.cpp" />
 		<Unit filename="../../../../hash/sha384/BufferSourceUtility.hpp" />
@@ -34,11 +36,9 @@
 		<Unit filename="../../../../hash/sha512/BufferSource.hpp" />
 		<Unit filename="../../../../hash/sha512/MessageSource.cpp" />
 		<Unit filename="../../../../hash/sha512/MessageSource.hpp" />
+		<Unit filename="../../../../hash/sha512/functions.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
 			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
