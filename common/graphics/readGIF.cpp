@@ -25,9 +25,8 @@
 
 GLImageStructure readGIF(const std::string& FileName)
 {
-  #warning Not implemented yet!
+  // A word of warning: This method is not implemented compeletely yet!
   GLImageStructure result;
-  #warning Premature return!
   return result; //remove this line later, as soon as function is completely implemented
 
   GIF file_gif;
@@ -75,8 +74,8 @@ GLImageStructure readGIF(const std::string& FileName)
 
   decode(colourTable, *tableBasedImage);
 
-  #warning To be continued.
-  #warning Not completely implemented yet!
+  // TODO: To be continued.
+  // TODO: Not completely implemented yet!
   std::cout << "Error: Function readGIF() is incomplete. Wait for next commit to git repository. :p\n";
   return result;
 }

@@ -22,13 +22,12 @@
 #include <set>
 #include "../../../../filesystem/directory.hpp"
 
-int main(int argc, char** argv)
+int main()
 {
   std::set<std::string> tempDirNames;
 
-  //create 20 temporary files
-  int i;
-  for (i=0; i<20; ++i)
+  // create 20 temporary files
+  for (int i = 0; i < 20; ++i)
   {
     std::string dirName = "";
     if (!libstriezel::filesystem::directory::createTemp(dirName))
@@ -37,7 +36,7 @@ int main(int argc, char** argv)
       return 1;
     }
 
-    //make sure that names vary
+    // make sure that names vary
     if (tempDirNames.find(dirName) != tempDirNames.end())
     {
       std::cout << "Error: Temporary directory with the name " << dirName
@@ -46,18 +45,18 @@ int main(int argc, char** argv)
     }
     tempDirNames.insert(dirName);
 
-    //remove temporary directory to keep file system clean
+    // remove temporary directory to keep file system clean
     if (!libstriezel::filesystem::directory::remove(dirName))
     {
       std::cout << "Error: Could not remove temporary directory " << dirName
                 << "!" << std::endl;
       return 1;
     }
-  } //for
+  }
 
-  //create several temp. directories simultaneously
+  // create several temp. directories simultaneously
   tempDirNames.clear();
-  for (i=0; i<50; ++i)
+  for (int i = 0; i < 50; ++i)
   {
     std::string dirName = "";
     if (!libstriezel::filesystem::directory::createTemp(dirName))
@@ -66,7 +65,7 @@ int main(int argc, char** argv)
       return 1;
     }
 
-    //make sure that names vary
+    // make sure that names vary
     if (tempDirNames.find(dirName) != tempDirNames.end())
     {
       std::cout << "Error: Temporary directory with the name " << dirName
@@ -74,9 +73,9 @@ int main(int argc, char** argv)
       return 1;
     }
     tempDirNames.insert(dirName);
-  } //for
+  }
 
-  //remove temporary directories
+  // remove temporary directories
   for(const auto & dn : tempDirNames)
   {
     if (!libstriezel::filesystem::directory::remove(dn))
@@ -85,9 +84,9 @@ int main(int argc, char** argv)
                 << "!" << std::endl;
       return 1;
     }
-  } //for
+  }
 
-  //Everything is OK.
+  // Everything is OK.
   std::cout << "Test for directory::createTemp() passed!" << std::endl;
   return 0;
 }

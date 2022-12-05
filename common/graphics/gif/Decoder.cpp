@@ -172,5 +172,5 @@ bool decode(const GIFColourTable& colourTable, const GIFTableBasedImage& image)
   }//for
   std::cout << "\nBits read: "<<bits_read<<", bits available: "<<bit_arr.getNumberOfBits()<<"\n";
 
-  #warning Incomplete! Not implemented.
+  // TODO: Warning: Incomplete! Not implemented.
 }

@@ -610,7 +610,7 @@ const std::vector<GIFElementBase*>& GIF::getElements() const
 
 bool GIF::readFromFile(const std::string& FileName, const bool onlyReadFirstImage)
 {
-  #warning Not completely implemented yet!
+  // TODO: Warning, this method is not completely implemented yet!
   std::ifstream input;
   input.open(FileName.c_str(), std::ifstream::in | std::ifstream::binary);
   if (!input)

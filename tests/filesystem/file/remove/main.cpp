@@ -22,9 +22,9 @@
 #include <set>
 #include "../../../../filesystem/file.hpp"
 
-int main(int argc, char** argv)
+int main()
 {
-  //test scenario: create temporary file and then delete it
+  // test scenario: create temporary file and then delete it
   std::string fileName = "";
   if (!libstriezel::filesystem::file::createTemp(fileName))
   {
@@ -32,28 +32,28 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  //file should exist now
+  // file should exist now
   if (!libstriezel::filesystem::file::exists(fileName))
   {
     std::cout << "Error: File " << fileName << " does not exist!" << std::endl;
     return 1;
   }
 
-  //remove file
+  // remove file
   if (!libstriezel::filesystem::file::remove(fileName))
   {
     std::cout << "Error: Could not remove file " << fileName << "!" << std::endl;
     return 1;
   }
 
-  //file should not exist anymore
+  // file should not exist anymore
   if (libstriezel::filesystem::file::exists(fileName))
   {
     std::cout << "Error: File " << fileName << " still exists after remove!" << std::endl;
     return 1;
   }
 
-  //Everything is OK.
+  // Everything is OK.
   std::cout << "Test for file::remove() passed!" << std::endl;
   return 0;
 }

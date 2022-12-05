@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of striezel's common code library.
-    Copyright (C) 2011, 2012 Thoronador
+    Copyright (C) 2011, 2012  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,9 +24,6 @@
 #if defined(_WIN32)
   //Windows includes
   #include <Windows.h>
-#else
-  #warning There is no Windows Registry on that OS! Registry related functions \
-           will always fail here!
 #endif
 
 namespace libstriezel

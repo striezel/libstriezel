@@ -19,12 +19,11 @@
 */
 
 #include <iostream>
-#include <set>
 #include "../../../../filesystem/file.hpp"
 
-int main(int argc, char** argv)
+int main()
 {
-  //test scenario: create temporary file and then rename/move it
+  // test scenario: create temporary file and then rename/move it
   std::string originalFileName = "";
   if (!libstriezel::filesystem::file::createTemp(originalFileName))
   {
@@ -33,14 +32,14 @@ int main(int argc, char** argv)
   }
 
   const std::string newFileName = originalFileName + "_new";
-  //file shall not exist yet
+  // file shall not exist yet
   if (libstriezel::filesystem::file::exists(newFileName))
   {
     std::cout << "Error: File " << newFileName << " already exists!" << std::endl;
     return 1;
   }
 
-  //move file
+  // move file
   if (!libstriezel::filesystem::file::rename(originalFileName, newFileName))
   {
     std::cout << "Error: Could not rename file " << originalFileName << " to "
@@ -48,29 +47,28 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  //old file should not exist anymore ...
+  // old file should not exist anymore ...
   if (libstriezel::filesystem::file::exists(originalFileName))
   {
     std::cout << "Error: File " << originalFileName << " still exists after rename!" << std::endl;
     return 1;
   }
 
-  //... but "new" file has to exist
+  // ... but "new" file has to exist
   if (!libstriezel::filesystem::file::exists(newFileName))
   {
     std::cout << "Error: \"New\" file " << newFileName << " does not exists after rename!" << std::endl;
     return 1;
   }
 
-  //remove file
-
+  // remove file
   if (!libstriezel::filesystem::file::remove(newFileName))
   {
     std::cout << "Error: Could not remove file " << newFileName << "!" << std::endl;
     return 1;
   }
 
-  //Everything is OK.
+  // Everything is OK.
   std::cout << "Test for file::rename() passed!" << std::endl;
   return 0;
 }

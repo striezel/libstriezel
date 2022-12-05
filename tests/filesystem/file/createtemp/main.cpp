@@ -22,13 +22,12 @@
 #include <set>
 #include "../../../../filesystem/file.hpp"
 
-int main(int argc, char** argv)
+int main()
 {
   std::set<std::string> tempFileNames;
 
-  //create 20 temporary files
-  int i;
-  for (i=0; i<20; ++i)
+  // create 20 temporary files
+  for (int i = 0; i < 20; ++i)
   {
     std::string fileName = "";
     if (!libstriezel::filesystem::file::createTemp(fileName))
@@ -37,7 +36,7 @@ int main(int argc, char** argv)
       return 1;
     }
 
-    //make sure that names vary
+    // make sure that names vary
     if (tempFileNames.find(fileName) != tempFileNames.end())
     {
       std::cout << "Error: Temporary file with the name " << fileName
@@ -46,18 +45,18 @@ int main(int argc, char** argv)
     }
     tempFileNames.insert(fileName);
 
-    //remove temporary file to keep file system clean
+    // remove temporary file to keep file system clean
     if (!libstriezel::filesystem::file::remove(fileName))
     {
       std::cout << "Error: Could not remove temporary file " << fileName
                 << "!" << std::endl;
       return 1;
     }
-  } //for
+  }
 
-  //create several temp. files simultaneously
+  // create several temp. files simultaneously
   tempFileNames.clear();
-  for (i=0; i<50; ++i)
+  for (int i = 0; i < 50; ++i)
   {
     std::string fileName = "";
     if (!libstriezel::filesystem::file::createTemp(fileName))
@@ -66,7 +65,7 @@ int main(int argc, char** argv)
       return 1;
     }
 
-    //make sure that names vary
+    // make sure that names vary
     if (tempFileNames.find(fileName) != tempFileNames.end())
     {
       std::cout << "Error: Temporary file with the name " << fileName
@@ -74,9 +73,9 @@ int main(int argc, char** argv)
       return 1;
     }
     tempFileNames.insert(fileName);
-  } //for
+  }
 
-  //remove temporary files
+  // remove temporary files
   for(const auto & fn : tempFileNames)
   {
     if (!libstriezel::filesystem::file::remove(fn))
@@ -85,9 +84,9 @@ int main(int argc, char** argv)
                 << "!" << std::endl;
       return 1;
     }
-  } //for
+  }
 
-  //Everything is OK.
+  // Everything is OK.
   std::cout << "Test for file::createTemp() passed!" << std::endl;
   return 0;
 }

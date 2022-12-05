@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011 thoronador
+    Copyright (C) 2011  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,10 +22,10 @@
 #define INCLUDEGLUT_H
 
 #if defined(_WIN32) || defined(_WIN32_) || defined(__WIN32__)
-  #warning Using usual glut header.
+  // Using usual glut header.
   #include <GL/glut.h>
 #elif defined(__linux__) || defined(linux) || defined(FREEGLUT)
-  #warning Using freeglut header.
+  // Using freeglut header.
   #include <GL/freeglut.h>
   #ifndef APP_USING_FREEGLUT
     #define APP_USING_FREEGLUT
