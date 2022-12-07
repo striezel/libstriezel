@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011, 2015  Dirk Stolle
+    This file is part of striezel's common code library.
+    Copyright (C) 2011, 2015, 2022  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,10 +23,10 @@
 #include <fstream>
 
 #if defined(_WIN32)
-  //Windows includes go here
+  // Windows includes go here
   #include <io.h>
 #else
-  //Linux directory entries
+  // Linux directory entries
   #include <dirent.h>
 #endif
 #include <unistd.h>
@@ -44,54 +44,54 @@ bool getDirectoryFileList(const std::string& Directory, std::vector<FileEntry>& 
 {
   FileEntry one;
   #if defined(_WIN32)
-  //Windows part
+  // Windows part
   intptr_t handle;
   struct _finddata_t sr;
-  sr.attrib = _A_NORMAL | _A_RDONLY | _A_HIDDEN | _A_SYSTEM | _A_VOLID |
+  sr.attrib = _A_NORMAL | _A_RDONLY | _A_HIDDEN | _A_SYSTEM |
               _A_SUBDIR | _A_ARCH;
-  handle = _findfirst(std::string(Directory+"*").c_str(),&sr);
+  handle = _findfirst(std::string(Directory + "*").c_str(), &sr);
   if (handle == -1)
   {
     std::cout << "getDirectoryFileList: ERROR: unable to open directory \""
-              << Directory <<"\". Returning incomplete list.\n";
+              << Directory << "\". Returning incomplete list.\n";
     return false;
   }
-  //search it
-  while(_findnext(handle, &sr)==0)
+  // search it
+  while(_findnext(handle, &sr) == 0)
   {
     one.FileName = Prefix + std::string(sr.name);
-    one.IsDirectory = ((sr.attrib & _A_SUBDIR)==_A_SUBDIR);
+    one.IsDirectory = ((sr.attrib & _A_SUBDIR) == _A_SUBDIR);
     result.push_back(one);
-    if (recursive and one.IsDirectory
-        and (std::string(sr.name)!=".") and (std::string(sr.name)!=".."))
+    if (recursive && one.IsDirectory
+        && (std::string(sr.name) != ".") && (std::string(sr.name) != ".."))
     {
-      //call function recursively
-      if (!getDirectoryFileList(Directory+std::string(sr.name)+DirectorySeparator,
-          result, Prefix+std::string(sr.name)+DirectorySeparator, recursive))
+      // call function recursively
+      if (!getDirectoryFileList(Directory + std::string(sr.name) + DirectorySeparator,
+          result, Prefix + std::string(sr.name) + DirectorySeparator, recursive))
       {
-        //error occurred, close handle and return
+        // error occurred, close handle and return
         _findclose(handle);
         return false;
       }
-    }//if recursive
-  }//while
+    } // if recursive && ..
+  }
   _findclose(handle);
   #else
-  //Linux part
+  // Linux part
   DIR * direc = opendir(Directory.c_str());
   if (direc == NULL)
   {
     std::cout << "getDirectoryFileList: ERROR: unable to open directory \""
-              << Directory <<"\". Returning incomplete list.\n";
+              << Directory << "\". Returning incomplete list.\n";
     return false;
-  }//if
+  }
 
   struct dirent* entry = readdir(direc);
   while (entry != NULL)
   {
     one.FileName = Prefix + std::string(entry->d_name);
     one.IsDirectory = entry->d_type==DT_DIR;
-    //check for socket, pipes, block device and char device, which we don't want
+    // check for socket, pipes, block device and char device, which we don't want
     if (entry->d_type != DT_SOCK && entry->d_type != DT_FIFO && entry->d_type != DT_BLK
         && entry->d_type != DT_CHR)
     {
@@ -99,19 +99,19 @@ bool getDirectoryFileList(const std::string& Directory, std::vector<FileEntry>& 
       if (recursive and one.IsDirectory
           and (std::string(entry->d_name)!=".") and (std::string(entry->d_name)!=".."))
       {
-        //call function recursively
+        // call function recursively
         if (!getDirectoryFileList(Directory+std::string(entry->d_name)+DirectorySeparator,
             result, Prefix+std::string(entry->d_name)+DirectorySeparator, recursive))
         {
-          //error occurred, close handle and return
+          // error occurred, close handle and return
           closedir(direc);
           return false;
         }
       }//if recursive
     }//if wanted file type
     entry = readdir(direc);
-  }//while
+  }
   closedir(direc);
   #endif
   return true;
-}//function
+}
