@@ -27,7 +27,7 @@ jobs:
           mkdir build
           cd build
           cmake -DLONG_HASH_TESTS=OFF ../
-          make -j4
+          make -j2
       - name: Tests
         run: |
           cd "$GITHUB_WORKSPACE"/build
@@ -57,7 +57,7 @@ jobs:
           mkdir build
           cd build
           cmake -DLONG_HASH_TESTS=OFF ../
-          make -j4
+          make -j2
       - name: Tests
         run: |
           cd "$GITHUB_WORKSPACE"/build
