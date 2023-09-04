@@ -44,7 +44,7 @@ fi
 if [[ ! -f "$THIS_DIR/beer_.rar" ]]
 then
   # get the rar archive for a Morrowind plugin
-  wget http://mw.modhistory.com/file.php?id=14817 \
+  wget 'https://web.archive.org/web/20161109185313if_/http://mw.modhistory.com/file.php?id=14817' \
    --output-document="$THIS_DIR/BEER_v112-04_Update.rar"
   if [[ $? -ne 0 ]]
   then
