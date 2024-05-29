@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of a test suite for striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2024  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 #include <vector>
 #include "../../../../filesystem/file.hpp"
 
-const std::vector<std::size_t> testSizes =
+const std::vector<std::int64_t> testSizes =
         {
             0,
             1,
@@ -34,36 +34,35 @@ const std::vector<std::size_t> testSizes =
             4097,
             25000,
             128000,
-            1000000, //one million bytes
+            1000000, // one million bytes
             1024*1024, // 1 MB
             5*1024*1024+123 // somewhere near 5 MB
         };
 
 int main()
 {
-  //create temp file for tests
+  // create temp file for tests
   std::string fileName = "";
   if (!libstriezel::filesystem::file::createTemp(fileName))
   {
-    std::cout << "Error: Could not create temporary file!"   << std::endl;
+    std::cout << "Error: Could not create temporary file!" << std::endl;
     return 1;
   }
 
   for (const auto item : testSizes)
   {
-    //generate file from data
+    // generate file from data
     std::ofstream stream;
     stream.open(fileName, std::ios_base::trunc | std::ios_base::binary | std::ios_base::out);
     if (!stream.good() || !stream.is_open())
     {
-      std::cout << "Error: could not create/open temporary file!" << std::endl;
+      std::cout << "Error: Could not create/open temporary file!" << std::endl;
       return 1;
     }
-    std::size_t i = 0;
-    for (i=0; i<item; ++i)
+    for (std::int64_t i = 0; i < item; ++i)
     {
       stream.put('\0');
-    } //for
+    }
     if (!stream.good())
     {
       std::cout << "Error: Could not write data to temporary file!" << std::endl;
@@ -73,7 +72,7 @@ int main()
     }
     stream.close();
 
-    //check file size
+    // check file size
     const auto s = libstriezel::filesystem::file::getSize64(fileName);
     if (s != item)
     {
@@ -82,11 +81,11 @@ int main()
       libstriezel::filesystem::file::remove(fileName);
       return 1;
     }
-  } //for
+  }
 
-  //delete file
+  // delete file
   libstriezel::filesystem::file::remove(fileName);
-  //Everything is OK.
+  // Everything is OK.
   std::cout << "Test for file::getSize64() passed!" << std::endl;
   return 0;
 }

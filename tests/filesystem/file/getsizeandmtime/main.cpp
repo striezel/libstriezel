@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of a test suite for striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2024  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include <vector>
 #include "../../../../filesystem/file.hpp"
 
-const std::vector<std::size_t> testSizes =
+const std::vector<std::int64_t> testSizes =
         {
             0,
             1,
@@ -42,7 +42,7 @@ const std::vector<std::size_t> testSizes =
 
 int main()
 {
-  //create temp file for tests
+  // create temp file for tests
   std::string fileName = "";
   if (!libstriezel::filesystem::file::createTemp(fileName))
   {
@@ -52,7 +52,7 @@ int main()
 
   for (const auto item : testSizes)
   {
-    //generate file with specified size
+    // generate file with specified size
     std::ofstream stream;
     stream.open(fileName, std::ios_base::trunc | std::ios_base::binary | std::ios_base::out);
     if (!stream.good() || !stream.is_open())
@@ -60,7 +60,7 @@ int main()
       std::cout << "Error: could not create/open temporary file!" << std::endl;
       return 1;
     }
-    for (std::size_t i = 0; i < item; ++i)
+    for (std::int64_t i = 0; i < item; ++i)
     {
       stream.put('\0');
     }
@@ -77,7 +77,7 @@ int main()
 
     int64_t s = -2;
     std::time_t mTime = -2;
-    //check file size and modification time
+    // check file size and modification time
     if (!libstriezel::filesystem::file::getSizeAndModificationTime(fileName, s, mTime))
     {
       std::cout << "Error: Could not get size and modification time of temporary file!" << std::endl;
@@ -85,7 +85,7 @@ int main()
       return 1;
     }
 
-    //check size
+    // check size
     if (s != item)
     {
       std::cout << "Error: File size of " << fileName << " should be " << item
@@ -94,7 +94,7 @@ int main()
       libstriezel::filesystem::file::remove(fileName);
       return 1;
     }
-    //check modification time
+    // check modification time
     if (mTime != currentTime)
     {
       std::cout << "Error: Modification time of " << fileName << " should be "
@@ -105,15 +105,15 @@ int main()
       libstriezel::filesystem::file::remove(fileName);
       return 1;
     }
-  } //for
+  }
 
-  //delete file
+  // delete file
   libstriezel::filesystem::file::remove(fileName);
 
-  //check return value for non-existent file
+  // check return value for non-existent file
   int64_t s = -2;
   std::time_t mTime = -2;
-  //check file size and modification time
+  // check file size and modification time
   if (libstriezel::filesystem::file::getSizeAndModificationTime(fileName, s, mTime))
   {
     std::cout << "Error: Could get size and modification time of non-existent file!"
@@ -133,7 +133,7 @@ int main()
     return 1;
   }
 
-  //Everything is OK.
+  // Everything is OK.
   std::cout << "Test for file::getSizeAndModificationTime() passed!" << std::endl;
   return 0;
 }
