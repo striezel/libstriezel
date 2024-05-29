@@ -1,4 +1,3 @@
-# We might support earlier versions, too, but try to use a more recent one.
 cmake_minimum_required (VERSION 3.8)
 
 # binary for test of libstriezel::filesystem::file::remove()
@@ -9,10 +8,13 @@ set(test_filesystem_file_remove_src
     ../../../../filesystem/file.cpp
     main.cpp)
 
-# We use a C++11 feature in the code, so enable C++0x a.k.a. C++11.
-add_definitions(-Wall -O2 -fexceptions -std=c++17)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    add_definitions(-Wall -Wextra -Wpedantic -pedantic-errors -Wshadow -O2 -fexceptions)
 
-set( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -s" )
+    set( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -s" )
+endif ()
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(test_filesystem_file_remove ${test_filesystem_file_remove_src})
 
