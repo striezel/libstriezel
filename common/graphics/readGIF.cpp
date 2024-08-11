@@ -25,7 +25,7 @@
 
 GLImageStructure readGIF(const std::string& FileName)
 {
-  // A word of warning: This method is not implemented compeletely yet!
+  // A word of warning: This method is not implemented completely yet!
   GLImageStructure result;
   return result; //remove this line later, as soon as function is completely implemented
 
