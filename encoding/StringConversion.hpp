@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2012, 2015, 2021  Dirk Stolle
+    Copyright (C) 2012, 2015, 2021, 2025  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,10 +36,10 @@ const int cseInvalidCode = 5;
 const int cseBufferToSmall = 6;
 const int cseUnknown = 7;
 
-/** \brief converts a string from one codeset to another
+/** \brief Converts a string from one codeset to another.
  *
- * \param from   name of the original codeset (e.g. "utf8")
- * \param to     name of the target codeset (e.g. "iso-8859-15")
+ * \param from   name of the original codeset (e.g. "UTF-8")
+ * \param to     name of the target codeset (e.g. "ISO-8859-15")
  * \param text   the text in the original encoding
  * \param output string that shall store the text in the target encoding
  * \remarks If this function fails, the string in output is not touched.
@@ -49,7 +49,7 @@ const int cseUnknown = 7;
 int convertString(const std::string& from, const std::string& to, const std::string& text, std::string& output);
 
 
-/** \brief converts the UTF8-encoded string to an ISO-8859-1-encoded string
+/** \brief Converts the UTF8-encoded string to an ISO-8859-1-encoded string.
  *
  * \param in_utf8  input string, UTF8-encoded
  * \param out_iso  used to return the output string, ISO-88559-1-encoded
@@ -58,11 +58,11 @@ int convertString(const std::string& from, const std::string& to, const std::str
  */
 inline bool utf8_to_iso8859_1(const std::string& in_utf8, std::string& out_iso)
 {
-  return (convertString("utf8", "iso-8859-1", in_utf8, out_iso)==cseNone);
+  return (convertString("UTF-8", "ISO-8859-1", in_utf8, out_iso) == cseNone);
 }
 
 
-/** \brief converts the ISO-8859-1-encoded string to an UTF8-encoded string
+/** \brief Converts the ISO-8859-1-encoded string to an UTF8-encoded string.
  *
  * \param in_iso  input string, ISO-8859-1-encoded (also called "latin1")
  * \param out_utf8 variable that is used to return the UTF8-encoded output
@@ -71,7 +71,7 @@ inline bool utf8_to_iso8859_1(const std::string& in_utf8, std::string& out_iso)
  */
 inline bool iso8859_1_to_utf8(const std::string& in_iso, std::string& out_utf8)
 {
-  return (convertString("iso-8859-1", "utf8", in_iso, out_utf8)==cseNone);
+  return (convertString("ISO-8859-1", "UTF-8", in_iso, out_utf8) == cseNone);
 }
 
 } // namespace
