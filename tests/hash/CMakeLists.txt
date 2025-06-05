@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.8...3.31)
 
 # option for long-running hash tests
 option(LONG_HASH_TESTS "whether to run long-running hash tests" ON)
