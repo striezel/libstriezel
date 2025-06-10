@@ -16,9 +16,6 @@ add_subdirectory (readintostring)
 # Recurse into subdirectory for libstriezel::filesystem::file::remove().
 add_subdirectory (remove)
 
-# Recurse into subdirectory for libstriezel::filesystem::file::rename().
-add_subdirectory (rename)
-
 # Recurse into subdirectory for
 # libstriezel::filesystem::file::setSizeModificationTime().
 add_subdirectory (setmtime)

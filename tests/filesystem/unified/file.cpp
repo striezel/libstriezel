@@ -68,4 +68,27 @@ TEST_CASE("filesystem::file")
       }
     }
   }
+
+  SECTION("rename")
+  {
+    // test scenario: create temporary file and then rename/move it
+    std::string originalFileName = "";
+    REQUIRE( libstriezel::filesystem::file::createTemp(originalFileName) );
+
+    const std::string newFileName = originalFileName + "_new";
+    // new file shall not exist yet
+    REQUIRE_FALSE( libstriezel::filesystem::file::exists(newFileName) );
+
+    // move file
+    REQUIRE( libstriezel::filesystem::file::rename(originalFileName, newFileName) );
+
+    // old file should not exist anymore ...
+    REQUIRE_FALSE( libstriezel::filesystem::file::exists(originalFileName) );
+
+    // ... but "new" file has to exist
+    REQUIRE( libstriezel::filesystem::file::exists(newFileName) );
+
+    // remove file
+    REQUIRE( libstriezel::filesystem::file::remove(newFileName) );
+  }
 }
