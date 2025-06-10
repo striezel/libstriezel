@@ -67,4 +67,20 @@ TEST_CASE("filesystem::directory")
       }
     }
   }
+
+  SECTION("getHome")
+  {
+    std::string home;
+    REQUIRE( libstriezel::filesystem::directory::getHome(home) );
+    REQUIRE_FALSE( home.empty() );
+    // Check some common locations.
+    const bool startsWithCUsers = (home.find("C:\\Users\\") == 0)
+                               || (home.find("c:\\Users\\") == 0)
+                               || (home.find("c:\\users\\") == 0);
+    const bool windowsSystemProfile = (home.find("C:\\Windows\\System32\\config\\systemprofile") == 0);
+    const bool startsWithHome = (home.find("/home/") == 0);
+    const bool startsWithRoot = (home.find("/root") == 0);
+    const bool isCommon =  startsWithCUsers || windowsSystemProfile || startsWithHome || startsWithRoot;
+    REQUIRE( isCommon );
+  }
 }
