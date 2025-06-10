@@ -8,6 +8,7 @@ set(test_components_filesystem_src
     ../../../filesystem/directory.cpp
     ../../../filesystem/file.cpp
     directory.cpp
+    file.cpp
     getsizestring.cpp
     splitpathfileextension.cpp
     main.cpp)

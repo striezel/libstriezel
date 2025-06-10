@@ -20,50 +20,51 @@
 
 #include "../../locate_catch.hpp"
 #include <set>
-#include "../../../filesystem/directory.hpp"
+#include "../../../filesystem/file.hpp"
 
-TEST_CASE("filesystem::directory")
+TEST_CASE("filesystem::file")
 {
   SECTION("createTemp")
   {
-    SECTION("create 20 temporary directories")
+    SECTION("create 20 temporary files")
     {
-      std::set<std::string> tempDirNames;
+      std::set<std::string> tempFileNames;
 
       for (int i = 0; i < 20; ++i)
       {
-        std::string dirName = "";
-        REQUIRE( libstriezel::filesystem::directory::createTemp(dirName) );
+        std::string fileName = "";
+        REQUIRE( libstriezel::filesystem::file::createTemp(fileName) );
 
         // make sure that names vary
-        const bool not_in_set = tempDirNames.find(dirName) == tempDirNames.end();
+        const bool not_in_set = tempFileNames.find(fileName) == tempFileNames.end();
         REQUIRE( not_in_set );
-        tempDirNames.insert(dirName);
+        tempFileNames.insert(fileName);
 
-        // remove temporary directory to keep file system clean
-        REQUIRE( libstriezel::filesystem::directory::remove(dirName) );
+        // remove temporary file to keep file system clean
+        REQUIRE( libstriezel::filesystem::file::remove(fileName) );
       }
     }
 
-    SECTION("create several temp. directories simultaneously")
+    SECTION("create several temp. files simultaneously")
     {
-      std::set<std::string> tempDirNames;
+      std::set<std::string> tempFileNames;
 
       for (int i = 0; i < 50; ++i)
       {
-        std::string dirName = "";
-        REQUIRE( libstriezel::filesystem::directory::createTemp(dirName) );
+        std::string fileName = "";
+        REQUIRE( libstriezel::filesystem::file::createTemp(fileName) );
 
         // make sure that names vary
-        const bool not_in_set = tempDirNames.find(dirName) == tempDirNames.end();
+        const bool not_in_set = tempFileNames.find(fileName) == tempFileNames.end();
         REQUIRE( not_in_set );
-        tempDirNames.insert(dirName);
+
+        tempFileNames.insert(fileName);
       }
 
-      // remove temporary directories
-      for(const auto & dn : tempDirNames)
+      // remove temporary files
+      for(const auto & fn : tempFileNames)
       {
-        REQUIRE( libstriezel::filesystem::directory::remove(dn) );
+        REQUIRE( libstriezel::filesystem::file::remove(fn) );
       }
     }
   }

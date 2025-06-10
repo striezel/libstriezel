@@ -1,8 +1,5 @@
 cmake_minimum_required (VERSION 3.8...3.31)
 
-# Recurse into subdirectory for libstriezel::filesystem::file::createTemp().
-add_subdirectory (createtemp)
-
 # Recurse into subdirectory for libstriezel::filesystem::file::exists().
 add_subdirectory (exists)
 
