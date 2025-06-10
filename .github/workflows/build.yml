@@ -94,3 +94,41 @@ jobs:
         run: |
           cd "$GITHUB_WORKSPACE"/build
           ctest -V
+
+  alpine:
+    runs-on: ubuntu-24.04
+    container: 'alpine:3.22'
+    steps:
+      - name: Install and prepare Git
+        run: |
+          apk update && apk upgrade
+          apk add git
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      # Checks-out the repository under $GITHUB_WORKSPACE.
+      - name: Git checkout
+        uses: actions/checkout@v4
+      - name: Install packages
+        run: |
+          apk update
+          apk add catch2 cmake g++ freeglut-dev giflib-dev libarchive-dev libjpeg-turbo-dev libpng-dev libxml2-dev libzip-dev make pkgconf unshield-dev zlib-dev
+          apk add unzip wget
+      - name: Linting
+        run: |
+          apk add bash
+          export CXX=g++
+          export CC=gcc
+          cd $GITHUB_WORKSPACE
+          ./ci/cpplint.sh
+      - name: Build
+        run: |
+          export CXX=g++
+          export CC=gcc
+          cd $GITHUB_WORKSPACE
+          mkdir build
+          cd build
+          cmake -DLONG_HASH_TESTS=OFF ../
+          make -j4
+      - name: Tests
+        run: |
+          cd "$GITHUB_WORKSPACE"/build
+          ctest -V
