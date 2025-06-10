@@ -27,11 +27,17 @@
 			<Add option="-std=c++17" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="../../../common/StringUtils.cpp" />
+		<Unit filename="../../../common/StringUtils.hpp" />
 		<Unit filename="../../../filesystem/directory.cpp" />
 		<Unit filename="../../../filesystem/directory.hpp" />
+		<Unit filename="../../../filesystem/file.cpp" />
+		<Unit filename="../../../filesystem/file.hpp" />
 		<Unit filename="../../locate_catch.hpp" />
 		<Unit filename="directory.cpp" />
+		<Unit filename="getsizestring.cpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="splitpathfileextension.cpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

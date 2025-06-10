@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of a test suite for striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2025  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,47 +18,41 @@
  -----------------------------------------------------------------------------
 */
 
+#include "../../locate_catch.hpp"
 #include <iostream>
 #include <utility>
 #include <vector>
 #include "../../../filesystem/file.hpp"
 
-const std::vector< std::pair<int64_t, std::string> > cases
-  = {
-    { 1, "1 byte" },
-    { 1024, "1024 byte" },
-    { 1025, "1 KB" },
-    { 1536, "1.5 KB" },
-    { 1792, "1.75 KB" },
-    { 4096, "4 KB" },
-    { 1024*1024, "1024 KB" },
-    { 1024*1024+1, "1 MB" },
-    { 1792*1024, "1.75 MB" },
-    { 1024*1024*20, "20 MB" },
-    { 33816576, "32.25 MB" },
-    { 1073479680, "1023.75 MB" },
-    { 1024*1024*1024, "1024 MB" },
-    { 1024*1024*1024+1, "1 GB" },
-    { 1792*1024*1024, "1.75 GB" },
-    /* Cast first component to int64_t to force the resulting type to be int64_t
-       as well, because otherwise the integer expression would cause an overflow
-       on 32 bit systems. */
-    { static_cast<int64_t>(1024)*1024*1024*1024, "1024 GB" }
-  };
-
-int main()
+TEST_CASE("filesystem::getSizeString")
 {
+  const std::vector< std::pair<int64_t, std::string> > cases
+    = {
+      { 1, "1 byte" },
+      { 1024, "1024 byte" },
+      { 1025, "1 KB" },
+      { 1536, "1.5 KB" },
+      { 1792, "1.75 KB" },
+      { 4096, "4 KB" },
+      { 1024L*1024, "1024 KB" },
+      { 1024L*1024+1, "1 MB" },
+      { 1792L*1024, "1.75 MB" },
+      { 1024L*1024*20, "20 MB" },
+      { 33816576, "32.25 MB" },
+      { 1073479680L, "1023.75 MB" },
+      { 1024L*1024*1024, "1024 MB" },
+      { 1024L*1024*1024+1, "1 GB" },
+      { 1792L*1024*1024, "1.75 GB" },
+      /* Cast first component to int64_t to force the resulting type to be int64_t
+         as well, because otherwise the integer expression would cause an overflow
+         on 32 bit systems. */
+      { static_cast<int64_t>(1024)*1024*1024*1024, "1024 GB" }
+    };
+
   for (const auto & item : cases)
   {
     const auto str = libstriezel::filesystem::getSizeString(item.first);
     std::cout << "getSizeString(" << item.first << ") = " << str << std::endl;
-    if (str != item.second)
-    {
-      std::cout << "Error: getSizeString(" << item.first << ") should return "
-                << item.second << "!" << std::endl;
-      return 1;
-    }
-  } //for
-  std::cout << "Test for getSizeString() passed!" << std::endl;
-  return 0;
+    REQUIRE( str == item.second );
+  }
 }

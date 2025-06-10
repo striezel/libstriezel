@@ -4,8 +4,12 @@ cmake_minimum_required (VERSION 3.8...3.31)
 project(test_components_filesystem)
 
 set(test_components_filesystem_src
+    ../../../common/StringUtils.cpp
     ../../../filesystem/directory.cpp
+    ../../../filesystem/file.cpp
     directory.cpp
+    getsizestring.cpp
+    splitpathfileextension.cpp
     main.cpp)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")

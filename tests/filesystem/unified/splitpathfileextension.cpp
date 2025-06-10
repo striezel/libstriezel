@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of a test suite for striezel's common code library.
-    Copyright (C) 2016  Dirk Stolle
+    Copyright (C) 2016, 2025  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,26 +18,27 @@
  -----------------------------------------------------------------------------
 */
 
+#include "../../locate_catch.hpp"
 #include <iostream>
 #include <tuple>
 #include <vector>
 #include "../../../filesystem/file.hpp"
 
-typedef std::tuple<std::string, char, std::string, std::string, std::string> tupT;
-
-const std::vector< tupT > cases
-  = {
-    { tupT(std::string(""), '/', std::string(""), std::string(""), std::string("")) },
-    { tupT("/home/user/path/readme.txt", '/', "/home/user/path/", "readme", "txt") },
-    { tupT("/home/user/path/file", '/', "/home/user/path/", "file", "") },
-    { tupT("../path/to/some.thing", '/', "../path/to/", "some", "thing") },
-    { tupT("relative/path/to/some.thing", '/', "relative/path/to/", "some", "thing") },
-    { tupT("C:\\Program Files (x86)\\Bloatware\\leak_pointer.exe", '\\', "C:\\Program Files (x86)\\Bloatware\\", "leak_pointer", "exe") },
-    { tupT("D:\\Director\\Y\\file.ext", '\\', "D:\\Director\\Y\\", "file", "ext") }
-  };
-
-int main()
+TEST_CASE("filesystem::splitPathFileExtension")
 {
+  typedef std::tuple<std::string, char, std::string, std::string, std::string> tupT;
+
+  const std::vector< tupT > cases
+    = {
+      { tupT(std::string(""), '/', std::string(""), std::string(""), std::string("")) },
+      { tupT("/home/user/path/readme.txt", '/', "/home/user/path/", "readme", "txt") },
+      { tupT("/home/user/path/file", '/', "/home/user/path/", "file", "") },
+      { tupT("../path/to/some.thing", '/', "../path/to/", "some", "thing") },
+      { tupT("relative/path/to/some.thing", '/', "relative/path/to/", "some", "thing") },
+      { tupT("C:\\Program Files (x86)\\Bloatware\\leak_pointer.exe", '\\', "C:\\Program Files (x86)\\Bloatware\\", "leak_pointer", "exe") },
+      { tupT("D:\\Director\\Y\\file.ext", '\\', "D:\\Director\\Y\\", "file", "ext") }
+    };
+
   for (const auto & item : cases)
   {
     std::string path;
@@ -48,16 +49,8 @@ int main()
               << "\tpath: \"" << path << "\"" << std::endl
               << "\tfile: \"" << file << "\"" << std::endl
               << "\text:  \"" << ext << "\"" << std::endl;
-    if ((std::get<2>(item) != path) || (std::get<3>(item) != file)
-         || (std::get<4>(item) != ext))
-    {
-      std::cout << "Error: splitPathFileExtension(\"" << std::get<0>(item) << "\", '" << std::get<1>(item) << "', ...) should return" << std::endl
-              << "\tpath: \"" << std::get<2>(item) << "\"" << std::endl
-              << "\tfile: \"" << std::get<3>(item) << "\"" << std::endl
-              << "\text:  \"" << std::get<4>(item) << "\"" << std::endl;
-      return 1;
-    }
-  } //for
-  std::cout << "Test for splitPathFileExtension() passed!" << std::endl;
-  return 0;
+    REQUIRE( std::get<2>(item) == path );
+    REQUIRE( std::get<3>(item) == file );
+    REQUIRE( std::get<4>(item) == ext );
+  }
 }
