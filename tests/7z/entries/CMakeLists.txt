@@ -24,6 +24,8 @@ add_executable(test-7z-entries ${test-7z-entries_sources})
 
 # find libarchive
 find_package (LibArchive)
+message ( STATUS "LIBARCHIVE_FOUND is '${LIBARCHIVE_FOUND}'." )
+message ( STATUS "LibArchive_FOUND is '${LibArchive_FOUND}'." )
 if (LibArchive_FOUND)
   include_directories(${LibArchive_INCLUDE_DIRS})
   target_link_libraries (test-7z-entries ${LibArchive_LIBRARIES})
