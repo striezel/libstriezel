@@ -23,6 +23,10 @@ jobs:
             mingw-w64-x86_64-catch
             mingw-w64-x86_64-cmake
             mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-giflib
+            mingw-w64-x86_64-libarchive
+            mingw-w64-x86_64-libjpeg-turbo
+            mingw-w64-x86_64-libpng
             mingw-w64-x86_64-libxml2
             mingw-w64-x86_64-ninja
             mingw-w64-x86_64-pkg-config
