@@ -21,8 +21,8 @@
 #ifndef LIBSTRIEZEL_SHA512_FUNCTIONS_HPP
 #define LIBSTRIEZEL_SHA512_FUNCTIONS_HPP
 
+#include <cstdint>
 #include <stdexcept>
-#include <stdint.h>
 
 /* This file contains the constants and (shorter) functions for SHA-512
    calculation. */

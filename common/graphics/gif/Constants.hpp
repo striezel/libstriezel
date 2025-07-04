@@ -21,7 +21,7 @@
 #ifndef GIFCONSTANTS_H
 #define GIFCONSTANTS_H
 
-#include <stdint.h>
+#include <cstdint>
 
 // constants
 const uint8_t cGIFImageSeparator = 0x2C;

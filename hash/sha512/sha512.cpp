@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2015  Dirk Stolle
+    Copyright (C) 2015, 2025  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,8 +36,7 @@ std::string MessageDigest::toHexString() const
 {
   const char cHexDigits[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
   std::string result;
-  unsigned int i;
-  for (i=0; i<8; ++i)
+  for (unsigned int i = 0; i < 8; ++i)
   {
     result.push_back(cHexDigits[(hash[i]>>60)%16]);
     result.push_back(cHexDigits[(hash[i]>>56)%16]);
@@ -55,18 +54,18 @@ std::string MessageDigest::toHexString() const
     result.push_back(cHexDigits[(hash[i]>>8)%16]);
     result.push_back(cHexDigits[(hash[i]>>4)%16]);
     result.push_back(cHexDigits[hash[i]%16]);
-  }//for
+  }
   return result;
 }
 
 bool MessageDigest::fromHexString(const std::string& digestHexString)
 {
-  if (digestHexString.length()!=128) return false;
-  unsigned int i, j;
-  for (i=0; i<8; ++i)
+  if (digestHexString.length() != 128)
+    return false;
+  for (unsigned int i = 0; i < 8; ++i)
   {
     hash[i] = 0;
-    for (j=0; j<16; ++j)
+    for (unsigned int j = 0; j < 16; ++j)
     {
       switch (digestHexString.at(i*16+j))
       {
@@ -91,18 +90,18 @@ bool MessageDigest::fromHexString(const std::string& digestHexString)
              hash[i] = hash[i] | (static_cast<uint64_t>(digestHexString.at(i*16+j)-'a'+10)<<(60-j*4));
              break;
         default:
-             //invalid character encountered
+             // invalid character encountered
              return false;
-      }//swi
-    }//for j
-  }//for i
+      }
+    } // for j
+  } // for i
   return true;
 }
 
 bool MessageDigest::isNull() const
 {
-  return ((hash[0]==0) and (hash[1]==0) and (hash[2]==0) and (hash[3]==0)
-      and (hash[4]==0) and (hash[5]==0) and (hash[6]==0) and (hash[7]==0));
+  return (hash[0] == 0) && (hash[1] == 0) && (hash[2] == 0) && (hash[3] == 0)
+      && (hash[4] == 0) && (hash[5] == 0) && (hash[6] == 0) && (hash[7] == 0);
 }
 
 void MessageDigest::setToNull()
@@ -112,29 +111,30 @@ void MessageDigest::setToNull()
 
 bool MessageDigest::operator==(const MessageDigest& other) const
 {
-  return ((hash[0]==other.hash[0]) && (hash[1]==other.hash[1])
-    && (hash[2]==other.hash[2]) && (hash[3]==other.hash[3])
-    && (hash[4]==other.hash[4]) && (hash[5]==other.hash[5])
-    && (hash[6]==other.hash[6]) && (hash[7]==other.hash[7]));
+  return (hash[0] == other.hash[0]) && (hash[1] == other.hash[1])
+    && (hash[2] == other.hash[2]) && (hash[3] == other.hash[3])
+    && (hash[4] == other.hash[4]) && (hash[5] == other.hash[5])
+    && (hash[6] == other.hash[6]) && (hash[7] == other.hash[7]);
 }
 
 bool MessageDigest::operator!=(const MessageDigest& other) const
 {
-  return ((hash[0]!=other.hash[0]) || (hash[1]!=other.hash[1])
-    || (hash[2]!=other.hash[2]) || (hash[3]!=other.hash[3])
-    || (hash[4]!=other.hash[4]) || (hash[5]!=other.hash[5])
-    || (hash[6]!=other.hash[6]) || (hash[7]!=other.hash[7]));
+  return (hash[0] != other.hash[0]) || (hash[1] != other.hash[1])
+    || (hash[2] != other.hash[2]) || (hash[3] != other.hash[3])
+    || (hash[4] != other.hash[4]) || (hash[5] != other.hash[5])
+    || (hash[6] != other.hash[6]) || (hash[7] != other.hash[7]);
 }
 
 bool MessageDigest::operator<(const MessageDigest& other) const
 {
-  unsigned int i;
-  for (i=0; i<7; ++i)
+  for (unsigned int i = 0; i < 7; ++i)
   {
-    if (hash[i]<other.hash[i]) return true;
-    if (hash[i]>other.hash[i]) return false;
-  }//for
-  return (hash[7]<other.hash[7]);
+    if (hash[i] < other.hash[i])
+      return true;
+    if (hash[i] > other.hash[i])
+      return false;
+  }
+  return hash[7] < other.hash[7];
 }
 
 
@@ -227,4 +227,4 @@ MessageDigest computeFromSource(MessageSource& source)
   return H;
 }
 
-} //namespace
+} // namespace

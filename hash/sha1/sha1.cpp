@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2012, 2014  Dirk Stolle
+    Copyright (C) 2012, 2014, 2025  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -39,8 +39,7 @@ std::string MessageDigest::toHexString() const
 {
   const char cHexDigits[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
   std::string result;
-  unsigned int i;
-  for (i=0; i<5; ++i)
+  for (unsigned int i = 0; i < 5; ++i)
   {
     result.push_back(cHexDigits[hash[i]>>28]);
     result.push_back(cHexDigits[(hash[i]>>24)%16]);
@@ -50,18 +49,18 @@ std::string MessageDigest::toHexString() const
     result.push_back(cHexDigits[(hash[i]>>8)%16]);
     result.push_back(cHexDigits[(hash[i]>>4)%16]);
     result.push_back(cHexDigits[hash[i]%16]);
-  }//for
+  }
   return result;
 }
 
 bool MessageDigest::fromHexString(const std::string& digestHexString)
 {
-  if (digestHexString.length()!=40) return false;
-  unsigned int i, j;
-  for (i=0; i<5; ++i)
+  if (digestHexString.length() != 40)
+    return false;
+  for (unsigned int i = 0; i < 5; ++i)
   {
     hash[i] = 0;
-    for (j=0; j<8; ++j)
+    for (unsigned int j = 0; j < 8; ++j)
     {
       switch (digestHexString.at(i*8+j))
       {
@@ -88,46 +87,47 @@ bool MessageDigest::fromHexString(const std::string& digestHexString)
         default:
              //invalid character encountered
              return false;
-      }//swi
-    }//for j
-  }//for i
+      }
+    } // for j
+  } // for i
   return true;
 }
 
 bool MessageDigest::isNull() const
 {
-  return ((hash[0]==0) and (hash[1]==0) and (hash[2]==0) and (hash[3]==0)
-      and (hash[4]==0));
+  return (hash[0] == 0) && (hash[1] == 0) && (hash[2] == 0) && (hash[3] == 0)
+      && (hash[4] == 0);
 }
 
 void MessageDigest::setToNull()
 {
-  hash[0]= hash[1]= hash[2]= hash[3]= hash[4]= 0;
+  hash[0] = hash[1] = hash[2] = hash[3] = hash[4] = 0;
 }
 
 bool MessageDigest::operator==(const MessageDigest& other) const
 {
-  return ((hash[0]==other.hash[0]) && (hash[1]==other.hash[1])
-    && (hash[2]==other.hash[2]) && (hash[3]==other.hash[3])
-    && (hash[4]==other.hash[4]));
+  return (hash[0] == other.hash[0]) && (hash[1] == other.hash[1])
+    && (hash[2] == other.hash[2]) && (hash[3] == other.hash[3])
+    && (hash[4] == other.hash[4]);
 }
 
 bool MessageDigest::operator!=(const MessageDigest& other) const
 {
-  return ((hash[0]!=other.hash[0]) || (hash[1]!=other.hash[1])
-    || (hash[2]!=other.hash[2]) || (hash[3]!=other.hash[3])
-    || (hash[4]!=other.hash[4]));
+  return (hash[0] != other.hash[0]) || (hash[1] != other.hash[1])
+    || (hash[2] != other.hash[2]) || (hash[3] != other.hash[3])
+    || (hash[4] != other.hash[4]);
 }
 
 bool MessageDigest::operator<(const MessageDigest& other) const
 {
-  unsigned int i;
-  for (i=0; i<4; ++i)
+  for (unsigned int i = 0; i < 4; ++i)
   {
-    if (hash[i]<other.hash[i]) return true;
-    if (hash[i]>other.hash[i]) return false;
-  }//for
-  return (hash[4]<other.hash[4]);
+    if (hash[i] < other.hash[i])
+      return true;
+    if (hash[i] > other.hash[i])
+      return false;
+  }
+  return hash[4] < other.hash[4];
 }
 
 //SHA-1 constants

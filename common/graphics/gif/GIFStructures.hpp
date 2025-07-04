@@ -21,10 +21,10 @@
 #ifndef LIBSTRIEZEL_GIFSTRUCTURES_HPP
 #define LIBSTRIEZEL_GIFSTRUCTURES_HPP
 
+#include <cstdint>
 #include <fstream>
 #include <string>
 #include <vector>
-#include <stdint.h>
 #include "ElementBase.hpp"
 #include "DataSubBlock.hpp"
 

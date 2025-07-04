@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2012, 2014, 2015  Dirk Stolle
+    Copyright (C) 2012, 2014, 2015, 2025  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -59,8 +59,7 @@ void reverse64(const uint64_t w, uint64_t& x)
 void MessageBlock::reverseBlock()
 {
   #if BYTE_ORDER == LITTLE_ENDIAN
-  unsigned int i;
-  for (i=0; i<16; ++i)
+  for (unsigned int i = 0; i < 16; ++i)
   {
     reverse32(words[i], words[i]);
   }
@@ -70,18 +69,17 @@ void MessageBlock::reverseBlock()
 /* MessageSource functions */
 MessageSource::MessageSource()
 : m_BitsRead(0),
-  m_PaddingBuffer((uint8_t*) 0),
+  m_PaddingBuffer(nullptr),
   m_Status(psUnpadded)
 {
-
 }
 
 MessageSource::~MessageSource()
 {
-  if (m_PaddingBuffer!=(uint8_t*) 0)
+  if (m_PaddingBuffer != nullptr)
   {
     delete[] m_PaddingBuffer;
-    m_PaddingBuffer = 0;
+    m_PaddingBuffer = nullptr;
   }
 }
 

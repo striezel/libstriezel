@@ -21,7 +21,7 @@
 #ifndef SHA384_HPP_INCLUDED
 #define SHA384_HPP_INCLUDED
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include "../sha512/MessageSource.hpp"
 
@@ -92,7 +92,7 @@ namespace SHA384
   }; //struct MessageDigest
 
 
-  /** \brief computes and returns the message digest of the given source
+  /** \brief Computes and returns the message digest of the given source.
    *
    * \param source   the message source
    * \return Returns the SHA384 message digest on success.

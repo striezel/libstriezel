@@ -21,7 +21,7 @@
 #ifndef LIBSTRIEZEL_SHA512_MESSAGESOURCE_HPP
 #define LIBSTRIEZEL_SHA512_MESSAGESOURCE_HPP
 
-#include <stdint.h>
+#include <cstdint>
 #include <sys/types.h>
 
 namespace SHA512

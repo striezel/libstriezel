@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2012 thoronador
+    Copyright (C) 2012 Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #ifndef LIBSTRIEZEL_SHA256_FUNCTIONS_HPP
 #define LIBSTRIEZEL_SHA256_FUNCTIONS_HPP
 
-#include <stdint.h>
+#include <cstdint>
 #include "../sha-1-256_functions.hpp"
 
 /* This file contains the constants and (shorter) functions for SHA-256
@@ -30,7 +30,7 @@
 namespace SHA256
 {
 
-//SHA-256 constants
+// SHA-256 constants
 const uint32_t sha256_k[64] = {
   0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
   0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
@@ -62,6 +62,6 @@ inline uint32_t sigmaOne(const uint32_t x)
   return (SHA1_256::rotr(17, x) ^ SHA1_256::rotr(19, x) ^ (x>>10));
 }
 
-}//namespace SHA256
+} // namespace SHA256
 
 #endif // LIBSTRIEZEL_SHA256_FUNCTIONS_HPP

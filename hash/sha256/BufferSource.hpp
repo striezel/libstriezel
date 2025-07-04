@@ -47,7 +47,7 @@ class BufferSource: public MessageSource
     virtual ~BufferSource();
 
 
-    /** \brief puts the next message block from the source in mBlock
+    /** \brief Puts the next message block from the source in mBlock.
      *
      * \param mBlock  reference to the message blocked that should be filled
      * \return Returns true, if there is at least one more message block.
@@ -58,8 +58,8 @@ class BufferSource: public MessageSource
   private:
     uint8_t * m_BufferPointer; /**< pointer to the buffer */
     uint64_t m_BufferSize; /**< size of the buffer in bytes */
-}; //class
+}; // class
 
-} //namespace
+} // namespace
 
 #endif // LIBSTRIEZEL_SHA256_BUFFERSOURCE_HPP

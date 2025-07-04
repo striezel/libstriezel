@@ -21,9 +21,9 @@
 #ifndef LIBSTRIEZEL_GIFEXTENSIONS_HPP
 #define LIBSTRIEZEL_GIFEXTENSIONS_HPP
 
+#include <cstdint>
 #include <fstream>
 #include <vector>
-#include <stdint.h>
 #include "DataSubBlock.hpp"
 #include "ElementBase.hpp"
 

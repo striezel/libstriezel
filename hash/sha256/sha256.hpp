@@ -21,7 +21,7 @@
 #ifndef LIBSTRIEZEL_SHA_256_HPP
 #define LIBSTRIEZEL_SHA_256_HPP
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include "MessageSource.hpp"
 

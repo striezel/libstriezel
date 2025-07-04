@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2012, 2014, 2015  Dirk Stolle
+    Copyright (C) 2012, 2014, 2015, 2025  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,58 +31,56 @@ BufferSource::BufferSource(uint8_t* data, uint64_t data_length_in_bits)
   m_BufferSize((data_length_in_bits/8) + ((data_length_in_bits%8)>0)) //we want full bytes only
 {
   //do the padding here
-  //m_BufferSize = (data_length_in_bits/8) + ((data_length_in_bits%8)>0); //we want full bytes only
-  const unsigned int remainingDataBits = (m_BufferSize*8)%512;
-  if (remainingDataBits>440)
+  const unsigned int remainingDataBits = (m_BufferSize * 8) % 512;
+  if (remainingDataBits > 440)
   {
-    m_PaddingBuffer = new uint8_t[1024/8];
-    //zero out all bits
-    memset(m_PaddingBuffer, 0, 1024/8);
-    //copy remainder
-    memcpy(m_PaddingBuffer, &m_BufferPointer[m_BufferSize-(m_BufferSize%64)], m_BufferSize%64);
-    //add data length in bits
+    m_PaddingBuffer = new uint8_t[1024 / 8];
+    // zero out all bits
+    memset(m_PaddingBuffer, 0, 1024 / 8);
+    // copy remainder
+    memcpy(m_PaddingBuffer, &m_BufferPointer[m_BufferSize - (m_BufferSize % 64)], m_BufferSize % 64);
+    // add data length in bits
     data_length_in_bits = m_BufferSize * 8;
     #if BYTE_ORDER == LITTLE_ENDIAN
     reverse64(data_length_in_bits, data_length_in_bits);
     #endif
-    memcpy(&m_PaddingBuffer[(1024-64)/8], &data_length_in_bits, 8);
+    memcpy(&m_PaddingBuffer[(1024 - 64) / 8], &data_length_in_bits, 8);
     m_Status = psPadded1024;
   }
   else
   {
-    m_PaddingBuffer = new uint8_t[512/8];
-    //zero out all bits
-    memset(m_PaddingBuffer, 0, 512/8);
-    //copy remainder
-    memcpy(m_PaddingBuffer, &m_BufferPointer[m_BufferSize-(m_BufferSize%64)], m_BufferSize%64);
-    //add data length in bits
+    m_PaddingBuffer = new uint8_t[512 / 8];
+    // zero out all bits
+    memset(m_PaddingBuffer, 0, 512 / 8);
+    // copy remainder
+    memcpy(m_PaddingBuffer, &m_BufferPointer[m_BufferSize - (m_BufferSize % 64)], m_BufferSize % 64);
+    // add data length in bits
     data_length_in_bits = m_BufferSize * 8;
     #if BYTE_ORDER == LITTLE_ENDIAN
     reverse64(data_length_in_bits, data_length_in_bits);
     #endif
-    memcpy(&m_PaddingBuffer[(512-64)/8], &data_length_in_bits, 8);
+    memcpy(&m_PaddingBuffer[(512 - 64) / 8], &data_length_in_bits, 8);
     m_Status = psPadded512;
   }
   //add 1-bit
-  m_PaddingBuffer[remainingDataBits/8] = 0x80;
+  m_PaddingBuffer[remainingDataBits / 8] = 0x80;
   m_BitsRead = 0;
 }
 
 BufferSource::~BufferSource()
 {
   m_BufferSize = 0;
-  m_BufferPointer = 0;
+  m_BufferPointer = nullptr;
 }
 
 bool BufferSource::getNextMessageBlock(MessageBlock& mBlock)
 {
-  if (m_BitsRead+512<=(m_BufferSize*8))
+  if (m_BitsRead + 512 <= (m_BufferSize * 8))
   {
-    memcpy(&(mBlock.words[0]), &m_BufferPointer[m_BitsRead/8], 64);
+    memcpy(&(mBlock.words[0]), &m_BufferPointer[m_BitsRead / 8], 64);
     m_BitsRead += 512;
     #if BYTE_ORDER == LITTLE_ENDIAN
-    unsigned int i;
-    for (i=0; i<16; ++i)
+    for (unsigned int i = 0; i < 16; ++i)
     {
       reverse32(mBlock.words[i], mBlock.words[i]);
     }
@@ -112,17 +110,16 @@ bool BufferSource::getNextMessageBlock(MessageBlock& mBlock)
            //should never happen
            throw std::logic_error("BufferSource::getNextMessageBlock(): Code execution should never get to this point!");
            return false;
-    }//swi
+    }
     m_BitsRead += 512;
     #if BYTE_ORDER == LITTLE_ENDIAN
-    unsigned int i;
-    for (i=0; i<16; ++i)
+    for (unsigned int i = 0; i < 16; ++i)
     {
       reverse32(mBlock.words[i], mBlock.words[i]);
     }
     #endif
     return true;
-  }//else
+  }
 }
 
-} //namespace
+} // namespace

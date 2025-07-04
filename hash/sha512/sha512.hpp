@@ -21,7 +21,7 @@
 #ifndef SHA512_HPP_INCLUDED
 #define SHA512_HPP_INCLUDED
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include "MessageSource.hpp"
 
