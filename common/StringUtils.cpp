@@ -28,7 +28,7 @@ std::string toLowerString(std::string str)
   const int diff = 'a'-'A';
   for (unsigned int i = 0; i < str.size(); ++i)
   {
-    if (str[i] >= 'A' and str[i] <= 'Z')
+    if (str[i] >= 'A' && str[i] <= 'Z')
     {
       str[i] = str[i] + diff;
     }
@@ -46,7 +46,7 @@ void trimLeft(std::string& str1)
   while (go_on)
   {
     const char ch = str1.at(pos);
-    if ((ch == ' ') or (ch == '\t'))
+    if ((ch == ' ') || (ch == '\t'))
     {
       ++pos;
       go_on = (pos < len);
@@ -78,7 +78,7 @@ void trimRight(std::string& str1)
   while (go_on)
   {
     const char ch = str1.at(pos);
-    if ((ch == ' ') or (ch == '\t'))
+    if ((ch == ' ') || (ch == '\t'))
     {
       --pos;
       go_on = (pos >= 0);
@@ -149,7 +149,7 @@ bool stringToInt(const std::string& str, int& value)
   }
   for ( ; i < str.size(); ++i)
   {
-    if ((str.at(i) >= '0') and (str.at(i) <= '9'))
+    if ((str.at(i) >= '0') && (str.at(i) <= '9'))
     {
       /* If the result of the multiplication in the next line would go out of
          the type range, then the result is not useful anyway, so quit here. */
@@ -181,7 +181,7 @@ bool stringToUnsignedInt(const std::string& str, unsigned int& value)
   std::string::size_type i = 0;
   for ( ; i < str.size(); ++i)
   {
-    if ((str.at(i) >= '0') and (str.at(i) <= '9'))
+    if ((str.at(i) >= '0') && (str.at(i) <= '9'))
     {
       /* If the result of the multiplication in the next line would go out of
          the type range, then the result is not useful anyway, so quit here. */
@@ -225,7 +225,7 @@ bool stringToFloat(const std::string& str, float& value)
   }
   for ( ; i < str.length(); ++i)
   {
-    if ((str.at(i) >= '0') and (str.at(i) <= '9'))
+    if ((str.at(i) >= '0') && (str.at(i) <= '9'))
     {
       value = value * 10.0f;
       value = value + (str.at(i) - '0');
@@ -247,7 +247,7 @@ bool stringToFloat(const std::string& str, float& value)
   float second = 0.0f;
   for (i = str.length() - 1; i >= next_look; --i)
   {
-    if ((str.at(i) >= '0') and (str.at(i) <= '9'))
+    if ((str.at(i) >= '0') && (str.at(i) <= '9'))
     {
       second = second + (str.at(i) - '0');
       second = second / 10.0f;
@@ -276,7 +276,7 @@ std::string::size_type find_ci(const std::string& haystack, const std::string& n
   const std::string::size_type lenHay = haystack.length();
   const std::string::size_type lenNeedle = needle.length();
 
-  if ((pos >= lenHay) or (lenNeedle > lenHay) or (lenNeedle <= 0)) return std::string::npos;
+  if ((pos >= lenHay) || (lenNeedle > lenHay) || (lenNeedle <= 0)) return std::string::npos;
 
   for (; pos < lenHay; ++pos)
   {
@@ -301,7 +301,7 @@ bool isEmptyOrWhitespace(const std::string& str)
   while (iter != str.end())
   {
     const int charAsInt = static_cast<int>(*iter);
-    if ((charAsInt > 127) or (!std::isspace(*iter)))
+    if ((charAsInt > 127) || (!std::isspace(*iter)))
       return false;
     ++iter;
   } //while

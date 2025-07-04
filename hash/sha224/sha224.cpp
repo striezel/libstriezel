@@ -101,8 +101,8 @@ bool MessageDigest::fromHexString(const std::string& digestHexString)
 
 bool MessageDigest::isNull() const
 {
-  return ((hash[0]==0) and (hash[1]==0) and (hash[2]==0) and (hash[3]==0)
-      and (hash[4]==0) and (hash[5]==0) and (hash[6]==0));
+  return ((hash[0]==0) && (hash[1]==0) && (hash[2]==0) && (hash[3]==0)
+      && (hash[4]==0) && (hash[5]==0) && (hash[6]==0));
 }
 
 void MessageDigest::setToNull()
@@ -112,18 +112,18 @@ void MessageDigest::setToNull()
 
 bool MessageDigest::operator==(const MessageDigest& other) const
 {
-  return ((hash[0]==other.hash[0]) and (hash[1]==other.hash[1])
-    and (hash[2]==other.hash[2]) and (hash[3]==other.hash[3])
-    and (hash[4]==other.hash[4]) and (hash[5]==other.hash[5])
-    and (hash[6]==other.hash[6]));
+  return ((hash[0]==other.hash[0]) && (hash[1]==other.hash[1])
+    && (hash[2]==other.hash[2]) && (hash[3]==other.hash[3])
+    && (hash[4]==other.hash[4]) && (hash[5]==other.hash[5])
+    && (hash[6]==other.hash[6]));
 }
 
 bool MessageDigest::operator!=(const MessageDigest& other) const
 {
-  return ((hash[0]!=other.hash[0]) or (hash[1]!=other.hash[1])
-    or (hash[2]!=other.hash[2]) or (hash[3]!=other.hash[3])
-    or (hash[4]!=other.hash[4]) or (hash[5]!=other.hash[5])
-    or (hash[6]!=other.hash[6]));
+  return ((hash[0]!=other.hash[0]) || (hash[1]!=other.hash[1])
+    || (hash[2]!=other.hash[2]) || (hash[3]!=other.hash[3])
+    || (hash[4]!=other.hash[4]) || (hash[5]!=other.hash[5])
+    || (hash[6]!=other.hash[6]));
 }
 
 bool MessageDigest::operator<(const MessageDigest& other) const

@@ -42,7 +42,7 @@ SmallBitArray16::SmallBitArray16(const uint16_t theBits, const uint8_t numberOfB
 
 bool SmallBitArray16::operator==(const SmallBitArray16& other)
 {
-  return ((m_BitsPresent==other.m_BitsPresent) and (m_Bits==other.m_Bits));
+  return ((m_BitsPresent==other.m_BitsPresent) && (m_Bits==other.m_Bits));
 }
 
 uint8_t SmallBitArray16::getNumberOfBits() const
@@ -271,7 +271,7 @@ bool LargeBitArray64k::operator==(const SmallBitArray16& right) const
 
 SmallBitArray16 LargeBitArray64k::getSmallBitSequence(const uint16_t startIndex, const uint8_t length) const
 {
-  if ((startIndex+length>m_BitsPresent) or (length>16)) return SmallBitArray16(0, 0);
+  if ((startIndex+length>m_BitsPresent) || (length>16)) return SmallBitArray16(0, 0);
 
   uint16_t data = 0;
   uint8_t bits_done = 0;

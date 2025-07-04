@@ -26,7 +26,7 @@
 
 int main(int argc, char** argv)
 {
-  if ((argc!=2) or (argv==nullptr) or (argv[1]==nullptr))
+  if ((argc!=2) || (argv==nullptr) || (argv[1]==nullptr))
   {
     std::cout << "Error: You have to pass the path to the file directory as first and only parameter!" << std::endl;
     return 1;

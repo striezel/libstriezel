@@ -96,8 +96,8 @@ bool getDirectoryFileList(const std::string& Directory, std::vector<FileEntry>& 
         && entry->d_type != DT_CHR)
     {
       result.push_back(one);
-      if (recursive and one.IsDirectory
-          and (std::string(entry->d_name)!=".") and (std::string(entry->d_name)!=".."))
+      if (recursive && one.IsDirectory
+          && (std::string(entry->d_name)!=".") && (std::string(entry->d_name)!=".."))
       {
         // call function recursively
         if (!getDirectoryFileList(Directory+std::string(entry->d_name)+DirectorySeparator,

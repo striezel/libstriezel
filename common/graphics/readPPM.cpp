@@ -31,7 +31,7 @@ bool isPPM(const unsigned char* header, const size_t length)
 {
   if (length<2) return false;
   //P6 are the first bytes usually (we only care for binary format here)
-  return ((header[0]=='P') and (header[1]=='6'));
+  return ((header[0]=='P') && (header[1]=='6'));
 }
 
 GLImageStructure readPPM(const std::string& FileName)
@@ -57,7 +57,7 @@ GLImageStructure readPPM(const std::string& FileName)
     std::cout << "readPPM(): File \""<<FileName<<"\" is too short.\n";
     return result;
   }
-  if ((header[0]!='P') or (header[1]!='6'))
+  if ((header[0]!='P') || (header[1]!='6'))
   {
     fclose(file_ppm);
     std::cout << "readPPM(): File \""<<FileName<<"\" is not a valid PPM file.\n";
@@ -92,7 +92,7 @@ GLImageStructure readPPM(const std::string& FileName)
       return result;
     }//if
     //check for digit
-    if (((header[0]<'0') or (header[0]>'9')) and (header[0]!=' '))
+    if (((header[0]<'0') || (header[0]>'9')) && (header[0]!=' '))
     {
       fclose(file_ppm);
       std::cout << "readPPM(): File \""<<FileName<<"\" has invalid dimensions.\n";
@@ -128,7 +128,7 @@ GLImageStructure readPPM(const std::string& FileName)
       return result;
     }//if
     //check for digit
-    if (((header[0]<'0') or (header[0]>'9')) and (header[0]!=10))
+    if (((header[0]<'0') || (header[0]>'9')) && (header[0]!=10))
     {
       fclose(file_ppm);
       std::cout << "readPPM(): File \""<<FileName<<"\" has invalid dimensions.\n";
@@ -150,8 +150,8 @@ GLImageStructure readPPM(const std::string& FileName)
   }
   result.setHeight(width);
 
-  if (((!isPowerOfTwo(result.getHeight())) or (!isPowerOfTwo(result.getWidth())))
-     and !hasNPOTSupport())
+  if (((!isPowerOfTwo(result.getHeight())) || (!isPowerOfTwo(result.getWidth())))
+     && !hasNPOTSupport())
   {
     std::cout << "Width or height of \""<<FileName<<"\" is not a power of two "
               << "and NPOT textures are not supported by your OpenGL version.\n";
@@ -173,7 +173,7 @@ GLImageStructure readPPM(const std::string& FileName)
       return result;
     }//if
     //check for digit
-    if (((header[0]<'0') or (header[0]>'9')) and (header[0]!=10))
+    if (((header[0]<'0') || (header[0]>'9')) && (header[0]!=10))
     {
       fclose(file_ppm);
       std::cout << "readPPM(): File \""<<FileName<<"\" has invalid dimensions.\n";

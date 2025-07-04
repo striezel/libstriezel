@@ -217,7 +217,7 @@ std::string slashify(const std::string& path)
 std::string unslashify(const std::string& path)
 {
   if (path.empty()) return path;
-  if ((path[path.length()-1]==libstriezel::filesystem::pathDelimiter) and (path.length()>1))
+  if ((path[path.length()-1]==libstriezel::filesystem::pathDelimiter) && (path.length()>1))
   {
     return path.substr(0, path.length()-1);
   }

@@ -112,18 +112,18 @@ void MessageDigest::setToNull()
 
 bool MessageDigest::operator==(const MessageDigest& other) const
 {
-  return ((hash[0]==other.hash[0]) and (hash[1]==other.hash[1])
-    and (hash[2]==other.hash[2]) and (hash[3]==other.hash[3])
-    and (hash[4]==other.hash[4]) and (hash[5]==other.hash[5])
-    and (hash[6]==other.hash[6]) and (hash[7]==other.hash[7]));
+  return ((hash[0]==other.hash[0]) && (hash[1]==other.hash[1])
+    && (hash[2]==other.hash[2]) && (hash[3]==other.hash[3])
+    && (hash[4]==other.hash[4]) && (hash[5]==other.hash[5])
+    && (hash[6]==other.hash[6]) && (hash[7]==other.hash[7]));
 }
 
 bool MessageDigest::operator!=(const MessageDigest& other) const
 {
-  return ((hash[0]!=other.hash[0]) or (hash[1]!=other.hash[1])
-    or (hash[2]!=other.hash[2]) or (hash[3]!=other.hash[3])
-    or (hash[4]!=other.hash[4]) or (hash[5]!=other.hash[5])
-    or (hash[6]!=other.hash[6]) or (hash[7]!=other.hash[7]));
+  return ((hash[0]!=other.hash[0]) || (hash[1]!=other.hash[1])
+    || (hash[2]!=other.hash[2]) || (hash[3]!=other.hash[3])
+    || (hash[4]!=other.hash[4]) || (hash[5]!=other.hash[5])
+    || (hash[6]!=other.hash[6]) || (hash[7]!=other.hash[7]));
 }
 
 bool MessageDigest::operator<(const MessageDigest& other) const

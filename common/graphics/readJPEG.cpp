@@ -169,8 +169,8 @@ GLImageStructure readJPEG(const std::string& FileName)
   result.setWidth(cinfo.output_width);
   result.setHeight(cinfo.output_height);
 
-  if (((!isPowerOfTwo(result.getHeight())) or (!isPowerOfTwo(result.getWidth())))
-     and !hasNPOTSupport())
+  if (((!isPowerOfTwo(result.getHeight())) || (!isPowerOfTwo(result.getWidth())))
+     && !hasNPOTSupport())
   {
     std::cout << "Width or height of \""<<FileName<<"\" is not a power of two "
               << "and NPOT textures are not supported by your OpenGL version.\n";
