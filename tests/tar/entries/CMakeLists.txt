@@ -23,14 +23,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(test-tar-entries ${test-tar-entries_sources})
 
 # find libarchive
-set(libarchive_DIR "../../../cmake/" )
-find_package (libarchive)
-if (LIBARCHIVE_FOUND)
-  include_directories(${LIBARCHIVE_INCLUDE_DIRS})
-  target_link_libraries (test-tar-entries ${LIBARCHIVE_LIBRARIES})
+find_package (LibArchive)
+if (LibArchive_FOUND)
+  include_directories(${LibArchive_INCLUDE_DIRS})
+  target_link_libraries (test-tar-entries ${LibArchive_LIBRARIES})
 else ()
   message ( FATAL_ERROR "libarchive was not found!" )
-endif (LIBARCHIVE_FOUND)
+endif (LibArchive_FOUND)
 
 # add run-test.sh as test
 add_test(NAME tar_entries

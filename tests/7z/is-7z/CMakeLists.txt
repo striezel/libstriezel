@@ -23,14 +23,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(test-is-7zip ${test-is-7zip_sources})
 
 # find libarchive
-set(libarchive_DIR "../../../cmake/" )
-find_package (libarchive)
-if (LIBARCHIVE_FOUND)
-  include_directories(${LIBARCHIVE_INCLUDE_DIRS})
-  target_link_libraries (test-is-7zip ${LIBARCHIVE_LIBRARIES})
+find_package (LibArchive)
+if (LibArchive_FOUND)
+  include_directories(${LibArchive_INCLUDE_DIRS})
+  target_link_libraries (test-is-7zip ${LibArchive_LIBRARIES})
 else ()
   message ( FATAL_ERROR "libarchive was not found!" )
-endif (LIBARCHIVE_FOUND)
+endif (LibArchive_FOUND)
 
 # add run-test.sh as test
 add_test(NAME 7z_is7Zip
