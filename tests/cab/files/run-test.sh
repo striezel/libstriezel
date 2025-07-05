@@ -57,7 +57,7 @@ fi
 "$TEST_BINARY" "$THIS_DIR"
 if [[ $? -ne 0 ]]
 then
-  echo "Error: Test for ar::archive class failed!"
+  echo "Error: Test for cab::archive class failed!"
   exit 1
 fi
 

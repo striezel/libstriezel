@@ -1,4 +1,4 @@
-:: Script to get a 7z file for the corresponding test cases and run the
+:: Script to get a Cabinet file for the corresponding test cases and run the
 :: test afterwards.
 ::
 ::  Copyright (C) 2016, 2025  Dirk Stolle
@@ -33,11 +33,11 @@ if NOT EXIST "%TEST_BINARY%" (
   exit /B 1
 )
 
-if NOT EXIST "%THIS_DIR%\7z920_extra.7z" (
-  :: get the 7z for 7-Zip :D
-  wget http://www.7-zip.org/a/7z920_extra.7z --output-document="%THIS_DIR%\7z920_extra.7z"
+if NOT EXIST "%THIS_DIR%\Windows8-RT-KB2999226-x64.msu" (
+  :: get the Microsoft Standalone update archive for KB2999226 (Server 2012)
+  wget https://download.microsoft.com/download/9/3/E/93E0745A-EAE9-4B5A-B50C-012F2D3B6659/Windows8-RT-KB2999226-x64.msu --output-document="%THIS_DIR%\Windows8-RT-KB2999226-x64.msu"
   if %ERRORLEVEL% NEQ 0 (
-    echo Error: Could not download .7z file with wget!
+    echo Error: Could not download .msu file with wget!
     exit /B 1
   )
 )
@@ -45,7 +45,7 @@ if NOT EXIST "%THIS_DIR%\7z920_extra.7z" (
 :: run the test
 "%TEST_BINARY%" %THIS_DIR%
 if %ERRORLEVEL% NEQ 0 (
-  echo Error: Test for 7z::archive class failed!
+  echo Error: Test for cab::archive class failed!
   exit /B 1
 )
 

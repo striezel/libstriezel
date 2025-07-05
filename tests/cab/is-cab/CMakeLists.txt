@@ -32,5 +32,10 @@ else ()
 endif (LibArchive_FOUND)
 
 # add run-test.sh as test
+IF (NOT WIN32)
+    set(EXT "sh")
+else ()
+    set(EXT "cmd")
+endif ()
 add_test(NAME cab_isCab
-         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../files/run-test.sh $<TARGET_FILE:test-is-cab>)
+         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../files/run-test.${EXT} $<TARGET_FILE:test-is-cab>)

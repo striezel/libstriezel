@@ -34,7 +34,7 @@ if NOT EXIST "%TEST_BINARY%" (
 )
 
 if NOT EXIST "%THIS_DIR%\2vcard_0.5-3_all.deb" (
-  # get the Squeeze .deb archive for 2vcard
+  :: get the Squeeze .deb archive for 2vcard
   wget http://archive.debian.org/debian/pool/main/2/2vcard/2vcard_0.5-3_all.deb --output-document="%THIS_DIR%\2vcard_0.5-3_all.deb"
   if %ERRORLEVEL% NEQ 0 (
     echo Error: Could not download .deb file with wget!
