@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2015, 2021  Dirk Stolle
+    Copyright (C) 2015, 2021, 2025  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,14 +19,26 @@
 */
 
 #include "processors.hpp"
+#if defined(_WIN32)
+#include <windows.h>
+#else
 #include <fstream>
 #include <cstring>
+#endif
 
 namespace libstriezel::procfs
 {
 
 int getProcessorCount()
 {
+  #if defined(_WIN32)
+  DWORD procs = GetActiveProcessorCount(ALL_PROCESSOR_GROUPS);
+  if (procs == 0)
+  {
+    return -1;
+  }
+  return procs;
+  #else
   std::ifstream input;
   input.open("/proc/cpuinfo", std::ios_base::in | std::ios_base::binary);
   if (!input.good())
@@ -49,6 +61,7 @@ int getProcessorCount()
   if (reached_eof)
     return procs;
   return -1;
+  #endif
 }
 
 } // namespace
