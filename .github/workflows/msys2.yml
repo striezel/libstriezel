@@ -32,6 +32,7 @@ jobs:
             mingw-w64-x86_64-ninja
             mingw-w64-x86_64-pkg-config
             mingw-w64-x86_64-zlib
+            unzip
       - name: Build
         run: |
           export MSYSTEM=MINGW64
