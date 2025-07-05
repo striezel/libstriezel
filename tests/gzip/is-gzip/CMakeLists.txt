@@ -29,6 +29,11 @@ else ()
   message ( FATAL_ERROR "zlib was not found!" )
 endif (ZLIB_FOUND)
 
-# add run-test.sh as test
+# add run-test.sh / run-test.cmd as test
+IF (NOT WIN32)
+    set(EXT "sh")
+else ()
+    set(EXT "cmd")
+endif ()
 add_test(NAME gzip_isGzip
-         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../files/run-test.sh $<TARGET_FILE:test-is-gzip>)
+         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../files/run-test.${EXT} $<TARGET_FILE:test-is-gzip>)

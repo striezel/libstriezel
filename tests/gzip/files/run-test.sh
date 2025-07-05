@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script to get an Ar file for the corresponding test cases and run the
+# Script to get a gzip file for the corresponding test cases and run the
 # test afterwards.
 #
 #  Copyright (C) 2016  Dirk Stolle
@@ -48,7 +48,7 @@ then
    --output-document="$THIS_DIR/zlib.tar.gz"
   if [[ $? -ne 0 ]]
   then
-    echo "Error: Could not download .deb file with wget!"
+    echo "Error: Could not download .gz file with wget!"
     exit 1
   fi
 fi
@@ -57,7 +57,7 @@ fi
 "$TEST_BINARY" "$THIS_DIR"
 if [[ $? -ne 0 ]]
 then
-  echo "Error: Test for ar::archive class failed!"
+  echo "Error: Test for gzip::archive class failed!"
   exit 1
 fi
 
