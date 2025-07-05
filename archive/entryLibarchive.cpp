@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016, 2021  Dirk Stolle
+    Copyright (C) 2016, 2021, 2025  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -40,7 +40,11 @@ entryLibarchive::entryLibarchive(struct archive_entry * ent)
   // symlink: AE_IFLINK
   setSymLink(type == AE_IFLNK);
   // m_time: time_t usually is just seconds since epoch
+  #if defined(_WIN32)
+  setTime(statbuf->st_mtime);
+  #else
   setTime(statbuf->st_mtim.tv_sec);
+  #endif
 }
 
 } // namespace
