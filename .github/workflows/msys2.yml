@@ -1,0 +1,49 @@
+name: MSYS2
+
+on: push
+
+jobs:
+  msys2_mingw64:
+    runs-on: windows-2022
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      # Checks-out the repository under $GITHUB_WORKSPACE.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: mingw64
+          update: true
+          install: >-
+            git
+            mingw-w64-x86_64-catch
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-giflib
+            mingw-w64-x86_64-libarchive
+            mingw-w64-x86_64-libjpeg-turbo
+            mingw-w64-x86_64-libpng
+            mingw-w64-x86_64-libxml2
+            mingw-w64-x86_64-libzip
+            mingw-w64-x86_64-ninja
+            mingw-w64-x86_64-pkg-config
+            mingw-w64-x86_64-zlib
+      - name: Build
+        run: |
+          export MSYSTEM=MINGW64
+          export CXX=g++
+          export CC=gcc
+          cd "$GITHUB_WORKSPACE"
+          mkdir build
+          cd build
+          cmake -DLONG_HASH_TESTS=OFF ../
+          cmake --build . -j4
+#      - name: Tests
+#        run: |
+#          export MSYSTEM=MINGW64
+#          cd "$GITHUB_WORKSPACE"/build
+#          ctest -V
