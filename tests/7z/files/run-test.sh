@@ -44,7 +44,7 @@ fi
 # check for .7z file
 if [[ ! -f "$THIS_DIR/7z920_extra.7z" ]]
 then
-  # get the7z for 7-Zip :D
+  # get the 7z for 7-Zip :D
   wget http://www.7-zip.org/a/7z920_extra.7z \
    --output-document="$THIS_DIR/7z920_extra.7z"
   if [[ $? -ne 0 ]]
