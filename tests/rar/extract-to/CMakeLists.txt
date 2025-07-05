@@ -35,6 +35,11 @@ else ()
   message ( FATAL_ERROR "libarchive was not found!" )
 endif (LibArchive_FOUND)
 
-# add run-test.sh as test
+# add run-test.sh / run-test.cmd as test
+IF (NOT WIN32)
+    set(EXT "sh")
+else ()
+    set(EXT "cmd")
+endif ()
 add_test(NAME rar_extractTo
-         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../files/run-test.sh $<TARGET_FILE:test-rar-extract>)
+         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../files/run-test.${EXT} $<TARGET_FILE:test-rar-extract>)

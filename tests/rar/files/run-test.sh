@@ -41,7 +41,7 @@ then
   exit 1
 fi
 
-if [[ ! -f "$THIS_DIR/beer_.rar" ]]
+if [[ ! -f "$THIS_DIR/BEER_v112-04_Update.rar" ]]
 then
   # get the rar archive for a Morrowind plugin
   wget 'https://web.archive.org/web/20161109185313if_/http://mw.modhistory.com/file.php?id=14817' \
