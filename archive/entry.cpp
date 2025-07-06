@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
     This file is part of the striezel's common code library.
-    Copyright (C) 2016, 2021  Dirk Stolle
+    Copyright (C) 2016, 2021, 2025  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -68,9 +68,10 @@ std::string entry::basename() const
     return "";
 
   std::string result(m_name);
-  if (result[result.size() - 1] == '/')
+  const std::string::size_type last_index = result.size() - 1;
+  if ((result[last_index] == '/') || (result[last_index] == '\\'))
     result.erase(result.size() - 1);
-  const std::string::size_type pos = result.rfind('/');
+  const std::string::size_type pos = result.find_last_of("/\\");
   if (pos == std::string::npos)
     return result;
   return result.substr(pos + 1);
