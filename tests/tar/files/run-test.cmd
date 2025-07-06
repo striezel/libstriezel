@@ -45,7 +45,7 @@ if NOT EXIST "%THIS_DIR%\grep-2.0.tar" (
     )
   )
   :: extract .tar.gz
-  gunzip --keep "%THIS_DIR%\grep-2.0.tar.gz"
+  gzip --decompress --keep "%THIS_DIR%\grep-2.0.tar.gz"
   if %ERRORLEVEL% NEQ 0 (
     echo Error: Could not extract %THIS_DIR%\grep-2.0.tar.gz!
     exit /B 1
