@@ -32,7 +32,7 @@ entryLibarchive::entryLibarchive(struct archive_entry * ent)
   // status buffer
   const struct stat * statbuf = archive_entry_stat(ent);
   // size
-  setSize(statbuf->st_size);
+  setSize(archive_entry_size(ent));
   // check some file types
   const auto type = archive_entry_filetype(ent);
   // directory: AE_IFDIR
