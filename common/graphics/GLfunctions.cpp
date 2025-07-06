@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's random stuff.
-    Copyright (C) 2012 thoronador
+    This file is part of striezel's common code library.
+    Copyright (C) 2012, 2025  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,11 +28,11 @@
 NPOTSupportType getNPOTSupport()
 {
   const std::string cExts = std::string((const char*)glGetString(GL_EXTENSIONS));
-  if (cExts.find("GL_ARB_texture_non_power_of_two")!=std::string::npos)
+  if (cExts.find("GL_ARB_texture_non_power_of_two") != std::string::npos)
     return npotNPOT;
-  if ((cExts.find("GL_ARB_texture_rectangle")!=std::string::npos)
-     or (cExts.find("GL_EXT_texture_rectangle")!=std::string::npos)
-     or (cExts.find("GL_NV_texture_rectangle")!=std::string::npos))
+  if ((cExts.find("GL_ARB_texture_rectangle") != std::string::npos)
+     || (cExts.find("GL_EXT_texture_rectangle") != std::string::npos)
+     || (cExts.find("GL_NV_texture_rectangle") != std::string::npos))
     return npotRectangle;
   return npotNone;
 }
@@ -50,17 +50,14 @@ void getNPOTTextureTargets(const NPOTSupportType n, GLenum& tex, GLenum& proxy)
          proxy = GL_PROXY_TEXTURE_RECTANGLE_ARB;
          #endif
          return;
-         break;
     case npotNPOT:
          tex = GL_TEXTURE_2D;
          proxy = GL_PROXY_TEXTURE_2D;
          return;
-         break;
     default:
-         //no support, no targets
+         // no support, no targets
          tex = GL_NONE;
          proxy = GL_NONE;
          return;
-         break;
-  }//swi
+  }
 }

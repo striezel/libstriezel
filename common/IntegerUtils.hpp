@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011 thoronador
+    This file is part of striezel's common code library.
+    Copyright (C) 2011, 2025  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,7 +21,11 @@
 #ifndef LIBSTRIEZEL_INTEGERUTILS_HPP
 #define LIBSTRIEZEL_INTEGERUTILS_HPP
 
-/* returns true, if i is a power of two */
+/** Checks whether an integer is a power of two.
+ *
+ * \param i  the integer value to check
+ * \return Returns true, if i is a power of two.
+ */
 bool isPowerOfTwo(const unsigned int i);
 
 #endif // LIBSTRIEZEL_INTEGERUTILS_HPP

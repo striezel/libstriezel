@@ -1,7 +1,7 @@
 /*
  -----------------------------------------------------------------------------
-    This file is part of the Thoronador's random stuff.
-    Copyright (C) 2011 thoronador
+    This file is part of striezel's common code library.
+    Copyright (C) 2011, 2025  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,5 +22,5 @@
 
 bool isPowerOfTwo(const unsigned int i)
 {
-  return ((i>0) and ((i & (i-1)) == 0));
+  return ((i > 0) && ((i & (i - 1)) == 0));
 }
