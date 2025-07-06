@@ -31,6 +31,11 @@ else ()
   message ( FATAL_ERROR "libzip was not found!" )
 endif (LIBZIP_FOUND)
 
-# add run-test.sh as test
+# add run-test.sh / run-test.cmd as test
+IF (NOT WIN32)
+    set(EXT "sh")
+else ()
+    set(EXT "cmd")
+endif ()
 add_test(NAME zip_entries
-         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/run-test.sh $<TARGET_FILE:test-zip-entries>)
+         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/run-test.${EXT} $<TARGET_FILE:test-zip-entries>)

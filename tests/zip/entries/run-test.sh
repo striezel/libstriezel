@@ -55,7 +55,7 @@ fi
 if [[ $? -ne 0 ]]
 then
   rm -f "$THIS_DIR/zlib.zip"
-  echo "Error: Test for isZip() failed!"
+  echo "Error: Test for ZIP entries failed!"
   exit 1
 fi
 
