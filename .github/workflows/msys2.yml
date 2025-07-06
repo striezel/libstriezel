@@ -44,8 +44,8 @@ jobs:
           cd build
           cmake -DLONG_HASH_TESTS=OFF ../
           cmake --build . -j4
-#      - name: Tests
-#        run: |
-#          export MSYSTEM=MINGW64
-#          cd "$GITHUB_WORKSPACE"/build
-#          ctest -V
+      - name: Tests
+        run: |
+          export MSYSTEM=MINGW64
+          cd "$GITHUB_WORKSPACE"/build
+          ctest -V
