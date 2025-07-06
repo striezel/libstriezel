@@ -33,18 +33,22 @@ if NOT EXIST "%TEST_BINARY%" (
   exit /B 1
 )
 
-:: get a .docx file
-wget http://calibre-ebook.com/downloads/demos/demo.docx --output-document="%THIS_DIR%\demo.docx"
-if %ERRORLEVEL% NEQ 0 (
-  echo Error: Could not download .docx file with wget!
-  exit /B 1
+if NOT EXIST "%THIS_DIR%\demo.docx" (
+  :: get a .docx file
+  wget http://calibre-ebook.com/downloads/demos/demo.docx --output-document="%THIS_DIR%\demo.docx"
+  if %ERRORLEVEL% NEQ 0 (
+    echo Error: Could not download .docx file with wget!
+    exit /B 1
+  )
 )
 
-:: get log4j ZIP
-wget https://archive.apache.org/dist/logging/log4j/1.2.17/log4j-1.2.17.zip --output-document="%THIS_DIR%\log4j-1.2.17.zip"
-if %ERRORLEVEL% NEQ 0 (
-  echo Error: Could not download log4j with wget!
-  exit /B 1
+if NOT EXIST "%THIS_DIR%\log4j-1.2.17.zip" (
+  :: get log4j ZIP
+  wget https://archive.apache.org/dist/logging/log4j/1.2.17/log4j-1.2.17.zip --output-document="%THIS_DIR%\log4j-1.2.17.zip"
+  if %ERRORLEVEL% NEQ 0 (
+    echo Error: Could not download log4j with wget!
+    exit /B 1
+  )
 )
 
 :: extract .jar file from log4j ZIP
@@ -61,9 +65,7 @@ if %ERRORLEVEL% NEQ 0 (
   exit /B 1
 )
 
-:: delete downloaded ZIP files
-del "%THIS_DIR%\demo.docx"
-del "%THIS_DIR%\log4j-1.2.17.zip"
+:: delete extracted files
 del "%THIS_DIR%\apache-log4j-1.2.17\log4j-1.2.17.jar"
 rd "%THIS_DIR%\apache-log4j-1.2.17"
 

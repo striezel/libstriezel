@@ -3,7 +3,7 @@
 # Script to get some ZIP files for the test case in this directory and run the
 # test afterwards.
 #
-#  Copyright (C) 2016  Dirk Stolle
+#  Copyright (C) 2016, 2025  Dirk Stolle
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -41,22 +41,28 @@ then
   exit 1
 fi
 
-# get a .docx file
-wget http://calibre-ebook.com/downloads/demos/demo.docx \
- --output-document="$THIS_DIR/demo.docx"
-if [[ $? -ne 0 ]]
+if [[ ! -f "$THIS_DIR/demo.docx" ]]
 then
-  echo "Error: Could not download .docx with wget!"
-  exit 1
+  # get a .docx file
+  wget http://calibre-ebook.com/downloads/demos/demo.docx \
+   --output-document="$THIS_DIR/demo.docx"
+  if [[ $? -ne 0 ]]
+  then
+    echo "Error: Could not download .docx with wget!"
+    exit 1
+  fi
 fi
 
-# get log4j ZIP
-wget https://archive.apache.org/dist/logging/log4j/1.2.17/log4j-1.2.17.zip \
- --output-document="$THIS_DIR/log4j-1.2.17.zip"
-if [[ $? -ne 0 ]]
+if [[ ! -f "$THIS_DIR/log4j-1.2.17.zip" ]]
 then
-  echo "Error: Could not download log4j with wget!"
-  exit 1
+  # get log4j ZIP
+  wget https://archive.apache.org/dist/logging/log4j/1.2.17/log4j-1.2.17.zip \
+   --output-document="$THIS_DIR/log4j-1.2.17.zip"
+  if [[ $? -ne 0 ]]
+  then
+    echo "Error: Could not download log4j with wget!"
+    exit 1
+  fi
 fi
 
 # extract .jar file from log4j ZIP
@@ -76,9 +82,7 @@ then
   exit 1
 fi
 
-# delete downloaded ZIP files
-rm -f "$THIS_DIR/demo.docx"
-rm -f "$THIS_DIR/log4j-1.2.17.zip"
+# delete extracted files
 rm -f "$THIS_DIR/apache-log4j-1.2.17/log4j-1.2.17.jar"
 rmdir "$THIS_DIR/apache-log4j-1.2.17"
 

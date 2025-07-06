@@ -3,7 +3,7 @@
 # Script to get some ZIP files for the test case in this directory and run the
 # test afterwards.
 #
-#  Copyright (C) 2016  Dirk Stolle
+#  Copyright (C) 2016, 2025  Dirk Stolle
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -41,13 +41,16 @@ then
   exit 1
 fi
 
-# get a zip file
-wget https://github.com/madler/zlib/archive/v1.2.8.zip \
- --output-document="$THIS_DIR/zlib.zip"
-if [[ $? -ne 0 ]]
+if [[ ! -f "$THIS_DIR/zlib.zip" ]]
 then
-  echo "Error: Could not download zlib's ZIP with wget!"
-  exit 1
+  # get a zip file
+  wget https://github.com/madler/zlib/archive/v1.2.8.zip \
+   --output-document="$THIS_DIR/zlib.zip"
+  if [[ $? -ne 0 ]]
+  then
+    echo "Error: Could not download zlib's ZIP with wget!"
+    exit 1
+  fi
 fi
 
 # run the test
@@ -58,9 +61,6 @@ then
   echo "Error: Test for ZIP extraction failed!"
   exit 1
 fi
-
-#remove downloaded ZIP file
-rm -f "$THIS_DIR/zlib.zip"
 
 # everything is OK
 exit 0

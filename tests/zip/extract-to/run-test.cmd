@@ -33,11 +33,13 @@ if NOT EXIST "%TEST_BINARY%" (
   exit /B 1
 )
 
-:: get a zip file
-wget https://github.com/madler/zlib/archive/v1.2.8.zip --output-document="%THIS_DIR%\zlib.zip"
-if %ERRORLEVEL% NEQ 0 (
-  echo Error: Could not download zlib ZIP file with wget!
-  exit /B 1
+if NOT EXIST "%THIS_DIR%\zlib.zip" (
+  :: get a zip file
+  wget https://github.com/madler/zlib/archive/v1.2.8.zip --output-document="%THIS_DIR%\zlib.zip"
+  if %ERRORLEVEL% NEQ 0 (
+    echo Error: Could not download zlib ZIP file with wget!
+    exit /B 1
+  )
 )
 
 :: run the test
@@ -46,9 +48,6 @@ if %ERRORLEVEL% NEQ 0 (
   echo Error: Test for ZIP extraction failed!
   exit /B 1
 )
-
-:: remove the downloaded ZIP file
-del "%THIS_DIR%\zlib.zip"
 
 :: everything is OK
 exit /B 0
