@@ -28,6 +28,11 @@ add_subdirectory (gzip)
 # Recurse into subdirectory for hash tests (SHA160 - SHA512 tests).
 add_subdirectory (hash)
 
+if (NOT WIN32)
+  # Recurse into subdirectory for InstallShield CAB archive tests.
+  add_subdirectory (installshield)
+endif ()
+
 # Recurse into subdirectory for ISO 9660 disk image tests.
 add_subdirectory (iso9660)
 
