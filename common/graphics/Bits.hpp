@@ -21,7 +21,7 @@
 #ifndef LIBSTRIEZEL_BITS_HPP
 #define LIBSTRIEZEL_BITS_HPP
 
-#include <stdint.h>
+#include <cstdint>
 
 // an "array" for up to 16 bits
 struct SmallBitArray16

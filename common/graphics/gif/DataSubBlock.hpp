@@ -21,8 +21,8 @@
 #ifndef LIBSTRIEZEL_GIFDATASUBBLOCK_HPP
 #define LIBSTRIEZEL_GIFDATASUBBLOCK_HPP
 
+#include <cstdint>
 #include <fstream>
-#include <stdint.h>
 
 struct GIFDataSubBlock
 {
