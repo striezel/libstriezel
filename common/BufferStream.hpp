@@ -52,14 +52,14 @@ class basic_bufferbuf
    typedef typename CharTraits::pos_type                 pos_type;
    typedef typename CharTraits::off_type                 off_type;
    typedef CharTraits                                    traits_type;
-   typedef std::basic_streambuf<char_type, traits_type>  base_t;
+   typedef std::basic_streambuf<char_type, traits_type>  basic_streambuf_t;
 
    public:
    //!Constructor.
    //!Does not throw.
    explicit basic_bufferbuf(std::ios_base::openmode mode
                             = std::ios_base::in | std::ios_base::out)
-      :  base_t(), m_mode(mode), m_buffer(0), m_length(0)
+      :  basic_streambuf_t(), m_mode(mode), m_buffer(0), m_length(0)
       {}
 
    //!Constructor. Assigns formatting buffer.
@@ -67,7 +67,7 @@ class basic_bufferbuf
    explicit basic_bufferbuf(CharT *buf, std::size_t length,
                             std::ios_base::openmode mode
                               = std::ios_base::in | std::ios_base::out)
-      :  base_t(), m_mode(mode), m_buffer(buf), m_length(length)
+      :  basic_streambuf_t(), m_mode(mode), m_buffer(buf), m_length(length)
       {  this->set_pointers();   }
 
    virtual ~basic_bufferbuf(){}
@@ -114,7 +114,7 @@ class basic_bufferbuf
             }
             else if(m_mode & std::ios_base::out) {
                this->gbump(-1);
-               *this->gptr() = c;
+               *this->gptr() = CharTraits::to_char_type(c);
                return c;
             }
             else
@@ -182,8 +182,8 @@ class basic_bufferbuf
 
       if(!in && !out)
          return pos_type(off_type(-1));
-      else if((in  && (!(m_mode & std::ios_base::in) || this->gptr() == 0)) ||
-               (out && (!(m_mode & std::ios_base::out) || this->pptr() == 0)))
+      else if((in  && (!(m_mode & std::ios_base::in) || (off != 0 && this->gptr() == 0) )) ||
+               (out && (!(m_mode & std::ios_base::out) || (off != 0 && this->pptr() == 0))))
          return pos_type(off_type(-1));
 
       std::streamoff newoff;
@@ -220,7 +220,7 @@ class basic_bufferbuf
             return pos_type(off_type(-1));
          else {
             this->setp(this->pbase(), this->pbase() + n);
-            this->pbump(off);
+            this->pbump(static_cast<int>(off));
          }
       }
 
@@ -261,7 +261,7 @@ class basic_ibufferstream :
    private:
    typedef basic_bufferbuf<CharT, CharTraits>         bufferbuf_t;
    typedef std::basic_ios<char_type, CharTraits>      basic_ios_t;
-   typedef std::basic_istream<char_type, CharTraits>  base_t;
+   typedef std::basic_istream<char_type, CharTraits>  basic_streambuf_t;
    bufferbuf_t &       get_buf()      {  return *this;  }
    const bufferbuf_t & get_buf() const{  return *this;  }
    #endif   //#ifndef BOOST_INTERPROCESS_DOXYGEN_INVOKED
@@ -276,7 +276,7 @@ class basic_ibufferstream :
          //As bufferbuf_t's constructor does not throw there is no risk of
          //calling the basic_ios_t's destructor without calling basic_ios_t::init()
         bufferbuf_t(mode | std::ios_base::in)
-      , base_t(&get_buf())
+      , basic_streambuf_t(this)
       {}
 
    //!Constructor. Assigns formatting buffer.
@@ -289,7 +289,7 @@ class basic_ibufferstream :
          //As bufferbuf_t's constructor does not throw there is no risk of
          //calling the basic_ios_t's destructor without calling basic_ios_t::init()
         bufferbuf_t(const_cast<CharT*>(buf), length, mode | std::ios_base::in)
-      , base_t(&get_buf())
+      , basic_streambuf_t(this)
       {}
 
    ~basic_ibufferstream()
@@ -341,7 +341,7 @@ class basic_obufferstream :
    private:
    typedef basic_bufferbuf<CharT, CharTraits>         bufferbuf_t;
    typedef std::basic_ios<char_type, CharTraits>      basic_ios_t;
-   typedef std::basic_ostream<char_type, CharTraits>  base_t;
+   typedef std::basic_ostream<char_type, CharTraits>  basic_ostream_t;
    bufferbuf_t &       get_buf()      {  return *this;  }
    const bufferbuf_t & get_buf() const{  return *this;  }
    #endif   //#ifndef BOOST_INTERPROCESS_DOXYGEN_INVOKED
@@ -356,7 +356,7 @@ class basic_obufferstream :
          //As bufferbuf_t's constructor does not throw there is no risk of
          //calling the basic_ios_t's destructor without calling basic_ios_t::init()
          bufferbuf_t(mode | std::ios_base::out)
-      ,  base_t(&get_buf())
+      ,  basic_ostream_t(this)
       {}
 
    //!Constructor. Assigns formatting buffer.
@@ -369,7 +369,7 @@ class basic_obufferstream :
          //As bufferbuf_t's constructor does not throw there is no risk of
          //calling the basic_ios_t's destructor without calling basic_ios_t::init()
          bufferbuf_t(buf, length, mode | std::ios_base::out)
-      ,  base_t(&get_buf())
+      ,  basic_ostream_t(this)
       {}
 
    ~basic_obufferstream(){}
