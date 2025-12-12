@@ -19,6 +19,11 @@
 */
 
 #include "DirectoryFileList.hpp"
+#if defined(_WIN32)
+// libstriezel::filesystem::slashify() is used for the Windows implementation
+// of getDirectoryFileList().
+#include "../filesystem/directory.hpp"
+#endif
 #include <iostream>
 #include <fstream>
 
@@ -49,7 +54,7 @@ bool getDirectoryFileList(const std::string& Directory, std::vector<FileEntry>& 
   struct _finddata_t sr;
   sr.attrib = _A_NORMAL | _A_RDONLY | _A_HIDDEN | _A_SYSTEM |
               _A_SUBDIR | _A_ARCH;
-  handle = _findfirst(std::string(Directory + "*").c_str(), &sr);
+  handle = _findfirst((libstriezel::filesystem::slashify(Directory) + "*").c_str(), &sr);
   if (handle == -1)
   {
     std::cout << "getDirectoryFileList: ERROR: unable to open directory \""
@@ -66,7 +71,7 @@ bool getDirectoryFileList(const std::string& Directory, std::vector<FileEntry>& 
         && (std::string(sr.name) != ".") && (std::string(sr.name) != ".."))
     {
       // call function recursively
-      if (!getDirectoryFileList(Directory + std::string(sr.name) + DirectorySeparator,
+      if (!getDirectoryFileList(libstriezel::filesystem::slashify(Directory) + std::string(sr.name) + DirectorySeparator,
           result, Prefix + std::string(sr.name) + DirectorySeparator, recursive))
       {
         // error occurred, close handle and return
