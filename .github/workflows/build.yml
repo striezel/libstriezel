@@ -102,7 +102,7 @@ jobs:
 
   alpine:
     runs-on: ubuntu-24.04
-    container: 'alpine:3.23'
+    container: 'alpine:3.24'
     steps:
       - name: Install and prepare Git
         run: |
